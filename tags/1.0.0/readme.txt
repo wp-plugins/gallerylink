@@ -4,7 +4,7 @@ Donate link: http://gallerylink.nyanko.org/
 Tags: image, images, gallery, video, music, list
 Requires at least: 3.0.1
 Tested up to: 3.4
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -28,6 +28,8 @@ Create RSS feeds of data (XML)
 It corresponds to the smartphone. WordPress3.4 or higher.
 And for mobile phones used in Japan. Plug-in Ktai Style is required.
 
+[Demo1(Music)](http://gallerylink.nyanko.org/music/):::[Demo2(Album)](http://gallerylink.nyanko.org/album/):::[Demo3(Movie)](http://gallerylink.nyanko.org/movie/)
+
 == Installation ==
 
 1. Upload `gallerylink` directory to the `/wp-content/plugins/` directory
@@ -44,16 +46,22 @@ And for mobile phones used in Japan. Plug-in Ktai Style is required.
 
 == Screenshots ==
 
-1. `screenshot-1.png`
-2. `screenshot-2.png`
+1.
+2.
 
 == Changelog ==
 
 = 1.0.0 =
 
+= 1.0.1 =
+Change readme.txt
+Delete screenshot
+
 == Upgrade Notice ==
 
 = 1.0.0 =
+
+= 1.0.1 =
 
 == Arbitrary section ==
 
@@ -72,13 +80,3 @@ Unordered list:
 * html5 video
 * html5 mp3
 
-Here's a link to [WordPress](http://wordpress.org/ "Your favorite software") and one to [Markdown's Syntax Documentation][markdown syntax].
-Titles are optional, naturally.
-
-[markdown syntax]: http://daringfireball.net/projects/markdown/syntax
-            "Markdown is what the parser uses to process much of the readme file"
-
-Markdown uses email style notation for blockquotes and I've been told:
-> Asterisks for *emphasis*. Double it up  for **strong**.
-
-`<?php code(); // goes in backticks ?>`
