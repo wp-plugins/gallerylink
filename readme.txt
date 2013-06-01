@@ -51,17 +51,17 @@ And for mobile phones used in Japan. Plug-in Ktai Style is required.
 
 == Changelog ==
 
-= 1.0.0 =
-
 = 1.0.1 =
 Change readme.txt
 Delete screenshot
 
-== Upgrade Notice ==
-
 = 1.0.0 =
 
+== Upgrade Notice ==
+
 = 1.0.1 =
+
+= 1.0.0 =
 
 == Arbitrary section ==
 
