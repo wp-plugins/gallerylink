@@ -4,7 +4,7 @@ Donate link: http://gallerylink.nyanko.org/
 Tags: image, images, gallery, video, music, list
 Requires at least: 3.0.1
 Tested up to: 3.4
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -53,9 +53,15 @@ And for mobile phones used in Japan. Plug-in Ktai Style is required.
 
 = 1.0.0 =
 
+= 1.0.1 =
+Change readme.txt
+Delete screenshot
+
 == Upgrade Notice ==
 
 = 1.0.0 =
+
+= 1.0.1 =
 
 == Arbitrary section ==
 
