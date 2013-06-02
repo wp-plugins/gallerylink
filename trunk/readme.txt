@@ -4,13 +4,15 @@ Donate link: http://gallerylink.nyanko.org/
 Tags: image, images, gallery, video, music, list
 Requires at least: 3.0.1
 Tested up to: 3.4
-Stable tag: 1.0.2
+Stable tag: 1.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Output as a gallery by find the file extension and directory specified.
 
 == Description ==
+
+[ì˙ñ{åÍÇÃê‡ñæÇì«Çﬁ](http://gallerylink.nyanko.org/gallerylink-for-wordpress-plugin-%E3%81%AE%E4%BD%BF%E3%81%84%E6%96%B9/)
 
 Create a playlist (music, pictures, videos) of data in the directory below the specified, GalleryLink displays Pages by passing the data to various software.
 
@@ -19,16 +21,18 @@ You write and use short codes to page.
 Directory name and file name support for multi-byte character.
 
 Bundled software and function
-HTML5 player (video, music): full screen support(not support IE9)
-FlashPlugin: jQuery SWFObject
-Flash player (video, music): Flowplayer Flash, MP3Player (for previous versions of IE8)
-Image: ColorBox, PhotoSwipe
-Create RSS feeds of data (XML)
 
-It corresponds to the smartphone. WordPress3.4 or higher.
-It corresponds to the japanese mobile phone. Plug-in Ktai Style is required.
+*   HTML5 player (video, music): full screen support(not support IE9)
+*   FlashPlugin: jQuery SWFObject
+*   Flash player (video, music): Flowplayer Flash, MP3Player (for previous versions of IE8)
+*   Image: ColorBox, PhotoSwipe
+*   Create RSS feeds of data (XML)
 
-[Demo1(Music)](http://gallerylink.nyanko.org/music/):::[Demo2(Album)](http://gallerylink.nyanko.org/album/):::[Demo3(Movie)](http://gallerylink.nyanko.org/movie/)
+    It corresponds to the smartphone. WordPress3.4 or higher.
+
+    It corresponds to the japanese mobile phone. Plug-in Ktai Style is required.
+
+    [Demo1(Music)](http://gallerylink.nyanko.org/music/):::[Demo2(Album)](http://gallerylink.nyanko.org/album/):::[Demo3(Movie)](http://gallerylink.nyanko.org/movie/)
 
 == Installation ==
 
@@ -51,6 +55,10 @@ It corresponds to the japanese mobile phone. Plug-in Ktai Style is required.
 
 == Changelog ==
 
+= 1.0.3 =
+Change readme.txt
+Change Download link
+
 = 1.0.2 =
 Change readme.txt
 Change Settings Page
@@ -63,6 +71,8 @@ Delete screenshot
 = 1.0.0 =
 
 == Upgrade Notice ==
+
+= 1.0.3 =
 
 = 1.0.2 =
 
