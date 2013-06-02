@@ -2,8 +2,8 @@
 /*
 Plugin Name: GalleryLink
 Plugin URI: http://wordpress.org/plugins/gallerylink/
-Version: 1.0.2
-Description: Create a playlist (music, pictures, videos) of data in the directory below the specified, GalleryLink displays Pages by passing the data to various software.
+Version: 1.0.3
+Description: Output as a gallery by find the file extension and directory specified.
 Author: Katsushi Kawamori
 Author URI: http://gallerylink.nyanko.org/
 Domain Path: /languages
@@ -847,7 +847,7 @@ FLASHMUSICPLAYER;
 		echo '<link rel="alternate" type="application/rss+xml" href="'.$rssfeed_url.'" title="'.$xml_title.'" />';
 	}
 
-	echo '<div align = "right"><a href="http://gallerylink.nyanko.org/">by GalleryLink</a></div>';
+	echo '<div align = "right"><a href="http://wordpress.org/plugins/gallerylink/">by GalleryLink</a></div>';
 
 	$xml_begin = NULL;
 	$xml_end = NULL;
