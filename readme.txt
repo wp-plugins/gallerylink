@@ -4,29 +4,29 @@ Donate link: http://gallerylink.nyanko.org/
 Tags: image, images, gallery, video, music, list
 Requires at least: 3.0.1
 Tested up to: 3.4
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Find the file extension and directory specified, output as a gallery.
+Output as a gallery by find the file extension and directory specified.
 
 == Description ==
 
-Create a playlist (music, pictures, videos) of data in the directory below the specified, GalleryLink displays a fixed page by passing the data to various software. It is a soft link to a variety of software from a variety of data.
+Create a playlist (music, pictures, videos) of data in the directory below the specified, GalleryLink displays Pages by passing the data to various software.
 
-It is used to write a short code to a fixed page.
+You write and use short codes to page.
 
-Support for Unicode file and directory names
+Directory name and file name support for multi-byte character.
 
-Compatible software and function
-(Video, music) HTML5 player: full screen support
+Bundled software and function
+HTML5 player (video, music): full screen support(not support IE9)
 FlashPlugin: jQuery SWFObject
-Flash player (video, music): Flowplayer Flash, MP3Player
+Flash player (video, music): Flowplayer Flash, MP3Player (for previous versions of IE8)
 Image: ColorBox, PhotoSwipe
 Create RSS feeds of data (XML)
 
 It corresponds to the smartphone. WordPress3.4 or higher.
-And for mobile phones used in Japan. Plug-in Ktai Style is required.
+It corresponds to the japanese mobile phone. Plug-in Ktai Style is required.
 
 [Demo1(Music)](http://gallerylink.nyanko.org/music/):::[Demo2(Album)](http://gallerylink.nyanko.org/album/):::[Demo3(Movie)](http://gallerylink.nyanko.org/movie/)
 
@@ -34,8 +34,8 @@ And for mobile phones used in Japan. Plug-in Ktai Style is required.
 
 1. Upload `gallerylink` directory to the `/wp-content/plugins/` directory
 1. Activate the plugin through the 'Plugins' menu in WordPress
-1. Add a new fixed page
-1. Write a short code the following text field. `[gallerylink]`
+1. Add a new Page
+1. Write a short code. The following text field. `[gallerylink]`
 1. For video `[gallerylink set=movie]`. For music `[gallerylink set=music]`.
 
 == Frequently Asked Questions ==
@@ -51,6 +51,11 @@ And for mobile phones used in Japan. Plug-in Ktai Style is required.
 
 == Changelog ==
 
+= 1.0.2 =
+Change readme.txt
+Change Settings Page
+Change /languages
+
 = 1.0.1 =
 Change readme.txt
 Delete screenshot
@@ -58,6 +63,8 @@ Delete screenshot
 = 1.0.0 =
 
 == Upgrade Notice ==
+
+= 1.0.2 =
 
 = 1.0.1 =
 

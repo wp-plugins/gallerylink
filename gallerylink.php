@@ -1,9 +1,9 @@
 <?php
 /*
 Plugin Name: GalleryLink
-Plugin URI: http://plugins.svn.wordpress.org/gallerylink/
-Version: 1.0.0
-Description: Find the file extension and directory specified, output as a gallery.
+Plugin URI: http://wordpress.org/plugins/gallerylink/
+Version: 1.0.2
+Description: Create a playlist (music, pictures, videos) of data in the directory below the specified, GalleryLink displays Pages by passing the data to various software.
 Author: Katsushi Kawamori
 Author URI: http://gallerylink.nyanko.org/
 Domain Path: /languages
@@ -927,137 +927,193 @@ function my_plugin_options() {
 	_e('(In the case of image) Easy use', 'gallerylink');
 	echo '</h3>';
 	echo '<p>';
-	_e('I will add a new fixed page. I write a short code the following text field. Please go in text mode this task.', 'gallerylink');
+	_e('Please add new Page. Please write a short code in the text field of the Page. Please go in Text mode this task.', 'gallerylink');
 	echo '</p>';
 	echo '<p>';
 	echo '&#91;gallerylink&#93;';
 	echo '</p>';
 	echo '<p>';
-	_e('When you view and update this fixed page, it is displayed in album mode.It is the result of a search for wp-content/uproads following directory of WordPress default.The Settings> Media, I determine the size of the thumbnail. The default value, width 80, so 80 height, GalleryLink, please set its value.In the Media> Add New, please drag and drop the image.When you view the page again this fixed, image that you drag-and-drop now you should see.', 'gallerylink');
+	_e('When you view this Page, it is displayed in album mode.  It is the result of a search for wp-content/uproads following directory of WordPress default. The Settings> Media,  determine the size of the thumbnail. The default value of GalleryLink, width 80, height 80. Please set its value. In the Media> Add New, please drag and drop the image. You view the Page again. Should see the image to the Page.', 'gallerylink');
 	echo '</p>';
-	echo '<h3>';
+
+	echo '<p>';
+	echo '<div><strong>';
 	_e('Customization 1', 'gallerylink');
-	echo '</h3>';
-	echo '<p>';
-	_e('If you would like to use a Unicode display of directory name and file name, the FTP software, please upload to wp-content/uproads following directory of WordPress default. In this case, please upload in UTF8 character set of code of FTP software. In addition, the thumbnails, please upload at the same time created by adding the suffix name of -80x80 in the file name, a thumbnail of 80 width 80, height.', 'gallerylink');
+	echo '</strong></div>';
+	_e('If you want to use MULTI-BYTE CHARACTER SETS to the display of the directory name and the file name, Please upload to wp-content/uproads of directory of WordPress default by the FTP software. In this case, please upload the file after UTF-8 character code setting of the FTP software. Please upload a thumbnail at the same time. It must be created by you. Please add the suffix name of -80x80 in the file name, it is the height 80 width 80.', 'gallerylink');
 	echo '</p>';
-	echo '<h3>';
+
+	echo '<p>';
+	echo '<div><strong>';
 	_e('Customization 2', 'gallerylink');
-	echo '</h3>';
-	echo '<p>';
+	echo '</strong></div>';
 	_e('GalleryLink is also handles video and music. If you are dealing with music and video, please add the following attributes to the short code.', 'gallerylink');
-	echo '</p>';
 	echo '<p>';
+	echo '<div>';
 	_e("Video set = 'movie'", 'gallerylink');
-	echo '</p>';
-	echo '<p>';
+	echo '</div>';
+	echo '<div>';
 	_e("Music set = 'music'", 'gallerylink');
-	echo '</p>';
+	echo '</div>';
 	echo '<p>';
+	echo '<div>';
 	_e('Video Example', 'gallerylink');
-	echo '</p>';
-	echo '<p>';
+	echo '</div>';
+	echo '<div>';
 	echo "&#91;gallerylink set='movie' topurl='/gallery/video' suffix_pc='.mp4' suffix_sp='.mp4' suffix_keitai='.3gp' thumbnail='.jpg' rssname='movie'&#93;";
-	echo '</p>';
-	echo '<p>';
+	echo '</div>';
+	echo '<div>';
 	_e('Music Example', 'gallerylink');
-	echo '</p>';
-	echo '<p>';
+	echo '</div>';
+	echo '<div>';
 	echo "&#91;gallerylink set='music' topurl='/gallery/music' suffix_pc='.mp3' suffix_pc2='.ogg' suffix_sp='.mp3' suffix_keitai='.3gp' thumbnail='.jpg' noneedfile='.wma' noneeddir='test' rssname='music'&#93;";
-	echo '</p>';
+	echo '</div>';
 	echo '<p>';
-	_e('* topurl is the directory where you have uploaded the file. The size of the file is large video and music, you can not respond in the media uploader of WordPress standard, you will want to upload in FTP.', 'gallerylink');
+	echo '<div>';
+	_e('* The directory other than the WordPress default (wp-content/uproads), but it is possible that you will want to upload. topurl is the directory where you have uploaded the file. Music and videos is large capacity. May not be able to handled in the media uploader of WordPress. you will want to upload in FTP.', 'gallerylink');
+	echo '</div>';
 	echo '</p>';
-	echo '<h3>';
+
+	echo '<table border="1"><strong>';
 	_e('Customization 3', 'gallerylink');
-	echo '</h3>';
-	echo '<p>';
+	echo '</strong>';
+	echo '<tbody>';
+
+	echo '<tr>';
+	echo '<td colspan="3" align="center" valign="middle">';
 	_e('Below, I shows the default values and various attributes of the short code.', 'gallerylink');
-	echo '</p>';
-	echo '<p>';
-	echo '<b>';
-	echo "set='album'";
-	echo '</b>';
-	_e('* It is only one 3 album (image), movie (video), music of (music)', 'gallerylink');
-	echo '</p>';
-	echo '<p>';
-	echo '<b>';
-	echo "topurl=";
-	echo '</b>';
-	_e('* Wp-content/uproads default directory', 'gallerylink');
-	echo '</p>';
-	echo '<p>';
-	echo '<b>';
-	echo "suffix_pc = '.jpg'";
-	echo '</b>';
-	_e('* extension of PC', 'gallerylink');
-	echo '</p>';
-	echo '<p>';
-	echo '<b>';
-	echo "suffix_pc2 = '.webm'";
-	echo '</b>';
-	_e('* second extension on the PC. Second candidate when working with html5', 'gallerylink');
-	echo '</p>';
-	echo '<p>';
-	echo '<b>';
-	echo "suffix_sp = '.jpg'";
-	echo '</b>';
-	_e('* extension of the smartphone', 'gallerylink');
-	echo '</p>';
-	echo '<p>';
-	echo '<b>';
-	echo "suffix_keitai = '.jpg'";
-	echo '</b>';
-	_e('* extension of mobile', 'gallerylink');
-	echo '</p>';
-	echo '<p>';
-	echo '<b>';
-	echo "display_pc = 30";
-	echo '</b>';
-	_e('* PC Display number of 1 page', 'gallerylink');
-	echo '</p>';
-	echo '<p>';
-	echo '<b>';
-	echo "display_sp = 12";
-	echo '</b>';
-	_e('* Display number of smartphone one page', 'gallerylink');
-	echo '</p>';
-	echo '<p>';
-	echo '<b>';
-	echo "display_keitai = 6";
-	echo '</b>';
-	_e('* Display number of mobile page 1', 'gallerylink');
-	echo '</p>';
-	echo '<p>';
-	echo '<b>';
-	echo "thumbnail = '-80x80'";
-	echo '</b>';
-	_e('* suffix name of the thumbnail', 'gallerylink');
-	echo '</p>';
-	echo '<p>';
-	echo '<b>';
-	echo "noneedfile = '(.ktai.)|(-&#91;0-9&#93;*x&#91;0-9&#93;*.)'";
-	echo '</b>';
-	_e('* files that are not listed', 'gallerylink');
-	echo '</p>';
-	echo '<p>';
-	echo '<b>';
-	echo "noneeddir = 'ps_auto_sitemap|backwpup.*|wpcf7_captcha'";
-	echo '</b>';
-	_e('* a directory that does not list up', 'gallerylink');
-	echo '</p>';
-	echo '<p>';
-	echo '<b>';
-	echo "rssname = 'feed'";
-	echo '</b>';
-	_e('* The name of the RSS feed file', 'gallerylink');
-	echo '</p>';
-	echo '<p>';
-	echo '<b>';
-	echo "rssmax = 10";
-	echo '</b>';
-	_e('* Display number of RSS feed', 'gallerylink');
-	echo '</p>';
+	echo '</td>';
+	echo '</tr>';
+
+	echo '<tr>';
+	echo '<td align="center" valign="middle">';
+	_e('Attribute', 'gallerylink');
+	echo '</td>';
+	echo '<td align="center" valign="middle">';
+	_e('Default');
+	echo '</td>';
+	echo '<td align="center" valign="middle">';
+	_e('Description');
+	echo '</td>';
+	echo '</tr>';
+
+	echo '<tr>';
+	echo '<td align="center" valign="middle"><b>set</b></td>';
+	echo '<td align="center" valign="middle">album</td>';
+	echo '<td align="left" valign="middle">';
+	_e('Next only three. album(image), movie(video), music(music)', 'gallerylink');
+	echo '</td>';
+	echo '</tr>';
+
+	$wp_uploads = wp_upload_dir();
+	$wp_uploads_path = str_replace(get_home_url(), '', $wp_uploads['baseurl']);
+
+	echo '<tr>';
+	echo '<td align="center" valign="middle"><b>topurl</b></td>';
+	echo '<td align="center" valign="middle">'.$wp_uploads_path.'</td>';
+	echo '<td align="left" valign="middle">';
+	_e('Full path to the top directory containing the data', 'gallerylink');
+	echo '</td>';
+	echo '</tr>';
+
+	echo '<tr>';
+	echo '<td align="center" valign="middle"><b>suffix_pc</b></td>';
+	echo '<td align="center" valign="middle">.jpg</td>';
+	echo '<td align="left" valign="middle">';
+	_e('extension of PC', 'gallerylink');
+	echo '</td>';
+	echo '</tr>';
+
+	echo '<tr>';
+	echo '<td align="center" valign="middle"><b>suffix_pc2</b></td>';
+	echo '<td align="center" valign="middle">.webm</td>';
+	echo '<td align="left" valign="middle">';
+	_e('second extension on the PC. Second candidate when working with html5', 'gallerylink');
+	echo '</td>';
+	echo '</tr>';
+
+	echo '<tr>';
+	echo '<td align="center" valign="middle"><b>suffix_sp</b></td>';
+	echo '<td align="center" valign="middle">.jpg</td>';
+	echo '<td align="left" valign="middle">';
+	_e('extension of Smartphone', 'gallerylink');
+	echo '</td>';
+	echo '</tr>';
+
+	echo '<tr>';
+	echo '<td align="center" valign="middle"><b>suffix_keitai</b></td>';
+	echo '<td align="center" valign="middle">.jpg</td>';
+	echo '<td align="left" valign="middle">';
+	_e('extension of Japanese mobile phone', 'gallerylink');
+	echo '</td>';
+	echo '</tr>';
+
+	echo '<tr>';
+	echo '<td align="center" valign="middle"><b>display_pc</b></td>';
+	echo '<td align="center" valign="middle">30</td>';
+	echo '<td align="left" valign="middle">';
+	_e('File Display per page(PC)', 'gallerylink');
+	echo '</td>';
+	echo '</tr>';
+
+	echo '<tr>';
+	echo '<td align="center" valign="middle"><b>display_sp</b></td>';
+	echo '<td align="center" valign="middle">12</td>';
+	echo '<td align="left" valign="middle">';
+	_e('File Display per page(Smartphone)', 'gallerylink');
+	echo '</td>';
+	echo '</tr>';
+
+	echo '<tr>';
+	echo '<td align="center" valign="middle"><b>display_keitai</b></td>';
+	echo '<td align="center" valign="middle">6</td>';
+	echo '<td align="left" valign="middle">';
+	_e('File Display per page(Japanese mobile phone)', 'gallerylink');
+	echo '</td>';
+	echo '</tr>';
+
+	echo '<tr>';
+	echo '<td align="center" valign="middle"><b>thumbnail</b></td>';
+	echo '<td align="center" valign="middle">-80x80</td>';
+	echo '<td align="left" valign="middle">';
+	_e('suffix name of the thumbnail', 'gallerylink');
+	echo '</td>';
+	echo '</tr>';
+
+	echo '<tr>';
+	echo '<td align="center" valign="middle"><b>noneedfile</b></td>';
+	echo '<td align="center" valign="middle">(.ktai.)|(-&#91;0-9&#93;*x&#91;0-9&#93;*.)</td>';
+	echo '<td align="left" valign="middle">';
+	_e('File that you do not want to appear', 'gallerylink');
+	echo '</td>';
+	echo '</tr>';
+
+	echo '<tr>';
+	echo '<td align="center" valign="middle"><b>noneeddir</b></td>';
+	echo '<td align="center" valign="middle">ps_auto_sitemap|backwpup.*|wpcf7_captcha</td>';
+	echo '<td align="left" valign="middle">';
+	_e('Directory that you do not want to appear', 'gallerylink');
+	echo '</td>';
+	echo '</tr>';
+
+	echo '<tr>';
+	echo '<td align="center" valign="middle"><b>rssname</b></td>';
+	echo '<td align="center" valign="middle">feed</td>';
+	echo '<td align="left" valign="middle">';
+	_e('The name of the RSS feed file', 'gallerylink');
+	echo '</td>';
+	echo '</tr>';
+
+	echo '<tr>';
+	echo '<td align="center" valign="middle"><b>rssmax</b></td>';
+	echo '<td align="center" valign="middle">10</td>';
+	echo '<td align="left" valign="middle">';
+	_e('Syndication feeds show the most recent', 'gallerylink');
+	echo '</td>';
+	echo '</tr>';
+
+	echo '</tbody>';
+	echo '</table>';
 
 	echo '</div>';
 }
