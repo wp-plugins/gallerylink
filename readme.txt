@@ -12,7 +12,7 @@ Output as a gallery by find the file extension and directory specified.
 
 == Description ==
 
-[“ú–{Œê‚Ìà–¾‚ğ“Ç‚Ş](http://gallerylink.nyanko.org/gallerylink-for-wordpress-plugin-%E3%81%AE%E4%BD%BF%E3%81%84%E6%96%B9/)
+[æ—¥æœ¬èªã®èª¬æ˜ã‚’èª­ã‚€](http://gallerylink.nyanko.org/gallerylink-for-wordpress-plugin-%E3%81%AE%E4%BD%BF%E3%81%84%E6%96%B9/)
 
 Create a playlist (music, pictures, videos) of data in the directory below the specified, GalleryLink displays Pages by passing the data to various software.
 
