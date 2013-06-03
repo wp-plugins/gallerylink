@@ -4,7 +4,7 @@ Donate link: http://gallerylink.nyanko.org/
 Tags: image, images, gallery, video, music, list
 Requires at least: 3.0.1
 Tested up to: 3.4
-Stable tag: 1.0.4
+Stable tag: 1.0.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,7 +12,7 @@ Output as a gallery by find the file extension and directory specified.
 
 == Description ==
 
-[日本語の説明を読む](http://gallerylink.nyanko.org/gallerylink-for-wordpress-plugin-%E3%81%AE%E4%BD%BF%E3%81%84%E6%96%B9/)
+[日本語の説明を読む](http://gallerylink.nyanko.org/gallerylink-for-wordpress/)
 
 Create a playlist (music, pictures, videos) of data in the directory below the specified, GalleryLink displays Pages by passing the data to various software.
 
@@ -37,10 +37,11 @@ Bundled software and function
 == Installation ==
 
 1. Upload `gallerylink` directory to the `/wp-content/plugins/` directory
-1. Activate the plugin through the 'Plugins' menu in WordPress
-1. Add a new Page
-1. Write a short code. The following text field. `[gallerylink]`
-1. For video `[gallerylink set=movie]`. For music `[gallerylink set=music]`.
+2. Activate the plugin through the 'Plugins' menu in WordPress
+3. Add a new Page
+4. Write a short code. The following text field. `[gallerylink]`
+5. For video `[gallerylink set=movie]`. For music `[gallerylink set=music]`.
+6. Please read. (Settings > Gallerylink)
 
 == Frequently Asked Questions ==
 
@@ -50,10 +51,12 @@ Bundled software and function
 
 == Screenshots ==
 
-1.
-2.
+none
 
 == Changelog ==
+
+= 1.0.5 =
+Change readme.txt
 
 = 1.0.4 =
 Change readme.txt
@@ -75,16 +78,14 @@ Delete screenshot
 
 == Upgrade Notice ==
 
+= 1.0.5 =
+= 1.0.4 =
 = 1.0.3 =
-
 = 1.0.2 =
-
 = 1.0.1 =
-
 = 1.0.0 =
 
 == Arbitrary section ==
-
 
 == A brief Markdown Example ==
 
