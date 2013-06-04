@@ -4,7 +4,7 @@ Donate link: http://gallerylink.nyanko.org/
 Tags: image, images, gallery, video, music, list
 Requires at least: 3.0.1
 Tested up to: 3.4
-Stable tag: 1.0.5
+Stable tag: 1.0.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -45,15 +45,17 @@ Bundled software and function
 
 == Frequently Asked Questions ==
 
-= A question that someone might have =
-
-= What about foo bar? =
+none
 
 == Screenshots ==
 
 none
 
 == Changelog ==
+
+= 1.0.6 =
+Change Settings Page
+Change /languages
 
 = 1.0.5 =
 Change readme.txt
@@ -78,6 +80,7 @@ Delete screenshot
 
 == Upgrade Notice ==
 
+= 1.0.6 =
 = 1.0.5 =
 = 1.0.4 =
 = 1.0.3 =
