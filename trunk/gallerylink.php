@@ -2,7 +2,7 @@
 /*
 Plugin Name: GalleryLink
 Plugin URI: http://wordpress.org/plugins/gallerylink/
-Version: 1.0.7
+Version: 1.0.8
 Description: Output as a gallery by find the file extension and directory specified.
 Author: Katsushi Kawamori
 Author URI: http://gallerylink.nyanko.org/
@@ -232,6 +232,7 @@ function print_pages($page,$maxpage,$mode) {
  */
 function xmlitem_read($file, $thumbnail, $suffix, $document_root, $topurl) {
 
+	$filesize = filesize($file);
 	$filestat = stat($file);
 	date_default_timezone_set(timezone_name_from_abbr(get_the_date(T)));
 	$stamptime = date(DATE_RSS,  $filestat['mtime']);
@@ -253,6 +254,7 @@ function xmlitem_read($file, $thumbnail, $suffix, $document_root, $topurl) {
 		$img_url = '<a href="'.$link_url.'"><img src = "http://'.$servername.$topurl.$file.$thumbnail.$suffix.'"></a>';
 	}else{
 		$link_url = 'http://'.$servername.$scriptname.'?f='.$fparam;
+		$enc_url = 'http://'.$servername.$topurl.$file.$suffix;
 		if(file_exists($document_root.'/'.$titlename.$thumbnail)){ $thumbfind = 'true'; }
 		if( $thumbfind === "true" ){
 			$img_url = '<a href="'.$link_url.'"><img src = "http://'.$servername.$topurl.$file.$thumbnail.'"></a>';
@@ -263,6 +265,9 @@ function xmlitem_read($file, $thumbnail, $suffix, $document_root, $topurl) {
 	$xmlitem .= "<item>\n";
 	$xmlitem .= "<title>".$titlename."</title>\n";
 	$xmlitem .= "<link>".$link_url."</link>\n";
+	if ( !preg_match( "/jpg|png|gif|bmp/i", $suffix) ){
+		$xmlitem .= '<enclosure url="'.$enc_url.'" length="'.$filesize.'" type="'.mime_type($suffix).'" />'."\n";
+	}
 	if ( preg_match( "/jpg|png|gif|bmp/i", $suffix) || $thumbfind === "true"){
 		$xmlitem .= "<description><![CDATA[".$img_url."]]></description>\n";
 	}

@@ -4,7 +4,7 @@ Donate link: http://gallerylink.nyanko.org/
 Tags: image, images, gallery, video, music, list
 Requires at least: 3.0.1
 Tested up to: 3.4
-Stable tag: 1.0.7
+Stable tag: 1.0.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -53,6 +53,9 @@ none
 
 == Changelog ==
 
+= 1.0.8 =
+Support for Podcast.
+
 = 1.0.7 =
 Fixed the problem that the time zone of the RSS feed is shifted.
 (WordPress > Settings > General Timezone) Please specify your area other than UTC.
@@ -84,6 +87,7 @@ Delete screenshot
 
 == Upgrade Notice ==
 
+= 1.0.8 =
 = 1.0.7 =
 = 1.0.6 =
 = 1.0.5 =
