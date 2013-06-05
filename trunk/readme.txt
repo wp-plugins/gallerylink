@@ -4,7 +4,7 @@ Donate link: http://gallerylink.nyanko.org/
 Tags: image, images, gallery, video, music, list
 Requires at least: 3.0.1
 Tested up to: 3.4
-Stable tag: 1.0.6
+Stable tag: 1.0.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -22,7 +22,7 @@ Directory name and file name support for multi-byte character.
 
 Bundled software and function
 
-*   HTML5 player (video, music): full screen support(not support IE9)
+*   HTML5 player (video, music): full screen support(not full screen support IE9)
 *   FlashPlugin: jQuery SWFObject
 *   Flash player (video, music): Flowplayer Flash, MP3Player (for previous versions of IE8)
 *   Image: ColorBox, PhotoSwipe
@@ -53,6 +53,10 @@ none
 
 == Changelog ==
 
+= 1.0.7 =
+Fixed the problem that the time zone of the RSS feed is shifted.
+(WordPress > Settings > General Timezone) Please specify your area other than UTC.
+
 = 1.0.6 =
 Change Settings Page
 Change /languages
@@ -80,6 +84,7 @@ Delete screenshot
 
 == Upgrade Notice ==
 
+= 1.0.7 =
 = 1.0.6 =
 = 1.0.5 =
 = 1.0.4 =

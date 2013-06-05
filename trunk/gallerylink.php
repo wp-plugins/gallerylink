@@ -2,7 +2,7 @@
 /*
 Plugin Name: GalleryLink
 Plugin URI: http://wordpress.org/plugins/gallerylink/
-Version: 1.0.6
+Version: 1.0.7
 Description: Output as a gallery by find the file extension and directory specified.
 Author: Katsushi Kawamori
 Author URI: http://gallerylink.nyanko.org/
@@ -233,7 +233,8 @@ function print_pages($page,$maxpage,$mode) {
 function xmlitem_read($file, $thumbnail, $suffix, $document_root, $topurl) {
 
 	$filestat = stat($file);
-	$stamptime = date("r",  $filestat['mtime']);
+	date_default_timezone_set(timezone_name_from_abbr(get_the_date(T)));
+	$stamptime = date(DATE_RSS,  $filestat['mtime']);
 
 	$fparam = mb_convert_encoding(str_replace($document_root.'/', "", $file), "UTF8", "auto");
 	$fparam = str_replace("%2F","/",urlencode($fparam));
@@ -971,6 +972,9 @@ function my_plugin_options() {
 	echo '<p>';
 	echo '<div>';
 	_e('* The directory other than the WordPress default (wp-content/uproads), but it is possible that you will want to upload. topurl is the directory where you have uploaded the file. Music and videos is large capacity. May not be able to handled in the media uploader of WordPress. you will want to upload in FTP. If you set the topurl, please set to 777 or 757 the attributes of the directory. Because GalleryLink create an RSS feed in the directory.', 'gallerylink');
+	echo '</div>';
+	echo '<div>';
+	_e('* (WordPress > Settings > General Timezone) Please specify your area other than UTC. For accurate time display of RSS feed.', 'gallerylink');
 	echo '</div>';
 	echo '</p>';
 
