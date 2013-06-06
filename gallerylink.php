@@ -2,7 +2,7 @@
 /*
 Plugin Name: GalleryLink
 Plugin URI: http://wordpress.org/plugins/gallerylink/
-Version: 1.0.8
+Version: 1.0.9
 Description: Output as a gallery by find the file extension and directory specified.
 Author: Katsushi Kawamori
 Author URI: http://gallerylink.nyanko.org/
@@ -847,7 +847,11 @@ FLASHMUSICPLAYER;
 	$xml_title =  get_bloginfo('name').' | '.get_the_title();
 
 	$rssfeed_url = $topurl.'/'.$rssname.'.xml';
-	$rssfeeds_icon = '<div align="right"><a href="'.$rssfeed_url.'"><img src="'.$pluginurl.'/gallerylink/icon/rssfeeds.png"></a></div>';
+	if ( $mode === "pc" ) {
+		$rssfeeds_icon = '<div align="right"><a href="'.$rssfeed_url.'"><img src="'.$pluginurl.'/gallerylink/icon/rssfeeds.png"></a></div>';
+	} else if ( $mode === "sp" ) {
+		$rssfeeds_icon = '<div align="right"><a href="'.$rssfeed_url.'"><img src="'.$pluginurl.'/gallerylink/icon/podcast.png"></a></div>';
+	}
 	if ( $mode === "pc" || $mode === "sp" ) {
 		echo $rssfeeds_icon;
 		echo '<link rel="alternate" type="application/rss+xml" href="'.$rssfeed_url.'" title="'.$xml_title.'" />';
