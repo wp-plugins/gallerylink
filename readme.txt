@@ -4,7 +4,7 @@ Donate link: http://gallerylink.nyanko.org/
 Tags: image, images, gallery, video, music, list
 Requires at least: 3.0.1
 Tested up to: 3.4
-Stable tag: 1.0.9
+Stable tag: 1.0.10
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -51,9 +51,13 @@ none
 
 == Screenshots ==
 
-none
+`/assets/screenshot.jpg`
 
 == Changelog ==
+
+= 1.0.10 =
+Fixed problem of output of the RSS feed.
+Change readme.txt
 
 = 1.0.9 =
 Add podcast icon
@@ -93,6 +97,7 @@ Delete screenshot
 
 == Upgrade Notice ==
 
+= 1.0.10 =
 = 1.0.9 =
 = 1.0.8 =
 = 1.0.7 =
@@ -138,7 +143,5 @@ Music Example
 
 * (WordPress > Settings > General Timezone) Please specify your area other than UTC. For accurate time display of RSS feed.
 
-Customization 3
-
-`/icon/screenshot.jpg`
+[Customization 3](http://wordpress.org/plugins/gallerylink/screenshots/)
 

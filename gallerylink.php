@@ -2,7 +2,7 @@
 /*
 Plugin Name: GalleryLink
 Plugin URI: http://wordpress.org/plugins/gallerylink/
-Version: 1.0.9
+Version: 1.0.10
 Description: Output as a gallery by find the file extension and directory specified.
 Author: Katsushi Kawamori
 Author URI: http://gallerylink.nyanko.org/
@@ -867,6 +867,7 @@ $xml_begin = <<<XMLBEGIN
 <rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/">
 <channel>
 <title>{$xml_title}</title>
+
 XMLBEGIN;
 
 $xml_end = <<<XMLEND
