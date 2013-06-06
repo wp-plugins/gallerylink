@@ -4,7 +4,7 @@ Donate link: http://gallerylink.nyanko.org/
 Tags: image, images, gallery, video, music, list
 Requires at least: 3.0.1
 Tested up to: 3.4
-Stable tag: 1.0.8
+Stable tag: 1.0.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -43,6 +43,8 @@ Bundled software and function
 5. For video `[gallerylink set=movie]`. For music `[gallerylink set=music]`.
 6. Please read. (Settings > Gallerylink)
 
+    [Settings](http://wordpress.org/plugins/gallerylink/other_notes/)
+
 == Frequently Asked Questions ==
 
 none
@@ -52,6 +54,10 @@ none
 none
 
 == Changelog ==
+
+= 1.0.9 =
+Add podcast icon
+Change readme.txt
 
 = 1.0.8 =
 Support for Podcast.
@@ -87,6 +93,7 @@ Delete screenshot
 
 == Upgrade Notice ==
 
+= 1.0.9 =
 = 1.0.8 =
 = 1.0.7 =
 = 1.0.6 =
@@ -97,19 +104,41 @@ Delete screenshot
 = 1.0.1 =
 = 1.0.0 =
 
-== Arbitrary section ==
+== Settings ==
 
-== A brief Markdown Example ==
+(In the case of image) Easy use
 
-Ordered list:
+Please add new Page. Please write a short code in the text field of the Page. Please go in Text mode this task.
 
-1. Auto Files List
-1. Auto Dirs List
-1. List by extension
+[gallerylink]
 
-Unordered list:
+When you view this Page, it is displayed in album mode. It is the result of a search for wp-content/uproads following directory of WordPress default. The Settings> Media, determine the size of the thumbnail. The default value of GalleryLink, width 80, height 80. Please set its value. In the Media> Add New, please drag and drop the image. You view the Page again. Should see the image to the Page.
 
-* Image file
-* html5 video
-* html5 mp3
+Customization 1
+
+If you want to use MULTI-BYTE CHARACTER SETS to the display of the directory name and the file name, Please upload to wp-content/uproads of directory of WordPress default by the FTP software. In this case, please upload the file after UTF-8 character code setting of the FTP software. Please upload a thumbnail at the same time. It must be created by you. Please add the suffix name of -80x80 in the file name, it is the height 80 width 80.
+
+Customization 2
+
+GalleryLink is also handles video and music. If you are dealing with music and video, please add the following attributes to the short code.
+
+Video set = 'movie'
+
+Music set = 'music'
+
+Video Example
+
+[gallerylink set='movie' topurl='/gallery/video' suffix_pc='.mp4' suffix_sp='.mp4' suffix_keitai='.3gp' thumbnail='.jpg' rssname='movie']
+
+Music Example
+
+[gallerylink set='music' topurl='/gallery/music' suffix_pc='.mp3' suffix_pc2='.ogg' suffix_sp='.mp3' suffix_keitai='.3gp' thumbnail='.jpg' noneedfile='.wma' noneeddir='test' rssname='music']
+
+* The directory other than the WordPress default (wp-content/uproads), but it is possible that you will want to upload. topurl is the directory where you have uploaded the file. Music and videos is large capacity. May not be able to handled in the media uploader of WordPress. you will want to upload in FTP. If you set the topurl, please set to 777 or 757 the attributes of the directory. Because GalleryLink create an RSS feed in the directory.
+
+* (WordPress > Settings > General Timezone) Please specify your area other than UTC. For accurate time display of RSS feed.
+
+Customization 3
+
+`/icon/screenshot.jpg`
 
