@@ -1,23 +1,79 @@
 @charset "UTF-8";
-/* CSS Document */
-body{background:#f6efe2;}
+
+/* --BODY-- reset */
+body {
+background:#fff;
+color:#333;
+font:12px/1.5 'Lucida Grande', Helvetica;
+margin:0;
+overflow:visible;
+padding:0;
+}
+
+/* --OTHER TAGS-- reset */  
+a img, img {
+border:0;
+}
+
+blockquote, dd, div, dl, dt,
+h1, h2, h3, h4, h5, h6,
+li, ol, p, pre, span, td, th, ul {
+margin:0;
+padding:0;
+}
+
+abbr, acronym {
+border:0;
+}
+
+address, caption, cite, code, dfn, em, th, strong, var {
+font-style:normal;
+font-weight:normal;
+}
+
+caption, th {
+text-align:left;
+}
+
+code, kbd, pre, samp, tt {
+font-family:monospace;
+line-height:100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+font-size:100%;
+font-weight:normal;
+}
+
+ol, ul {
+list-style:none;
+}
+
+q:before, q:after {
+content:'';
+}
+
+/* form reset */
+button, fieldset, form, input, label, legend, select, textarea {
+font-family:inherit;
+font-size:100%;
+font-style:inherit;
+font-weight:inherit;
+margin:0;
+padding:0;
+vertical-align:baseline;
+}
+
+/* tables still need 'cellspacing="0"' reset */
+table {
+border-collapse:collapse;
+border-spacing:0;
+font-size:100%;
+}
+
+/* CSS for GalleryLink(smartphone) */
+
 h1 { font-size: 1.3em; font-weight: bolder; padding: 15px 10px; margin: 0; }
-header{
-	color: #c71585;
-	background: #f6efe2;
-	font-weight: bolder;
-	text-align:center;
-}
-header p{
-	padding:10px;
-	width:100%;
-	background:#fff;
-	box-sizing:border-box;
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	-o-box-sizing: border-box;
-	-ms-box-sizing: border-box;
-}
 
 .wrapper{padding:10px;}
 
@@ -32,15 +88,18 @@ header p{
 	color: #000000;
 	background: #f6efe2;
 }
+
 .g_nav li:not(:last-child){
 	border-right:1px solid #ffffff;
 }
+
 .g_nav li a{
 	padding:13px 0;
 	display:block;
 	color:#000000;
 	text-decoration:none;
 }
+
 .g_nav li:active{
 	background: #f6efe2;
 }
@@ -54,9 +113,6 @@ header p{
 	-o-border-radius: 10px;
 	-ms-border-radius: 10px;
 	background: #ffffff;
-}
-
-.list ul{
 }
 
 .list ul li{
@@ -73,7 +129,6 @@ header p{
 	padding:7px 25px 7px 7px;
 	position:relative;
 	text-decoration:none;
-	color:#990000;
 	font-weight: bolder;
 }
 
@@ -113,14 +168,5 @@ input {
 select {
     width: 100%;
     padding: 13px;
-    background: #EAEAEA;
-    color: #222;
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.32) inset;
-}
-
-footer{
-	font-size: 1.3em;
-	background: #f6efe2;
-	text-align:center;
-	font-weight: bolder; 
 }

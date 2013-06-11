@@ -1,5 +1,3 @@
-/*----レイアウト---*/
-
 ul{
 	text-align: left;
 	margin-left: 1em;
@@ -29,14 +27,12 @@ li{ float: left; display: block;}
 }
 
 #playlists li {
-	border: 1px dotted #999;
 	border-width: 1px 0;
 	width: 400px;
 	margin: 5px 5px 5px 5px;
 }
 
 #playlists li a {
-	color: #990000;
 	display: block;
 	font: bold 120% Arial, Helvetica, sans-serif;
 	padding: 5px;
@@ -54,10 +50,5 @@ li{ float: left; display: block;}
 	width: 400px;
 }
 
-#playlists li:hover {
-	background: #ffffcc;
-}
-
-#playlists li a:hover {
-	background: #ffffcc;
-}
+#playlists li:hover {background: #f6efe2;}
+#playlists li a:hover {color: #000000; background: #f6efe2;}
