@@ -1,0 +1,177 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Gallerylink\n"
+"POT-Creation-Date: 2013-05-27 21:10+0900\n"
+"PO-Revision-Date: 2013-06-05 22:32+0900\n"
+"Last-Translator: dodesyo312 <dodesyoswift312@gmail.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.5\n"
+"X-Poedit-KeywordsList: __;_e;gettext;gettext_noop\n"
+"X-Poedit-Basepath: .\n"
+
+msgid "prev"
+msgstr "前のページ"
+
+msgid "next"
+msgstr "次のページ"
+
+msgid "New"
+msgstr "新着順"
+
+msgid "Old"
+msgstr "古い順"
+
+msgid "Des"
+msgstr "文字降順"
+
+msgid "Asc"
+msgstr "文字昇順"
+
+msgid "Search"
+msgstr "検索"
+
+msgid "all"
+msgstr "全てのファイル"
+
+msgid "Select"
+msgstr "選択"
+
+msgid "(In the case of image) Easy use"
+msgstr "簡単な使い方（画像の場合）"
+
+msgid ""
+"Please add new Page. Please write a short code in the text field of the "
+"Page. Please go in Text mode this task."
+msgstr ""
+"固定ページを新規に追加します。本文欄に以下のショートコードを書きます。この作"
+"業はテキストモードで行ってください。"
+
+msgid ""
+"When you view this Page, it is displayed in album mode.  It is the result of "
+"a search for wp-content/uproads following directory of WordPress default. "
+"The Settings> Media,  determine the size of the thumbnail. The default value "
+"of GalleryLink, width 80, height 80. Please set its value. In the Media> Add "
+"New, please drag and drop the image. You view the Page again. Should see the "
+"image to the Page."
+msgstr ""
+"この固定ページを更新し表示すると、アルバムモードで表示されます。WordPressデ"
+"フォルトのwp-content/uproadsディレクトリ以下を検索した結果です。設定＞メディ"
+"アで、サムネイルのサイズを決めます。GalleryLinkはデフォルト値が、幅80、高さ80"
+"なので、その値に設定してください。メディア＞新規追加で、画像をドラッグドロッ"
+"プしてください。もう一度この固定ページを表示すると、今ドラッグドロップした画"
+"像が表示されているはずです。"
+
+msgid "Customization 1"
+msgstr "カスタマイズ１"
+
+msgid ""
+"If you want to use MULTI-BYTE CHARACTER SETS to the display of the directory "
+"name and the file name, Please upload to wp-content/uproads of directory of "
+"WordPress default by the FTP software. In this case, please upload the file "
+"after UTF-8 character code setting of the FTP software. Please upload a "
+"thumbnail at the same time. It must be created by you. Please add the suffix "
+"name of -80x80 in the file name, it is the height 80 width 80."
+msgstr ""
+"ファイル名やディレクトリ名の表示を日本語のまま使いたい場合は、FTPソフトで、"
+"WordPressデフォルトのwp-content/uproadsディレクトリ以下にアップロードしてくだ"
+"さい。その際には、FTPソフトの文字コードの設定はUTF8でアップロードしてくださ"
+"い。また、サムネイルは、ファイル名に-80×80という接尾名を付加した、幅80、高さ"
+"80のサムネイルを作成し同時にアップロードしてください。"
+
+msgid "Customization 2"
+msgstr "カスタマイズ２"
+
+msgid ""
+"GalleryLink is also handles video and music. If you are dealing with music "
+"and video, please add the following attributes to the short code."
+msgstr ""
+"GalleryLinkは、動画や音楽も扱えます。動画や音楽を扱う場合は、ショートコードに"
+"以下の属性を付加してください。"
+
+msgid "Video set = 'movie'"
+msgstr "動画 set= 'movie'"
+
+msgid "Music set = 'music'"
+msgstr "音楽 set= 'music'"
+
+msgid "Video Example"
+msgstr "動画使用例"
+
+msgid "Music Example"
+msgstr "音楽使用例"
+
+msgid ""
+"* The directory other than the WordPress default (wp-content/uproads), but "
+"it is possible that you will want to upload. topurl is the directory where "
+"you have uploaded the file. Music and videos is large capacity. May not be "
+"able to handled in the media uploader of WordPress. you will want to upload "
+"in FTP. If you set the topurl, please set to 777 or 757 the attributes of "
+"the directory. Because GalleryLink create an RSS feed in the directory."
+msgstr ""
+"※topurlは、ファイルをアップロードしたディレクトリです。動画や音楽はファイルの"
+"サイズが大きく、WordPress標準のメディアアップローダーでは対応できない事もある"
+"ので、FTPでアップロードする場合があるでしょう。topurlを設定した場合は、その"
+"ディレクトリの属性を757か777にしてください。GalleryLinkがそのディレクトリに"
+"RSSフィードを作成するからです。"
+
+msgid ""
+"* (WordPress > Settings > General Timezone) Please specify your area other "
+"than UTC. For accurate time display of RSS feed."
+msgstr ""
+"※（ワードプレス > 設定 > 一般 タイムゾーン）でUTC以外のお住まいの地域を指定し"
+"てください。 RSSフィードの正確な時刻表示のためです。"
+
+msgid "Customization 3"
+msgstr "カスタマイズ３"
+
+msgid ""
+"Below, I shows the default values and various attributes of the short code."
+msgstr "以下に、ショートコードの各種属性とデフォルト値を示します。"
+
+msgid "Attribute"
+msgstr "属性"
+
+msgid "Next only three. album(image), movie(video), music(music)"
+msgstr "album（画像）,movie（動画）,music（音楽）の３つのみ"
+
+msgid "Full path to the top directory containing the data"
+msgstr "データのあるトップディレクトリのフルパス"
+
+msgid "extension of PC"
+msgstr "PCの拡張子"
+
+msgid "second extension on the PC. Second candidate when working with html5"
+msgstr "PCの第２拡張子。動画や音楽をhtml5で扱う場合の第２候補。"
+
+msgid "extension of Smartphone"
+msgstr "スマートフォンの拡張子"
+
+msgid "extension of Japanese mobile phone"
+msgstr "携帯の拡張子"
+
+msgid "File Display per page(PC)"
+msgstr "１ページの表示数PC"
+
+msgid "File Display per page(Smartphone)"
+msgstr "１ページの表示数スマートフォン"
+
+msgid "File Display per page(Japanese mobile phone)"
+msgstr "１ページの表示数携帯"
+
+msgid "suffix name of the thumbnail"
+msgstr "サムネイルの接尾名"
+
+msgid "File that you do not want to appear"
+msgstr "表示しないファイル"
+
+msgid "Directory that you do not want to appear"
+msgstr "表示しないディレクトリ"
+
+msgid "The name of the RSS feed file"
+msgstr "RSSフィードファイルの名前"
+
+msgid "Syndication feeds show the most recent"
+msgstr "RSSフィードの表示数"
