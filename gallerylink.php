@@ -2,7 +2,7 @@
 /*
 Plugin Name: GalleryLink
 Plugin URI: http://wordpress.org/plugins/gallerylink/
-Version: 1.0.12
+Version: 1.0.13
 Description: Output as a gallery by find the file extension and directory specified.
 Author: Katsushi Kawamori
 Author URI: http://gallerylink.nyanko.org/
@@ -723,7 +723,6 @@ FLASHMUSICPLAYER;
 			echo '<h2>'.$selectedfilename.'</h2>';
 		}
 	} else if ( $mode === 'sp') {
-		wp_enqueue_style( 'smartphonecssreset',  $pluginurl.'/gallerylink/css/sp_reset.css' );
 		if ( $set === 'album' ){
 			// for PhotoSwipe
 			wp_enqueue_style( 'photoswipe-style',  $pluginurl.'/gallerylink/photoswipe/examples/styles.css' );

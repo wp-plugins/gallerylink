@@ -4,7 +4,7 @@ Donate link: http://gallerylink.nyanko.org/
 Tags: audio,feed,feeds,flash,gallery,html5,image,images,list,music,photo,photos,picture,pictures,rss,shortcode,video,xml
 Requires at least: 3.0.1
 Tested up to: 3.4
-Stable tag: 1.0.12
+Stable tag: 1.0.13
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -55,6 +55,9 @@ none
 
 == Changelog ==
 
+= 1.0.13 =
+Fixed problem of Style Sheets.
+
 = 1.0.12 =
 Fixed problem of output of the RSS feed.
 Change readme.txt
@@ -104,6 +107,7 @@ Delete screenshot
 
 == Upgrade Notice ==
 
+= 1.0.13 =
 = 1.0.12 =
 = 1.0.11 =
 = 1.0.10 =
