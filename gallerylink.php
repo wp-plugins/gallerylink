@@ -2,7 +2,7 @@
 /*
 Plugin Name: GalleryLink
 Plugin URI: http://wordpress.org/plugins/gallerylink/
-Version: 1.0.13
+Version: 1.0.14
 Description: Output as a gallery by find the file extension and directory specified.
 Author: Katsushi Kawamori
 Author URI: http://gallerylink.nyanko.org/
@@ -149,10 +149,14 @@ function print_file($dparam,$file,$topurl,$suffix,$thumbnail,$document_root,$mod
 					$linkfile = '<li><a href="'.$topurl.$file.'" '.$mimetype.'>'.$titlename.'</a></li>';
 				}
 			}else{ //PC
+				$page =NULL;
+				if (!empty($_GET['glp'])){
+					$page = $_GET['glp'];				//pages
+				}
 				if( $thumbfind === "true" ){
-					$linkfile = '<li><img src="'.$topurl.$thumbfile.'"><a href="'.$scriptname.'?d='.$dparam.'&f='.$fileparam.'">'.$filetitle.'</a></li>';
+					$linkfile = '<li><img src="'.$topurl.$thumbfile.'"><a href="'.$scriptname.'?d='.$dparam.'&glp='.$page.'&f='.$fileparam.'">'.$filetitle.'</a></li>';
 				}else{
-					$linkfile = '<li><a href="'.$scriptname.'?d='.$dparam.'&f='.$fileparam.'">'.$filetitle.'</a></li>';
+					$linkfile = '<li><a href="'.$scriptname.'?d='.$dparam.'&glp='.$page.'&f='.$fileparam.'">'.$filetitle.'</a></li>';
 				}
 			}
 		}
