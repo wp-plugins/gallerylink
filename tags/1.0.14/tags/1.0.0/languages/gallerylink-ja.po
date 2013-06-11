@@ -1,0 +1,163 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Gallerylink\n"
+"POT-Creation-Date: 2013-05-27 21:10+0900\n"
+"PO-Revision-Date: 2013-06-01 09:13+0900\n"
+"Last-Translator: dodesyo312 <dodesyoswift312@gmail.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.5\n"
+"X-Poedit-KeywordsList: __;_e;gettext;gettext_noop\n"
+"X-Poedit-Basepath: .\n"
+
+msgid "prev"
+msgstr "前のページ"
+
+msgid "next"
+msgstr "次のページ"
+
+msgid "New"
+msgstr "新着順"
+
+msgid "Old"
+msgstr "古い順"
+
+msgid "Des"
+msgstr "文字降順"
+
+msgid "Asc"
+msgstr "文字昇順"
+
+msgid "Search"
+msgstr "検索"
+
+msgid "all"
+msgstr "全てのファイル"
+
+msgid "Select"
+msgstr "選択"
+
+msgid "(In the case of image) Easy use"
+msgstr "簡単な使い方（画像の場合）"
+
+msgid ""
+"I will add a new fixed page. I write a short code the following text field. "
+"Please go in text mode this task."
+msgstr ""
+"固定ページを新規に追加します。本文欄に以下のショートコードを書きます。この作"
+"業はテキストモードで行ってください。"
+
+msgid ""
+"When you view and update this fixed page, it is displayed in album mode.It "
+"is the result of a search for wp-content/uproads following directory of "
+"WordPress default.The Settings> Media, I determine the size of the "
+"thumbnail. The default value, width 80, so 80 height, GalleryLink, please "
+"set its value.In the Media> Add New, please drag and drop the image.When you "
+"view the page again this fixed, image that you drag-and-drop now you should "
+"see."
+msgstr ""
+"この固定ページを更新し表示すると、アルバムモードで表示されます。WordPressデ"
+"フォルトのwp-content/uproadsディレクトリ以下を検索した結果です。設定＞メディ"
+"アで、サムネイルのサイズを決めます。GalleryLinkはデフォルト値が、幅80、高さ80"
+"なので、その値に設定してください。メディア＞新規追加で、画像をドラッグドロッ"
+"プしてください。もう一度この固定ページを表示すると、今ドラッグドロップした画"
+"像が表示されているはずです。"
+
+msgid "Customization 1"
+msgstr "カスタマイズ１"
+
+msgid ""
+"If you would like to use a Unicode display of directory name and file name, "
+"the FTP software, please upload to wp-content/uproads following directory of "
+"WordPress default. In this case, please upload in UTF8 character set of code "
+"of FTP software. In addition, the thumbnails, please upload at the same time "
+"created by adding the suffix name of -80x80 in the file name, a thumbnail of "
+"80 width 80, height."
+msgstr ""
+"ファイル名やディレクトリ名の表示を日本語のまま使いたい場合は、FTPソフトで、"
+"WordPressデフォルトのwp-content/uproadsディレクトリ以下にアップロードしてくだ"
+"さい。その際には、FTPソフトの文字コードの設定はUTF8でアップロードしてくださ"
+"い。また、サムネイルは、ファイル名に-80×80という接尾名を付加した、幅80、高さ"
+"80のサムネイルを作成し同時にアップロードしてください。"
+
+msgid "Customization 2"
+msgstr "カスタマイズ２"
+
+msgid ""
+"GalleryLink is also handles video and music. If you are dealing with music "
+"and video, please add the following attributes to the short code."
+msgstr ""
+"GalleryLinkは、動画や音楽も扱えます。動画や音楽を扱う場合は、ショートコードに"
+"以下の属性を付加してください。"
+
+msgid "Video set = 'movie'"
+msgstr "動画 set= 'movie'"
+
+msgid "Music set = 'music'"
+msgstr "音楽 set= 'music'"
+
+msgid "Video Example"
+msgstr "動画使用例"
+
+msgid "Music Example"
+msgstr "音楽使用例"
+
+msgid ""
+"* topurl is the directory where you have uploaded the file. The size of the "
+"file is large video and music, you can not respond in the media uploader of "
+"WordPress standard, you will want to upload in FTP."
+msgstr ""
+"※topurlは、ファイルをアップロードしたディレクトリです。動画や音楽はファイルの"
+"サイズが大きく、WordPress標準のメディアアップローダーでは対応できないので、"
+"FTPでアップロードする事になります。"
+
+msgid "Customization 3"
+msgstr "カスタマイズ３"
+
+msgid ""
+"Below, I shows the default values and various attributes of the short code."
+msgstr "以下に、ショートコードの各種属性とデフォルト値を示します。"
+
+msgid "* It is only one 3 album (image), movie (video), music of (music)"
+msgstr "※album（画像）,movie（動画）,music（音楽）の３つのみ"
+
+msgid "* Wp-content/uproads default directory"
+msgstr "デフォルトのwp-content/uproadsディレクトリ"
+
+msgid "* extension of PC"
+msgstr "※PCの拡張子"
+
+msgid "* second extension on the PC. Second candidate when working with html5"
+msgstr "※PCの第２拡張子。動画や音楽をhtml5で扱う場合の第２候補。"
+
+msgid "* extension of the smartphone"
+msgstr "※スマートフォンの拡張子"
+
+msgid "* extension of mobile"
+msgstr "※携帯の拡張子"
+
+msgid "* PC Display number of 1 page"
+msgstr "※１ページの表示数PC"
+
+msgid "* Display number of smartphone one page"
+msgstr "※１ページの表示数スマートフォン"
+
+msgid "* Display number of mobile page 1"
+msgstr "※１ページの表示数携帯"
+
+msgid "* suffix name of the thumbnail"
+msgstr "※サムネイルの接尾名"
+
+msgid "* files that are not listed"
+msgstr "※リストアップしないファイル"
+
+msgid "* a directory that does not list up"
+msgstr "※リストアップしないディレクトリ"
+
+msgid "* The name of the RSS feed file"
+msgstr "※RSSフィードファイルの名前"
+
+msgid "* Display number of RSS feed"
+msgstr "※RSSフィードの表示数"
