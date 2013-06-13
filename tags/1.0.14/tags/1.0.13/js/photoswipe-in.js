@@ -1,1 +1,0 @@
-jQuery(document).ready(function(){var myPhotoSwipe = jQuery("#Gallery a").photoSwipe({ enableMouseWheel: false , enableKeyboard: false });});

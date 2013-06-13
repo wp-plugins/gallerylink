@@ -1,1 +1,0 @@
-jQuery(function(){jQuery("a.gallerylink").colorbox({rel:"grouped"});});
