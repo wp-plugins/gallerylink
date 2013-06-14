@@ -2,7 +2,7 @@
 /*
 Plugin Name: GalleryLink
 Plugin URI: http://wordpress.org/plugins/gallerylink/
-Version: 1.0.17
+Version: 1.0.18
 Description: Output as a gallery by find the file extension and directory specified.
 Author: Katsushi Kawamori
 Author URI: http://gallerylink.nyanko.org/
@@ -26,6 +26,7 @@ Domain Path: /languages
 
 	load_plugin_textdomain('gallerylink', false, basename( dirname( __FILE__ ) ) . '/languages' );
 	// Add action hooks
+	add_filter( 'plugin_action_links', 'settings_link', 10, 2 );
 	add_action( 'admin_menu', 'my_plugin_menu' );
 	add_shortcode( 'gallerylink', 'gallerylink_func' );
 
@@ -922,10 +923,24 @@ XMLEND;
 }
 
 /* ==================================================
+ * Add a "Settings" link to the plugins page
+ */
+function settings_link( $links, $file ) {
+	static $this_plugin;
+	if ( empty($this_plugin) ) {
+		$this_plugin = plugin_basename(__FILE__);
+	}
+	if ( $file == $this_plugin ) {
+		$links[] = '<a href="'.admin_url('options-general.php?page=GalleryLink').'">'.__( 'Settings').'</a>';
+	}
+		return $links;
+}
+
+/* ==================================================
  * Settings page
  */
 function my_plugin_menu() {
-	add_options_page( 'GalleryLink Options', 'GalleryLink', 'manage_options', 'my-unique-identifier', 'my_plugin_options' );
+	add_options_page( 'GalleryLink Options', 'GalleryLink', 'manage_options', 'GalleryLink', 'my_plugin_options' );
 }
 
 /* ==================================================

@@ -4,7 +4,7 @@ Donate link: http://gallerylink.nyanko.org/
 Tags: audio,feed,feeds,flash,gallery,html5,image,images,list,music,photo,photos,picture,pictures,rss,shortcode,video,xml
 Requires at least: 3.0.1
 Tested up to: 3.4
-Stable tag: 1.0.17
+Stable tag: 1.0.18
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -54,6 +54,9 @@ none
 1. screenshot-1.jpg
 
 == Changelog ==
+
+= 1.0.18 =
+Add a "Settings" link to the plugins page.
 
 = 1.0.17 =
 Fixed problem of pagination.
@@ -120,6 +123,7 @@ Delete screenshot
 
 == Upgrade Notice ==
 
+= 1.0.18 =
 = 1.0.17 =
 = 1.0.16 =
 = 1.0.15 =
