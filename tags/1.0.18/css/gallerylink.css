@@ -1,0 +1,54 @@
+ul{
+	text-align: left;
+	margin-left: 1em;
+	padding-left: 0.5em;
+}
+
+p{
+	text-align: left;
+	margin: 10px;	
+}
+.gallerylink img{
+        float:left;
+        margin: 5px 5px 5px 5px;
+}
+
+li{ float: left; display: block;}
+
+
+#PlayerContainer{
+	float:left;
+}
+
+#playlists {
+	width: 400px;
+	float:left;
+	overflow: hidden;
+}
+
+#playlists li {
+	border-width: 1px 0;
+	width: 400px;
+	margin: 5px 5px 5px 5px;
+}
+
+#playlists li a {
+	display: block;
+	font: bold 120% Arial, Helvetica, sans-serif;
+	padding: 5px;
+	text-decoration: none;
+}
+
+#playlists img{
+	float:left;
+	width: 80px;
+	height: 55px;
+	overflow: hidden;
+}
+
+* html #playlists li a {
+	width: 400px;
+}
+
+#playlists li:hover {background: #f6efe2;}
+#playlists li a:hover {color: #000000; background: #f6efe2;}
