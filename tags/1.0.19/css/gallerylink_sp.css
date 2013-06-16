@@ -1,0 +1,172 @@
+@charset "UTF-8";
+
+/* --BODY-- reset */
+body {
+background:#fff;
+color:#333;
+font:12px/1.5 'Lucida Grande', Helvetica;
+margin:0;
+overflow:visible;
+padding:0;
+}
+
+/* --OTHER TAGS-- reset */  
+a img, img {
+border:0;
+}
+
+blockquote, dd, div, dl, dt,
+h1, h2, h3, h4, h5, h6,
+li, ol, p, pre, span, td, th, ul {
+margin:0;
+padding:0;
+}
+
+abbr, acronym {
+border:0;
+}
+
+address, caption, cite, code, dfn, em, th, strong, var {
+font-style:normal;
+font-weight:normal;
+}
+
+caption, th {
+text-align:left;
+}
+
+code, kbd, pre, samp, tt {
+font-family:monospace;
+line-height:100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+font-size:100%;
+font-weight:normal;
+}
+
+ol, ul {
+list-style:none;
+}
+
+q:before, q:after {
+content:'';
+}
+
+/* form reset */
+button, fieldset, form, input, label, legend, select, textarea {
+font-family:inherit;
+font-size:100%;
+font-style:inherit;
+font-weight:inherit;
+margin:0;
+padding:0;
+vertical-align:baseline;
+}
+
+/* tables still need 'cellspacing="0"' reset */
+table {
+border-collapse:collapse;
+border-spacing:0;
+font-size:100%;
+}
+
+/* CSS for GalleryLink(smartphone) */
+
+h1 { font-size: 1.3em; font-weight: bolder; padding: 15px 10px; margin: 0; }
+
+.wrapper{padding:10px;}
+
+.g_nav ul{
+	display:table;
+	table-layout: fixed;
+	width:100%;
+}
+.g_nav li{
+	display:table-cell;
+	text-align:center;
+	color: #000000;
+	background: #f6efe2;
+}
+
+.g_nav li:not(:last-child){
+	border-right:1px solid #ffffff;
+}
+
+.g_nav li a{
+	padding:13px 0;
+	display:block;
+	color:#000000;
+	text-decoration:none;
+}
+
+.g_nav li:active{
+	background: #f6efe2;
+}
+
+.list{
+	font-size: 1.3em;
+	margin:20px 0;
+	border-radius: 10px;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	-o-border-radius: 10px;
+	-ms-border-radius: 10px;
+	background: #ffffff;
+}
+
+.list ul li{
+	display:table;
+	width:100%;
+}
+
+.list ul li:not(:last-child){
+	border-bottom:1px solid #f6efe2;
+}
+
+.list ul li a{
+	display:block;
+	padding:7px 25px 7px 7px;
+	position:relative;
+	text-decoration:none;
+	font-weight: bolder;
+}
+
+.list ul li a:after{
+	content: "";
+    display: block;
+	height: 0px;
+	width: 0px;
+	border: 4px solid transparent;
+	border-left-color: #e2a6a6;
+	position:absolute;
+	top:50%;
+	right:10px;
+}
+
+.list ul li img{
+	float:left;
+	width: 80px;
+	height: 55px;
+	overflow: hidden;
+}
+
+.list ul li div{
+	display:table-cell;
+	vertical-align:middle;
+}
+
+p {
+    padding: 13px;
+}
+
+input {
+    width: 100%;
+    padding: 13px;
+}
+
+select {
+    width: 100%;
+    padding: 13px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.32) inset;
+}
