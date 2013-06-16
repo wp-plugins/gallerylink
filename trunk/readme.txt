@@ -4,7 +4,7 @@ Donate link: http://gallerylink.nyanko.org/
 Tags: audio,feed,feeds,flash,gallery,html5,image,images,list,music,photo,photos,picture,pictures,rss,shortcode,video,xml
 Requires at least: 3.0.1
 Tested up to: 3.4
-Stable tag: 1.0.18
+Stable tag: 1.0.19
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -27,6 +27,7 @@ Bundled software and function
 *   Flash player (video, music): Flowplayer Flash, MP3Player (for previous versions of IE8)
 *   Image: ColorBox, PhotoSwipe
 *   Create RSS feeds of data (XML). It support to the podcast.
+*   Switching of smartphones or tablets: PHP Mobile Detect
 
     It support to the smartphone. WordPress3.4 or higher.
 
@@ -54,6 +55,9 @@ none
 1. screenshot-1.jpg
 
 == Changelog ==
+
+= 1.0.19 =
+Adopted "PHP Mobile Detect" of PHP class library.
 
 = 1.0.18 =
 Add a "Settings" link to the plugins page.
@@ -123,6 +127,7 @@ Delete screenshot
 
 == Upgrade Notice ==
 
+= 1.0.19 =
 = 1.0.18 =
 = 1.0.17 =
 = 1.0.16 =

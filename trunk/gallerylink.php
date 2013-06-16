@@ -2,7 +2,7 @@
 /*
 Plugin Name: GalleryLink
 Plugin URI: http://wordpress.org/plugins/gallerylink/
-Version: 1.0.18
+Version: 1.0.19
 Description: Output as a gallery by find the file extension and directory specified.
 Author: Katsushi Kawamori
 Author URI: http://gallerylink.nyanko.org/
@@ -331,30 +331,19 @@ function mime_type($suffix){
  */
 function agent_check(){
 
+	include dirname(__FILE__).'/Mobile-Detect-2.6.2/Mobile_Detect.php';
+	$detect = new Mobile_Detect();
+
 	if ((! function_exists('is_mobile') || ! is_mobile()) && (! function_exists('is_ktai') || ! is_ktai() && ! wp_is_mobile() )) { //PC
 		$mode = 'pc';
 	} else if ((! function_exists('is_mobile') || is_mobile()) && (! function_exists('is_ktai') || is_ktai())) { //Ktai
 		$mode = 'mb';
-	} else if ( function_exists('wp_is_mobile') && wp_is_mobile() ) { //SP
-		$ua=$_SERVER['HTTP_USER_AGENT'];
-		if(strpos($ua,'iPad')!==false) {
-			$mode = 'pc';
-		} else if(strpos($ua,'Tab')!==false) {
-			$mode = 'pc';
-		} else if(strpos($ua,'TAB')!==false) {
-			$mode = 'pc';
-		} else if(strpos($ua,'SC-01')!==false) {
-			$mode = 'pc';
-		} else if(strpos($ua,'SC-02')!==false) {
-			$mode = 'pc';
-		} else if(strpos($ua,'Kindle')!==false) {
-			$mode = 'pc';
-		} else if(strpos($ua,'Nexus 7')!==false) {
-			$mode = 'pc';
-		} else if(strpos($ua,'Nexus 10')!==false) {
-			$mode = 'pc';
-		} else {
+	} else if ( function_exists('wp_is_mobile') && wp_is_mobile() ) { //smartphone or tablet
+		// Check for any mobile device, excluding tablets.
+		if ($detect->isMobile() && !$detect->isTablet()){
 			$mode = 'sp';
+		} else {
+			$mode = 'pc';
 		}
 	}
 
@@ -924,6 +913,7 @@ XMLEND;
 
 /* ==================================================
  * Add a "Settings" link to the plugins page
+ * @since	1.0.18
  */
 function settings_link( $links, $file ) {
 	static $this_plugin;
@@ -938,6 +928,7 @@ function settings_link( $links, $file ) {
 
 /* ==================================================
  * Settings page
+ * @since	1.0.6
  */
 function my_plugin_menu() {
 	add_options_page( 'GalleryLink Options', 'GalleryLink', 'manage_options', 'GalleryLink', 'my_plugin_options' );
@@ -945,6 +936,7 @@ function my_plugin_menu() {
 
 /* ==================================================
  * Settings page
+ * @since	1.0.6
  */
 function my_plugin_options() {
 	if ( !current_user_can( 'manage_options' ) )  {
