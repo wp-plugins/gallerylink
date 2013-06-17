@@ -4,7 +4,7 @@ Donate link: http://gallerylink.nyanko.org/
 Tags: audio,feed,feeds,flash,gallery,html5,image,images,list,music,photo,photos,picture,pictures,rss,shortcode,video,xml
 Requires at least: 3.0.1
 Tested up to: 3.4
-Stable tag: 1.0.19
+Stable tag: 1.0.20
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -55,6 +55,11 @@ none
 1. screenshot-1.jpg
 
 == Changelog ==
+
+= 1.0.20 =
+Removed the unnecessary files.
+Change /languages
+Change readme.txt
 
 = 1.0.19 =
 Adopted "PHP Mobile Detect" of PHP class library.
@@ -127,6 +132,7 @@ Delete screenshot
 
 == Upgrade Notice ==
 
+= 1.0.20 =
 = 1.0.19 =
 = 1.0.18 =
 = 1.0.17 =
@@ -178,7 +184,7 @@ Music Example
 
 [gallerylink set='music' topurl='/gallery/music' suffix_pc='.mp3' suffix_pc2='.ogg' suffix_sp='.mp3' suffix_keitai='.3gp' thumbnail='.jpg' noneedfile='.wma' noneeddir='test' rssname='music']
 
-* The directory other than the WordPress default (wp-content/uproads), but it is possible that you will want to upload. topurl is the directory where you have uploaded the file. Music and videos is large capacity. May not be able to handled in the media uploader of WordPress. you will want to upload in FTP. If you set the topurl, please set to 777 or 757 the attributes of the directory. Because GalleryLink create an RSS feed in the directory.
+* The directory other than the WordPress default (wp-content/uproads), but it is possible that you will want to upload. topurl is the directory where you have uploaded the file. Music and videos is large capacity. May not be able to handled in the media uploader of WordPress depending on the setting of the server. you will want to upload in FTP. If you set the topurl, please set to 777 or 757 the attributes of the directory. Because GalleryLink create an RSS feed in the directory.
 
 * (WordPress > Settings > General Timezone) Please specify your area other than UTC. For accurate time display of RSS feed.
 
