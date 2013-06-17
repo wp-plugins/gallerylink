@@ -2,7 +2,7 @@
 /*
 Plugin Name: GalleryLink
 Plugin URI: http://wordpress.org/plugins/gallerylink/
-Version: 1.0.20
+Version: 1.0.21
 Description: Output as a gallery by find the file extension and directory specified.
 Author: Katsushi Kawamori
 Author URI: http://gallerylink.nyanko.org/
@@ -331,7 +331,7 @@ function mime_type($suffix){
  */
 function agent_check(){
 
-	include dirname(__FILE__).'/Mobile-Detect-2.6.2/Mobile_Detect.php';
+	include_once dirname(__FILE__).'/Mobile-Detect-2.6.2/Mobile_Detect.php';
 	$detect = new Mobile_Detect();
 
 	if ((! function_exists('is_mobile') || ! is_mobile()) && (! function_exists('is_ktai') || ! is_ktai() && ! wp_is_mobile() )) { //PC
