@@ -2,7 +2,7 @@
 /*
 Plugin Name: GalleryLink
 Plugin URI: http://wordpress.org/plugins/gallerylink/
-Version: 1.0.21
+Version: 1.0.22
 Description: Output as a gallery by find the file extension and directory specified.
 Author: Katsushi Kawamori
 Author URI: http://gallerylink.nyanko.org/
@@ -655,7 +655,7 @@ $pluginurl = plugins_url($path='',$scheme=null);
 //MoviePlayerContainer
 $movieplayercontainer = <<<MOVIEPLAYERCONTAINER
 <div id="PlayerContainer">
-<video id="Html5Player" controls style="border" height="375" width="500" autoplay onclick="this.play()">
+<video controls style="border" height="375" width="500" autoplay onclick="this.play()">
 <source src="{$prevfile}">
 <source src="{$prevfile_nosuffix}{$suffix_pc2}">
 <object>
@@ -682,10 +682,36 @@ $movieplayercontainer = <<<MOVIEPLAYERCONTAINER
 </div>
 MOVIEPLAYERCONTAINER;
 
+//MoviePlayerContainerIE9
+$movieplayercontainerIE9 = <<<MOVIEPLAYERCONTAINERIE9
+<div id="PlayerContainer">
+<object>
+<embed
+  type="application/x-shockwave-flash"
+  width="500"
+  height="375"
+  bgcolor="#000000"
+  src="{$pluginurl}/gallerylink/flowplayer/flowplayer-3.2.15.swf"
+  allowFullScreen="true"
+  flashvars='config={
+    "clip":{
+      "url":"{$prevfile}",
+      "urlEncoding":true,
+      "scaling":"fit",
+      "autoPlay":true,
+      "autoBuffering":true
+    }
+  }'
+>
+</embed>
+</object>
+</div>
+MOVIEPLAYERCONTAINERIE9;
+
 //MusicPlayerContainer
 $musicplayercontainer = <<<MUSICPLAYERCONTAINER
 <div id="PlayerContainer">
-<audio id="Html5Player" controls style="border" autoplay onclick="this.play()">
+<audio controls style="border" autoplay onclick="this.play()">
 <source src="{$prevfile}">
 <source src="{$prevfile_nosuffix}{$suffix_pc2}">
 <div id="FlashContainer"></div>
@@ -714,7 +740,9 @@ FLASHMUSICPLAYER;
 			wp_enqueue_script( 'colorbox', $pluginurl.'/gallerylink/colorbox/jquery.colorbox-min.js', null, '1.3.20.1');
 			wp_enqueue_script( 'colorbox-in', $pluginurl.'/gallerylink/js/colorbox-in.js' );
 		} else {
-			wp_enqueue_script( 'jQuery SWFObject', $pluginurl.'/gallerylink/jqueryswf/jquery.swfobject.1-1-1.min.js', null, '1.1.1' );
+			if ( $set === 'music' ){
+				wp_enqueue_script( 'jQuery SWFObject', $pluginurl.'/gallerylink/jqueryswf/jquery.swfobject.1-1-1.min.js', null, '1.1.1' );
+			}
 			echo '<h2>'.$selectedfilename.'</h2>';
 		}
 	} else if ( $mode === 'sp') {
@@ -731,8 +759,11 @@ FLASHMUSICPLAYER;
 	}
 
 	if ( $mode === 'pc' && $set === 'movie' ) {
-		wp_enqueue_script( 'html5player', $pluginurl.'/gallerylink/js/html5player.js' );
-		echo $movieplayercontainer;
+		if(preg_match("/MSIE 9\.0/", $_SERVER['HTTP_USER_AGENT'])){
+			echo $movieplayercontainerIE9;
+		} else {
+			echo $movieplayercontainer;
+		}
 	} else if ( $mode === 'pc' && $set === 'music' ) {
 		echo $flashmusicplayer;
 		echo $musicplayercontainer;
