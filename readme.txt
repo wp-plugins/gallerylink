@@ -4,7 +4,7 @@ Donate link: http://gallerylink.nyanko.org/
 Tags: audio,feed,feeds,flash,gallery,html5,image,images,list,music,photo,photos,picture,pictures,rss,shortcode,video,xml
 Requires at least: 3.0.1
 Tested up to: 3.4
-Stable tag: 1.0.21
+Stable tag: 1.0.22
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -22,7 +22,7 @@ Directory name and file name support for multi-byte character.
 
 Bundled software and function
 
-*   HTML5 player (video, music): full screen support(not full screen support IE9)
+*   HTML5 player (video, music)
 *   FlashPlugin: jQuery SWFObject
 *   Flash player (video, music): Flowplayer Flash, MP3Player (for previous versions of IE8)
 *   Image: ColorBox, PhotoSwipe
@@ -55,6 +55,11 @@ none
 1. screenshot-1.jpg
 
 == Changelog ==
+
+= 1.0.22 =
+Removed the unnecessary files.
+Removed the unnecessary scripts.
+In IE9, changed to the FLASH video output.
 
 = 1.0.21 =
 Fixed problem of Mobile and Tablet Detect.
@@ -135,6 +140,7 @@ Delete screenshot
 
 == Upgrade Notice ==
 
+= 1.0.22 =
 = 1.0.21 =
 = 1.0.20 =
 = 1.0.19 =
