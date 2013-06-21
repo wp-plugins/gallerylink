@@ -4,15 +4,13 @@ Donate link: http://gallerylink.nyanko.org/
 Tags: audio,feed,feeds,flash,gallery,html5,image,images,list,music,photo,photos,picture,pictures,rss,shortcode,video,xml
 Requires at least: 3.0.1
 Tested up to: 3.4
-Stable tag: 1.0.22
+Stable tag: 1.0.23
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Output as a gallery by find the file extension and directory specified.
 
 == Description ==
-
-[日本語の説明を読む](http://gallerylink.nyanko.org/gallerylink-for-wordpress/)
 
 Create a playlist (music, pictures, videos) of data in the directory below the specified, GalleryLink displays Pages by passing the data to various software.
 
@@ -55,6 +53,9 @@ none
 1. screenshot-1.jpg
 
 == Changelog ==
+
+= 1.0.23 =
+Change readme.txt
 
 = 1.0.22 =
 Removed the unnecessary files.
@@ -140,6 +141,7 @@ Delete screenshot
 
 == Upgrade Notice ==
 
+= 1.0.23 =
 = 1.0.22 =
 = 1.0.21 =
 = 1.0.20 =
