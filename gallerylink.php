@@ -2,7 +2,7 @@
 /*
 Plugin Name: GalleryLink
 Plugin URI: http://wordpress.org/plugins/gallerylink/
-Version: 1.0.23
+Version: 1.0.24
 Description: Output as a gallery by find the file extension and directory specified.
 Author: Katsushi Kawamori
 Author URI: http://gallerylink.nyanko.org/
@@ -41,6 +41,7 @@ Domain Path: /languages
  * @since	1.0.0
  */
 function scan_file($dir,$thumbnail,$suffix,$noneedfile,$noneeddir,$search) {
+
    	$list = $tmp = array();
    	foreach(glob($dir . '/*', GLOB_ONLYDIR) as $child_dir) {
        	if ($tmp = scan_file($child_dir,$thumbnail,$suffix,$noneedfile,$noneeddir,$search)) {
@@ -359,7 +360,7 @@ function gallerylink_func( $atts ) {
 	mb_language("Japanese");	// for Ktai Style
 
 	$wp_uploads = wp_upload_dir();
-	$wp_uploads_path = str_replace(get_home_url(), '', $wp_uploads['baseurl']);
+	$wp_uploads_path = str_replace('http://'.$_SERVER["SERVER_NAME"], '', $wp_uploads['baseurl']);
 	extract(shortcode_atts(array(
         'set' => 'album',
         'topurl' => $wp_uploads_path,
@@ -376,7 +377,7 @@ function gallerylink_func( $atts ) {
         'rssname' => 'feed',
         'rssmax'  => 10
 	), $atts));
-	$wp_path = str_replace(get_bloginfo('url'), '', get_bloginfo('wpurl')).'/';
+	$wp_path = str_replace('http://'.$_SERVER["SERVER_NAME"], '', get_bloginfo('wpurl')).'/';
 	$document_root = str_replace($wp_path, '', ABSPATH).$topurl;
 
 	$mode = NULL;
@@ -1062,7 +1063,7 @@ function my_plugin_options() {
 	echo '</tr>';
 
 	$wp_uploads = wp_upload_dir();
-	$wp_uploads_path = str_replace(get_home_url(), '', $wp_uploads['baseurl']);
+	$wp_uploads_path = str_replace('http://'.$_SERVER["SERVER_NAME"], '', $wp_uploads['baseurl']);
 
 	echo '<tr>';
 	echo '<td align="center" valign="middle"><b>topurl</b></td>';
