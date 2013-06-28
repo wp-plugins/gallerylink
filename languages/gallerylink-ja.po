@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Gallerylink\n"
 "POT-Creation-Date: 2013-05-27 21:10+0900\n"
-"PO-Revision-Date: 2013-06-17 09:16+0900\n"
+"PO-Revision-Date: 2013-06-28 23:37+0900\n"
 "Last-Translator: dodesyo312 <dodesyoswift312@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -63,6 +63,13 @@ msgstr ""
 "なので、その値に設定してください。メディア＞新規追加で、画像をドラッグドロッ"
 "プしてください。もう一度この固定ページを表示すると、今ドラッグドロップした画"
 "像が表示されているはずです。"
+
+msgid ""
+"In addition, you want to place add an attribute like this in the short code."
+msgstr "また、以下の様にショートコードに属性値を追加してみます。"
+
+msgid "When you view this Page, it is displayed in slideshow mode."
+msgstr "この固定ページを更新し表示すると、スライドショーモードで表示されます。"
 
 msgid "Customization 1"
 msgstr "カスタマイズ１"
@@ -137,6 +144,9 @@ msgstr "属性"
 
 msgid "Next only three. album(image), movie(video), music(music)"
 msgstr "album（画像）,movie（動画）,music（音楽）の３つのみ"
+
+msgid "Special effects nivoslider(slideshow)"
+msgstr "特殊効果 nivoslider(スライドショー)"
 
 msgid "Full path to the top directory containing the data"
 msgstr "データのあるトップディレクトリのフルパス"

@@ -2,7 +2,7 @@
 /*
 Plugin Name: GalleryLink
 Plugin URI: http://wordpress.org/plugins/gallerylink/
-Version: 1.0.24
+Version: 1.0.25
 Description: Output as a gallery by find the file extension and directory specified.
 Author: Katsushi Kawamori
 Author URI: http://gallerylink.nyanko.org/
@@ -94,10 +94,10 @@ function scan_dir($dir,$noneeddir) {
  * @param	string	$thumbnail
  * @param	string	$document_root
  * @param	string	$mode
- * @return	string	$linkfile
+ * @return	string	$effect
  * @since	1.0.0
  */
-function print_file($dparam,$file,$topurl,$suffix,$thumbnail,$document_root,$mode) {
+function print_file($dparam,$file,$topurl,$suffix,$thumbnail,$document_root,$mode,$effect) {
 
 	$dparam = mb_convert_encoding($dparam, "UTF-8", "auto");
 	$searchfilename = str_replace($suffix, "", $file);
@@ -130,6 +130,7 @@ function print_file($dparam,$file,$topurl,$suffix,$thumbnail,$document_root,$mod
 
 	$mimetype = 'type="'.mime_type($suffix).'"'; // MimeType
 
+	$linkfile = NULL;
 	if ( $mode === 'mb' ){	//keitai
 		if ( preg_match( "/jpg|png|gif|bmp/i", $suffix) ){
 			$linkfile = '<div><a href="'.$topurl.$file.'"><img src="'.$topurl.$thumbfile.'" align="middle" vspace="5">'.$titlename.'</a></div>';
@@ -138,10 +139,18 @@ function print_file($dparam,$file,$topurl,$suffix,$thumbnail,$document_root,$mod
 		}
 	}else{	//PC or SmartPhone
 		if ( preg_match( "/jpg|png|gif|bmp/i", $suffix) ) {
-			if ( $mode === 'sp' ) { //for Photoswipe
-				$linkfile = '<li><a rel="external" href="'.$topurl.$file.'" title="'.$titlename.'"><img src="'.$topurl.$thumbfile.'" alt="'.$titlename.'" title="'.$titlename.'"></a></li>';
+			if ( $mode === 'sp' ) {
+				if ($effect === 'nivoslider'){ // for nivoslider
+					$linkfile = '<img src="'.$topurl.$file.'" alt="'.$titlename.'" title="'.$titlename.'">';
+				} else { // for for Photoswipe
+					$linkfile = '<li><a rel="external" href="'.$topurl.$file.'" title="'.$titlename.'"><img src="'.$topurl.$thumbfile.'" alt="'.$titlename.'" title="'.$titlename.'"></a></li>';
+				}
 			}else{ //PC
-				$linkfile = '<a class=gallerylink href="'.$topurl.$file.'" title="'.$titlename.'"><img src="'.$topurl.$thumbfile.'" alt="'.$titlename.'" title="'.$titlename.'"></a>';
+				if ($effect === 'nivoslider'){ // for nivoslider
+					$linkfile = '<img src="'.$topurl.$file.'" alt="'.$titlename.'" title="'.$titlename.'">';
+				} else { // for colorbox
+					$linkfile = '<a class=gallerylink href="'.$topurl.$file.'" title="'.$titlename.'"><img src="'.$topurl.$thumbfile.'" alt="'.$titlename.'" title="'.$titlename.'"></a>';
+				}
 			}
 		}else{
 			if ( $mode === 'sp' ) {
@@ -363,13 +372,14 @@ function gallerylink_func( $atts ) {
 	$wp_uploads_path = str_replace('http://'.$_SERVER["SERVER_NAME"], '', $wp_uploads['baseurl']);
 	extract(shortcode_atts(array(
         'set' => 'album',
+        'effect' => '',
         'topurl' => $wp_uploads_path,
         'suffix_pc' => '.jpg',
         'suffix_pc2' => '.webm',
         'suffix_sp' => '.jpg',
         'suffix_keitai' => '.jpg',
-        'display_pc' => 30,
-        'display_sp' => 12,
+        'display_pc' => 20,
+        'display_sp' => 9,
         'display_keitai' => 6,
         'thumbnail'  => '-80x80',
         'noneedfile' => '(.ktai.)|(-[0-9]*x[0-9]*.)',
@@ -500,7 +510,7 @@ function gallerylink_func( $atts ) {
 	for ( $i = $beginfiles; $i <= $endfiles; $i++ ) {
 		$file = str_replace($document_root, "", $files[$i]);
 		if (!empty($file)){
-			$linkfile = print_file($dparam,$file,$topurl,$suffix,$thumbnail,$document_root,$mode);
+			$linkfile = print_file($dparam,$file,$topurl,$suffix,$thumbnail,$document_root,$mode,$effect);
 			$linkfiles = $linkfiles.$linkfile;
 		}
 	}
@@ -736,10 +746,21 @@ FLASHMUSICPLAYER;
 	if ( $mode === 'pc' ) {
 		wp_enqueue_style( 'pc for gallerylink',  $pluginurl.'/gallerylink/css/gallerylink.css' );
 		if ( $set === 'album' ){
-			// for COLORBOX
-			wp_enqueue_style( 'colorbox',  $pluginurl.'/gallerylink/colorbox/colorbox.css' );
-			wp_enqueue_script( 'colorbox', $pluginurl.'/gallerylink/colorbox/jquery.colorbox-min.js', null, '1.3.20.1');
-			wp_enqueue_script( 'colorbox-in', $pluginurl.'/gallerylink/js/colorbox-in.js' );
+			if ($effect === 'nivoslider'){
+				// for Nivo Slider
+				wp_enqueue_style( 'nivoslider-theme-def',  $pluginurl.'/gallerylink/nivo-slider/themes/default/default.css' );
+				wp_enqueue_style( 'nivoslider-theme-light',  $pluginurl.'/gallerylink/nivo-slider/themes/light/light.css' );
+				wp_enqueue_style( 'nivoslider-theme-dark',  $pluginurl.'/gallerylink/nivo-slider/themes/dark/dark.css' );
+				wp_enqueue_style( 'nivoslider-theme-bar',  $pluginurl.'/gallerylink/nivo-slider/themes/bar/bar.css' );
+				wp_enqueue_style( 'nivoslider',  $pluginurl.'/gallerylink/nivo-slider/nivo-slider.css' );
+				wp_enqueue_script( 'nivoslider', $pluginurl.'/gallerylink/nivo-slider/jquery.nivo.slider.pack.js', null, '3.2');
+				wp_enqueue_script( 'nivoslider-in', $pluginurl.'/gallerylink/js/nivoslider-in.js' );
+			} else {
+				// for COLORBOX
+				wp_enqueue_style( 'colorbox',  $pluginurl.'/gallerylink/colorbox/colorbox.css' );
+				wp_enqueue_script( 'colorbox', $pluginurl.'/gallerylink/colorbox/jquery.colorbox-min.js', null, '1.3.20.1');
+				wp_enqueue_script( 'colorbox-in', $pluginurl.'/gallerylink/js/colorbox-in.js' );
+			}
 		} else {
 			if ( $set === 'music' ){
 				wp_enqueue_script( 'jQuery SWFObject', $pluginurl.'/gallerylink/jqueryswf/jquery.swfobject.1-1-1.min.js', null, '1.1.1' );
@@ -748,12 +769,23 @@ FLASHMUSICPLAYER;
 		}
 	} else if ( $mode === 'sp') {
 		if ( $set === 'album' ){
-			// for PhotoSwipe
-			wp_enqueue_style( 'photoswipe-style',  $pluginurl.'/gallerylink/photoswipe/examples/styles.css' );
-			wp_enqueue_style( 'photoswipe',  $pluginurl.'/gallerylink/photoswipe/photoswipe.css' );
-			wp_enqueue_script( 'klass' , $pluginurl.'/gallerylink/photoswipe/lib/klass.min.js', null, '1.0' );
-			wp_enqueue_script( 'photoswipe' , $pluginurl.'/gallerylink/photoswipe/code.photoswipe.jquery-3.0.4.min.js', null, '3.0.4' );
-			wp_enqueue_script( 'photoswipe-in', $pluginurl.'/gallerylink/js/photoswipe-in.js' );
+			if ($effect === 'nivoslider'){
+				// for Nivo Slider
+				wp_enqueue_style( 'nivoslider-theme-def',  $pluginurl.'/gallerylink/nivo-slider/themes/default/default.css' );
+				wp_enqueue_style( 'nivoslider-theme-light',  $pluginurl.'/gallerylink/nivo-slider/themes/light/light.css' );
+				wp_enqueue_style( 'nivoslider-theme-dark',  $pluginurl.'/gallerylink/nivo-slider/themes/dark/dark.css' );
+				wp_enqueue_style( 'nivoslider-theme-bar',  $pluginurl.'/gallerylink/nivo-slider/themes/bar/bar.css' );
+				wp_enqueue_style( 'nivoslider',  $pluginurl.'/gallerylink/nivo-slider/nivo-slider.css' );
+				wp_enqueue_script( 'nivoslider', $pluginurl.'/gallerylink/nivo-slider/jquery.nivo.slider.pack.js', null, '3.2');
+				wp_enqueue_script( 'nivoslider-in', $pluginurl.'/gallerylink/js/nivoslider-in.js' );
+			} else {
+				// for PhotoSwipe
+				wp_enqueue_style( 'photoswipe-style',  $pluginurl.'/gallerylink/photoswipe/examples/styles.css' );
+				wp_enqueue_style( 'photoswipe',  $pluginurl.'/gallerylink/photoswipe/photoswipe.css' );
+				wp_enqueue_script( 'klass' , $pluginurl.'/gallerylink/photoswipe/lib/klass.min.js', null, '1.0' );
+				wp_enqueue_script( 'photoswipe' , $pluginurl.'/gallerylink/photoswipe/code.photoswipe.jquery-3.0.4.min.js', null, '3.0.4' );
+				wp_enqueue_script( 'photoswipe-in', $pluginurl.'/gallerylink/js/photoswipe-in.js' );
+			}
 		}
 		// for smartphone
 		wp_enqueue_style( 'smartphone for gallerylink',  $pluginurl.'/gallerylink/css/gallerylink_sp.css' );
@@ -783,8 +815,15 @@ FLASHMUSICPLAYER;
 	$rssfeeds_icon = NULL;
 	if ( preg_match( "/jpg|png|gif|bmp/i", $suffix) ){
 		if ( $mode === 'pc' ) {
-			$linkfiles_begin = '<ul class = "gallerylink">';
-			$linkfiles_end = '</ul><br clear=all>';
+			if ($effect === 'nivoslider'){
+				// for Nivo Slider
+				$linkfiles_begin = '<div class="slider-wrapper theme-default"><div class="slider-wrapper"><div id="slidernivo" class="nivoSlider">';
+				$linkfiles_end = '</div></div></div><br clear=all>';
+			} else {
+				// for COLORBOX
+				$linkfiles_begin = '<ul class = "gallerylink">';
+				$linkfiles_end = '</ul><br clear=all>';
+			}
 			$dirselectbox_begin = '<div align="right">';
 			$dirselectbox_end = '</div>';
 			$linkpages_begin = '<div align="center">';
@@ -794,8 +833,15 @@ FLASHMUSICPLAYER;
 			$searchform_begin = '<div align="center">';
 			$searchform_end = '</div>';
 		} else if ( $mode === 'sp' ) {
-			$linkfiles_begin = '<div id="Gallery" class="gallery">';
-			$linkfiles_end = '</div>';
+			if ($effect === 'nivoslider'){
+				// for Nivo Slider
+				$linkfiles_begin = '<div class="slider-wrapper theme-default"><div class="slider-wrapper"><div id="slidernivo" class="nivoSlider">';
+				$linkfiles_end = '</div></div></div><br clear=all>';
+			} else {
+				// for PhotoSwipe
+				$linkfiles_begin = '<div id="Gallery" class="gallery">';
+				$linkfiles_end = '</div>';
+			}
 			$dirselectbox_begin = '<div>';
 			$dirselectbox_end = '</div>';
 			$linkpages_begin = '<nav class="g_nav"><ul>';
@@ -989,6 +1035,14 @@ function my_plugin_options() {
 	echo '<p>';
 	_e('When you view this Page, it is displayed in album mode.  It is the result of a search for wp-content/uproads following directory of WordPress default. The Settings> Media,  determine the size of the thumbnail. The default value of GalleryLink, width 80, height 80. Please set its value. In the Media> Add New, please drag and drop the image. You view the Page again. Should see the image to the Page.', 'gallerylink');
 	echo '</p>';
+	echo '<p>';
+	_e('In addition, you want to place add an attribute like this in the short code.', 'gallerylink');
+	echo '</p>';
+	echo '<p>';
+	echo "&#91;gallerylink effect='nivoslider'&#93;";
+	echo '</p>';
+	_e('When you view this Page, it is displayed in slideshow mode.', 'gallerylink');
+	echo '</p>';
 
 	echo '<p>';
 	echo '<div><strong>';
@@ -1062,6 +1116,14 @@ function my_plugin_options() {
 	echo '</td>';
 	echo '</tr>';
 
+	echo '<tr>';
+	echo '<td align="center" valign="middle"><b>effect</b></td>';
+	echo '<td align="center" valign="middle"></td>';
+	echo '<td align="left" valign="middle">';
+	_e('Special effects nivoslider(slideshow)', 'gallerylink');
+	echo '</td>';
+	echo '</tr>';
+
 	$wp_uploads = wp_upload_dir();
 	$wp_uploads_path = str_replace('http://'.$_SERVER["SERVER_NAME"], '', $wp_uploads['baseurl']);
 
@@ -1107,7 +1169,7 @@ function my_plugin_options() {
 
 	echo '<tr>';
 	echo '<td align="center" valign="middle"><b>display_pc</b></td>';
-	echo '<td align="center" valign="middle">30</td>';
+	echo '<td align="center" valign="middle">20</td>';
 	echo '<td align="left" valign="middle">';
 	_e('File Display per page(PC)', 'gallerylink');
 	echo '</td>';
@@ -1115,7 +1177,7 @@ function my_plugin_options() {
 
 	echo '<tr>';
 	echo '<td align="center" valign="middle"><b>display_sp</b></td>';
-	echo '<td align="center" valign="middle">12</td>';
+	echo '<td align="center" valign="middle">9</td>';
 	echo '<td align="left" valign="middle">';
 	_e('File Display per page(Smartphone)', 'gallerylink');
 	echo '</td>';
