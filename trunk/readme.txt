@@ -4,7 +4,7 @@ Donate link: http://gallerylink.nyanko.org/
 Tags: audio,feed,feeds,flash,gallery,html5,image,images,list,music,photo,photos,picture,pictures,rss,shortcode,video,xml
 Requires at least: 3.0.1
 Tested up to: 3.4
-Stable tag: 1.0.24
+Stable tag: 1.0.25
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -23,7 +23,7 @@ Bundled software and function
 *   HTML5 player (video, music)
 *   FlashPlugin: jQuery SWFObject
 *   Flash player (video, music): Flowplayer Flash, MP3Player (for previous versions of IE8)
-*   Image: ColorBox, PhotoSwipe
+*   Image: Nivo Slider, ColorBox, PhotoSwipe
 *   Create RSS feeds of data (XML). It support to the podcast.
 *   Switching of smartphones or tablets: PHP Mobile Detect
 
@@ -31,7 +31,7 @@ Bundled software and function
 
     It support to the japanese mobile phone. Plug-in Ktai Style is required.
 
-    [Demo1(Music)](http://gallerylink.nyanko.org/music/):::[Demo2(Album)](http://gallerylink.nyanko.org/album/):::[Demo3(Movie)](http://gallerylink.nyanko.org/movie/)
+    [Demo1(Music)](http://gallerylink.nyanko.org/music/):::[Demo2(Album)](http://gallerylink.nyanko.org/album/):::[Demo3(Movie)](http://gallerylink.nyanko.org/movie/):::[Demo4(Slideshow)](http://gallerylink.nyanko.org/slideshow/)
 
 == Installation ==
 
@@ -39,7 +39,7 @@ Bundled software and function
 2. Activate the plugin through the 'Plugins' menu in WordPress
 3. Add a new Page
 4. Write a short code. The following text field. `[gallerylink]`
-5. For video `[gallerylink set=movie]`. For music `[gallerylink set=music]`.
+5. For pictures `[gallerylink]`. For video `[gallerylink set='movie']`. For music `[gallerylink set='music']`.
 6. Please read. (Settings > Gallerylink)
 
     [Settings](http://wordpress.org/plugins/gallerylink/other_notes/)
@@ -53,6 +53,9 @@ none
 1. screenshot-1.jpg
 
 == Changelog ==
+
+= 1.0.25 =
+Supports Nivo Slider slideshow to display image.
 
 = 1.0.24 =
 Fixed a problem that does not read the file and directory.
@@ -144,6 +147,7 @@ Delete screenshot
 
 == Upgrade Notice ==
 
+= 1.0.25 =
 = 1.0.24 =
 = 1.0.23 =
 = 1.0.22 =
@@ -180,6 +184,12 @@ Please add new Page. Please write a short code in the text field of the Page. Pl
 
 When you view this Page, it is displayed in album mode. It is the result of a search for wp-content/uproads following directory of WordPress default. The Settings> Media, determine the size of the thumbnail. The default value of GalleryLink, width 80, height 80. Please set its value. In the Media> Add New, please drag and drop the image. You view the Page again. Should see the image to the Page.
 
+In addition, you want to place add an attribute like this in the short code.
+
+[gallerylink effect='nivoslider']
+
+When you view this Page, it is displayed in slideshow mode.
+
 Customization 1
 
 If you want to use MULTI-BYTE CHARACTER SETS to the display of the directory name and the file name, Please upload to wp-content/uproads of directory of WordPress default by the FTP software. In this case, please upload the file after UTF-8 character code setting of the FTP software. Please upload a thumbnail at the same time. It must be created by you. Please add the suffix name of -80x80 in the file name, it is the height 80 width 80.
@@ -188,9 +198,9 @@ Customization 2
 
 GalleryLink is also handles video and music. If you are dealing with music and video, please add the following attributes to the short code.
 
-Video set = 'movie'
+Video set='movie'
 
-Music set = 'music'
+Music set='music'
 
 Video Example
 
