@@ -2,7 +2,7 @@
 /*
 Plugin Name: GalleryLink
 Plugin URI: http://wordpress.org/plugins/gallerylink/
-Version: 1.0.27
+Version: 1.0.28
 Description: Output as a gallery by find the file extension and directory specified.
 Author: Katsushi Kawamori
 Author URI: http://gallerylink.nyanko.org/
@@ -204,7 +204,7 @@ function print_pages($page,$maxpage,$mode) {
 	$scriptname = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
 
 	$query = $_SERVER['QUERY_STRING'];
-	$query = preg_replace('/&glp=.*/', '', $query);
+	$query = str_replace('&glp='.$page, '', $query);
 	$query = str_replace('glp='.$page, '', $query);
 	$query = preg_replace('/&f=.*/', '', $query);
 
@@ -514,11 +514,11 @@ function gallerylink_func( $atts ) {
 	}
 
 	foreach ($dirs as $linkdir) {
-		$linkdir = str_replace($document_root."/", "", $linkdir);
+		$linkdir = mb_convert_encoding(str_replace($document_root."/", "", $linkdir), "UTF-8", "auto");
 		if($dparam === $linkdir){
-			$linkdir = '<option value="'.urlencode($linkdir).'" selected>'.mb_convert_encoding($linkdir, "UTF-8", "auto").'</option>';
+			$linkdir = '<option value="'.$linkdir.'" selected>'.$linkdir.'</option>';
 		}else{
-			$linkdir = '<option value="'.urlencode($linkdir).'">'.mb_convert_encoding($linkdir, "UTF-8", "auto").'</option>';
+			$linkdir = '<option value="'.$linkdir.'">'.$linkdir.'</option>';
 		}
 		$linkdirs = $linkdirs.$linkdir;
 	}
@@ -543,14 +543,12 @@ function gallerylink_func( $atts ) {
 	$pagestr = '&glp='.$page;
 
 	$scripturl = $scriptname."?";
-	$sharelink = "http://".$servername.$scriptname."?";
 	$dparam = mb_convert_encoding($dparam, "UTF-8", "auto");
 	$currentfolder_encode = urlencode($dparam);
 	if ( empty($currentfolder) ){
 		$scripturl .= $pagestr;
 	}else{
 		$scripturl .= "&d=".$currentfolder_encode.$pagestr;
-		$sharelink .= "&d=".$currentfolder_encode;
 	}
 
 	// MimeType
@@ -558,37 +556,15 @@ function gallerylink_func( $atts ) {
 
 	$fparam = mb_convert_encoding($fparam, "UTF-8", "auto");
 
-	$previmg = "";
 	$prevfile = "";
-	$prevthumbimg = "";
-	if (empty($fparam)) {
-		$previmg = "";
-		$prevthumbimg = "";
-	}else{
+	if (!empty($fparam)) {
 		if (empty($dparam)) {
 			$prevfile = $topurl.'/'.str_replace("%2F","/",urlencode($fparam));
-			$prevthumbimg = $topurl.'/'.urlencode(str_replace($suffix, $thumbnail.$suffix, $fparam));
 		}else{
 			$prevfile = $topurl.'/'.str_replace("%2F","/",$currentfolder_encode).'/'.str_replace("%2F","/",urlencode($fparam));
-			$prevthumbimg = $topurl.'/'.str_replace("%2F","/",$currentfolder_encode).'/'.urlencode(str_replace($suffix, $thumbnail.$suffix, $fparam));
-		}
-
-		$sharelink .= '&f='.urlencode($fparam);
-		if($mode === "mb"){
-			$previmg = '<a href="'.$prevfile.'"><img src="'.$prevthumbimg.'"></a>';
-		}else{
-			$previmg = '<a href="'.$prevfile.'" target="_blank"><img src="'.$prevfile.'"></a>';
 		}
 	}
 	$prevfile_nosuffix = str_replace($suffix, "", $prevfile);
-
-	$topthumbnail = NULL;
-	if (!empty($topthumbnail)){
-		// for SHARE CODE thumbnail
-		$topthumbnail = mb_convert_encoding($topthumbnail, "UTF-8", "auto");
-		$topthumbnail = str_replace("%2F","/",urlencode($topthumbnail));
-		$topthumbnail = $topurl.$topthumbnail;
-	}
 
 	$sortnamenew = mb_convert_encoding($sortnamenew, "UTF-8", "auto");
 	$sortnameold = mb_convert_encoding($sortnameold, "UTF-8", "auto");
@@ -653,7 +629,7 @@ DIRSELECTBOX;
 	$search = mb_convert_encoding($search, "UTF-8", "auto");
 $searchform = <<<SEARCHFORM
 <form method="get" action="{$scriptname}">
-<input type="hidden" name="d" value="{$currentfolder_encode}">
+<input type="hidden" name="d" value="{$dparam}">
 <input type="text" name="gls" value="{$search}">
 <input type="submit" value="{$searchbutton}">
 </form>
