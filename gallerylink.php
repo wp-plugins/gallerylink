@@ -2,7 +2,7 @@
 /*
 Plugin Name: GalleryLink
 Plugin URI: http://wordpress.org/plugins/gallerylink/
-Version: 1.0.28
+Version: 1.0.29
 Description: Output as a gallery by find the file extension and directory specified.
 Author: Katsushi Kawamori
 Author URI: http://gallerylink.nyanko.org/
@@ -28,6 +28,7 @@ Domain Path: /languages
 	// Add action hooks
 	add_filter( 'plugin_action_links', 'settings_link', 10, 2 );
 	add_action( 'admin_menu', 'my_plugin_menu' );
+	add_action( 'wp_head', wp_enqueue_script('jquery') );
 	add_shortcode( 'gallerylink', 'gallerylink_func' );
 
 /* ==================================================
@@ -661,7 +662,6 @@ $movieplayercontainer = <<<MOVIEPLAYERCONTAINER
     }
   }'
 >
-</embed>
 </object>
 </video>
 </div>
@@ -688,7 +688,6 @@ $movieplayercontainerIE9 = <<<MOVIEPLAYERCONTAINERIE9
     }
   }'
 >
-</embed>
 </object>
 </div>
 MOVIEPLAYERCONTAINERIE9;
