@@ -2,7 +2,7 @@
 /*
 Plugin Name: GalleryLink
 Plugin URI: http://wordpress.org/plugins/gallerylink/
-Version: 1.0.29
+Version: 2.0
 Description: Output as a gallery by find the file extension and directory specified.
 Author: Katsushi Kawamori
 Author URI: http://gallerylink.nyanko.org/
@@ -26,37 +26,686 @@ Domain Path: /languages
 
 	load_plugin_textdomain('gallerylink', false, basename( dirname( __FILE__ ) ) . '/languages' );
 	// Add action hooks
-	add_filter( 'plugin_action_links', 'settings_link', 10, 2 );
-	add_action( 'admin_menu', 'my_plugin_menu' );
+	add_action('admin_init', 'gallerylink_register_settings');
+	add_filter( 'plugin_action_links', 'gallerylink_settings_link', 10, 2 );
 	add_action( 'wp_head', wp_enqueue_script('jquery') );
+	add_action( 'admin_menu', 'gallerylink_plugin_menu' );
 	add_shortcode( 'gallerylink', 'gallerylink_func' );
+
+/* ==================================================
+ * Settings register
+ * @since	1.1
+ */
+function gallerylink_register_settings(){
+	register_setting( 'gallerylink-settings-group', 'gallerylink_album_topurl');
+	register_setting( 'gallerylink-settings-group', 'gallerylink_movie_topurl');
+	register_setting( 'gallerylink-settings-group', 'gallerylink_music_topurl');
+	register_setting( 'gallerylink-settings-group', 'gallerylink_album_suffix_pc');
+	register_setting( 'gallerylink-settings-group', 'gallerylink_album_suffix_sp');
+	register_setting( 'gallerylink-settings-group', 'gallerylink_album_suffix_keitai');
+	register_setting( 'gallerylink-settings-group', 'gallerylink_movie_suffix_pc');
+	register_setting( 'gallerylink-settings-group', 'gallerylink_movie_suffix_pc2');
+	register_setting( 'gallerylink-settings-group', 'gallerylink_movie_suffix_sp');
+	register_setting( 'gallerylink-settings-group', 'gallerylink_movie_suffix_keitai');
+	register_setting( 'gallerylink-settings-group', 'gallerylink_music_suffix_pc');
+	register_setting( 'gallerylink-settings-group', 'gallerylink_music_suffix_pc2');
+	register_setting( 'gallerylink-settings-group', 'gallerylink_music_suffix_sp');
+	register_setting( 'gallerylink-settings-group', 'gallerylink_music_suffix_keitai');
+	register_setting( 'gallerylink-settings-group', 'gallerylink_album_display_pc', 'gallerylink_pos_intval');
+	register_setting( 'gallerylink-settings-group', 'gallerylink_album_display_sp', 'gallerylink_pos_intval');
+	register_setting( 'gallerylink-settings-group', 'gallerylink_album_display_keitai', 'gallerylink_pos_intval');
+	register_setting( 'gallerylink-settings-group', 'gallerylink_movie_display_pc', 'gallerylink_pos_intval');
+	register_setting( 'gallerylink-settings-group', 'gallerylink_movie_display_sp', 'gallerylink_pos_intval');
+	register_setting( 'gallerylink-settings-group', 'gallerylink_movie_display_keitai', 'gallerylink_pos_intval');
+	register_setting( 'gallerylink-settings-group', 'gallerylink_music_display_pc', 'gallerylink_pos_intval');
+	register_setting( 'gallerylink-settings-group', 'gallerylink_music_display_sp', 'gallerylink_pos_intval');
+	register_setting( 'gallerylink-settings-group', 'gallerylink_music_display_keitai', 'gallerylink_pos_intval');
+	register_setting( 'gallerylink-settings-group', 'gallerylink_album_suffix_thumbnail');
+	register_setting( 'gallerylink-settings-group', 'gallerylink_movie_suffix_thumbnail');
+	register_setting( 'gallerylink-settings-group', 'gallerylink_music_suffix_thumbnail');
+	register_setting( 'gallerylink-settings-group', 'gallerylink_exclude_file');
+	register_setting( 'gallerylink-settings-group', 'gallerylink_exclude_dir');
+	register_setting( 'gallerylink-settings-group', 'gallerylink_rssmax', 'gallerylink_pos_intval');
+	register_setting( 'gallerylink-settings-group', 'gallerylink_movie_container');
+	add_option('gallerylink_album_topurl', '');
+	add_option('gallerylink_movie_topurl', '');
+	add_option('gallerylink_music_topurl', '');
+	add_option('gallerylink_album_suffix_pc', '.jpg');
+	add_option('gallerylink_album_suffix_sp', '.jpg');
+	add_option('gallerylink_album_suffix_keitai', '.jpg');
+	add_option('gallerylink_movie_suffix_pc', '.mp4');
+	add_option('gallerylink_movie_suffix_pc2', '.ogv');
+	add_option('gallerylink_movie_suffix_sp', '.mp4');
+	add_option('gallerylink_movie_suffix_keitai', '.3gp');
+	add_option('gallerylink_music_suffix_pc', '.mp3');
+	add_option('gallerylink_music_suffix_pc2', '.ogg');
+	add_option('gallerylink_music_suffix_sp', '.mp3');
+	add_option('gallerylink_music_suffix_keitai', '.3gp');
+	add_option('gallerylink_album_display_pc', 20); 	
+	add_option('gallerylink_album_display_sp', 9); 	
+	add_option('gallerylink_album_display_keitai', 6); 	
+	add_option('gallerylink_movie_display_pc', 8); 	
+	add_option('gallerylink_movie_display_sp', 6); 	
+	add_option('gallerylink_movie_display_keitai', 6); 	
+	add_option('gallerylink_music_display_pc', 8); 	
+	add_option('gallerylink_music_display_sp', 6); 	
+	add_option('gallerylink_music_display_keitai', 6); 	
+	add_option('gallerylink_album_suffix_thumbnail', '-'.get_option('thumbnail_size_w').'x'.get_option('thumbnail_size_h'));
+	add_option('gallerylink_movie_suffix_thumbnail', '');
+	add_option('gallerylink_music_suffix_thumbnail', '');
+	add_option('gallerylink_exclude_file', '');
+	add_option('gallerylink_exclude_dir', '');
+	add_option('gallerylink_rssmax', 10); 
+	add_option('gallerylink_movie_container', '512x384');
+
+}
+
+/* ==================================================
+ * @param	bool	$v
+ * @return	bool	$v
+ * @since	1.1
+ */
+function gallerylink_bool_intval($v){
+	return $v == 1 ? '1' : '0';
+}
+
+/* ==================================================
+ * @param	int		$v
+ * @return	int		$v
+ * @since	1.1
+ */
+function gallerylink_pos_intval($v){
+	return abs(intval($v));
+}
+
+/* ==================================================
+ * Add a "Settings" link to the plugins page
+ * @since	1.0.18
+ */
+function gallerylink_settings_link( $links, $file ) {
+	static $this_plugin;
+	if ( empty($this_plugin) ) {
+		$this_plugin = plugin_basename(__FILE__);
+	}
+	if ( $file == $this_plugin ) {
+		$links[] = '<a href="'.admin_url('options-general.php?page=GalleryLink').'">'.__( 'Settings').'</a>';
+	}
+		return $links;
+}
+
+/* ==================================================
+ * Settings page
+ * @since	1.0.6
+ */
+function gallerylink_plugin_menu() {
+	add_options_page( 'GalleryLink Options', 'GalleryLink', 'manage_options', 'GalleryLink', 'gallerylink_plugin_options' );
+}
+
+/* ==================================================
+ * Settings page
+ * @since	1.0.6
+ */
+function gallerylink_plugin_options() {
+	if ( !current_user_can( 'manage_options' ) )  {
+		wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
+	}
+
+	$pluginurl = plugins_url($path='',$scheme=null);
+
+	wp_enqueue_style( 'jquery-ui-tabs', $pluginurl.'/gallerylink/css/jquery-ui.css' );
+	wp_enqueue_script( 'jquery-ui-tabs' );
+	wp_enqueue_script( 'jquery-ui-tabs-in', $pluginurl.'/gallerylink/js/jquery-ui-tabs-in.js' );
+
+	?>
+
+	<div class="wrap">
+	<div id="icon-options-general" class="icon32"><br /></div><h2>GalleryLink</h2>
+
+<div id="tabs">
+  <ul>
+    <li><a href="#tabs-1"><?php _e('How to use', 'gallerylink'); ?></a></li>
+    <li><a href="#tabs-2"><?php _e('Settings'); ?></a></li>
+<!--
+	<li><a href="#tabs-3">FAQ</a></li>
+ -->
+  </ul>
+  <div id="tabs-1">
+	<h2><?php _e('How to use', 'gallerylink'); ?></h2>
+	<h3><?php _e('Please set the default value in the setting page.', 'gallerylink'); ?></h3>
+	<?php _e('Please upload the data to the data directory (topurl) by the FTP software. At the same time upload thumbnail.', 'gallerylink'); ?></p>
+	<p><?php _e('Please add new Page. Please write a short code in the text field of the Page. Please go in Text mode this task.', 'gallerylink'); ?></p>
+	<b><?php _e('In the case of image', 'gallerylink'); ?></b>
+	<p>&#91;gallerylink set='album'&#93</p>
+	<p><?php _e('In addition, you want to place add an attribute like this in the short code.', 'gallerylink'); ?></p>
+	<p>&#91;gallerylink set='album' effect='nivoslider'&#93</p>
+	<p><?php _e('When you view this Page, it is displayed in slideshow mode.', 'gallerylink'); ?></p>
+
+	<b><?php _e('In the case of video', 'gallerylink'); ?></b>
+	<p>&#91;gallerylink set='movie'&#93</p>
+
+	<b><?php _e('In the case of music', 'gallerylink'); ?></b>
+	<p>&#91;gallerylink set='music'&#93</p>
+
+	<p><div><strong><?php _e('Customization 1', 'gallerylink'); ?></strong></div>
+	<?php _e('If you want to use MULTI-BYTE CHARACTER SETS to the display of the directory name and the file name. In this case, please upload the file after UTF-8 character code setting of the FTP software.', 'gallerylink'); ?></p>
+	<p><div><strong><?php _e('Customization 2', 'gallerylink'); ?></strong></div>
+	<div><?php _e('GalleryLink can be used to specify the attributes of the table below to short code. It will override the default settings.', 'gallerylink'); ?></div>
+	<p><div><?php _e('Image Example', 'gallerylink'); ?></div>
+	<div>&#91;gallerylink set='album' topurl='/wordpress/wp-content/uploads' thumbnail='-80x80' exclude_file='(.ktai.)|(-[0-9]*x[0-9]*.)' exclude_dir='ps_auto_sitemap|backwpup.*|wpcf7_captcha' rssname='album'&#93</div>
+	<div><?php _e('Video Example', 'gallerylink'); ?></div>
+	<div>&#91;gallerylink set='movie' topurl='/gallery/video' rssmax=5&#93</div>
+	<div><?php _e('Music Example', 'gallerylink'); ?></div>
+	<div>&#91;gallerylink set='music' topurl='/gallery/music' rssmax=20&#93</div>
+	<p><div><?php _e('* Please set to 777 or 757 the attributes of topurl directory. Because GalleryLink create an RSS feed in the directory.', 'gallerylink'); ?></div>
+	<div><?php _e('* (WordPress > Settings > General Timezone) Please specify your area other than UTC. For accurate time display of RSS feed.', 'gallerylink'); ?></div></p>
+
+	<table border="1"><strong>
+	<?php _e('The default value for the short code attribute', 'gallerylink'); ?>
+	</strong>
+	<tbody>
+
+	<tr>
+	<td align="center" valign="middle">
+	<?php _e('Attribute', 'gallerylink'); ?>
+	</td>
+	<td colspan="3" align="center" valign="middle">
+	<?php _e('Default'); ?>
+	</td>
+	<td align="center" valign="middle">
+	<?php _e('Description'); ?>
+	</td>
+	</tr>
+
+	<tr>
+	<td align="center" valign="middle"><b>set</b></td>
+	<td align="center" valign="middle">album</td>
+	<td align="center" valign="middle">movie</td>
+	<td align="center" valign="middle">music</td>
+	<td align="left" valign="middle">
+	<?php _e('Next only three. album(image), movie(video), music(music)', 'gallerylink'); ?>
+	</td>
+	</tr>
+
+	<tr>
+	<td align="center" valign="middle"><b>effect</b></td>
+	<td colspan="3" align="center" valign="middle"></td>
+	<td align="left" valign="middle">
+	<?php _e('Special effects nivoslider(slideshow)', 'gallerylink'); ?>
+	</td>
+	</tr>
+
+	<tr>
+	<td align="center" valign="middle"><b>topurl</b></td>
+	<td align="center" valign="middle"><?php echo get_option('gallerylink_album_topurl') ?></td>
+	<td align="center" valign="middle"><?php echo get_option('gallerylink_movie_topurl') ?></td>
+	<td align="center" valign="middle"><?php echo get_option('gallerylink_music_topurl') ?></td>
+	<td align="left" valign="middle">
+	<?php _e('Full path to the top directory containing the data', 'gallerylink'); ?>
+	</td>
+	</tr>
+
+	<tr>
+	<td align="center" valign="middle"><b>suffix_pc</b></td>
+	<td align="center" valign="middle"><?php echo get_option('gallerylink_album_suffix_pc') ?></td>
+	<td align="center" valign="middle"><?php echo get_option('gallerylink_movie_suffix_pc') ?></td>
+	<td align="center" valign="middle"><?php echo get_option('gallerylink_music_suffix_pc') ?></td>
+	<td align="left" valign="middle">
+	<?php _e('extension of PC', 'gallerylink'); ?>
+	</td>
+	</tr>
+
+	<tr>
+	<td align="center" valign="middle"><b>suffix_pc2</b></td>
+	<td align="center" valign="middle"></td>
+	<td align="center" valign="middle"><?php echo get_option('gallerylink_movie_suffix_pc2') ?></td>
+	<td align="center" valign="middle"><?php echo get_option('gallerylink_music_suffix_pc2') ?></td>
+	<td align="left" valign="middle">
+	<?php _e('second extension on the PC. Second candidate when working with html5', 'gallerylink'); ?>
+	</td>
+	</tr>
+
+	<tr>
+	<td align="center" valign="middle"><b>suffix_sp</b></td>
+	<td align="center" valign="middle"><?php echo get_option('gallerylink_album_suffix_sp') ?></td>
+	<td align="center" valign="middle"><?php echo get_option('gallerylink_movie_suffix_sp') ?></td>
+	<td align="center" valign="middle"><?php echo get_option('gallerylink_music_suffix_sp') ?></td>
+	<td align="left" valign="middle">
+	<?php _e('extension of Smartphone', 'gallerylink'); ?>
+	</td>
+	</tr>
+
+	<tr>
+	<td align="center" valign="middle"><b>suffix_keitai</b></td>
+	<td align="center" valign="middle"><?php echo get_option('gallerylink_album_suffix_keitai') ?></td>
+	<td align="center" valign="middle"><?php echo get_option('gallerylink_movie_suffix_keitai') ?></td>
+	<td align="center" valign="middle"><?php echo get_option('gallerylink_music_suffix_keitai') ?></td>
+	<td align="left" valign="middle">
+	<?php _e('extension of Japanese mobile phone', 'gallerylink'); ?>
+	</td>
+	</tr>
+
+	<tr>
+	<td align="center" valign="middle"><b>display_pc</b></td>
+	<td align="center" valign="middle"><?php echo intval(get_option('gallerylink_album_display_pc')) ?></td>
+	<td align="center" valign="middle"><?php echo intval(get_option('gallerylink_movie_display_pc')) ?></td>
+	<td align="center" valign="middle"><?php echo intval(get_option('gallerylink_music_display_pc')) ?></td>
+	<td align="left" valign="middle">
+	<?php _e('File Display per page(PC)', 'gallerylink'); ?>
+	</td>
+	</tr>
+
+	<tr>
+	<td align="center" valign="middle"><b>display_sp</b></td>
+	<td align="center" valign="middle"><?php echo intval(get_option('gallerylink_album_display_sp')) ?></td>
+	<td align="center" valign="middle"><?php echo intval(get_option('gallerylink_movie_display_sp')) ?></td>
+	<td align="center" valign="middle"><?php echo intval(get_option('gallerylink_music_display_sp')) ?></td>
+	<td align="left" valign="middle">
+	<?php _e('File Display per page(Smartphone)', 'gallerylink'); ?>
+	</td>
+	</tr>
+
+	<tr>
+	<td align="center" valign="middle"><b>display_keitai</b></td>
+	<td align="center" valign="middle"><?php echo intval(get_option('gallerylink_album_display_keitai')) ?></td>
+	<td align="center" valign="middle"><?php echo intval(get_option('gallerylink_movie_display_keitai')) ?></td>
+	<td align="center" valign="middle"><?php echo intval(get_option('gallerylink_music_display_keitai')) ?></td>
+	<td align="left" valign="middle">
+	<?php _e('File Display per page(Japanese mobile phone)', 'gallerylink'); ?>
+	</td>
+	</tr>
+
+	<tr>
+	<td align="center" valign="middle"><b>thumbnail</b></td>
+	<td align="center" valign="middle"><?php echo get_option('gallerylink_album_suffix_thumbnail') ?></td>
+	<td align="center" valign="middle"><?php echo get_option('gallerylink_movie_suffix_thumbnail') ?></td>
+	<td align="center" valign="middle"><?php echo get_option('gallerylink_music_suffix_thumbnail') ?></td>
+	<td align="left" valign="middle">
+	<?php _e('(album) thumbnail suffix name. (movie, music) specify an extension for the thumbnail of the title the same name as the file you want to view, but if the thumbnail is not found, display the icon of WordPress standard, the thumbnail display if you do not specify anything.', 'gallerylink'); ?>
+	</td>
+	</tr>
+
+	<tr>
+	<td align="center" valign="middle"><b>exclude_file</b></td>
+	<td colspan="3" align="center" valign="middle"><?php echo get_option('gallerylink_exclude_file') ?></td>
+	<td align="left" valign="middle">
+	<?php _e('File you want to exclude. More than one, specified separated by |.', 'gallerylink'); ?>
+	</td>
+	</tr>
+
+	<tr>
+	<td align="center" valign="middle"><b>exclude_dir</b></td>
+	<td colspan="3" align="center" valign="middle"><?php echo get_option('gallerylink_exclude_dir') ?></td>
+	<td align="left" valign="middle">
+	<?php _e('Directory you want to exclude. More than one, specified separated by |.', 'gallerylink'); ?>
+	</td>
+	</tr>
+
+	<tr>
+	<td align="center" valign="middle"><b>rssname</b></td>
+	<td align="center" valign="middle">gallerylink_album_feed</td>
+	<td align="center" valign="middle">gallerylink_movie_feed</td>
+	<td align="center" valign="middle">gallerylink_music_feed</td>
+	<td align="left" valign="middle">
+	<?php _e('The name of the RSS feed file', 'gallerylink'); ?>
+	</td>
+	</tr>
+
+	<tr>
+	<td align="center" valign="middle"><b>rssmax</b></td>
+	<td colspan="3" align="center" valign="middle"><?php echo intval(get_option('gallerylink_rssmax')) ?></td>
+	<td align="left" valign="middle">
+	<?php _e('Syndication feeds show the most recent', 'gallerylink'); ?>
+	</td>
+	</tr>
+
+	</tbody>
+	</table>
+	</div>
+
+  <div id="tabs-2">
+	<div class="wrap">
+	<h2><?php _e('The default value for the short code attribute', 'gallerylink') ?></h2>	
+	<form method="post" action="options.php">
+		<table border="1" bgcolor="#dddddd">
+		<tbody>
+		<?php settings_fields('gallerylink-settings-group'); ?>
+			<tr>
+				<td align="center" valign="middle"><?php _e('Attribute', 'gallerylink'); ?></td>
+				<td align="center" valign="middle" colspan=3><?php _e('Default'); ?></td>
+				<td align="center" valign="middle"><?php _e('Description'); ?></td>
+			</tr>
+			<tr>
+				<td align="center" valign="middle"><b>set</b></td>
+				<td align="center" valign="middle">album</td>
+				<td align="center" valign="middle">movie</td>
+				<td align="center" valign="middle">music</td>
+			</tr>
+			<tr>
+				<td align="center" valign="middle"><b>topurl</b></td>
+				<td align="center" valign="middle">
+					<input type="text" id="gallerylink_album_topurl" name="gallerylink_album_topurl" value="<?php echo get_option('gallerylink_album_topurl') ?>" size="20" />
+				</td>
+				<td align="center" valign="middle">
+					<input type="text" id="gallerylink_movie_topurl" name="gallerylink_movie_topurl" value="<?php echo get_option('gallerylink_movie_topurl') ?>" size="20" />
+				</td>
+				<td align="center" valign="middle">
+					<input type="text" id="gallerylink_music_topurl" name="gallerylink_music_topurl" value="<?php echo get_option('gallerylink_music_topurl') ?>" size="20" />
+				</td>
+				<td align="left" valign="middle">
+					<?php _e('Full path to the top directory containing the data', 'gallerylink'); ?>
+				</td>
+			</tr>
+
+			<tr>
+				<td align="center" valign="middle"><b>suffix_pc</b></td>
+				<td align="center" valign="middle">
+				<?php $target_album_suffix_pc = get_option('gallerylink_album_suffix_pc'); ?>
+				<select id="gallerylink_album_suffix_pc" name="gallerylink_album_suffix_pc">
+					<option <?php if ('.jpg' == $target_album_suffix_pc)echo 'selected="selected"'; ?>>.jpg</option>
+					<option <?php if ('.png' == $target_album_suffix_pc)echo 'selected="selected"'; ?>>.png</option>
+					<option <?php if ('.gif' == $target_album_suffix_pc)echo 'selected="selected"'; ?>>.gif</option>
+					<option <?php if ('.bmp' == $target_album_suffix_pc)echo 'selected="selected"'; ?>>.bmp</option>
+				</select>
+				</td>
+				<td align="center" valign="middle">
+				<?php $target_movie_suffix_pc = get_option('gallerylink_movie_suffix_pc'); ?>
+				<select id="gallerylink_movie_suffix_pc" name="gallerylink_movie_suffix_pc">
+					<option <?php if ('.mp4' == $target_movie_suffix_pc)echo 'selected="selected"'; ?>>.mp4</option>
+					<option <?php if ('.ogv' == $target_movie_suffix_pc)echo 'selected="selected"'; ?>>.ogv</option>
+				</select>
+				</td>
+				<td align="center" valign="middle">
+				<?php $target_music_suffix_pc = get_option('gallerylink_music_suffix_pc'); ?>
+				<select id="gallerylink_music_suffix_pc" name="gallerylink_music_suffix_pc">
+					<option <?php if ('.mp3' == $target_movie_suffix_pc)echo 'selected="selected"'; ?>>.mp3</option>
+					<option <?php if ('.ogg' == $target_movie_suffix_pc)echo 'selected="selected"'; ?>>.ogg</option>
+				</select>
+				</td>
+				<td align="left" valign="middle">
+					<?php _e('extension of PC', 'gallerylink'); ?>
+				</td>
+			</tr>
+			<tr>
+				<td align="center" valign="middle"><b>suffix_pc2</b></td>
+				<td>
+				</td>
+				<td align="center" valign="middle">
+				<?php $target_movie_suffix_pc2 = get_option('gallerylink_movie_suffix_pc2'); ?>
+				<select id="gallerylink_movie_suffix_pc2" name="gallerylink_movie_suffix_pc2">
+					<option <?php if ('.ogv' == $target_movie_suffix_pc2)echo 'selected="selected"'; ?>>.ogv</option>
+					<option <?php if ('.mp4' == $target_movie_suffix_pc2)echo 'selected="selected"'; ?>>.mp4</option>
+				</select>
+				</td>
+				<td align="center" valign="middle">
+				<?php $target_music_suffix_pc2 = get_option('gallerylink_music_suffix_pc2'); ?>
+				<select id="gallerylink_music_suffix_pc2" name="gallerylink_music_suffix_pc2">
+					<option <?php if ('.ogg' == $target_movie_suffix_pc2)echo 'selected="selected"'; ?>>.ogg</option>
+					<option <?php if ('.mp3' == $target_movie_suffix_pc2)echo 'selected="selected"'; ?>>.mp3</option>
+				</select>
+				</td>
+				<td align="left" valign="middle">
+					<?php _e('second extension on the PC. Second candidate when working with html5', 'gallerylink'); ?>
+				</td>
+			</tr>
+			<tr>
+				<td align="center" valign="middle"><b>suffix_sp</b></td>
+				<td align="center" valign="middle">
+				<?php $target_album_suffix_sp = get_option('gallerylink_album_suffix_sp'); ?>
+				<select id="gallerylink_album_suffix_sp" name="gallerylink_album_suffix_sp">
+					<option <?php if ('.jpg' == $target_album_suffix_sp)echo 'selected="selected"'; ?>>.jpg</option>
+					<option <?php if ('.png' == $target_album_suffix_sp)echo 'selected="selected"'; ?>>.png</option>
+					<option <?php if ('.gif' == $target_album_suffix_sp)echo 'selected="selected"'; ?>>.gif</option>
+					<option <?php if ('.bmp' == $target_album_suffix_sp)echo 'selected="selected"'; ?>>.bmp</option>
+				</select>
+				</td>
+				<td align="center" valign="middle">
+				<?php $target_movie_suffix_sp = get_option('gallerylink_movie_suffix_sp'); ?>
+				<select id="gallerylink_movie_suffix_sp" name="gallerylink_movie_suffix_sp">
+					<option <?php if ('.mp4' == $target_movie_suffix_sp)echo 'selected="selected"'; ?>>.mp4</option>
+					<option <?php if ('.ogv' == $target_movie_suffix_sp)echo 'selected="selected"'; ?>>.ogv</option>
+				</select>
+				</td>
+				<td align="center" valign="middle">
+				<?php $target_music_suffix_sp = get_option('gallerylink_music_suffix_sp'); ?>
+				<select id="gallerylink_music_suffix_sp" name="gallerylink_music_suffix_sp">
+					<option <?php if ('.mp3' == $target_movie_suffix_sp)echo 'selected="selected"'; ?>>.mp3</option>
+					<option <?php if ('.ogg' == $target_movie_suffix_sp)echo 'selected="selected"'; ?>>.ogg</option>
+				</select>
+				</td>
+				<td align="left" valign="middle">
+					<?php _e('extension of Smartphone', 'gallerylink'); ?>
+				</td>
+			</tr>
+			<tr>
+				<td align="center" valign="middle"><b>suffix_keitai</b></td>
+				<td align="center" valign="middle">
+				<?php $target_album_suffix_keitai = get_option('gallerylink_album_suffix_keitai'); ?>
+				<select id="gallerylink_album_suffix_keitai" name="gallerylink_album_suffix_keitai">
+					<option <?php if ('.jpg' == $target_album_suffix_keitai)echo 'selected="selected"'; ?>>.jpg</option>
+					<option <?php if ('.png' == $target_album_suffix_keitai)echo 'selected="selected"'; ?>>.png</option>
+					<option <?php if ('.gif' == $target_album_suffix_keitai)echo 'selected="selected"'; ?>>.gif</option>
+					<option <?php if ('.bmp' == $target_album_suffix_keitai)echo 'selected="selected"'; ?>>.bmp</option>
+				</select>
+				</td>
+				<td align="center" valign="middle">
+				<?php $target_movie_suffix_keitai = get_option('gallerylink_movie_suffix_keitai'); ?>
+				<select id="gallerylink_movie_suffix_keitai" name="gallerylink_movie_suffix_keitai">
+					<option <?php if ('.3gp' == $target_movie_suffix_keitai)echo 'selected="selected"'; ?>>.3gp</option>
+					<option <?php if ('.3g2' == $target_movie_suffix_keitai)echo 'selected="selected"'; ?>>.3g2</option>
+				</select>
+				</td>
+				<td align="center" valign="middle">
+				<?php $target_music_suffix_keitai = get_option('gallerylink_music_suffix_keitai'); ?>
+				<select id="gallerylink_music_suffix_keitai" name="gallerylink_music_suffix_keitai">
+					<option <?php if ('.3gp' == $target_movie_suffix_keitai)echo 'selected="selected"'; ?>>.3gp</option>
+					<option <?php if ('.3g2' == $target_movie_suffix_keitai)echo 'selected="selected"'; ?>>.3g2</option>
+				</select>
+				</td>
+				<td align="left" valign="middle">
+					<?php _e('extension of Japanese mobile phone', 'gallerylink'); ?>
+				</td>
+			</tr>
+			<tr>
+				<td align="center" valign="middle"><b>display_pc</b></td>
+				<td align="center" valign="middle">
+					<input type="text" id="gallerylink_album_display_pc" name="gallerylink_album_display_pc" value="<?php echo intval(get_option('gallerylink_album_display_pc')) ?>" size="3" />
+				</td>
+				<td align="center" valign="middle">
+					<input type="text" id="gallerylink_movie_display_pc" name="gallerylink_movie_display_pc" value="<?php echo intval(get_option('gallerylink_movie_display_pc')) ?>" size="3" />
+				</td>
+				<td align="center" valign="middle">
+					<input type="text" id="gallerylink_music_display_pc" name="gallerylink_music_display_pc" value="<?php echo intval(get_option('gallerylink_music_display_pc')) ?>" size="3" />
+				</td>
+				<td align="left" valign="middle">
+					<?php _e('File Display per page(PC)', 'gallerylink') ?>
+				</td>
+			</tr>
+			<tr>
+				<td align="center" valign="middle"><b>display_sp</b></td>
+				<td align="center" valign="middle">
+					<input type="text" id="gallerylink_album_display_sp" name="gallerylink_album_display_sp" value="<?php echo intval(get_option('gallerylink_album_display_sp')) ?>" size="3" />
+				</td>
+				<td align="center" valign="middle">
+					<input type="text" id="gallerylink_movie_display_sp" name="gallerylink_movie_display_sp" value="<?php echo intval(get_option('gallerylink_movie_display_sp')) ?>" size="3" />
+				</td>
+				<td align="center" valign="middle">
+					<input type="text" id="gallerylink_music_display_sp" name="gallerylink_music_display_sp" value="<?php echo intval(get_option('gallerylink_music_display_sp')) ?>" size="3" />
+				</td>
+				<td align="left" valign="middle">
+					<?php _e('File Display per page(Smartphone)', 'gallerylink') ?>
+				</td>
+			</tr>
+			<tr>
+				<td align="center" valign="middle"><b>display_keitai</b></td>
+				<td align="center" valign="middle">
+					<input type="text" id="gallerylink_album_display_keitai" name="gallerylink_album_display_keitai" value="<?php echo intval(get_option('gallerylink_album_display_keitai')) ?>" size="3" />
+				</td>
+				<td align="center" valign="middle">
+					<input type="text" id="gallerylink_movie_display_keitai" name="gallerylink_movie_display_keitai" value="<?php echo intval(get_option('gallerylink_movie_display_keitai')) ?>" size="3" />
+				</td>
+				<td align="center" valign="middle">
+					<input type="text" id="gallerylink_music_display_keitai" name="gallerylink_music_display_keitai" value="<?php echo intval(get_option('gallerylink_music_display_keitai')) ?>" size="3" />
+				</td>
+				<td align="left" valign="middle">
+					<?php _e('File Display per page(Japanese mobile phone)', 'gallerylink') ?>
+				</td>
+			</tr>
+			<tr>
+				<td align="center" valign="middle"><b>thumbnail</b></td>
+				<td>
+					<input type="text" id="gallerylink_album_suffix_thumbnail" name="gallerylink_album_suffix_thumbnail" value="<?php echo get_option('gallerylink_album_suffix_thumbnail') ?>" size="10" />
+				</td>
+				<td align="center" valign="middle">
+				<?php $target_movie_suffix_thumbnail = get_option('gallerylink_movie_suffix_thumbnail'); ?>
+				<select id="gallerylink_movie_suffix_thumbnail" name="gallerylink_movie_suffix_thumbnail">
+					<option <?php if ('' == $target_movie_suffix_thumbnail)echo 'selected="selected"'; ?>></option>
+					<option <?php if ('.gif' == $target_movie_suffix_thumbnail)echo 'selected="selected"'; ?>>.gif</option>
+					<option <?php if ('.jpg' == $target_movie_suffix_thumbnail)echo 'selected="selected"'; ?>>.jpg</option>
+					<option <?php if ('.png' == $target_movie_suffix_thumbnail)echo 'selected="selected"'; ?>>.png</option>
+					<option <?php if ('.bmp' == $target_movie_suffix_thumbnail)echo 'selected="selected"'; ?>>.bmp</option>
+				</select>
+				</td>
+				<td align="center" valign="middle">
+				<?php $target_music_suffix_thumbnail = get_option('gallerylink_music_suffix_thumbnail'); ?>
+				<select id="gallerylink_music_suffix_thumbnail" name="gallerylink_music_suffix_thumbnail">
+					<option <?php if ('' == $target_music_suffix_thumbnail)echo 'selected="selected"'; ?>></option>
+					<option <?php if ('.gif' == $target_music_suffix_thumbnail)echo 'selected="selected"'; ?>>.gif</option>
+					<option <?php if ('.jpg' == $target_music_suffix_thumbnail)echo 'selected="selected"'; ?>>.jpg</option>
+					<option <?php if ('.png' == $target_music_suffix_thumbnail)echo 'selected="selected"'; ?>>.png</option>
+					<option <?php if ('.bmp' == $target_music_suffix_thumbnail)echo 'selected="selected"'; ?>>.bmp</option>
+				</select>
+				</td>
+				<td align="left" valign="middle">
+					<?php _e('(album) thumbnail suffix name. (movie, music) specify an extension for the thumbnail of the title the same name as the file you want to view, but if the thumbnail is not found, display the icon of WordPress standard, the thumbnail display if you do not specify anything.', 'gallerylink'); ?>
+				</td>
+			</tr>
+			<tr>
+				<td align="center" valign="middle"><b>exclude_file</b></td>
+				<td align="center" valign="middle" colspan="3">
+					<input type="text" id="gallerylink_exclude_file" name="gallerylink_exclude_file" value="<?php echo get_option('gallerylink_exclude_file') ?>" size="40" />
+				</td>
+				<td align="left" valign="middle">
+					<?php _e('File you want to exclude. More than one, specified separated by |.', 'gallerylink'); ?>
+				</td>
+			</tr>
+			<tr>
+				<td align="center" valign="middle"><b>exclude_dir</b></td>
+				<td align="center" valign="middle" colspan="3">
+					<input type="text" id="gallerylink_exclude_dir" name="gallerylink_exclude_dir" value="<?php echo get_option('gallerylink_exclude_dir') ?>" size="40" />
+				</td>
+				<td align="left" valign="middle">
+					<?php _e('Directory you want to exclude. More than one, specified separated by |.', 'gallerylink'); ?>
+				</td>
+			</tr>
+			<tr>
+				<td align="center" valign="middle"><b>rssmax</b></td>
+				<td align="center" valign="middle" colspan="3">
+					<input type="text" id="gallerylink_rssmax" name="gallerylink_rssmax" value="<?php echo intval(get_option('gallerylink_rssmax')) ?>" size="3" />
+				</td>
+				<td align="left" valign="middle">
+					<?php _e('Syndication feeds show the most recent', 'gallerylink') ?>
+				</td>
+			</tr>
+		</tbody>
+		</table>
+
+		<h2><?php _e('The default value for other.', 'gallerylink') ?></h2>	
+		<table>
+		<tbody>
+			<tr>
+				<td align="center" valign="middle">
+				<?php _e('Size of the movie container.', 'gallerylink') ?>
+				</td>
+				<td align="center" valign="middle">
+				<?php $target_movie_container = get_option('gallerylink_movie_container'); ?>
+				<select id="gallerylink_movie_container" name="gallerylink_movie_container">
+					<option <?php if ('256x144' == $target_movie_container)echo 'selected="selected"'; ?>>256x144</option>
+					<option <?php if ('320x240' == $target_movie_container)echo 'selected="selected"'; ?>>320x240</option>
+					<option <?php if ('384x288' == $target_movie_container)echo 'selected="selected"'; ?>>384x288</option>
+					<option <?php if ('448x336' == $target_movie_container)echo 'selected="selected"'; ?>>448x336</option>
+					<option <?php if ('512x288' == $target_movie_container)echo 'selected="selected"'; ?>>512x288</option>
+					<option <?php if ('512x384' == $target_movie_container)echo 'selected="selected"'; ?>>512x384</option>
+					<option <?php if ('576x432' == $target_movie_container)echo 'selected="selected"'; ?>>576x432</option>
+					<option <?php if ('640x480' == $target_movie_container)echo 'selected="selected"'; ?>>640x480</option>
+					<option <?php if ('704x528' == $target_movie_container)echo 'selected="selected"'; ?>>704x528</option>
+					<option <?php if ('768x432' == $target_movie_container)echo 'selected="selected"'; ?>>768x432</option>
+					<option <?php if ('768x576' == $target_movie_container)echo 'selected="selected"'; ?>>768x576</option>
+					<option <?php if ('832x624' == $target_movie_container)echo 'selected="selected"'; ?>>832x624</option>
+					<option <?php if ('896x672' == $target_movie_container)echo 'selected="selected"'; ?>>896x672</option>
+					<option <?php if ('960x720' == $target_movie_container)echo 'selected="selected"'; ?>>960x720</option>
+					<option <?php if ('1024x576' == $target_movie_container)echo 'selected="selected"'; ?>>1024x576</option>
+					<option <?php if ('1280x720' == $target_movie_container)echo 'selected="selected"'; ?>>1280x720</option>
+				</select>
+				</td>
+			</tr>
+		</tbody>
+		</table>
+
+		<p class="submit">
+		  <input type="submit" name="Submit" value="<?php _e('Save Changes') ?>" />
+		</p>
+	</form>
+
+<h3><?php _e('The to playback of video and music, that such as the next, .htaccess may be required to topurl directory containing the data file by the environment.', 'gallerylink') ?></h3>
+<textarea rows="9" cols="30">AddType video/mp4 .mp4
+AddType video/ogg .ogv
+AddType video/3gpp .3gp
+AddType video/3gpp2 .3g2
+AddType audio/mpeg .mp3
+AddType audio/ogg .ogg
+AddType audio/3gpp .3gp
+AddType audio/3gpp2 .3g2
+</textarea>
+
+	</div>
+  </div>
+
+<!--
+  <div id="tabs-3">
+	<div class="wrap">
+	<h2>FAQ</h2>
+
+	</div>
+  </div>
+-->
+
+</div>
+
+	</div>
+	<?
+
+}
 
 /* ==================================================
  * @param	string	$dir
  * @param	string	$thumbnail
  * @param	string	$suffix
- * @param	string	$noneedfile
- * @param	string	$noneeddir
+ * @param	string	$exclude_file
+ * @param	string	$exclude_dir
  * @param	string	$search
  * @return	array	$list
  * @since	1.0.0
  */
-function scan_file($dir,$thumbnail,$suffix,$noneedfile,$noneeddir,$search) {
+function scan_file($dir,$thumbnail,$suffix,$exclude_file,$exclude_dir,$search) {
 
    	$list = $tmp = array();
    	foreach(glob($dir . '/*', GLOB_ONLYDIR) as $child_dir) {
-       	if ($tmp = scan_file($child_dir,$thumbnail,$suffix,$noneedfile,$noneeddir,$search)) {
+       	if ($tmp = scan_file($child_dir,$thumbnail,$suffix,$exclude_file,$exclude_dir,$search)) {
            	$list = array_merge($list, $tmp);
        	}
    	}
 
    	foreach(glob($dir.'/*'.$suffix, GLOB_BRACE) as $file) {
-		if (!preg_match("/".$thumbnail."|".$noneedfile."|".$noneeddir."/", $file)) {
-			if (empty($search)) {
-				$list[] = $file;
-			}else{
-				if(preg_match("/".$search."/", $file)) {
-					$list[] = $file;
+		if (!preg_match("/".$thumbnail."/", $file) || empty($thumbnail)) {
+			if (!preg_match("/".$exclude_file."/", $file) || empty($exclude_file)) {
+				if (!preg_match("/".$exclude_dir."/", $file) || empty($exclude_dir)) {
+					if (empty($search)) {
+						$list[] = $file;
+					}else{
+						if(preg_match("/".$search."/", $file)) {
+							$list[] = $file;
+						}
+					}
 				}
 			}
 		}
@@ -67,19 +716,19 @@ function scan_file($dir,$thumbnail,$suffix,$noneedfile,$noneeddir,$search) {
 
 /* ==================================================
  * @param	string	$dir
- * @param	string	$noneeddir
+ * @param	string	$exclude_dir
  * @return	array	$dirlist
  * @since	1.0.0
  */
-function scan_dir($dir,$noneeddir) {
+function scan_dir($dir,$exclude_dir) {
    	$dirlist = $tmp = array();
     foreach(glob($dir . '/*', GLOB_ONLYDIR) as $child_dir) {
-   	    if ($tmp = scan_dir($child_dir,$noneeddir)) {
+   	    if ($tmp = scan_dir($child_dir,$exclude_dir)) {
        	    $dirlist = array_merge($dirlist, $tmp);
        	}
    	}
     foreach(glob($dir . '/*', GLOB_ONLYDIR) as $child_dir) {
-		if (!preg_match("/".$noneeddir."/", $child_dir)) {
+		if (!preg_match("/".$exclude_dir."/", $child_dir) || empty($exclude_dir)) {
 			$dirlist[] = $child_dir;
 		}
    	}
@@ -94,11 +743,12 @@ function scan_dir($dir,$noneeddir) {
  * @param	string	$suffix
  * @param	string	$thumbnail
  * @param	string	$document_root
+ * @param	string	$set
  * @param	string	$mode
  * @return	string	$effect
  * @since	1.0.0
  */
-function print_file($dparam,$file,$topurl,$suffix,$thumbnail,$document_root,$mode,$effect) {
+function print_file($dparam,$file,$topurl,$suffix,$thumbnail,$document_root,$set,$mode,$effect) {
 
 	$dparam = mb_convert_encoding($dparam, "UTF-8", "auto");
 	$searchfilename = str_replace($suffix, "", $file);
@@ -107,6 +757,13 @@ function print_file($dparam,$file,$topurl,$suffix,$thumbnail,$document_root,$mod
 	$file = mb_convert_encoding($file, "UTF-8", "auto");
 	$filename = str_replace($suffix, "", $filename);
 	$titlename = str_replace($suffix, "", $titlename);
+
+	$pluginurl = plugins_url($path='',$scheme=null);
+	if ( $set === 'movie') {
+		$wpiconurl = $pluginurl.'/gallerylink/icon/video.png';
+	} else if ( $set === 'music') {
+		$wpiconurl = $pluginurl.'/gallerylink/icon/audio.png';
+	}
 
 	if (empty($dparam)) {
 		$fileparam = substr($file,1);
@@ -156,7 +813,11 @@ function print_file($dparam,$file,$topurl,$suffix,$thumbnail,$document_root,$mod
 				if( $thumbfind === "true" ){
 					$linkfile = '<li><img src="'.$topurl.$thumbfile.'"><a href="'.$topurl.$file.'" '.$mimetype.'>'.$titlename.'</a></li>';
 				}else{
-					$linkfile = '<li><a href="'.$topurl.$file.'" '.$mimetype.'>'.$titlename.'</a></li>';
+					if( !empty($thumbnail) ) {
+						$linkfile = '<li><img src="'.$wpiconurl.'"><a href="'.$topurl.$file.'" '.$mimetype.'>'.$titlename.'</a></li>';
+					} else {
+						$linkfile = '<li><a href="'.$topurl.$file.'" '.$mimetype.'>'.$titlename.'</a></li>';
+					}
 				}
 			}else{ //PC
 				$page =NULL;
@@ -166,7 +827,11 @@ function print_file($dparam,$file,$topurl,$suffix,$thumbnail,$document_root,$mod
 				if( $thumbfind === "true" ){
 					$linkfile = '<li><img src="'.$topurl.$thumbfile.'"><a href="'.$scriptname.'?d='.$dparam.'&glp='.$page.'&f='.$fileparam.'">'.$filetitle.'</a></li>';
 				}else{
-					$linkfile = '<li><a href="'.$scriptname.'?d='.$dparam.'&glp='.$page.'&f='.$fileparam.'">'.$filetitle.'</a></li>';
+					if( !empty($thumbnail) ) {
+						$linkfile = '<li><img src="'.$wpiconurl.'"><a href="'.$scriptname.'?d='.$dparam.'&glp='.$page.'&f='.$fileparam.'">'.$filetitle.'</a></li>';
+					} else {
+						$linkfile = '<li><a href="'.$scriptname.'?d='.$dparam.'&glp='.$page.'&f='.$fileparam.'">'.$filetitle.'</a></li>';
+					}
 				}
 			}
 		}
@@ -306,9 +971,6 @@ function mime_type($suffix){
 		case '.mp4':
 			$mimetype = 'video/mp4';
 			break;
-		case '.webm':
-			$mimetype = 'video/webm';
-			break;
 		case '.ogv':
 			$mimetype = 'video/ogg';
 			break;
@@ -318,14 +980,11 @@ function mime_type($suffix){
 		case '.3gp':
 			$mimetype = 'video/3gpp';
 			break;
+		case '.3g2':
+			$mimetype = 'video/3gpp2';
+			break;
 		case '.mp3':
 			$mimetype = 'audio/mpeg';
-			break;
-		case '.mid':
-			$mimetype = 'audio/x-mid';
-			break;
-		case '.midi':
-			$mimetype = 'audio/x-midi';
 			break;
 	}
 
@@ -367,25 +1026,66 @@ function gallerylink_func( $atts ) {
 
 	mb_language("Japanese");	// for Ktai Style
 
-	$wp_uploads = wp_upload_dir();
-	$wp_uploads_path = str_replace('http://'.$_SERVER["SERVER_NAME"], '', $wp_uploads['baseurl']);
 	extract(shortcode_atts(array(
-        'set' => 'album',
+        'set' => '',
         'effect' => '',
-        'topurl' => $wp_uploads_path,
-        'suffix_pc' => '.jpg',
-        'suffix_pc2' => '.webm',
-        'suffix_sp' => '.jpg',
-        'suffix_keitai' => '.jpg',
-        'display_pc' => 20,
-        'display_sp' => 9,
-        'display_keitai' => 6,
-        'thumbnail'  => '-80x80',
-        'noneedfile' => '(.ktai.)|(-[0-9]*x[0-9]*.)',
-        'noneeddir' => 'ps_auto_sitemap|backwpup.*|wpcf7_captcha',
-        'rssname' => 'feed',
-        'rssmax'  => 10
+        'topurl' => '',
+        'suffix_pc' => '',
+        'suffix_pc2' => '',
+        'suffix_sp' => '',
+        'suffix_keitai' => '',
+        'display_pc' => '',
+        'display_sp' => '',
+        'display_keitai' => '',
+        'thumbnail'  => '',
+        'exclude_file' => '',
+        'exclude_dir' => '',
+        'rssname' => '',
+        'rssmax'  => ''
 	), $atts));
+	if ( $set === 'album' ){
+		if( empty($topurl) ) { $topurl = get_option('gallerylink_album_topurl'); }
+		if( empty($suffix_pc) ) { $suffix_pc = get_option('gallerylink_album_suffix_pc'); }
+		if( empty($suffix_sp) ) { $suffix_sp = get_option('gallerylink_album_suffix_sp'); }
+		if( empty($suffix_keitai) ) { $suffix_keitai = get_option('gallerylink_album_suffix_keitai'); }
+		if( empty($display_pc) ) { $display_pc = intval(get_option('gallerylink_album_display_pc')); }
+		if( empty($display_sp) ) { $display_sp = intval(get_option('gallerylink_album_display_sp')); }
+		if( empty($display_keitai) ) { $display_keitai = intval(get_option('gallerylink_album_display_keitai')); }
+		if( empty($thumbnail) ) { $thumbnail = get_option('gallerylink_album_suffix_thumbnail'); }
+	} else if ( $set === 'movie' ){
+		if( empty($topurl) ) { $topurl = get_option('gallerylink_movie_topurl'); }
+		if( empty($suffix_pc) ) { $suffix_pc = get_option('gallerylink_movie_suffix_pc'); }
+		if( empty($suffix_pc2) ) { $suffix_pc2 = get_option('gallerylink_movie_suffix_pc2'); }
+		if( empty($suffix_sp) ) { $suffix_sp = get_option('gallerylink_movie_suffix_sp'); }
+		if( empty($suffix_keitai) ) { $suffix_keitai = get_option('gallerylink_movie_suffix_keitai'); }
+		if( empty($display_pc) ) { $display_pc = intval(get_option('gallerylink_movie_display_pc')); }
+		if( empty($display_sp) ) { $display_sp = intval(get_option('gallerylink_movie_display_sp')); }
+		if( empty($display_keitai) ) { $display_keitai = intval(get_option('gallerylink_movie_display_keitai')); }
+		if( empty($thumbnail) ) { $thumbnail = get_option('gallerylink_movie_suffix_thumbnail'); }
+	} else if ( $set === 'music' ){
+		if( empty($topurl) ) { $topurl = get_option('gallerylink_music_topurl'); }
+		if( empty($suffix_pc) ) { $suffix_pc = get_option('gallerylink_music_suffix_pc'); }
+		if( empty($suffix_pc2) ) { $suffix_pc2 = get_option('gallerylink_music_suffix_pc2'); }
+		if( empty($suffix_sp) ) { $suffix_sp = get_option('gallerylink_music_suffix_sp'); }
+		if( empty($suffix_keitai) ) { $suffix_keitai = get_option('gallerylink_music_suffix_keitai'); }
+		if( empty($display_pc) ) { $display_pc = intval(get_option('gallerylink_music_display_pc')); }
+		if( empty($display_sp) ) { $display_sp = intval(get_option('gallerylink_music_display_sp')); }
+		if( empty($display_keitai) ) { $display_keitai = intval(get_option('gallerylink_music_display_keitai')); }
+		if( empty($thumbnail) ) { $thumbnail = get_option('gallerylink_music_suffix_thumbnail'); }
+	}
+	if ( empty($exclude_file) && ($set === 'album' || $set === 'movie' || $set === 'music') ) {
+		$exclude_file = get_option('gallerylink_exclude_file');
+	}
+	if ( empty($exclude_dir) && ($set === 'album' || $set === 'movie' || $set === 'music') ) {
+		$exclude_dir = get_option('gallerylink_exclude_dir');
+	}
+	if ( empty($rssname) && ($set === 'album' || $set === 'movie' || $set === 'music') ) {
+		$rssname = 'gallerylink_'.$set.'_feed';
+	}
+	if ( empty($rssmax) && ($set === 'album' || $set === 'movie' || $set === 'music') ) {
+		$rssmax = intval(get_option('gallerylink_rssmax'));
+	}
+
 	$wp_path = str_replace('http://'.$_SERVER["SERVER_NAME"], '', get_bloginfo('wpurl')).'/';
 	$document_root = str_replace($wp_path, '', ABSPATH).$topurl;
 
@@ -437,8 +1137,8 @@ function gallerylink_func( $atts ) {
 		$dir = $document_root."/".$dparam;
 	}
 
-	$noneedfile = mb_convert_encoding($noneedfile, "UTF-8", "auto");
-	$noneeddir = mb_convert_encoding($noneeddir, "UTF-8", "auto");
+	$exclude_file = mb_convert_encoding($exclude_file, "UTF-8", "auto");
+	$exclude_dir = mb_convert_encoding($exclude_dir, "UTF-8", "auto");
 
 	$sortnamenew = __('New', 'gallerylink');
 	$sortnameold = __('Old', 'gallerylink');
@@ -458,7 +1158,7 @@ function gallerylink_func( $atts ) {
 	$dirselectall = mb_convert_encoding($dirselectall, "UTF-8", "auto");
 	$dirselectbutton = mb_convert_encoding($dirselectbutton, "UTF-8", "auto");
 
-	$files = scan_file($dir,$thumbnail,$suffix,$noneedfile,$noneeddir,$search);
+	$files = scan_file($dir,$thumbnail,$suffix,$exclude_file,$exclude_dir,$search);
 
 	// sort
 	foreach ( $files as $file ){
@@ -484,7 +1184,7 @@ function gallerylink_func( $atts ) {
 		sort($files, SORT_STRING);
 	}
 
-	$dirs = scan_dir($document_root,$noneeddir);
+	$dirs = scan_dir($document_root,$exclude_dir);
 
 	$maxpage = ceil(count($files) / $display);
 	$beginfiles = 0;
@@ -509,7 +1209,7 @@ function gallerylink_func( $atts ) {
 	for ( $i = $beginfiles; $i <= $endfiles; $i++ ) {
 		$file = str_replace($document_root, "", $files[$i]);
 		if (!empty($file)){
-			$linkfile = print_file($dparam,$file,$topurl,$suffix,$thumbnail,$document_root,$mode,$effect);
+			$linkfile = print_file($dparam,$file,$topurl,$suffix,$thumbnail,$document_root,$set,$mode,$effect);
 			$linkfiles = $linkfiles.$linkfile;
 		}
 	}
@@ -638,17 +1338,19 @@ SEARCHFORM;
 
 $pluginurl = plugins_url($path='',$scheme=null);
 
+list($movie_container_w, $movie_container_h) = explode( 'x', get_option('gallerylink_movie_container') );
+
 //MoviePlayerContainer
 $movieplayercontainer = <<<MOVIEPLAYERCONTAINER
 <div id="PlayerContainer">
-<video controls style="border" height="375" width="500" autoplay onclick="this.play()">
+<video controls style="border" height="{$movie_container_h}" width="{$movie_container_w}" autoplay onclick="this.play()">
 <source src="{$prevfile}">
 <source src="{$prevfile_nosuffix}{$suffix_pc2}">
 <object>
 <embed
   type="application/x-shockwave-flash"
-  width="500"
-  height="375"
+  width="{$movie_container_w}"
+  height="{$movie_container_h}"
   bgcolor="#000000"
   src="{$pluginurl}/gallerylink/flowplayer/flowplayer-3.2.15.swf"
   allowFullScreen="true"
@@ -673,8 +1375,8 @@ $movieplayercontainerIE9 = <<<MOVIEPLAYERCONTAINERIE9
 <object>
 <embed
   type="application/x-shockwave-flash"
-  width="500"
-  height="375"
+  width="{$movie_container_w}"
+  height="{$movie_container_h}"
   bgcolor="#000000"
   src="{$pluginurl}/gallerylink/flowplayer/flowplayer-3.2.15.swf"
   allowFullScreen="true"
@@ -960,254 +1662,6 @@ XMLEND;
 	}
 
 
-}
-
-/* ==================================================
- * Add a "Settings" link to the plugins page
- * @since	1.0.18
- */
-function settings_link( $links, $file ) {
-	static $this_plugin;
-	if ( empty($this_plugin) ) {
-		$this_plugin = plugin_basename(__FILE__);
-	}
-	if ( $file == $this_plugin ) {
-		$links[] = '<a href="'.admin_url('options-general.php?page=GalleryLink').'">'.__( 'Settings').'</a>';
-	}
-		return $links;
-}
-
-/* ==================================================
- * Settings page
- * @since	1.0.6
- */
-function my_plugin_menu() {
-	add_options_page( 'GalleryLink Options', 'GalleryLink', 'manage_options', 'GalleryLink', 'my_plugin_options' );
-}
-
-/* ==================================================
- * Settings page
- * @since	1.0.6
- */
-function my_plugin_options() {
-	if ( !current_user_can( 'manage_options' ) )  {
-		wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
-	}
-
-	echo '<div class="wrap">';
-	echo '<div id="icon-options-general" class="icon32"><br /></div><h2>GalleryLink</h2>';
-	echo '<h3>';
-	_e('(In the case of image) Easy use', 'gallerylink');
-	echo '</h3>';
-	echo '<p>';
-	_e('Please add new Page. Please write a short code in the text field of the Page. Please go in Text mode this task.', 'gallerylink');
-	echo '</p>';
-	echo '<p>';
-	echo '&#91;gallerylink&#93;';
-	echo '</p>';
-	echo '<p>';
-	_e('When you view this Page, it is displayed in album mode.  It is the result of a search for wp-content/uproads following directory of WordPress default. The Settings> Media,  determine the size of the thumbnail. The default value of GalleryLink, width 80, height 80. Please set its value. In the Media> Add New, please drag and drop the image. You view the Page again. Should see the image to the Page.', 'gallerylink');
-	echo '</p>';
-	echo '<p>';
-	_e('In addition, you want to place add an attribute like this in the short code.', 'gallerylink');
-	echo '</p>';
-	echo '<p>';
-	echo "&#91;gallerylink effect='nivoslider'&#93;";
-	echo '</p>';
-	_e('When you view this Page, it is displayed in slideshow mode.', 'gallerylink');
-	echo '</p>';
-
-	echo '<p>';
-	echo '<div><strong>';
-	_e('Customization 1', 'gallerylink');
-	echo '</strong></div>';
-	_e('If you want to use MULTI-BYTE CHARACTER SETS to the display of the directory name and the file name, Please upload to wp-content/uproads of directory of WordPress default by the FTP software. In this case, please upload the file after UTF-8 character code setting of the FTP software. Please upload a thumbnail at the same time. It must be created by you. Please add the suffix name of -80x80 in the file name, it is the height 80 width 80.', 'gallerylink');
-	echo '</p>';
-
-	echo '<p>';
-	echo '<div><strong>';
-	_e('Customization 2', 'gallerylink');
-	echo '</strong></div>';
-	_e('GalleryLink is also handles video and music. If you are dealing with music and video, please add the following attributes to the short code.', 'gallerylink');
-	echo '<p>';
-	echo '<div>';
-	_e("Video set = 'movie'", 'gallerylink');
-	echo '</div>';
-	echo '<div>';
-	_e("Music set = 'music'", 'gallerylink');
-	echo '</div>';
-	echo '<p>';
-	echo '<div>';
-	_e('Video Example', 'gallerylink');
-	echo '</div>';
-	echo '<div>';
-	echo "&#91;gallerylink set='movie' topurl='/gallery/video' suffix_pc='.mp4' suffix_sp='.mp4' suffix_keitai='.3gp' thumbnail='.jpg' rssname='movie'&#93;";
-	echo '</div>';
-	echo '<div>';
-	_e('Music Example', 'gallerylink');
-	echo '</div>';
-	echo '<div>';
-	echo "&#91;gallerylink set='music' topurl='/gallery/music' suffix_pc='.mp3' suffix_pc2='.ogg' suffix_sp='.mp3' suffix_keitai='.3gp' thumbnail='.jpg' noneedfile='.wma' noneeddir='test' rssname='music'&#93;";
-	echo '</div>';
-	echo '<p>';
-	echo '<div>';
-	_e('* The directory other than the WordPress default (wp-content/uproads), but it is possible that you will want to upload. topurl is the directory where you have uploaded the file. Music and videos is large capacity. May not be able to handled in the media uploader of WordPress depending on the setting of the server. you will want to upload in FTP. If you set the topurl, please set to 777 or 757 the attributes of the directory. Because GalleryLink create an RSS feed in the directory.', 'gallerylink');
-	echo '</div>';
-	echo '<div>';
-	_e('* (WordPress > Settings > General Timezone) Please specify your area other than UTC. For accurate time display of RSS feed.', 'gallerylink');
-	echo '</div>';
-	echo '</p>';
-
-	echo '<table border="1"><strong>';
-	_e('Customization 3', 'gallerylink');
-	echo '</strong>';
-	echo '<tbody>';
-
-	echo '<tr>';
-	echo '<td colspan="3" align="center" valign="middle">';
-	_e('Below, I shows the default values and various attributes of the short code.', 'gallerylink');
-	echo '</td>';
-	echo '</tr>';
-
-	echo '<tr>';
-	echo '<td align="center" valign="middle">';
-	_e('Attribute', 'gallerylink');
-	echo '</td>';
-	echo '<td align="center" valign="middle">';
-	_e('Default');
-	echo '</td>';
-	echo '<td align="center" valign="middle">';
-	_e('Description');
-	echo '</td>';
-	echo '</tr>';
-
-	echo '<tr>';
-	echo '<td align="center" valign="middle"><b>set</b></td>';
-	echo '<td align="center" valign="middle">album</td>';
-	echo '<td align="left" valign="middle">';
-	_e('Next only three. album(image), movie(video), music(music)', 'gallerylink');
-	echo '</td>';
-	echo '</tr>';
-
-	echo '<tr>';
-	echo '<td align="center" valign="middle"><b>effect</b></td>';
-	echo '<td align="center" valign="middle"></td>';
-	echo '<td align="left" valign="middle">';
-	_e('Special effects nivoslider(slideshow)', 'gallerylink');
-	echo '</td>';
-	echo '</tr>';
-
-	$wp_uploads = wp_upload_dir();
-	$wp_uploads_path = str_replace('http://'.$_SERVER["SERVER_NAME"], '', $wp_uploads['baseurl']);
-
-	echo '<tr>';
-	echo '<td align="center" valign="middle"><b>topurl</b></td>';
-	echo '<td align="center" valign="middle">'.$wp_uploads_path.'</td>';
-	echo '<td align="left" valign="middle">';
-	_e('Full path to the top directory containing the data', 'gallerylink');
-	echo '</td>';
-	echo '</tr>';
-
-	echo '<tr>';
-	echo '<td align="center" valign="middle"><b>suffix_pc</b></td>';
-	echo '<td align="center" valign="middle">.jpg</td>';
-	echo '<td align="left" valign="middle">';
-	_e('extension of PC', 'gallerylink');
-	echo '</td>';
-	echo '</tr>';
-
-	echo '<tr>';
-	echo '<td align="center" valign="middle"><b>suffix_pc2</b></td>';
-	echo '<td align="center" valign="middle">.webm</td>';
-	echo '<td align="left" valign="middle">';
-	_e('second extension on the PC. Second candidate when working with html5', 'gallerylink');
-	echo '</td>';
-	echo '</tr>';
-
-	echo '<tr>';
-	echo '<td align="center" valign="middle"><b>suffix_sp</b></td>';
-	echo '<td align="center" valign="middle">.jpg</td>';
-	echo '<td align="left" valign="middle">';
-	_e('extension of Smartphone', 'gallerylink');
-	echo '</td>';
-	echo '</tr>';
-
-	echo '<tr>';
-	echo '<td align="center" valign="middle"><b>suffix_keitai</b></td>';
-	echo '<td align="center" valign="middle">.jpg</td>';
-	echo '<td align="left" valign="middle">';
-	_e('extension of Japanese mobile phone', 'gallerylink');
-	echo '</td>';
-	echo '</tr>';
-
-	echo '<tr>';
-	echo '<td align="center" valign="middle"><b>display_pc</b></td>';
-	echo '<td align="center" valign="middle">20</td>';
-	echo '<td align="left" valign="middle">';
-	_e('File Display per page(PC)', 'gallerylink');
-	echo '</td>';
-	echo '</tr>';
-
-	echo '<tr>';
-	echo '<td align="center" valign="middle"><b>display_sp</b></td>';
-	echo '<td align="center" valign="middle">9</td>';
-	echo '<td align="left" valign="middle">';
-	_e('File Display per page(Smartphone)', 'gallerylink');
-	echo '</td>';
-	echo '</tr>';
-
-	echo '<tr>';
-	echo '<td align="center" valign="middle"><b>display_keitai</b></td>';
-	echo '<td align="center" valign="middle">6</td>';
-	echo '<td align="left" valign="middle">';
-	_e('File Display per page(Japanese mobile phone)', 'gallerylink');
-	echo '</td>';
-	echo '</tr>';
-
-	echo '<tr>';
-	echo '<td align="center" valign="middle"><b>thumbnail</b></td>';
-	echo '<td align="center" valign="middle">-80x80</td>';
-	echo '<td align="left" valign="middle">';
-	_e('suffix name of the thumbnail', 'gallerylink');
-	echo '</td>';
-	echo '</tr>';
-
-	echo '<tr>';
-	echo '<td align="center" valign="middle"><b>noneedfile</b></td>';
-	echo '<td align="center" valign="middle">(.ktai.)|(-&#91;0-9&#93;*x&#91;0-9&#93;*.)</td>';
-	echo '<td align="left" valign="middle">';
-	_e('File that you do not want to appear', 'gallerylink');
-	echo '</td>';
-	echo '</tr>';
-
-	echo '<tr>';
-	echo '<td align="center" valign="middle"><b>noneeddir</b></td>';
-	echo '<td align="center" valign="middle">ps_auto_sitemap|backwpup.*|wpcf7_captcha</td>';
-	echo '<td align="left" valign="middle">';
-	_e('Directory that you do not want to appear', 'gallerylink');
-	echo '</td>';
-	echo '</tr>';
-
-	echo '<tr>';
-	echo '<td align="center" valign="middle"><b>rssname</b></td>';
-	echo '<td align="center" valign="middle">feed</td>';
-	echo '<td align="left" valign="middle">';
-	_e('The name of the RSS feed file', 'gallerylink');
-	echo '</td>';
-	echo '</tr>';
-
-	echo '<tr>';
-	echo '<td align="center" valign="middle"><b>rssmax</b></td>';
-	echo '<td align="center" valign="middle">10</td>';
-	echo '<td align="left" valign="middle">';
-	_e('Syndication feeds show the most recent', 'gallerylink');
-	echo '</td>';
-	echo '</tr>';
-
-	echo '</tbody>';
-	echo '</table>';
-
-	echo '</div>';
 }
 
 ?>

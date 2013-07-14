@@ -4,7 +4,7 @@ Donate link: http://gallerylink.nyanko.org/
 Tags: audio,feed,feeds,flash,gallery,html5,image,images,list,music,photo,photos,picture,pictures,rss,shortcode,video,xml
 Requires at least: 3.0.1
 Tested up to: 3.4
-Stable tag: 1.0.29
+Stable tag: 2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -13,6 +13,8 @@ Output as a gallery by find the file extension and directory specified.
 == Description ==
 
 Create a playlist (music, pictures, videos) of data in the directory below the specified, GalleryLink displays Pages by passing the data to various software.
+
+If you want to use the data on the Media Library, please use the [MediaLink](http://wordpress.org/plugins/medialink/).
 
 You write and use short codes to page.
 
@@ -39,8 +41,8 @@ Bundled software and function
 2. Activate the plugin through the 'Plugins' menu in WordPress
 3. Add a new Page
 4. Write a short code. The following text field. `[gallerylink]`
-5. For pictures `[gallerylink]`. For video `[gallerylink set='movie']`. For music `[gallerylink set='music']`.
-6. Please read. (Settings > Gallerylink)
+5. For pictures `[gallerylink set='album']`. For video `[gallerylink set='movie']`. For music `[gallerylink set='music']`.
+6. Please set. (Settings > Gallerylink)
 
     [Settings](http://wordpress.org/plugins/gallerylink/other_notes/)
 
@@ -53,6 +55,12 @@ none
 1. screenshot-1.jpg
 
 == Changelog ==
+
+= 2.0 =
+Major overhaul of the settings.
+Save the default value.
+Change /languages
+Change readme.txt
 
 = 1.0.29 =
 Support the loading problem of jquery of some themes.
@@ -159,6 +167,7 @@ Delete screenshot
 
 == Upgrade Notice ==
 
+= 2.0 =
 = 1.0.29 =
 = 1.0.28 =
 = 1.0.27 =
@@ -192,43 +201,42 @@ Delete screenshot
 
 == Settings ==
 
-(In the case of image) Easy use
+How to use
+Please set the default value in the setting page.
 
+Please upload the data to the data directory (topurl) by the FTP software. At the same time upload thumbnail.
 Please add new Page. Please write a short code in the text field of the Page. Please go in Text mode this task.
 
-[gallerylink]
-
-When you view this Page, it is displayed in album mode. It is the result of a search for wp-content/uproads following directory of WordPress default. The Settings> Media, determine the size of the thumbnail. The default value of GalleryLink, width 80, height 80. Please set its value. In the Media> Add New, please drag and drop the image. You view the Page again. Should see the image to the Page.
+In the case of image
+[gallerylink set='album']
 
 In addition, you want to place add an attribute like this in the short code.
 
-[gallerylink effect='nivoslider']
+[gallerylink set='album' effect='nivoslider']
 
 When you view this Page, it is displayed in slideshow mode.
 
+In the case of video
+[gallerylink set='movie']
+
+In the case of music
+[gallerylink set='music']
+
 Customization 1
 
-If you want to use MULTI-BYTE CHARACTER SETS to the display of the directory name and the file name, Please upload to wp-content/uproads of directory of WordPress default by the FTP software. In this case, please upload the file after UTF-8 character code setting of the FTP software. Please upload a thumbnail at the same time. It must be created by you. Please add the suffix name of -80x80 in the file name, it is the height 80 width 80.
+If you want to use MULTI-BYTE CHARACTER SETS to the display of the directory name and the file name. In this case, please upload the file after UTF-8 character code setting of the FTP software.
 
 Customization 2
 
-GalleryLink is also handles video and music. If you are dealing with music and video, please add the following attributes to the short code.
-
-Video set='movie'
-
-Music set='music'
-
+GalleryLink can be used to specify the attributes of the table below to short code. It will override the default settings.
+Image Example
+[gallerylink set='album' topurl='/wordpress/wp-content/uploads' thumbnail='-80x80' exclude_file='(.ktai.)|(-[0-9]*x[0-9]*.)' exclude_dir='ps_auto_sitemap|backwpup.*|wpcf7_captcha' rssname='album']
 Video Example
-
-[gallerylink set='movie' topurl='/gallery/video' suffix_pc='.mp4' suffix_sp='.mp4' suffix_keitai='.3gp' thumbnail='.jpg' rssname='movie']
-
+[gallerylink set='movie' topurl='/gallery/video' rssmax=5]
 Music Example
-
-[gallerylink set='music' topurl='/gallery/music' suffix_pc='.mp3' suffix_pc2='.ogg' suffix_sp='.mp3' suffix_keitai='.3gp' thumbnail='.jpg' noneedfile='.wma' noneeddir='test' rssname='music']
-
-* The directory other than the WordPress default (wp-content/uproads), but it is possible that you will want to upload. topurl is the directory where you have uploaded the file. Music and videos is large capacity. May not be able to handled in the media uploader of WordPress depending on the setting of the server. you will want to upload in FTP. If you set the topurl, please set to 777 or 757 the attributes of the directory. Because GalleryLink create an RSS feed in the directory.
-
+[gallerylink set='music' topurl='/gallery/music' rssmax=20]
+* Please set to 777 or 757 the attributes of topurl directory. Because GalleryLink create an RSS feed in the directory.
 * (WordPress > Settings > General Timezone) Please specify your area other than UTC. For accurate time display of RSS feed.
 
-[Customization 3](http://wordpress.org/plugins/gallerylink/screenshots/)
+[The default value for the short code attribute](http://wordpress.org/plugins/gallerylink/screenshots/)
 
