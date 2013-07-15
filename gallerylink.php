@@ -2,7 +2,7 @@
 /*
 Plugin Name: GalleryLink
 Plugin URI: http://wordpress.org/plugins/gallerylink/
-Version: 2.0
+Version: 2.1
 Description: Output as a gallery by find the file extension and directory specified.
 Author: Katsushi Kawamori
 Author URI: http://gallerylink.nyanko.org/
@@ -34,7 +34,7 @@ Domain Path: /languages
 
 /* ==================================================
  * Settings register
- * @since	1.1
+ * @since	2.0
  */
 function gallerylink_register_settings(){
 	register_setting( 'gallerylink-settings-group', 'gallerylink_album_topurl');
@@ -103,7 +103,7 @@ function gallerylink_register_settings(){
 /* ==================================================
  * @param	bool	$v
  * @return	bool	$v
- * @since	1.1
+ * @since	2.0
  */
 function gallerylink_bool_intval($v){
 	return $v == 1 ? '1' : '0';
@@ -112,7 +112,7 @@ function gallerylink_bool_intval($v){
 /* ==================================================
  * @param	int		$v
  * @return	int		$v
- * @since	1.1
+ * @since	2.0
  */
 function gallerylink_pos_intval($v){
 	return abs(intval($v));
@@ -1342,7 +1342,7 @@ list($movie_container_w, $movie_container_h) = explode( 'x', get_option('gallery
 
 //MoviePlayerContainer
 $movieplayercontainer = <<<MOVIEPLAYERCONTAINER
-<div id="PlayerContainer">
+<div id="PlayerContainer-gallerylink">
 <video controls style="border" height="{$movie_container_h}" width="{$movie_container_w}" autoplay onclick="this.play()">
 <source src="{$prevfile}">
 <source src="{$prevfile_nosuffix}{$suffix_pc2}">
@@ -1371,7 +1371,7 @@ MOVIEPLAYERCONTAINER;
 
 //MoviePlayerContainerIE9
 $movieplayercontainerIE9 = <<<MOVIEPLAYERCONTAINERIE9
-<div id="PlayerContainer">
+<div id="PlayerContainer-gallerylink">
 <object>
 <embed
   type="application/x-shockwave-flash"
@@ -1396,7 +1396,7 @@ MOVIEPLAYERCONTAINERIE9;
 
 //MusicPlayerContainer
 $musicplayercontainer = <<<MUSICPLAYERCONTAINER
-<div id="PlayerContainer">
+<div id="PlayerContainer-gallerylink">
 <audio controls style="border" autoplay onclick="this.play()">
 <source src="{$prevfile}">
 <source src="{$prevfile_nosuffix}{$suffix_pc2}">
@@ -1537,7 +1537,7 @@ FLASHMUSICPLAYER;
 		}
 	}else{
 		if ( $mode === 'pc' ) {
-			$linkfiles_begin = '<div id="playlists">';
+			$linkfiles_begin = '<div id="playlists-gallerylink">';
 			$linkfiles_end = '</div><br clear="all">';
 			$dirselectbox_begin = '<div align="right">';
 			$dirselectbox_end = '</div>';

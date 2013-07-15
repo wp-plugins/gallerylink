@@ -146,8 +146,8 @@ h1 { font-size: 1.3em; font-weight: bolder; padding: 15px 10px; margin: 0; }
 
 .list ul li img{
 	float:left;
-	width: 80px;
-	height: 55px;
+	width: 50px;
+	height: 35px;
 	overflow: hidden;
 }
 
