@@ -2,7 +2,7 @@
 /*
 Plugin Name: GalleryLink
 Plugin URI: http://wordpress.org/plugins/gallerylink/
-Version: 2.1
+Version: 2.2
 Description: Output as a gallery by find the file extension and directory specified.
 Author: Katsushi Kawamori
 Author URI: http://gallerylink.nyanko.org/
@@ -28,6 +28,7 @@ Domain Path: /languages
 	// Add action hooks
 	add_action('admin_init', 'gallerylink_register_settings');
 	add_filter( 'plugin_action_links', 'gallerylink_settings_link', 10, 2 );
+	add_action('wp_head','gallerylink_add_css');
 	add_action( 'wp_head', wp_enqueue_script('jquery') );
 	add_action( 'admin_menu', 'gallerylink_plugin_menu' );
 	add_shortcode( 'gallerylink', 'gallerylink_func' );
@@ -67,6 +68,16 @@ function gallerylink_register_settings(){
 	register_setting( 'gallerylink-settings-group', 'gallerylink_exclude_dir');
 	register_setting( 'gallerylink-settings-group', 'gallerylink_rssmax', 'gallerylink_pos_intval');
 	register_setting( 'gallerylink-settings-group', 'gallerylink_movie_container');
+	register_setting( 'gallerylink-settings-group', 'gallerylink_css_listthumbsize');
+	register_setting( 'gallerylink-settings-group', 'gallerylink_css_pc_listwidth', 'gallerylink_pos_intval');
+	register_setting( 'gallerylink-settings-group', 'gallerylink_css_pc_linkstrcolor');
+	register_setting( 'gallerylink-settings-group', 'gallerylink_css_pc_linkbackcolor');
+	register_setting( 'gallerylink-settings-group', 'gallerylink_css_sp_navstrcolor');
+	register_setting( 'gallerylink-settings-group', 'gallerylink_css_sp_navbackcolor');
+	register_setting( 'gallerylink-settings-group', 'gallerylink_css_sp_navpartitionlinecolor');
+	register_setting( 'gallerylink-settings-group', 'gallerylink_css_sp_listbackcolor');
+	register_setting( 'gallerylink-settings-group', 'gallerylink_css_sp_listarrowcolor');
+	register_setting( 'gallerylink-settings-group', 'gallerylink_css_sp_listpartitionlinecolor');
 	add_option('gallerylink_album_topurl', '');
 	add_option('gallerylink_movie_topurl', '');
 	add_option('gallerylink_music_topurl', '');
@@ -97,6 +108,16 @@ function gallerylink_register_settings(){
 	add_option('gallerylink_exclude_dir', '');
 	add_option('gallerylink_rssmax', 10); 
 	add_option('gallerylink_movie_container', '512x384');
+	add_option('gallerylink_css_pc_listwidth', 400);
+	add_option('gallerylink_css_pc_listthumbsize', '50x35');
+	add_option('gallerylink_css_pc_linkstrcolor', '#000000');
+	add_option('gallerylink_css_pc_linkbackcolor', '#f6efe2');
+	add_option('gallerylink_css_sp_navstrcolor', '#000000');
+	add_option('gallerylink_css_sp_navbackcolor', '#f6efe2');
+	add_option('gallerylink_css_sp_navpartitionlinecolor', '#ffffff');
+	add_option('gallerylink_css_sp_listbackcolor', '#ffffff');
+	add_option('gallerylink_css_sp_listarrowcolor', '#e2a6a6');
+	add_option('gallerylink_css_sp_listpartitionlinecolor', '#f6efe2');
 
 }
 
@@ -139,6 +160,62 @@ function gallerylink_settings_link( $links, $file ) {
  */
 function gallerylink_plugin_menu() {
 	add_options_page( 'GalleryLink Options', 'GalleryLink', 'manage_options', 'GalleryLink', 'gallerylink_plugin_options' );
+}
+
+/* ==================================================
+ * Settings CSS
+ * @since	2.2
+ */
+function gallerylink_add_css(){
+
+	$pc_listwidth = get_option('gallerylink_css_pc_listwidth');
+	list($listthumbsize_w, $listthumbsize_h) = explode('x', get_option('gallerylink_css_listthumbsize'));
+	$pc_linkstrcolor = get_option('gallerylink_css_pc_linkstrcolor');
+	$pc_linkbackcolor = get_option('gallerylink_css_pc_linkbackcolor');
+	$sp_navstrcolor = get_option('gallerylink_css_sp_navstrcolor');
+	$sp_navbackcolor = get_option('gallerylink_css_sp_navbackcolor');
+	$sp_navpartitionlinecolor = get_option('gallerylink_css_sp_navpartitionlinecolor');
+	$sp_listbackcolor = get_option('gallerylink_css_sp_listbackcolor');
+	$sp_listarrowcolor = get_option('gallerylink_css_sp_listarrowcolor');
+	$sp_listpartitionlinecolor = get_option('gallerylink_css_sp_listpartitionlinecolor');
+
+// CSS PC
+$gallerylink_add_css_pc = <<<GALLERYLINKADDCSSPC
+<!-- Start Gallerylink CSS for PC -->
+<style type="text/css">
+#playlists-gallerylink { width: {$pc_listwidth}px; }
+#playlists-gallerylink li { width: {$pc_listwidth}px; }
+#playlists-gallerylink li a { width: {$pc_listwidth}px; height: {$pc_listthumbsize_h}px; }
+#playlists-gallerylink img { width: {$listthumbsize_w}px; height: {$listthumbsize_h}px; }
+* html #playlists-gallerylink li a { width: {$pc_listwidth}px; }
+#playlists-gallerylink li:hover {background: {$pc_linkbackcolor};}
+#playlists-gallerylink li a:hover {color: {$pc_linkstrcolor}; background: {$pc_linkbackcolor};}
+</style>
+<!-- End Gallerylink CSS for PC -->
+GALLERYLINKADDCSSPC;
+
+// CSS SP
+$gallerylink_add_css_sp = <<<GALLERYLINKADDCSSSP
+<!-- Start Gallerylink CSS for Smart Phone -->
+<style type="text/css">
+.g_nav li{ color: {$sp_navstrcolor}; background: {$sp_navbackcolor}; }
+.g_nav li:not(:last-child){ border-right:1px solid {$sp_navpartitionlinecolor}; }
+.g_nav li a{ color: {$sp_navstrcolor}; }
+.list{ background: {$sp_listbackcolor}; }
+.list ul li a:after{ border: 4px solid transparent; border-left-color: {$sp_listarrowcolor}; }
+.list ul li:not(:last-child){ border-bottom:1px solid {$sp_listpartitionlinecolor}; }
+.list ul li img{ width: {$listthumbsize_w}px; height: {$listthumbsize_h}px; }
+</style>
+<!-- End Gallerylink CSS for Smart Phone -->
+GALLERYLINKADDCSSSP;
+
+	$mode = gallerylink_agent_check();
+	if ( $mode === 'pc' ) {
+		echo $gallerylink_add_css_pc;
+	} else if ( $mode === 'sp') {
+		echo $gallerylink_add_css_sp;
+	}
+
 }
 
 /* ==================================================
@@ -366,9 +443,9 @@ function gallerylink_plugin_options() {
 	<div class="wrap">
 	<h2><?php _e('The default value for the short code attribute', 'gallerylink') ?></h2>	
 	<form method="post" action="options.php">
+		<?php settings_fields('gallerylink-settings-group'); ?>
 		<table border="1" bgcolor="#dddddd">
 		<tbody>
-		<?php settings_fields('gallerylink-settings-group'); ?>
 			<tr>
 				<td align="center" valign="middle"><?php _e('Attribute', 'gallerylink'); ?></td>
 				<td align="center" valign="middle" colspan=3><?php _e('Default'); ?></td>
@@ -610,12 +687,21 @@ function gallerylink_plugin_options() {
 		</table>
 
 		<h2><?php _e('The default value for other.', 'gallerylink') ?></h2>	
-		<table>
+		<table border="1" bgcolor="#dddddd">
 		<tbody>
 			<tr>
-				<td align="center" valign="middle">
-				<?php _e('Size of the movie container.', 'gallerylink') ?>
-				</td>
+				<td align="center" valign="middle" colspan="2"><b>PC</b></td>
+				<td align="center" valign="middle" colspan="2"><b>Smartphone</b></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td align="center" valign="middle"><b>movie</b></td>
+				<td align="center" valign="middle"><b>music</b></td>
+				<td align="center" valign="middle"><b>movie</b></td>
+				<td align="center" valign="middle"><b>music</b></td>
+				<td align="center" valign="middle"><b><?php _e('Description'); ?></b></td>
+			</tr>
+			<tr>
 				<td align="center" valign="middle">
 				<?php $target_movie_container = get_option('gallerylink_movie_container'); ?>
 				<select id="gallerylink_movie_container" name="gallerylink_movie_container">
@@ -636,6 +722,104 @@ function gallerylink_plugin_options() {
 					<option <?php if ('1024x576' == $target_movie_container)echo 'selected="selected"'; ?>>1024x576</option>
 					<option <?php if ('1280x720' == $target_movie_container)echo 'selected="selected"'; ?>>1280x720</option>
 				</select>
+				</td>
+				<td colspan="3"></td>
+				<td align="left" valign="middle">
+				<?php _e('Size of the movie container.', 'gallerylink') ?>
+				</td>
+			</tr>
+			<tr>
+				<td align="center" valign="middle" colspan="4">
+				<?php $target_css_listthumbsize = get_option('gallerylink_css_listthumbsize'); ?>
+				<select id="gallerylink_css_listthumbsize" name="gallerylink_css_listthumbsize">
+					<option <?php if ('50x35' == $target_css_listthumbsize)echo 'selected="selected"'; ?>>50x35</option>
+					<option <?php if ('60x40' == $target_css_listthumbsize)echo 'selected="selected"'; ?>>60x40</option>
+					<option <?php if ('80x55' == $target_css_listthumbsize)echo 'selected="selected"'; ?>>80x55</option>
+				</select>
+				</td>
+				<td align="left" valign="middle">
+				<?php _e('Size of the thumbnail size for Video and Music', 'gallerylink') ?>
+				</td>
+			</tr>
+			<tr>
+				<td align="center" valign="middle" colspan="2">
+					<input type="text" id="gallerylink_css_pc_linkbackcolor" name="gallerylink_css_pc_linkbackcolor" value="<?php echo get_option('gallerylink_css_pc_linkbackcolor') ?>" size="10" />
+				</td>
+				<td colspan="2"></td>
+				<td align="left" valign="middle">
+				<?php _e('Background color', 'gallerylink') ?>
+				</td>
+			</tr>
+			<tr>
+				<td align="center" valign="middle" colspan="2">
+					<input type="text" id="gallerylink_css_pc_linkstrcolor" name="gallerylink_css_pc_linkstrcolor" value="<?php echo get_option('gallerylink_css_pc_linkstrcolor') ?>" size="10" />
+				</td>
+				<td colspan="2"></td>
+				<td align="left" valign="middle">
+				<?php _e('Text color', 'gallerylink') ?>
+				</td>
+			</tr>
+			<tr>
+				<td align="center" valign="middle" colspan="2">
+					<input type="text" id="gallerylink_css_pc_listwidth" name="gallerylink_css_pc_listwidth" value="<?php echo intval(get_option('gallerylink_css_pc_listwidth')) ?>" size="4" />
+				</td>
+				<td colspan="2"></td>
+				<td align="left" valign="middle">
+				<?php _e('Width of the list', 'gallerylink') ?>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2"></td>
+				<td align="center" valign="middle" colspan="2">
+					<input type="text" id="gallerylink_css_sp_listarrowcolor" name="gallerylink_css_sp_listarrowcolor" value="<?php echo get_option('gallerylink_css_sp_listarrowcolor') ?>" size="10" />
+				</td>
+				<td align="left" valign="middle">
+				<?php _e('Color of the arrow', 'gallerylink') ?>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2"></td>
+				<td align="center" valign="middle" colspan="2">
+					<input type="text" id="gallerylink_css_sp_listbackcolor" name="gallerylink_css_sp_listbackcolor" value="<?php echo get_option('gallerylink_css_sp_listbackcolor') ?>" size="10" />
+				</td>
+				<td align="left" valign="middle">
+				<?php _e('Background color of the list', 'gallerylink') ?>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2"></td>
+				<td align="center" valign="middle" colspan="2">
+					<input type="text" id="gallerylink_css_sp_listpartitionlinecolor" name="gallerylink_css_sp_listpartitionlinecolor" value="<?php echo get_option('gallerylink_css_sp_listpartitionlinecolor') ?>" size="10" />
+				</td>
+				<td align="left" valign="middle">
+				<?php _e('Background color of the partition line in the list', 'gallerylink') ?>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2"></td>
+				<td align="center" valign="middle" colspan="2">
+					<input type="text" id="gallerylink_css_sp_navbackcolor" name="gallerylink_css_sp_navbackcolor" value="<?php echo get_option('gallerylink_css_sp_navbackcolor') ?>" size="10" />
+				</td>
+				<td align="left" valign="middle">
+				<?php _e('Background color of the navigation', 'gallerylink') ?>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2"></td>
+				<td align="center" valign="middle" colspan="2">
+					<input type="text" id="gallerylink_css_sp_navpartitionlinecolor" name="gallerylink_css_sp_navpartitionlinecolor" value="<?php echo get_option('gallerylink_css_sp_navpartitionlinecolor') ?>" size="10" />
+				</td>
+				<td align="left" valign="middle">
+				<?php _e('Background color of the partition line in the navigation', 'gallerylink') ?>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2"></td>
+				<td align="center" valign="middle" colspan="2">
+					<input type="text" id="gallerylink_css_sp_navstrcolor" name="gallerylink_css_sp_navstrcolor" value="<?php echo get_option('gallerylink_css_sp_navstrcolor') ?>" size="10" />
+				</td>
+				<td align="left" valign="middle">
+				<?php _e('Text color navigation', 'gallerylink') ?>
 				</td>
 			</tr>
 		</tbody>
@@ -997,10 +1181,10 @@ function mime_type($suffix){
  * @return	string	$mode
  * @since	1.0.0
  */
-function agent_check(){
+function gallerylink_agent_check(){
 
 	include_once dirname(__FILE__).'/Mobile-Detect-2.6.2/Mobile_Detect.php';
-	$detect = new Mobile_Detect();
+	$detect = new GalleryLink_Mobile_Detect();
 
 	if ((! function_exists('is_mobile') || ! is_mobile()) && (! function_exists('is_ktai') || ! is_ktai() && ! wp_is_mobile() )) { //PC
 		$mode = 'pc';
@@ -1093,7 +1277,7 @@ function gallerylink_func( $atts ) {
 	$suffix = NULL;
 	$display = NULL;
 	
-	$mode = agent_check();
+	$mode = gallerylink_agent_check();
 	if ( $mode === 'pc' ) {
 		$suffix = $suffix_pc;
 		$display = $display_pc;

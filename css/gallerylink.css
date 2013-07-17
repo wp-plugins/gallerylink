@@ -20,36 +20,23 @@ li{ float: left; display: block;}
 }
 
 #playlists-gallerylink {
-	width: 400px;
 	float:left;
 	overflow: hidden;
 }
 
 #playlists-gallerylink li {
 	border-width: 1px 0;
-	width: 400px;
 	margin: 5px 5px 5px 5px;
 }
 
 #playlists-gallerylink li a {
 	display: block;
 	font: bold 120% Arial, Helvetica, sans-serif;
-	width: 400px;
-	height: 35px;
 	padding: 5px;
 	text-decoration: none;
 }
 
 #playlists-gallerylink img{
 	float:left;
-	width: 50px;
-	height: 35px;
 	overflow: hidden;
 }
-
-* html #playlists-gallerylink li a {
-	width: 400px;
-}
-
-#playlists-gallerylink li:hover {background: #f6efe2;}
-#playlists-gallerylink li a:hover {color: #000000; background: #f6efe2;}
