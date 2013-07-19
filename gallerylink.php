@@ -2,7 +2,7 @@
 /*
 Plugin Name: GalleryLink
 Plugin URI: http://wordpress.org/plugins/gallerylink/
-Version: 2.2
+Version: 2.3
 Description: Output as a gallery by find the file extension and directory specified.
 Author: Katsushi Kawamori
 Author URI: http://gallerylink.nyanko.org/
@@ -1008,13 +1008,24 @@ function print_file($dparam,$file,$topurl,$suffix,$thumbnail,$document_root,$set
 				if (!empty($_GET['glp'])){
 					$page = $_GET['glp'];				//pages
 				}
+
+				$permlinkstr = NULL;
+				$permalinkstruct = NULL;
+				$permalinkstruct = get_option('permalink_structure');
+				if( empty($permalinkstruct) ){
+					$perm_id = get_the_ID();
+					$permlinkstr = '?page_id='.$perm_id.'&d=';
+				} else {
+					$permlinkstr = '?d=';
+				}
+
 				if( $thumbfind === "true" ){
-					$linkfile = '<li><img src="'.$topurl.$thumbfile.'"><a href="'.$scriptname.'?d='.$dparam.'&glp='.$page.'&f='.$fileparam.'">'.$filetitle.'</a></li>';
+					$linkfile = '<li><img src="'.$topurl.$thumbfile.'"><a href="'.$scriptname.$permlinkstr.$dparam.'&glp='.$page.'&f='.$fileparam.'">'.$filetitle.'</a></li>';
 				}else{
 					if( !empty($thumbnail) ) {
-						$linkfile = '<li><img src="'.$wpiconurl.'"><a href="'.$scriptname.'?d='.$dparam.'&glp='.$page.'&f='.$fileparam.'">'.$filetitle.'</a></li>';
+						$linkfile = '<li><img src="'.$wpiconurl.'"><a href="'.$scriptname.$permlinkstr.$dparam.'&glp='.$page.'&f='.$fileparam.'">'.$filetitle.'</a></li>';
 					} else {
-						$linkfile = '<li><a href="'.$scriptname.'?d='.$dparam.'&glp='.$page.'&f='.$fileparam.'">'.$filetitle.'</a></li>';
+						$linkfile = '<li><a href="'.$scriptname.$permlinkstr.$dparam.'&glp='.$page.'&f='.$fileparam.'">'.$filetitle.'</a></li>';
 					}
 				}
 			}
@@ -1112,12 +1123,21 @@ function xmlitem_read($file, $thumbnail, $suffix, $document_root, $topurl) {
 	$servername = $_SERVER['HTTP_HOST'];
 	$scriptname = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
 
+	$permalinkstruct = NULL;
+	$permalinkstruct = get_option('permalink_structure');
+	if( empty($permalinkstruct) ){
+		$perm_id = get_the_ID();
+		$scriptname .= '?page_id='.$perm_id.'&#38;f=';
+	} else {
+		$scriptname .= '?f=';
+	}
+
 	$thumbfind =NULL;
 	if ( preg_match( "/jpg|png|gif|bmp/i", $suffix) ){
 		$link_url = 'http://'.$servername.$topurl.$file.$suffix;
 		$img_url = '<a href="'.$link_url.'"><img src = "http://'.$servername.$topurl.$file.$thumbnail.$suffix.'"></a>';
 	}else{
-		$link_url = 'http://'.$servername.$scriptname.'?f='.$fparam;
+		$link_url = 'http://'.$servername.$scriptname.$fparam;
 		$enc_url = 'http://'.$servername.$topurl.$file.$suffix;
 		if(file_exists($document_root.'/'.$titlename.$thumbnail)){ $thumbfind = 'true'; }
 		if( $thumbfind === "true" ){
@@ -1427,7 +1447,18 @@ function gallerylink_func( $atts ) {
 	}
 	$pagestr = '&glp='.$page;
 
-	$scripturl = $scriptname."?";
+	$permlinkstrform = NULL;
+	$permalinkstruct = NULL;
+	$permalinkstruct = get_option('permalink_structure');
+	$scripturl = $scriptname;
+	if( empty($permalinkstruct) ){
+		$perm_id = get_the_ID();
+		$scripturl .= '?page_id='.$perm_id;
+		$permlinkstrform = '<input type="hidden" name="page_id" value="'.$perm_id.'">';
+	} else {
+		$scripturl .= '?';
+	}
+
 	$dparam = mb_convert_encoding($dparam, "UTF-8", "auto");
 	$currentfolder_encode = urlencode($dparam);
 	if ( empty($currentfolder) ){
@@ -1501,8 +1532,10 @@ function gallerylink_func( $atts ) {
 	}else{
 		$str_onchange = 'onchange="submit(this.form)"';
 	}
+
 $dirselectbox = <<<DIRSELECTBOX
 <form method="get" action="{$scriptname}">
+{$permlinkstrform}
 <select name="d" {$str_onchange}>
 {$linkdirs}
 </select>
@@ -1514,6 +1547,7 @@ DIRSELECTBOX;
 	$search = mb_convert_encoding($search, "UTF-8", "auto");
 $searchform = <<<SEARCHFORM
 <form method="get" action="{$scriptname}">
+{$permlinkstrform}
 <input type="hidden" name="d" value="{$dparam}">
 <input type="text" name="gls" value="{$search}">
 <input type="submit" value="{$searchbutton}">

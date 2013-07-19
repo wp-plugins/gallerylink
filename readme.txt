@@ -4,7 +4,7 @@ Donate link: http://gallerylink.nyanko.org/
 Tags: audio,feed,feeds,flash,gallery,html5,image,images,list,music,photo,photos,picture,pictures,rss,shortcode,video,xml
 Requires at least: 3.0.1
 Tested up to: 3.4
-Stable tag: 2.2
+Stable tag: 2.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -55,6 +55,9 @@ none
 1. screenshot-1.jpg
 
 == Changelog ==
+
+= 2.3 =
+Fixed problem in the case of a "Permalink Settings > Default".
 
 = 2.2 =
 Add "Settings" for CSS.
@@ -174,6 +177,7 @@ Delete screenshot
 
 == Upgrade Notice ==
 
+= 2.3 =
 = 2.2 =
 = 2.1 =
 = 2.0 =
