@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Gallerylink\n"
 "POT-Creation-Date: 2013-05-27 21:10+0900\n"
-"PO-Revision-Date: 2013-07-17 03:28+0900\n"
+"PO-Revision-Date: 2013-07-28 23:06+0900\n"
 "Last-Translator: dodesyo312 <dodesyoswift312@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -174,11 +174,11 @@ msgstr "除外するファイル。複数の場合は、|で区切って指定�
 msgid "Directory you want to exclude. More than one, specified separated by |."
 msgstr "除外するディレクトリ。複数の場合は、|で区切って指定します。"
 
-msgid "The name of the RSS feed file"
-msgstr "RSSフィードファイルの名前"
+msgid "The name of the RSS feed file (Use to widget)"
+msgstr "RSSフィードファイルの名前(ウィジェットに使用します)"
 
-msgid "Syndication feeds show the most recent"
-msgstr "RSSフィードの表示数"
+msgid "Syndication feeds show the most recent (Use to widget)"
+msgstr "RSSフィードの表示数(ウィジェットに使用します)"
 
 msgid "The default value for other."
 msgstr "その他のデフォルト値"
@@ -222,3 +222,12 @@ msgid ""
 msgstr ""
 "動画や音楽の再生では、環境によってデータファイルのあるtopurlディレクトリに以"
 "下の様な、.htaccess が必要になります。"
+
+msgid "Album (RSS)"
+msgstr "アルバム (RSS)"
+
+msgid "Video (Podcast)"
+msgstr "動画 (Podcast)"
+
+msgid "Music (Podcast)"
+msgstr "音楽 (Podcast)"

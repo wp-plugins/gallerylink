@@ -31,7 +31,12 @@
 	delete_option('gallerylink_music_suffix_thumbnail');
 	delete_option('gallerylink_exclude_file');
 	delete_option('gallerylink_exclude_dir');
-	delete_option('gallerylink_rssmax'); 
+	delete_option('gallerylink_album_rssname');
+	delete_option('gallerylink_movie_rssname');
+	delete_option('gallerylink_music_rssname');
+	delete_option('gallerylink_album_rssmax');
+	delete_option('gallerylink_movie_rssmax');
+	delete_option('gallerylink_music_rssmax');
 	delete_option('gallerylink_movie_container');
 	delete_option('gallerylink_css_pc_listwidth');
 	delete_option('gallerylink_css_pc_listthumbsize');

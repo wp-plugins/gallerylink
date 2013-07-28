@@ -2,7 +2,7 @@
 /*
 Plugin Name: GalleryLink
 Plugin URI: http://wordpress.org/plugins/gallerylink/
-Version: 2.4
+Version: 2.5
 Description: Output as a gallery by find the file extension and directory specified.
 Author: Katsushi Kawamori
 Author URI: http://gallerylink.nyanko.org/
@@ -32,6 +32,153 @@ Domain Path: /languages
 	add_action( 'wp_head', wp_enqueue_script('jquery') );
 	add_action( 'admin_menu', 'gallerylink_plugin_menu' );
 	add_shortcode( 'gallerylink', 'gallerylink_func' );
+	add_action('widgets_init', create_function('', 'return register_widget("GalleryLinkWidgetItem");'));
+
+/* ==================================================
+ * Widget
+ * @since	2.5
+ */
+class GalleryLinkWidgetItem extends WP_Widget {
+	function GalleryLinkWidgetItem() {
+		parent::WP_Widget(false, $name = 'GalleryLinkRssFeed');
+	}
+
+	function widget($args, $instance) {
+		extract($args);
+		$title = apply_filters('widget_title', $instance['title']);
+		$checkbox1 = apply_filters('widget_checkbox', $instance['checkbox1']);
+		$checkbox2 = apply_filters('widget_checkbox', $instance['checkbox2']);
+		$checkbox3 = apply_filters('widget_checkbox', $instance['checkbox3']);
+		$checkbox4 = apply_filters('widget_checkbox', $instance['checkbox4']);
+		$checkbox5 = apply_filters('widget_checkbox', $instance['checkbox5']);
+
+		$pluginurl = plugins_url($path='',$scheme=null);
+
+		if ($title) {
+			echo $before_widget;
+			echo $before_title . $title . $after_title;
+			echo '<table>';
+			if ($checkbox1) {
+				?>
+				<tr>
+				<td align="center" valign="middle">
+				<a href="<?php echo bloginfo('rss2_url'); ?>">
+				<img src="<?php echo $pluginurl ?>/gallerylink/icon/rssfeeds.png"></a>
+				</td>
+				<td align="left" valign="middle"><?php _e('Entries (RSS)'); ?></td>
+				</tr>
+				<?
+			}
+			if ($checkbox2) {
+				?>
+				<tr>
+				<td align="center" valign="middle"><a href="<?php echo bloginfo('comments_rss2_url'); ?>">
+				<img src="<?php echo $pluginurl ?>/gallerylink/icon/rssfeeds.png"></a>
+				</td>
+				<td align="left" valign="middle"><?php _e('Comments (RSS)'); ?></td>
+				</tr>
+				<?
+			}	
+			if ($checkbox3) {
+				?>
+				<tr>
+				<td align="center" valign="middle"><a href="<?php echo get_option('gallerylink_album_topurl') ?>/<?php echo get_option('gallerylink_album_rssname') ?>.xml">
+				<img src="<?php echo $pluginurl ?>/gallerylink/icon/rssfeeds.png"></a></td>
+				<td align="left" valign="middle"><?php _e('Album (RSS)', 'gallerylink'); ?></td>
+				</tr>
+				<?
+			}
+			if ($checkbox4) {
+				?>
+				<tr>
+				<td align="center" valign="middle"><a href="<?php echo get_option('gallerylink_movie_topurl') ?>/<?php echo get_option('gallerylink_movie_rssname') ?>.xml">
+				<img src="<?php echo $pluginurl ?>/gallerylink/icon/podcast.png"></a></td>
+				<td align="left" valign="middle"><?php _e('Video (Podcast)', 'gallerylink'); ?></td>
+				</tr>
+				<?
+			}
+			if ($checkbox5) {
+				?>
+				<tr>
+				<td align="center" valign="middle"><a href="<?php echo get_option('gallerylink_music_topurl') ?>/<?php echo get_option('gallerylink_music_rssname') ?>.xml">
+				<img src="<?php echo $pluginurl ?>/gallerylink/icon/podcast.png"></a></td>
+				<td align="left" valign="middle"><?php _e('Music (Podcast)', 'gallerylink'); ?></td>
+				</tr>
+				<?
+			}
+			echo '</table>';
+			echo $after_widget;
+		}
+	}
+	
+	function update($new_instance, $old_instance) {
+		$instance = $old_instance;
+		$instance['title'] = strip_tags($new_instance['title']);
+		$instance['checkbox1'] = strip_tags($new_instance['checkbox1']);
+		$instance['checkbox2'] = strip_tags($new_instance['checkbox2']);
+		$instance['checkbox3'] = strip_tags($new_instance['checkbox3']);
+		$instance['checkbox4'] = strip_tags($new_instance['checkbox4']);
+		$instance['checkbox5'] = strip_tags($new_instance['checkbox5']);
+		return $instance;
+	}
+	
+	function form($instance) {
+		$title = esc_attr($instance['title']);
+		$checkbox1 = esc_attr($instance['checkbox1']);
+		$checkbox2 = esc_attr($instance['checkbox2']);
+		$checkbox3 = esc_attr($instance['checkbox3']);
+		$checkbox4 = esc_attr($instance['checkbox4']);
+		$checkbox5 = esc_attr($instance['checkbox5']);
+
+		?>
+		<p>
+			<label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title'); ?>:</label>
+			<input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>" />
+		</p>
+		<div><?php echo get_bloginfo('name'); ?>:</div>
+		<table>
+		<tr>
+		<td align="left" valign="middle" nowrap>
+			<label for="<?php echo $this->get_field_id('checkbox1'); ?> ">
+<input class="widefat" id="<?php echo $this->get_field_id('checkbox1'); ?>" name="<?php echo $this->get_field_name('checkbox1'); ?>" type="checkbox"<?php checked('Blog', $checkbox1); ?> value="Blog" />
+			<?php _e('Entries (RSS)'); ?></label>
+		</td>
+		</tr>
+		<tr>
+		<td align="left" valign="middle" nowrap>
+			<label for="<?php echo $this->get_field_id('checkbox2'); ?> ">
+			<input class="widefat" id="<?php echo $this->get_field_id('checkbox2'); ?>" name="<?php echo $this->get_field_name('checkbox2'); ?>" type="checkbox"<?php checked('Blog Comments', $checkbox2); ?> value="Blog Comments" />
+			<?php _e('Comments (RSS)'); ?></label>
+		</td>
+		</tr>
+		</table>
+		<div>GalleryLink:</div>
+		<table>
+		<tr>
+		<td align="left" valign="middle" nowrap>
+			<label for="<?php echo $this->get_field_id('checkbox3'); ?> ">
+			<input class="widefat" id="<?php echo $this->get_field_id('checkbox3'); ?>" name="<?php echo $this->get_field_name('checkbox3'); ?>" type="checkbox"<?php checked('Album', $checkbox3); ?> value="Album" />
+			<?php _e('Album (RSS)', 'gallerylink'); ?></label>
+		</td>
+		</tr>
+		<tr>
+		<td align="left" valign="middle" nowrap>
+			<label for="<?php echo $this->get_field_id('checkbox4'); ?> ">
+			<input class="widefat" id="<?php echo $this->get_field_id('checkbox4'); ?>" name="<?php echo $this->get_field_name('checkbox4'); ?>" type="checkbox"<?php checked('Movie', $checkbox4); ?> value="Movie" />
+			<?php _e('Video (Podcast)', 'gallerylink'); ?></label>
+		</td>
+		</tr>
+		<tr>
+		<td align="left" valign="middle" nowrap>
+			<label for="<?php echo $this->get_field_id('checkbox5'); ?> ">
+			<input class="widefat" id="<?php echo $this->get_field_id('checkbox5'); ?>" name="<?php echo $this->get_field_name('checkbox5'); ?>" type="checkbox"<?php checked('Music', $checkbox5); ?> value="Music" />
+			<?php _e('Music (Podcast)', 'gallerylink'); ?></label>
+		</td>
+		</tr>
+		</table>
+		<?php
+	}
+}
 
 /* ==================================================
  * Settings register
@@ -66,7 +213,12 @@ function gallerylink_register_settings(){
 	register_setting( 'gallerylink-settings-group', 'gallerylink_music_suffix_thumbnail');
 	register_setting( 'gallerylink-settings-group', 'gallerylink_exclude_file');
 	register_setting( 'gallerylink-settings-group', 'gallerylink_exclude_dir');
-	register_setting( 'gallerylink-settings-group', 'gallerylink_rssmax', 'gallerylink_pos_intval');
+	register_setting( 'gallerylink-settings-group', 'gallerylink_album_rssname');
+	register_setting( 'gallerylink-settings-group', 'gallerylink_movie_rssname');
+	register_setting( 'gallerylink-settings-group', 'gallerylink_music_rssname');
+	register_setting( 'gallerylink-settings-group', 'gallerylink_album_rssmax', 'gallerylink_pos_intval');
+	register_setting( 'gallerylink-settings-group', 'gallerylink_movie_rssmax', 'gallerylink_pos_intval');
+	register_setting( 'gallerylink-settings-group', 'gallerylink_music_rssmax', 'gallerylink_pos_intval');
 	register_setting( 'gallerylink-settings-group', 'gallerylink_movie_container');
 	register_setting( 'gallerylink-settings-group', 'gallerylink_css_listthumbsize');
 	register_setting( 'gallerylink-settings-group', 'gallerylink_css_pc_listwidth', 'gallerylink_pos_intval');
@@ -106,7 +258,12 @@ function gallerylink_register_settings(){
 	add_option('gallerylink_music_suffix_thumbnail', '');
 	add_option('gallerylink_exclude_file', '');
 	add_option('gallerylink_exclude_dir', '');
-	add_option('gallerylink_rssmax', 10); 
+	add_option('gallerylink_album_rssname', 'gallerylink_album_feed');
+	add_option('gallerylink_movie_rssname', 'gallerylink_movie_feed');
+	add_option('gallerylink_music_rssname', 'gallerylink_music_feed');
+	add_option('gallerylink_album_rssmax', 10);
+	add_option('gallerylink_movie_rssmax', 10);
+	add_option('gallerylink_music_rssmax', 10);
 	add_option('gallerylink_movie_container', '512x384');
 	add_option('gallerylink_css_pc_listwidth', 400);
 	add_option('gallerylink_css_pc_listthumbsize', '50x35');
@@ -419,19 +576,21 @@ function gallerylink_plugin_options() {
 
 	<tr>
 	<td align="center" valign="middle"><b>rssname</b></td>
-	<td align="center" valign="middle">gallerylink_album_feed</td>
-	<td align="center" valign="middle">gallerylink_movie_feed</td>
-	<td align="center" valign="middle">gallerylink_music_feed</td>
+	<td align="center" valign="middle"><?php echo get_option('gallerylink_album_rssname') ?></td>
+	<td align="center" valign="middle"><?php echo get_option('gallerylink_movie_rssname') ?></td>
+	<td align="center" valign="middle"><?php echo get_option('gallerylink_music_rssname') ?></td>
 	<td align="left" valign="middle">
-	<?php _e('The name of the RSS feed file', 'gallerylink'); ?>
+	<?php _e('The name of the RSS feed file (Use to widget)', 'gallerylink'); ?>
 	</td>
 	</tr>
 
 	<tr>
 	<td align="center" valign="middle"><b>rssmax</b></td>
-	<td colspan="3" align="center" valign="middle"><?php echo intval(get_option('gallerylink_rssmax')) ?></td>
+	<td align="center" valign="middle"><?php echo intval(get_option('gallerylink_album_rssmax')) ?></td>
+	<td align="center" valign="middle"><?php echo intval(get_option('gallerylink_movie_rssmax')) ?></td>
+	<td align="center" valign="middle"><?php echo intval(get_option('gallerylink_music_rssmax')) ?></td>
 	<td align="left" valign="middle">
-	<?php _e('Syndication feeds show the most recent', 'gallerylink'); ?>
+	<?php _e('Syndication feeds show the most recent (Use to widget)', 'gallerylink'); ?>
 	</td>
 	</tr>
 
@@ -675,12 +834,33 @@ function gallerylink_plugin_options() {
 				</td>
 			</tr>
 			<tr>
-				<td align="center" valign="middle"><b>rssmax</b></td>
-				<td align="center" valign="middle" colspan="3">
-					<input type="text" id="gallerylink_rssmax" name="gallerylink_rssmax" value="<?php echo intval(get_option('gallerylink_rssmax')) ?>" size="3" />
+				<td align="center" valign="middle"><b>rssname</b></td>
+				<td align="center" valign="middle">
+					<input type="text" id="gallerylink_album_rssname" name="gallerylink_album_rssname" value="<?php echo get_option('gallerylink_album_rssname') ?>" size="25" />
+				</td>
+				<td align="center" valign="middle">
+					<input type="text" id="gallerylink_movie_rssname" name="gallerylink_movie_rssname" value="<?php echo get_option('gallerylink_movie_rssname') ?>" size="25" />
+				</td>
+				<td align="center" valign="middle">
+					<input type="text" id="gallerylink_music_rssname" name="gallerylink_music_rssname" value="<?php echo get_option('gallerylink_music_rssname') ?>" size="25" />
 				</td>
 				<td align="left" valign="middle">
-					<?php _e('Syndication feeds show the most recent', 'gallerylink') ?>
+					<?php _e('The name of the RSS feed file (Use to widget)', 'gallerylink'); ?>
+				</td>
+			</tr>
+			<tr>
+				<td align="center" valign="middle"><b>rssmax</b></td>
+				<td align="center" valign="middle">
+					<input type="text" id="gallerylink_album_rssmax" name="gallerylink_album_rssmax" value="<?php echo intval(get_option('gallerylink_album_rssmax')) ?>" size="3" />
+				</td>
+				<td align="center" valign="middle">
+					<input type="text" id="gallerylink_movie_rssmax" name="gallerylink_movie_rssmax" value="<?php echo intval(get_option('gallerylink_movie_rssmax')) ?>" size="3" />
+				</td>
+				<td align="center" valign="middle">
+					<input type="text" id="gallerylink_music_rssmax" name="gallerylink_music_rssmax" value="<?php echo intval(get_option('gallerylink_music_rssmax')) ?>" size="3" />
+				</td>
+				<td align="left" valign="middle">
+					<?php _e('Syndication feeds show the most recent (Use to widget)', 'gallerylink') ?>
 				</td>
 			</tr>
 		</tbody>
@@ -1256,6 +1436,8 @@ function gallerylink_func( $atts ) {
 		if( empty($display_sp) ) { $display_sp = intval(get_option('gallerylink_album_display_sp')); }
 		if( empty($display_keitai) ) { $display_keitai = intval(get_option('gallerylink_album_display_keitai')); }
 		if( empty($thumbnail) ) { $thumbnail = get_option('gallerylink_album_suffix_thumbnail'); }
+		if( empty($rssname) ) { $rssname = get_option('gallerylink_album_rssname'); }
+		if( empty($rssmax) ) { $rssmax = intval(get_option('gallerylink_album_rssmax')); }
 	} else if ( $set === 'movie' ){
 		if( empty($topurl) ) { $topurl = get_option('gallerylink_movie_topurl'); }
 		if( empty($suffix_pc) ) { $suffix_pc = get_option('gallerylink_movie_suffix_pc'); }
@@ -1266,6 +1448,8 @@ function gallerylink_func( $atts ) {
 		if( empty($display_sp) ) { $display_sp = intval(get_option('gallerylink_movie_display_sp')); }
 		if( empty($display_keitai) ) { $display_keitai = intval(get_option('gallerylink_movie_display_keitai')); }
 		if( empty($thumbnail) ) { $thumbnail = get_option('gallerylink_movie_suffix_thumbnail'); }
+		if( empty($rssname) ) { $rssname = get_option('gallerylink_movie_rssname'); }
+		if( empty($rssmax) ) { $rssmax = intval(get_option('gallerylink_movie_rssmax')); }
 	} else if ( $set === 'music' ){
 		if( empty($topurl) ) { $topurl = get_option('gallerylink_music_topurl'); }
 		if( empty($suffix_pc) ) { $suffix_pc = get_option('gallerylink_music_suffix_pc'); }
@@ -1276,18 +1460,14 @@ function gallerylink_func( $atts ) {
 		if( empty($display_sp) ) { $display_sp = intval(get_option('gallerylink_music_display_sp')); }
 		if( empty($display_keitai) ) { $display_keitai = intval(get_option('gallerylink_music_display_keitai')); }
 		if( empty($thumbnail) ) { $thumbnail = get_option('gallerylink_music_suffix_thumbnail'); }
+		if( empty($rssname) ) { $rssname = get_option('gallerylink_music_rssname'); }
+		if( empty($rssmax) ) { $rssmax = intval(get_option('gallerylink_music_rssmax')); }
 	}
 	if ( empty($exclude_file) && ($set === 'album' || $set === 'movie' || $set === 'music') ) {
 		$exclude_file = get_option('gallerylink_exclude_file');
 	}
 	if ( empty($exclude_dir) && ($set === 'album' || $set === 'movie' || $set === 'music') ) {
 		$exclude_dir = get_option('gallerylink_exclude_dir');
-	}
-	if ( empty($rssname) && ($set === 'album' || $set === 'movie' || $set === 'music') ) {
-		$rssname = 'gallerylink_'.$set.'_feed';
-	}
-	if ( empty($rssmax) && ($set === 'album' || $set === 'movie' || $set === 'music') ) {
-		$rssmax = intval(get_option('gallerylink_rssmax'));
 	}
 
 	$wp_path = str_replace('http://'.$_SERVER["SERVER_NAME"], '', get_bloginfo('wpurl')).'/';
