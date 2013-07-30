@@ -4,7 +4,7 @@ Donate link: http://gallerylink.nyanko.org/
 Tags: audio,feed,feeds,flash,gallery,html5,image,images,list,music,photo,photos,picture,pictures,rss,shortcode,video,xml
 Requires at least: 3.0.1
 Tested up to: 3.4
-Stable tag: 2.5
+Stable tag: 2.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -46,6 +46,8 @@ Bundled software and function
 
     [Settings](http://wordpress.org/plugins/gallerylink/other_notes/)
 
+7. Navigate to the appearance section and select widgets, select wordpress GalleryLinkRssFeed and configure from here.
+
 == Frequently Asked Questions ==
 
 none
@@ -55,6 +57,9 @@ none
 1. screenshot-1.jpg
 
 == Changelog ==
+
+= 2.6 =
+Change readme.txt
 
 = 2.5 =
 Add widget for RSS feed.
@@ -183,6 +188,7 @@ Delete screenshot
 
 == Upgrade Notice ==
 
+= 2.6 =
 = 2.5 =
 = 2.4 =
 = 2.3 =
@@ -250,14 +256,17 @@ If you want to use MULTI-BYTE CHARACTER SETS to the display of the directory nam
 Customization 2
 
 GalleryLink can be used to specify the attributes of the table below to short code. It will override the default settings.
-Image Example
-[gallerylink set='album' topurl='/wordpress/wp-content/uploads' thumbnail='-80x80' exclude_file='(.ktai.)|(-[0-9]*x[0-9]*.)' exclude_dir='ps_auto_sitemap|backwpup.*|wpcf7_captcha' rssname='album']
-Video Example
-[gallerylink set='movie' topurl='/gallery/video' rssmax=5]
-Music Example
-[gallerylink set='music' topurl='/gallery/music' rssmax=20]
+
+Image Example [gallerylink set='album' topurl='/wordpress/wp-content/uploads' thumbnail='-80x80' exclude_file='(.ktai.)|(-[0-9]*x[0-9]*.)' exclude_dir='ps_auto_sitemap|backwpup.*|wpcf7_captcha' rssname='album']
+
+Video Example [gallerylink set='movie' topurl='/gallery/video' rssmax=5]
+
+Music Example [gallerylink set='music' topurl='/gallery/music' rssmax=20]
+
 * Please set to 777 or 757 the attributes of topurl directory. Because GalleryLink create an RSS feed in the directory.
+
 * (WordPress > Settings > General Timezone) Please specify your area other than UTC. For accurate time display of RSS feed.
 
-[The default value for the short code attribute](http://wordpress.org/plugins/gallerylink/screenshots/)
+* When you move to appearance> widget, there is a widget GalleryLinkRssFeed. If you place you can set this to display the sidebar link the RSS feed.
 
+[The default value for the short code attribute](http://wordpress.org/plugins/gallerylink/screenshots/)
