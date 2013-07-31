@@ -2,7 +2,7 @@
 /*
 Plugin Name: GalleryLink
 Plugin URI: http://wordpress.org/plugins/gallerylink/
-Version: 2.7
+Version: 2.8
 Description: Output as a gallery by find the file extension and directory specified.
 Author: Katsushi Kawamori
 Author URI: http://gallerylink.nyanko.org/
@@ -54,6 +54,13 @@ class GalleryLinkWidgetItem extends WP_Widget {
 
 		$pluginurl = plugins_url($path='',$scheme=null);
 
+		$documentrootname = $_SERVER['DOCUMENT_ROOT'];
+		$servername = 'http://'.$_SERVER['HTTP_HOST'];
+		$xmlurl2 = get_bloginfo('comments_rss2_url');
+		$xml3 = get_option('gallerylink_album_topurl').'/'.get_option('gallerylink_album_rssname').'.xml';
+		$xml4 = get_option('gallerylink_movie_topurl').'/'.get_option('gallerylink_movie_rssname').'.xml';
+		$xml5 = get_option('gallerylink_music_topurl').'/'.get_option('gallerylink_music_rssname').'.xml';
+
 		if ($title) {
 			echo $before_widget;
 			echo $before_title . $title . $after_title;
@@ -65,44 +72,48 @@ class GalleryLinkWidgetItem extends WP_Widget {
 				<a href="<?php echo bloginfo('rss2_url'); ?>">
 				<img src="<?php echo $pluginurl ?>/gallerylink/icon/rssfeeds.png"></a>
 				</td>
-				<td align="left" valign="middle"><?php _e('Entries (RSS)'); ?></td>
+				<td align="left" valign="middle"><?php echo bloginfo('name'); ?></td>
 				</tr>
 				<?
 			}
 			if ($checkbox2) {
+				$xmldata2 = simplexml_load_file($xmlurl2);
 				?>
 				<tr>
 				<td align="center" valign="middle"><a href="<?php echo bloginfo('comments_rss2_url'); ?>">
 				<img src="<?php echo $pluginurl ?>/gallerylink/icon/rssfeeds.png"></a>
 				</td>
-				<td align="left" valign="middle"><?php _e('Comments (RSS)'); ?></td>
+				<td align="left" valign="middle"><?php echo $xmldata2->channel->title; ?></td>
 				</tr>
 				<?
 			}	
-			if ($checkbox3) {
+			if ($checkbox3 && file_exists($documentrootname.$xml3)) {
+				$xmldata3 = simplexml_load_file($servername.$xml3);
 				?>
 				<tr>
 				<td align="center" valign="middle"><a href="<?php echo get_option('gallerylink_album_topurl') ?>/<?php echo get_option('gallerylink_album_rssname') ?>.xml">
 				<img src="<?php echo $pluginurl ?>/gallerylink/icon/rssfeeds.png"></a></td>
-				<td align="left" valign="middle"><?php _e('Album (RSS)', 'gallerylink'); ?></td>
+				<td align="left" valign="middle"><?php echo $xmldata3->channel->title; ?></td>
 				</tr>
 				<?
 			}
-			if ($checkbox4) {
+			if ($checkbox4 && file_exists($documentrootname.$xml4)) {
+				$xmldata4 = simplexml_load_file($servername.$xml4);
 				?>
 				<tr>
 				<td align="center" valign="middle"><a href="<?php echo get_option('gallerylink_movie_topurl') ?>/<?php echo get_option('gallerylink_movie_rssname') ?>.xml">
 				<img src="<?php echo $pluginurl ?>/gallerylink/icon/podcast.png"></a></td>
-				<td align="left" valign="middle"><?php _e('Video (Podcast)', 'gallerylink'); ?></td>
+				<td align="left" valign="middle"><?php echo $xmldata4->channel->title; ?></td>
 				</tr>
 				<?
 			}
-			if ($checkbox5) {
+			if ($checkbox5 && file_exists($documentrootname.$xml5)) {
+				$xmldata5 = simplexml_load_file($servername.$xml5);
 				?>
 				<tr>
 				<td align="center" valign="middle"><a href="<?php echo get_option('gallerylink_music_topurl') ?>/<?php echo get_option('gallerylink_music_rssname') ?>.xml">
 				<img src="<?php echo $pluginurl ?>/gallerylink/icon/podcast.png"></a></td>
-				<td align="left" valign="middle"><?php _e('Music (Podcast)', 'gallerylink'); ?></td>
+				<td align="left" valign="middle"><?php echo $xmldata5->channel->title; ?></td>
 				</tr>
 				<?
 			}
