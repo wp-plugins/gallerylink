@@ -4,7 +4,7 @@ Donate link: http://gallerylink.nyanko.org/
 Tags: audio,feed,feeds,flash,gallery,html5,image,images,list,music,photo,photos,picture,pictures,rss,shortcode,video,xml
 Requires at least: 3.0.1
 Tested up to: 3.4
-Stable tag: 2.6
+Stable tag: 2.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -57,6 +57,10 @@ none
 1. screenshot-1.jpg
 
 == Changelog ==
+
+= 2.7 =
+Change Settings Page
+Change /languages
 
 = 2.6 =
 Change readme.txt
@@ -188,6 +192,7 @@ Delete screenshot
 
 == Upgrade Notice ==
 
+= 2.7 =
 = 2.6 =
 = 2.5 =
 = 2.4 =
@@ -267,6 +272,6 @@ Music Example [gallerylink set='music' topurl='/gallery/music' rssmax=20]
 
 * (WordPress > Settings > General Timezone) Please specify your area other than UTC. For accurate time display of RSS feed.
 
-* When you move to appearance> widget, there is a widget GalleryLinkRssFeed. If you place you can set this to display the sidebar link the RSS feed.
+* When you move to (WordPress > Appearance> Widgets), there is a widget GalleryLinkRssFeed. If you place you can set this to display the sidebar link the RSS feed.
 
 [The default value for the short code attribute](http://wordpress.org/plugins/gallerylink/screenshots/)
