@@ -2,7 +2,7 @@
 /*
 Plugin Name: GalleryLink
 Plugin URI: http://wordpress.org/plugins/gallerylink/
-Version: 2.8
+Version: 2.9
 Description: Output as a gallery by find the file extension and directory specified.
 Author: Katsushi Kawamori
 Author URI: http://gallerylink.nyanko.org/
@@ -28,6 +28,7 @@ Domain Path: /languages
 	// Add action hooks
 	add_action('admin_init', 'gallerylink_register_settings');
 	add_filter( 'plugin_action_links', 'gallerylink_settings_link', 10, 2 );
+	add_action('wp_head','gallerylink_add_feedlink');
 	add_action('wp_head','gallerylink_add_css');
 	add_action( 'wp_head', wp_enqueue_script('jquery') );
 	add_action( 'admin_menu', 'gallerylink_plugin_menu' );
@@ -328,6 +329,38 @@ function gallerylink_settings_link( $links, $file ) {
  */
 function gallerylink_plugin_menu() {
 	add_options_page( 'GalleryLink Options', 'GalleryLink', 'manage_options', 'GalleryLink', 'gallerylink_plugin_options' );
+}
+
+/* ==================================================
+ * Add FeedLink
+ * @since	2.9
+ */
+function gallerylink_add_feedlink(){
+
+	$documentrootname = $_SERVER['DOCUMENT_ROOT'];
+	$servername = 'http://'.$_SERVER['HTTP_HOST'];
+	$xml_album = get_option('gallerylink_album_topurl').'/'.get_option('gallerylink_album_rssname').'.xml';
+	$xml_movie = get_option('gallerylink_movie_topurl').'/'.get_option('gallerylink_movie_rssname').'.xml';
+	$xml_music = get_option('gallerylink_music_topurl').'/'.get_option('gallerylink_music_rssname').'.xml';
+
+	$mode = gallerylink_agent_check();
+	if ( $mode === "pc" || $mode === "sp" ) {
+		echo '<!-- Start Gallerylink feed -->'."\n";
+		if (file_exists($documentrootname.$xml_album)) {
+			$xml_album_data = simplexml_load_file($servername.$xml_album);
+			echo '<link rel="alternate" type="application/rss+xml" href="'.$servername.$xml_album.'" title="'.$xml_album_data->channel->title.'" />'."\n";
+		}
+		if (file_exists($documentrootname.$xml_movie)) {
+			$xml_movie_data = simplexml_load_file($servername.$xml_movie);
+			echo '<link rel="alternate" type="application/rss+xml" href="'.$servername.$xml_movie.'" title="'.$xml_movie_data->channel->title.'" />'."\n";
+		}
+		if (file_exists($documentrootname.$xml_music)) {
+			$xml_music_data = simplexml_load_file($servername.$xml_music);
+			echo '<link rel="alternate" type="application/rss+xml" href="'.$servername.$xml_music.'" title="'.$xml_music_data->channel->title.'" />'."\n";
+		}
+		echo '<!-- End Gallerylink feed -->'."\n";
+	}
+
 }
 
 /* ==================================================
@@ -1439,6 +1472,7 @@ function gallerylink_func( $atts ) {
         'rssname' => '',
         'rssmax'  => ''
 	), $atts));
+	$rssdef = false;
 	if ( $set === 'album' ){
 		if( empty($topurl) ) { $topurl = get_option('gallerylink_album_topurl'); }
 		if( empty($suffix_pc) ) { $suffix_pc = get_option('gallerylink_album_suffix_pc'); }
@@ -1448,7 +1482,10 @@ function gallerylink_func( $atts ) {
 		if( empty($display_sp) ) { $display_sp = intval(get_option('gallerylink_album_display_sp')); }
 		if( empty($display_keitai) ) { $display_keitai = intval(get_option('gallerylink_album_display_keitai')); }
 		if( empty($thumbnail) ) { $thumbnail = get_option('gallerylink_album_suffix_thumbnail'); }
-		if( empty($rssname) ) { $rssname = get_option('gallerylink_album_rssname'); }
+		if( empty($rssname) ) {
+			$rssname = get_option('gallerylink_album_rssname');
+			$rssdef = true;
+		}
 		if( empty($rssmax) ) { $rssmax = intval(get_option('gallerylink_album_rssmax')); }
 	} else if ( $set === 'movie' ){
 		if( empty($topurl) ) { $topurl = get_option('gallerylink_movie_topurl'); }
@@ -1460,7 +1497,10 @@ function gallerylink_func( $atts ) {
 		if( empty($display_sp) ) { $display_sp = intval(get_option('gallerylink_movie_display_sp')); }
 		if( empty($display_keitai) ) { $display_keitai = intval(get_option('gallerylink_movie_display_keitai')); }
 		if( empty($thumbnail) ) { $thumbnail = get_option('gallerylink_movie_suffix_thumbnail'); }
-		if( empty($rssname) ) { $rssname = get_option('gallerylink_movie_rssname'); }
+		if( empty($rssname) ) {
+			$rssname = get_option('gallerylink_movie_rssname');
+			$rssdef = true;
+		}
 		if( empty($rssmax) ) { $rssmax = intval(get_option('gallerylink_movie_rssmax')); }
 	} else if ( $set === 'music' ){
 		if( empty($topurl) ) { $topurl = get_option('gallerylink_music_topurl'); }
@@ -1472,7 +1512,10 @@ function gallerylink_func( $atts ) {
 		if( empty($display_sp) ) { $display_sp = intval(get_option('gallerylink_music_display_sp')); }
 		if( empty($display_keitai) ) { $display_keitai = intval(get_option('gallerylink_music_display_keitai')); }
 		if( empty($thumbnail) ) { $thumbnail = get_option('gallerylink_music_suffix_thumbnail'); }
-		if( empty($rssname) ) { $rssname = get_option('gallerylink_music_rssname'); }
+		if( empty($rssname) ) {
+			$rssname = get_option('gallerylink_music_rssname');
+			$rssdef = true;
+		}
 		if( empty($rssmax) ) { $rssmax = intval(get_option('gallerylink_music_rssmax')); }
 	}
 	if ( empty($exclude_file) && ($set === 'album' || $set === 'movie' || $set === 'music') ) {
@@ -2011,7 +2054,9 @@ FLASHMUSICPLAYER;
 	}
 	if ( $mode === "pc" || $mode === "sp" ) {
 		echo $rssfeeds_icon;
-		echo '<link rel="alternate" type="application/rss+xml" href="'.$rssfeed_url.'" title="'.$xml_title.'" />';
+		if ( $rssdef === false ) {
+			echo '<link rel="alternate" type="application/rss+xml" href="'.$rssfeed_url.'" title="'.$xml_title.'" />';
+		}
 	}
 
 	echo '<div align = "center"><a href="http://wordpress.org/plugins/gallerylink/">by GalleryLink</a></div>';
