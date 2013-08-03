@@ -2,7 +2,7 @@
 /*
 Plugin Name: GalleryLink
 Plugin URI: http://wordpress.org/plugins/gallerylink/
-Version: 2.9
+Version: 2.10
 Description: Output as a gallery by find the file extension and directory specified.
 Author: Katsushi Kawamori
 Author URI: http://gallerylink.nyanko.org/
@@ -197,6 +197,8 @@ class GalleryLinkWidgetItem extends WP_Widget {
  * @since	2.0
  */
 function gallerylink_register_settings(){
+	register_setting( 'gallerylink-settings-group', 'gallerylink_album_effect_pc');
+	register_setting( 'gallerylink-settings-group', 'gallerylink_album_effect_sp');
 	register_setting( 'gallerylink-settings-group', 'gallerylink_album_topurl');
 	register_setting( 'gallerylink-settings-group', 'gallerylink_movie_topurl');
 	register_setting( 'gallerylink-settings-group', 'gallerylink_music_topurl');
@@ -242,6 +244,8 @@ function gallerylink_register_settings(){
 	register_setting( 'gallerylink-settings-group', 'gallerylink_css_sp_listbackcolor');
 	register_setting( 'gallerylink-settings-group', 'gallerylink_css_sp_listarrowcolor');
 	register_setting( 'gallerylink-settings-group', 'gallerylink_css_sp_listpartitionlinecolor');
+	add_option('gallerylink_album_effect_pc', 'colorbox');
+	add_option('gallerylink_album_effect_sp', 'photoswipe');
 	add_option('gallerylink_album_topurl', '');
 	add_option('gallerylink_movie_topurl', '');
 	add_option('gallerylink_music_topurl', '');
@@ -455,7 +459,7 @@ function gallerylink_plugin_options() {
 	<b><?php _e('In the case of image', 'gallerylink'); ?></b>
 	<p>&#91;gallerylink set='album'&#93</p>
 	<p><?php _e('In addition, you want to place add an attribute like this in the short code.', 'gallerylink'); ?></p>
-	<p>&#91;gallerylink set='album' effect='nivoslider'&#93</p>
+	<p>&#91;gallerylink set='album' effect_pc='nivoslider'&#93</p>
 	<p><?php _e('When you view this Page, it is displayed in slideshow mode.', 'gallerylink'); ?></p>
 
 	<b><?php _e('In the case of video', 'gallerylink'); ?></b>
@@ -506,10 +510,21 @@ function gallerylink_plugin_options() {
 	</tr>
 
 	<tr>
-	<td align="center" valign="middle"><b>effect</b></td>
-	<td colspan="3" align="center" valign="middle"></td>
+	<td align="center" valign="middle"><b>effect_pc</b></td>
+	<td align="center" valign="middle"><?php echo get_option('gallerylink_album_effect_pc') ?></td>
+	<td colspan="2" align="center" valign="middle"></td>
 	<td align="left" valign="middle">
-	<?php _e('Special effects nivoslider(slideshow)', 'gallerylink'); ?>
+	<?php _e('Effects of PC. If you want to use the Lightbox, please install the following plugin separately.', 'gallerylink'); ?>
+	<div><a href ="http://wordpress.org/plugins/wp-jquery-lightbox/" target="_blank"><b><font color="red">WP jQuery Lightbox</font></b><a></div>
+	</td>
+	</tr>
+
+	<tr>
+	<td align="center" valign="middle"><b>effect_sp</b></td>
+	<td align="center" valign="middle"><?php echo get_option('gallerylink_album_effect_sp') ?></td>
+	<td colspan="2" align="center" valign="middle"></td>
+	<td align="left" valign="middle">
+	<?php _e('Effects of Smartphone', 'gallerylink'); ?>
 	</td>
 	</tr>
 
@@ -661,6 +676,41 @@ function gallerylink_plugin_options() {
 				<td align="center" valign="middle">movie</td>
 				<td align="center" valign="middle">music</td>
 			</tr>
+
+			<tr>
+				<td align="center" valign="middle"><b>effect_pc</b></td>
+				<td align="center" valign="middle">
+				<?php $target_album_effect_pc = get_option('gallerylink_album_effect_pc'); ?>
+				<select id="gallerylink_album_effect_pc" name="gallerylink_album_effect_pc">
+					<option <?php if ('colorbox' == $target_album_effect_pc)echo 'selected="selected"'; ?>>colorbox</option>
+					<option <?php if ('nivoslider' == $target_album_effect_pc)echo 'selected="selected"'; ?>>nivoslider</option>
+					<option <?php if ('Lightbox' == $target_album_effect_pc)echo 'selected="selected"'; ?>>Lightbox</option>
+				</select>
+				</td>
+				<td colspan="2">
+				</td>
+				<td align="left" valign="middle">
+					<?php _e('Effects of PC. If you want to use the Lightbox, please install the following plugin separately.', 'gallerylink'); ?>
+					<div><a href ="http://wordpress.org/plugins/wp-jquery-lightbox/" target="_blank"><b><font color="red">WP jQuery Lightbox</font></b><a></div>
+				</td>
+			</tr>
+
+			<tr>
+				<td align="center" valign="middle"><b>effect_sp</b></td>
+				<td align="center" valign="middle">
+				<?php $target_album_effect_sp = get_option('gallerylink_album_effect_sp'); ?>
+				<select id="gallerylink_album_effect_sp" name="gallerylink_album_effect_sp">
+					<option <?php if ('nivoslider' == $target_album_effect_sp)echo 'selected="selected"'; ?>>nivoslider</option>
+					<option <?php if ('photoswipe' == $target_album_effect_sp)echo 'selected="selected"'; ?>>photoswipe</option>
+				</select>
+				</td>
+				<td colspan="2">
+				</td>
+				<td align="left" valign="middle">
+					<?php _e('Effects of Smartphone', 'gallerylink'); ?>
+				</td>
+			</tr>
+
 			<tr>
 				<td align="center" valign="middle"><b>topurl</b></td>
 				<td align="center" valign="middle">
@@ -1204,18 +1254,16 @@ function print_file($dparam,$file,$topurl,$suffix,$thumbnail,$document_root,$set
 		}
 	}else{	//PC or SmartPhone
 		if ( preg_match( "/jpg|png|gif|bmp/i", $suffix) ) {
-			if ( $mode === 'sp' ) {
-				if ($effect === 'nivoslider'){ // for nivoslider
-					$linkfile = '<img src="'.$topurl.$file.'" alt="'.$titlename.'" title="'.$titlename.'">';
-				} else { // for for Photoswipe
-					$linkfile = '<li><a rel="external" href="'.$topurl.$file.'" title="'.$titlename.'"><img src="'.$topurl.$thumbfile.'" alt="'.$titlename.'" title="'.$titlename.'"></a></li>';
-				}
-			}else{ //PC
-				if ($effect === 'nivoslider'){ // for nivoslider
-					$linkfile = '<img src="'.$topurl.$file.'" alt="'.$titlename.'" title="'.$titlename.'">';
-				} else { // for colorbox
-					$linkfile = '<a class=gallerylink href="'.$topurl.$file.'" title="'.$titlename.'"><img src="'.$topurl.$thumbfile.'" alt="'.$titlename.'" title="'.$titlename.'"></a>';
-				}
+			if ($effect === 'nivoslider'){ // for nivoslider
+				$linkfile = '<img src="'.$topurl.$file.'" alt="'.$titlename.'" title="'.$titlename.'">';
+			} else if ($effect === 'colorbox' && $mode === 'pc'){ // for colorbox
+				$linkfile = '<a class=gallerylink href="'.$topurl.$file.'" title="'.$titlename.'"><img src="'.$topurl.$thumbfile.'" alt="'.$titlename.'" title="'.$titlename.'"></a>';
+			} else if ($effect === 'photoswipe' && $mode === 'sp'){ // for Photoswipe
+				$linkfile = '<li><a rel="external" href="'.$topurl.$file.'" title="'.$titlename.'"><img src="'.$topurl.$thumbfile.'" alt="'.$titlename.'" title="'.$titlename.'"></a></li>';
+			} else if ($effect === 'Lightbox' && $mode === 'pc'){ // for Lightbox
+				$linkfile = '<a href="'.$topurl.$file.'" rel="lightbox[gallerylink]" title="'.$titlename.'"><img src="'.$topurl.$thumbfile.'" alt="'.$titlename.'" title="'.$titlename.'"></a>';
+			} else {
+				$linkfile = '<li><a href="'.$topurl.$file.'" title="'.$titlename.'"><img src="'.$topurl.$thumbfile.'" alt="'.$titlename.'" title="'.$titlename.'"></a></li>';
 			}
 		}else{
 			if ( $mode === 'sp' ) {
@@ -1457,7 +1505,8 @@ function gallerylink_func( $atts ) {
 
 	extract(shortcode_atts(array(
         'set' => '',
-        'effect' => '',
+        'effect_pc' => '',
+        'effect_sp' => '',
         'topurl' => '',
         'suffix_pc' => '',
         'suffix_pc2' => '',
@@ -1474,6 +1523,8 @@ function gallerylink_func( $atts ) {
 	), $atts));
 	$rssdef = false;
 	if ( $set === 'album' ){
+		if( empty($effect_pc) ) { $effect_pc = get_option('gallerylink_album_effect_pc'); }
+		if( empty($effect_sp) ) { $effect_sp = get_option('gallerylink_album_effect_sp'); }
 		if( empty($topurl) ) { $topurl = get_option('gallerylink_album_topurl'); }
 		if( empty($suffix_pc) ) { $suffix_pc = get_option('gallerylink_album_suffix_pc'); }
 		if( empty($suffix_sp) ) { $suffix_sp = get_option('gallerylink_album_suffix_sp'); }
@@ -1534,12 +1585,14 @@ function gallerylink_func( $atts ) {
 	
 	$mode = gallerylink_agent_check();
 	if ( $mode === 'pc' ) {
+		$effect = $effect_pc;
 		$suffix = $suffix_pc;
 		$display = $display_pc;
 	} else if ( $mode === 'mb' ) {
 		$suffix = $suffix_keitai;
 		$display = $display_keitai;
 	} else {
+		$effect = $effect_sp;
 		$suffix = $suffix_sp;
 		$display = $display_sp;
 	}
@@ -1883,7 +1936,7 @@ FLASHMUSICPLAYER;
 				wp_enqueue_style( 'nivoslider',  $pluginurl.'/gallerylink/nivo-slider/nivo-slider.css' );
 				wp_enqueue_script( 'nivoslider', $pluginurl.'/gallerylink/nivo-slider/jquery.nivo.slider.pack.js', null, '3.2');
 				wp_enqueue_script( 'nivoslider-in', $pluginurl.'/gallerylink/js/nivoslider-in.js' );
-			} else {
+			} else if ($effect === 'colorbox'){
 				// for COLORBOX
 				wp_enqueue_style( 'colorbox',  $pluginurl.'/gallerylink/colorbox/colorbox.css' );
 				wp_enqueue_script( 'colorbox', $pluginurl.'/gallerylink/colorbox/jquery.colorbox-min.js', null, '1.3.20.1');
@@ -1906,13 +1959,15 @@ FLASHMUSICPLAYER;
 				wp_enqueue_style( 'nivoslider',  $pluginurl.'/gallerylink/nivo-slider/nivo-slider.css' );
 				wp_enqueue_script( 'nivoslider', $pluginurl.'/gallerylink/nivo-slider/jquery.nivo.slider.pack.js', null, '3.2');
 				wp_enqueue_script( 'nivoslider-in', $pluginurl.'/gallerylink/js/nivoslider-in.js' );
-			} else {
+			} else if ($effect === 'photoswipe'){
 				// for PhotoSwipe
 				wp_enqueue_style( 'photoswipe-style',  $pluginurl.'/gallerylink/photoswipe/examples/styles.css' );
 				wp_enqueue_style( 'photoswipe',  $pluginurl.'/gallerylink/photoswipe/photoswipe.css' );
 				wp_enqueue_script( 'klass' , $pluginurl.'/gallerylink/photoswipe/lib/klass.min.js', null, '1.0' );
 				wp_enqueue_script( 'photoswipe' , $pluginurl.'/gallerylink/photoswipe/code.photoswipe.jquery-3.0.4.min.js', null, '3.0.4' );
 				wp_enqueue_script( 'photoswipe-in', $pluginurl.'/gallerylink/js/photoswipe-in.js' );
+			} else {
+				wp_enqueue_style( 'photoswipe-style',  $pluginurl.'/gallerylink/photoswipe/examples/styles.css' );
 			}
 		}
 		// for smartphone
@@ -1942,16 +1997,32 @@ FLASHMUSICPLAYER;
 	$searchform_end = NULL;
 	$rssfeeds_icon = NULL;
 	if ( preg_match( "/jpg|png|gif|bmp/i", $suffix) ){
-		if ( $mode === 'pc' ) {
-			if ($effect === 'nivoslider'){
-				// for Nivo Slider
-				$linkfiles_begin = '<div class="slider-wrapper theme-default"><div class="slider-wrapper"><div id="slidernivo" class="nivoSlider">';
-				$linkfiles_end = '</div></div></div><br clear=all>';
-			} else {
-				// for COLORBOX
-				$linkfiles_begin = '<ul class = "gallerylink">';
-				$linkfiles_end = '</ul><br clear=all>';
+		if ($effect === 'nivoslider' && $mode <> 'mb'){
+			// for Nivo Slider
+			$linkfiles_begin = '<div class="slider-wrapper theme-default"><div class="slider-wrapper"><div id="slidernivo" class="nivoSlider">';
+			$linkfiles_end = '</div></div></div><br clear=all>';
+		} else if ($effect === 'colorbox' && $mode ==='pc'){
+			// for COLORBOX
+			$linkfiles_begin = '<ul class = "gallerylink">';
+			$linkfiles_end = '</ul><br clear=all>';
+		} else if ($effect === 'photoswipe' && $mode === 'sp'){
+			// for PhotoSwipe
+			$linkfiles_begin = '<div id="Gallery" class="gallery">';
+			$linkfiles_end = '</div>';
+		} else if ($effect === 'Lightbox' && $mode === 'pc'){
+			// for Lightbox
+			$linkfiles_begin = '<div class = "gallerylink">';
+			$linkfiles_end = '</div><br clear=all>';
+		} else {
+			if ($mode === 'pc'){
+				$linkfiles_begin = '<div class = "gallerylink">';
+				$linkfiles_end = '</div><br clear=all>';
+			} else if ($mode === 'sp'){
+				$linkfiles_begin = '<div class="gallery">';
+				$linkfiles_end = '</div>';
 			}
+		}
+		if ( $mode === 'pc' ) {
 			$dirselectbox_begin = '<div align="right">';
 			$dirselectbox_end = '</div>';
 			$linkpages_begin = '<div align="center">';
@@ -1961,15 +2032,6 @@ FLASHMUSICPLAYER;
 			$searchform_begin = '<div align="center">';
 			$searchform_end = '</div>';
 		} else if ( $mode === 'sp' ) {
-			if ($effect === 'nivoslider'){
-				// for Nivo Slider
-				$linkfiles_begin = '<div class="slider-wrapper theme-default"><div class="slider-wrapper"><div id="slidernivo" class="nivoSlider">';
-				$linkfiles_end = '</div></div></div><br clear=all>';
-			} else {
-				// for PhotoSwipe
-				$linkfiles_begin = '<div id="Gallery" class="gallery">';
-				$linkfiles_end = '</div>';
-			}
 			$dirselectbox_begin = '<div>';
 			$dirselectbox_end = '</div>';
 			$linkpages_begin = '<nav class="g_nav"><ul>';

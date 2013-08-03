@@ -3,6 +3,8 @@
 	if( !defined('WP_UNINSTALL_PLUGIN') )
     	exit();
 
+	delete_option('gallerylink_album_effect_pc');
+	delete_option('gallerylink_album_effect_sp');
 	delete_option('gallerylink_album_topurl');
 	delete_option('gallerylink_movie_topurl');
 	delete_option('gallerylink_music_topurl');

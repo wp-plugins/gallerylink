@@ -4,7 +4,7 @@ Donate link: http://gallerylink.nyanko.org/
 Tags: audio,feed,feeds,flash,gallery,html5,image,images,list,music,photo,photos,picture,pictures,rss,shortcode,video,xml
 Requires at least: 3.0.1
 Tested up to: 3.4
-Stable tag: 2.9
+Stable tag: 2.10
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -57,6 +57,11 @@ none
 1. screenshot-1.jpg
 
 == Changelog ==
+
+= 2.10 =
+Add (effect_pc, effect_sp) of short code attribute value.
+Support for Lightbox.
+Change /languages
 
 = 2.9 =
 Add RSS feed to the header.
@@ -198,6 +203,7 @@ Delete screenshot
 
 == Upgrade Notice ==
 
+= 2.10 =
 = 2.9 =
 = 2.8 =
 = 2.7 =
