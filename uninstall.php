@@ -5,9 +5,12 @@
 
 	delete_option('gallerylink_album_effect_pc');
 	delete_option('gallerylink_album_effect_sp');
+	delete_option('gallerylink_slideshow_effect_pc');
+	delete_option('gallerylink_slideshow_effect_sp');
 	delete_option('gallerylink_album_topurl');
 	delete_option('gallerylink_movie_topurl');
 	delete_option('gallerylink_music_topurl');
+	delete_option('gallerylink_slideshow_topurl');
 	delete_option('gallerylink_album_suffix_pc');
 	delete_option('gallerylink_album_suffix_sp');
 	delete_option('gallerylink_album_suffix_keitai');
@@ -19,6 +22,8 @@
 	delete_option('gallerylink_music_suffix_pc2');
 	delete_option('gallerylink_music_suffix_sp');
 	delete_option('gallerylink_music_suffix_keitai');
+	delete_option('gallerylink_slideshow_suffix_pc');
+	delete_option('gallerylink_slideshow_suffix_sp');
 	delete_option('gallerylink_album_display_pc');
 	delete_option('gallerylink_album_display_sp');
 	delete_option('gallerylink_album_display_keitai');
@@ -28,17 +33,22 @@
 	delete_option('gallerylink_music_display_pc');
 	delete_option('gallerylink_music_display_sp');
 	delete_option('gallerylink_music_display_keitai');
+	delete_option('gallerylink_slideshow_display_pc');
+	delete_option('gallerylink_slideshow_display_sp');
 	delete_option('gallerylink_album_suffix_thumbnail');
 	delete_option('gallerylink_movie_suffix_thumbnail');
 	delete_option('gallerylink_music_suffix_thumbnail');
+	delete_option('gallerylink_slideshow_suffix_thumbnail');
 	delete_option('gallerylink_exclude_file');
 	delete_option('gallerylink_exclude_dir');
 	delete_option('gallerylink_album_rssname');
 	delete_option('gallerylink_movie_rssname');
 	delete_option('gallerylink_music_rssname');
+	delete_option('gallerylink_slideshow_rssname');
 	delete_option('gallerylink_album_rssmax');
 	delete_option('gallerylink_movie_rssmax');
 	delete_option('gallerylink_music_rssmax');
+	delete_option('gallerylink_slideshow_rssmax');
 	delete_option('gallerylink_movie_container');
 	delete_option('gallerylink_css_pc_listwidth');
 	delete_option('gallerylink_css_pc_listthumbsize');
