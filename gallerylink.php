@@ -2,7 +2,7 @@
 /*
 Plugin Name: GalleryLink
 Plugin URI: http://wordpress.org/plugins/gallerylink/
-Version: 2.15
+Version: 2.16
 Description: Output as a gallery by find the file extension and directory specified.
 Author: Katsushi Kawamori
 Author URI: http://gallerylink.nyanko.org/
@@ -1701,14 +1701,14 @@ function gallerylink_func( $atts ) {
 	} else if ( $set === 'movie' ){
 		if( empty($topurl) ) { $topurl = get_option('gallerylink_movie_topurl'); }
 		if( empty($suffix_pc) ) { $suffix_pc = get_option('gallerylink_movie_suffix_pc'); }
-		if( empty($suffix_pc2) ) { $suffix_pc2 = '.'.get_option('gallerylink_movie_suffix_pc2'); }
-		if( empty($suffix_flash) ) { $suffix_flash = '.'.get_option('gallerylink_movie_suffix_flash'); }
+		if( empty($suffix_pc2) ) { $suffix_pc2 = get_option('gallerylink_movie_suffix_pc2'); }
+		if( empty($suffix_flash) ) { $suffix_flash = get_option('gallerylink_movie_suffix_flash'); }
 		if( empty($suffix_sp) ) { $suffix_sp = get_option('gallerylink_movie_suffix_sp'); }
 		if( empty($suffix_keitai) ) { $suffix_keitai = get_option('gallerylink_movie_suffix_keitai'); }
 		if( empty($display_pc) ) { $display_pc = intval(get_option('gallerylink_movie_display_pc')); }
 		if( empty($display_sp) ) { $display_sp = intval(get_option('gallerylink_movie_display_sp')); }
 		if( empty($display_keitai) ) { $display_keitai = intval(get_option('gallerylink_movie_display_keitai')); }
-		if( empty($thumbnail) ) { $thumbnail = '.'.get_option('gallerylink_movie_suffix_thumbnail'); }
+		if( empty($thumbnail) ) { $thumbnail = get_option('gallerylink_movie_suffix_thumbnail'); }
 		if( empty($rssname) ) {
 			$rssname = get_option('gallerylink_movie_rssname');
 			$rssdef = true;
@@ -1717,14 +1717,14 @@ function gallerylink_func( $atts ) {
 	} else if ( $set === 'music' ){
 		if( empty($topurl) ) { $topurl = get_option('gallerylink_music_topurl'); }
 		if( empty($suffix_pc) ) { $suffix_pc = get_option('gallerylink_music_suffix_pc'); }
-		if( empty($suffix_pc2) ) { $suffix_pc2 = '.'.get_option('gallerylink_music_suffix_pc2'); }
-		if( empty($suffix_flash) ) { $suffix_flash = '.'.get_option('gallerylink_music_suffix_flash'); }
+		if( empty($suffix_pc2) ) { $suffix_pc2 = get_option('gallerylink_music_suffix_pc2'); }
+		if( empty($suffix_flash) ) { $suffix_flash = get_option('gallerylink_music_suffix_flash'); }
 		if( empty($suffix_sp) ) { $suffix_sp = get_option('gallerylink_music_suffix_sp'); }
 		if( empty($suffix_keitai) ) { $suffix_keitai = get_option('gallerylink_music_suffix_keitai'); }
 		if( empty($display_pc) ) { $display_pc = intval(get_option('gallerylink_music_display_pc')); }
 		if( empty($display_sp) ) { $display_sp = intval(get_option('gallerylink_music_display_sp')); }
 		if( empty($display_keitai) ) { $display_keitai = intval(get_option('gallerylink_music_display_keitai')); }
-		if( empty($thumbnail) ) { $thumbnail = '.'.get_option('gallerylink_music_suffix_thumbnail'); }
+		if( empty($thumbnail) ) { $thumbnail = get_option('gallerylink_music_suffix_thumbnail'); }
 		if( empty($rssname) ) {
 			$rssname = get_option('gallerylink_music_rssname');
 			$rssdef = true;
@@ -1776,6 +1776,13 @@ function gallerylink_func( $atts ) {
 		$display = $display_sp;
 	}
 	$suffix = '.'.$suffix;
+	if ( $set === 'movie' || $set === 'music' ) {
+		$suffix_pc2 =  '.'.$suffix_pc2;
+		$suffix_flash = '.'.$suffix_flash;
+		if( !empty($thumbnail) ) {
+			$thumbnail = '.'.$thumbnail;
+		}
+	}
 
 	$dparam = NULL;
 	$fparam = NULL;
