@@ -60,5 +60,29 @@
 	delete_option('gallerylink_css_sp_listbackcolor');
 	delete_option('gallerylink_css_sp_listarrowcolor');
 	delete_option('gallerylink_css_sp_listpartitionlinecolor');
+	delete_option('gallerylink_album_directorylinks_show');
+	delete_option('gallerylink_album_pagelinks_show');
+	delete_option('gallerylink_album_sortlinks_show');
+	delete_option('gallerylink_album_searchbox_show');
+	delete_option('gallerylink_album_rssicon_show');
+	delete_option('gallerylink_album_credit_show');
+	delete_option('gallerylink_movie_directorylinks_show');
+	delete_option('gallerylink_movie_pagelinks_show');
+	delete_option('gallerylink_movie_sortlinks_show');
+	delete_option('gallerylink_movie_searchbox_show');
+	delete_option('gallerylink_movie_rssicon_show');
+	delete_option('gallerylink_movie_credit_show');
+	delete_option('gallerylink_music_directorylinks_show');
+	delete_option('gallerylink_music_pagelinks_show');
+	delete_option('gallerylink_music_sortlinks_show');
+	delete_option('gallerylink_music_searchbox_show');
+	delete_option('gallerylink_music_rssicon_show');
+	delete_option('gallerylink_music_credit_show');
+	delete_option('gallerylink_slideshow_directorylinks_show');
+	delete_option('gallerylink_slideshow_pagelinks_show');
+	delete_option('gallerylink_slideshow_sortlinks_show');
+	delete_option('gallerylink_slideshow_searchbox_show');
+	delete_option('gallerylink_slideshow_rssicon_show');
+	delete_option('gallerylink_slideshow_credit_show');
 
 ?>

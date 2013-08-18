@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Gallerylink\n"
 "POT-Creation-Date: 2013-05-27 21:10+0900\n"
-"PO-Revision-Date: 2013-08-14 16:06+0900\n"
+"PO-Revision-Date: 2013-08-18 22:24+0900\n"
 "Last-Translator: dodesyo312 <dodesyoswift312@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -257,3 +257,24 @@ msgid ""
 "not work."
 msgstr ""
 "PCのFlashの拡張子。HTML5プレーヤーが動作しない場合Flash Playerが使用される。"
+
+msgid "Display"
+msgstr "ディスプレイ"
+
+msgid "Selectbox of directories."
+msgstr "ディレクトリーのセレクトボックス"
+
+msgid "Navigation of page."
+msgstr "ページネーション"
+
+msgid "Navigation of sort."
+msgstr "ソートのナビゲーション"
+
+msgid "Search box"
+msgstr "検索ボックス"
+
+msgid "RSS Icon"
+msgstr "RSS アイコン"
+
+msgid "Credit"
+msgstr "クレジット"
