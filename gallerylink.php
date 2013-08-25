@@ -2,7 +2,7 @@
 /*
 Plugin Name: GalleryLink
 Plugin URI: http://wordpress.org/plugins/gallerylink/
-Version: 2.19
+Version: 2.20
 Description: Output as a gallery by find the file extension and directory specified.
 Author: Katsushi Kawamori
 Author URI: http://gallerylink.nyanko.org/
@@ -692,7 +692,7 @@ function gallerylink_plugin_options() {
 	<td align="center" valign="middle"><?php echo get_option('gallerylink_album_suffix_keitai') ?></td>
 	<td align="center" valign="middle"><?php echo get_option('gallerylink_movie_suffix_keitai') ?></td>
 	<td align="center" valign="middle"><?php echo get_option('gallerylink_music_suffix_keitai') ?></td>
-	<td align="center" valign="middle bgcolor="#dddddd""></td>
+	<td align="center" valign="middle" bgcolor="#dddddd"></td>
 	<td align="left" valign="middle">
 	<?php _e('extension of Japanese mobile phone', 'gallerylink'); ?>
 	</td>
@@ -859,7 +859,7 @@ function gallerylink_plugin_options() {
 		<tbody>
 			<tr>
 				<td align="center" valign="middle"><?php _e('Attribute', 'gallerylink'); ?></td>
-				<td align="center" valign="middle" colspan=3><?php _e('Default'); ?></td>
+				<td align="center" valign="middle" colspan=4><?php _e('Default'); ?></td>
 				<td align="center" valign="middle"><?php _e('Description'); ?></td>
 			</tr>
 			<tr>
@@ -868,6 +868,9 @@ function gallerylink_plugin_options() {
 				<td align="center" valign="middle">movie</td>
 				<td align="center" valign="middle">music</td>
 				<td align="center" valign="middle">slideshow</td>
+				<td align="left" valign="middle">
+				<?php _e('Next only four. album(image), movie(video), music(music), slideshow(image)', 'gallerylink'); ?>
+				</td>
 			</tr>
 
 			<tr>
