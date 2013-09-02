@@ -2,7 +2,7 @@
 /*
 Plugin Name: GalleryLink
 Plugin URI: http://wordpress.org/plugins/gallerylink/
-Version: 2.21
+Version: 2.22
 Description: Output as a gallery by find the file extension and directory specified.
 Author: Katsushi Kawamori
 Author URI: http://gallerylink.nyanko.org/
@@ -1842,7 +1842,28 @@ function gallerylink_func( $atts ) {
 	$dirselectbutton = mb_convert_encoding($dirselectbutton, "UTF-8", "auto");
 
 
-	$files = $gallerylink->scan_file($dir,$thumbnail,$suffix,$exclude_file,$exclude_dir,$search);
+	$gallerylink->thumbnail = $thumbnail;
+	$gallerylink->suffix = $suffix;
+	$gallerylink->exclude_file = $exclude_file;
+	$gallerylink->exclude_dir = $exclude_dir;
+	$gallerylink->search = $search;
+	$gallerylink->dparam = $dparam;
+	$gallerylink->topurl = $topurl;
+	$gallerylink->document_root = $document_root;
+	$gallerylink->set = $set;
+	$gallerylink->mode = $mode;
+	$gallerylink->effect = $effect;
+	$gallerylink->rssname = $rssname;
+	$gallerylink->rssmax = $rssmax;
+
+	$files = $gallerylink->scan_file($dir);
+
+	$maxpage = ceil(count($files) / $display);
+	if(empty($page)){
+		$page = 1;
+	}
+	$gallerylink->page = $page;
+	$gallerylink->maxpage = $maxpage;
 
 	// sort
 	foreach ( $files as $file ){
@@ -1868,15 +1889,10 @@ function gallerylink_func( $atts ) {
 		sort($files, SORT_STRING);
 	}
 
-	$dirs = $gallerylink->scan_dir($document_root,$exclude_dir);
+	$dirs = $gallerylink->scan_dir($document_root);
 
-	$maxpage = ceil(count($files) / $display);
 	$beginfiles = 0;
 	$endfiles = 0;
-
-	if(empty($page)){
-		$page = 1;
-	}
 	if( $page == $maxpage){
 		$beginfiles = $display * ( $page - 1 );
 		$endfiles = count($files) - 1;
@@ -1887,7 +1903,7 @@ function gallerylink_func( $atts ) {
 
 	$linkpages = NULL;
 	if ( $set <> 'slideshow' ) {
-		$linkpages = $gallerylink->print_pages($page,$maxpage,$mode);
+		$linkpages = $gallerylink->print_pages();
 	}
 
 	$linkfiles = NULL;
@@ -1896,7 +1912,7 @@ function gallerylink_func( $atts ) {
 	for ( $i = $beginfiles; $i <= $endfiles; $i++ ) {
 		$file = str_replace($document_root, "", $files[$i]);
 		if (!empty($file)){
-			$linkfile = $gallerylink->print_file($dparam,$file,$topurl,$suffix,$thumbnail,$document_root,$set,$mode,$effect);
+			$linkfile = $gallerylink->print_file($file);
 			$linkfiles = $linkfiles.$linkfile;
 		}
 	}
@@ -1922,7 +1938,7 @@ function gallerylink_func( $atts ) {
 	$scriptname = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
 	$query = $_SERVER['QUERY_STRING'];
 
-	$currentfolder = mb_convert_encoding($dparam, "UTF-8", "auto");
+	$currentfolder = $dparam;
 	$selectedfilename = mb_convert_encoding(str_replace($suffix, "", $fparam), "UTF-8", "auto");
 
 	if(empty($page)){
@@ -1942,7 +1958,6 @@ function gallerylink_func( $atts ) {
 		$scripturl .= '?';
 	}
 
-	$dparam = mb_convert_encoding($dparam, "UTF-8", "auto");
 	$currentfolder_encode = urlencode($dparam);
 	if ( empty($currentfolder) ){
 		$scripturl .= $pagestr;
@@ -2321,7 +2336,7 @@ FLASHMUSICPLAYER;
 		}
 	}
 	if(!empty($rssfiles)){
-		$gallerylink->rss_wirte($xml_title, $dparam, $mode, $rssname, $rssmax, $rssfiles, $thumbnail, $suffix, $document_root, $topurl);
+		$gallerylink->rss_wirte($xml_title, $rssfiles);
 	}
 
 	if ( $credit_show === 'Show' ) {

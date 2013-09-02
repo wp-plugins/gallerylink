@@ -2,6 +2,22 @@
 
 class GalleryLink {
 
+	public $thumbnail;
+	public $suffix;
+	public $exclude_file;
+	public $exclude_dir;
+	public $search;
+	public $dparam;
+	public $topurl;
+	public $document_root;
+	public $set;
+	public $mode;
+	public $effect;
+	public $page;
+	public $maxpage;
+	public $rssname;
+	public $rssmax;
+
 	/* ==================================================
 	* @param	none
 	* @return	string	$mode
@@ -40,23 +56,23 @@ class GalleryLink {
 	 * @return	array	$list
 	 * @since	1.0.0
 	 */
-	function scan_file($dir,$thumbnail,$suffix,$exclude_file,$exclude_dir,$search) {
+	function scan_file($dir) {
 
    		$list = $tmp = array();
 	   	foreach(glob($dir . '/*', GLOB_ONLYDIR) as $child_dir) {
-    	   	if ($tmp = $this->scan_file($child_dir,$thumbnail,$suffix,$exclude_file,$exclude_dir,$search)) {
+    	   	if ($tmp = $this->scan_file($child_dir)) {
         	   	$list = array_merge($list, $tmp);
 	       	}
    		}
 
-	   	foreach(glob($dir.'/*'.$suffix, GLOB_BRACE) as $file) {
-			if (!preg_match("/".$thumbnail."/", $file) || empty($thumbnail)) {
-				if (!preg_match("/".$exclude_file."/", $file) || empty($exclude_file)) {
-					if (!preg_match("/".$exclude_dir."/", $file) || empty($exclude_dir)) {
-						if (empty($search)) {
+	   	foreach(glob($dir.'/*'.$this->suffix, GLOB_BRACE) as $file) {
+			if (!preg_match("/".$this->thumbnail."/", $file) || empty($this->thumbnail)) {
+				if (!preg_match("/".$this->exclude_file."/", $file) || empty($this->exclude_file)) {
+					if (!preg_match("/".$this->exclude_dir."/", $file) || empty($this->exclude_dir)) {
+						if (empty($this->search)) {
 							$list[] = $file;
 						}else{
-							if(preg_match("/".$search."/", $file)) {
+							if(preg_match("/".$this->search."/", $file)) {
 								$list[] = $file;
 							}
 						}
@@ -75,17 +91,17 @@ class GalleryLink {
 	 * @return	array	$dirlist
 	 * @since	1.0.0
 	 */
-	function scan_dir($dir,$exclude_dir) {
+	function scan_dir($dir) {
 
    		$dirlist = $tmp = array();
 	    foreach(glob($dir . '/*', GLOB_ONLYDIR) as $child_dir) {
-   		    if ($tmp = $this->scan_dir($child_dir,$exclude_dir)) {
+   		    if ($tmp = $this->scan_dir($child_dir)) {
        		    $dirlist = array_merge($dirlist, $tmp);
 	       	}
    		}
 
 	    foreach(glob($dir . '/*', GLOB_ONLYDIR) as $child_dir) {
-			if (!preg_match("/".$exclude_dir."/", $child_dir) || empty($exclude_dir)) {
+			if (!preg_match("/".$this->exclude_dir."/", $child_dir) || empty($this->exclude_dir)) {
 				$dirlist[] = $child_dir;
 			}
    		}
@@ -104,76 +120,76 @@ class GalleryLink {
 	 * @param	string	$document_root
 	 * @param	string	$set
 	 * @param	string	$mode
-	 * @return	string	$effect
+	 * @param	string	$effect
+	 * @return	string	$linkfile
 	 * @since	1.0.0
 	 */
-	function print_file($dparam,$file,$topurl,$suffix,$thumbnail,$document_root,$set,$mode,$effect) {
+	function print_file($file) {
 
-		$dparam = mb_convert_encoding($dparam, "UTF-8", "auto");
-		$searchfilename = str_replace($suffix, "", $file);
+		$searchfilename = str_replace($this->suffix, "", $file);
 		$filename = mb_convert_encoding($file, "UTF-8", "auto");
 		$titlename = substr(mb_convert_encoding($file, "UTF-8", "auto"),1);
 		$file = mb_convert_encoding($file, "UTF-8", "auto");
-		$filename = str_replace($suffix, "", $filename);
-		$titlename = str_replace($suffix, "", $titlename);
+		$filename = str_replace($this->suffix, "", $filename);
+		$titlename = str_replace($this->suffix, "", $titlename);
 
 		$pluginurl = plugins_url($path='',$scheme=null);
-		if ( $set === 'movie') {
+		if ( $this->set === 'movie') {
 			$wpiconurl = $pluginurl.'/gallerylink/icon/video.png';
-		} else if ( $set === 'music') {
+		} else if ( $this->set === 'music') {
 			$wpiconurl = $pluginurl.'/gallerylink/icon/audio.png';
 		}
 
-		if (empty($dparam)) {
+		if (empty($this->dparam)) {
 			$fileparam = substr($file,1);
 		}else{
-			$fileparam = str_replace('/'.$dparam.'/', "",$file);
-			$dparam = str_replace("%2F","/",urlencode($dparam));
+			$fileparam = str_replace('/'.$this->dparam.'/', "",$file);
+			$dparam = str_replace("%2F","/",urlencode($this->dparam));
 		}
-		$filetitle = str_replace($suffix, "", $fileparam);
+		$filetitle = str_replace($this->suffix, "", $fileparam);
 		$fileparam = str_replace("%2F","/",urlencode($fileparam));
 		$file = str_replace("%2F","/",urlencode($file));
 
 		$scriptname = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
 		$thumbfind = "";
-		if ( preg_match( "/jpg|jpeg|jpe|gif|png|bmp|tif|tiff|ico/i", $suffix) ){
-			$thumbfile = str_replace("%2F","/",urlencode($filename)).$thumbnail.$suffix;
+		if ( preg_match( "/jpg|jpeg|jpe|gif|png|bmp|tif|tiff|ico/i", $this->suffix) ){
+			$thumbfile = str_replace("%2F","/",urlencode($filename)).$this->thumbnail.$this->suffix;
 		}else{
-			if(file_exists($document_root.$searchfilename.$thumbnail)){ $thumbfind = 'true'; }
-			$thumbfile = str_replace("%2F","/",urlencode($filename)).$thumbnail;
+			if(file_exists($this->document_root.$searchfilename.$this->thumbnail)){ $thumbfind = 'true'; }
+			$thumbfile = str_replace("%2F","/",urlencode($filename)).$this->thumbnail;
 		}
 
-		$mimetype = 'type="'.$this->mime_type($suffix).'"'; // MimeType
+		$mimetype = 'type="'.$this->mime_type($this->suffix).'"'; // MimeType
 
 		$linkfile = NULL;
-		if ( $mode === 'mb' ){	//keitai
-			if ( preg_match( "/jpg|jpeg|jpe|gif|png|bmp|tif|tiff|ico/i", $suffix) ){
-				$linkfile = '<div><a href="'.$topurl.$file.'"><img src="'.$topurl.$thumbfile.'" align="middle" vspace="5">'.$titlename.'</a></div>';
+		if ( $this->mode === 'mb' ){	//keitai
+			if ( preg_match( "/jpg|jpeg|jpe|gif|png|bmp|tif|tiff|ico/i", $this->suffix) ){
+				$linkfile = '<div><a href="'.$this->topurl.$file.'"><img src="'.$this->topurl.$thumbfile.'" align="middle" vspace="5">'.$titlename.'</a></div>';
 			}else{
-				$linkfile = '<div><a href="'.$topurl.$file.'" '.$mimetype.'>'.$titlename.'</a></div>';
+				$linkfile = '<div><a href="'.$this->topurl.$file.'" '.$mimetype.'>'.$titlename.'</a></div>';
 			}
 		}else{	//PC or SmartPhone
-			if ( preg_match( "/jpg|jpeg|jpe|gif|png|bmp|tif|tiff|ico/i", $suffix) ) {
-				if ($effect === 'nivoslider'){ // for nivoslider
-					$linkfile = '<img src="'.$topurl.$file.'" alt="'.$titlename.'" title="'.$titlename.'">';
-				} else if ($effect === 'colorbox' && $mode === 'pc'){ // for colorbox
-					$linkfile = '<a class=gallerylink href="'.$topurl.$file.'" title="'.$titlename.'"><img src="'.$topurl.$thumbfile.'" alt="'.$titlename.'" title="'.$titlename.'"></a>';
-				} else if ($effect === 'photoswipe' && $mode === 'sp'){ // for Photoswipe
-					$linkfile = '<li><a rel="external" href="'.$topurl.$file.'" title="'.$titlename.'"><img src="'.$topurl.$thumbfile.'" alt="'.$titlename.'" title="'.$titlename.'"></a></li>';
-				} else if ($effect === 'Lightbox' && $mode === 'pc'){ // for Lightbox
-					$linkfile = '<a href="'.$topurl.$file.'" rel="lightbox[gallerylink]" title="'.$titlename.'"><img src="'.$topurl.$thumbfile.'" alt="'.$titlename.'" title="'.$titlename.'"></a>';
+			if ( preg_match( "/jpg|jpeg|jpe|gif|png|bmp|tif|tiff|ico/i", $this->suffix) ) {
+				if ($this->effect === 'nivoslider'){ // for nivoslider
+					$linkfile = '<img src="'.$this->topurl.$file.'" alt="'.$titlename.'" title="'.$titlename.'">';
+				} else if ($this->effect === 'colorbox' && $this->mode === 'pc'){ // for colorbox
+					$linkfile = '<a class=gallerylink href="'.$this->topurl.$file.'" title="'.$titlename.'"><img src="'.$this->topurl.$thumbfile.'" alt="'.$titlename.'" title="'.$titlename.'"></a>';
+				} else if ($this->effect === 'photoswipe' && $this->mode === 'sp'){ // for Photoswipe
+					$linkfile = '<li><a rel="external" href="'.$this->topurl.$file.'" title="'.$titlename.'"><img src="'.$this->topurl.$thumbfile.'" alt="'.$titlename.'" title="'.$titlename.'"></a></li>';
+				} else if ($this->effect === 'Lightbox' && $this->mode === 'pc'){ // for Lightbox
+					$linkfile = '<a href="'.$this->topurl.$file.'" rel="lightbox[gallerylink]" title="'.$titlename.'"><img src="'.$this->topurl.$thumbfile.'" alt="'.$titlename.'" title="'.$titlename.'"></a>';
 				} else {
-					$linkfile = '<li><a href="'.$topurl.$file.'" title="'.$titlename.'"><img src="'.$topurl.$thumbfile.'" alt="'.$titlename.'" title="'.$titlename.'"></a></li>';
+					$linkfile = '<li><a href="'.$this->topurl.$file.'" title="'.$titlename.'"><img src="'.$this->topurl.$thumbfile.'" alt="'.$titlename.'" title="'.$titlename.'"></a></li>';
 				}
 			}else{
-				if ( $mode === 'sp' ) {
+				if ( $this->mode === 'sp' ) {
 					if( $thumbfind === "true" ){
-						$linkfile = '<li><img src="'.$topurl.$thumbfile.'"><a href="'.$topurl.$file.'" '.$mimetype.'>'.$titlename.'</a></li>';
+						$linkfile = '<li><img src="'.$this->topurl.$thumbfile.'"><a href="'.$this->topurl.$file.'" '.$mimetype.'>'.$titlename.'</a></li>';
 					}else{
-						if( !empty($thumbnail) ) {
-							$linkfile = '<li><img src="'.$wpiconurl.'"><a href="'.$topurl.$file.'" '.$mimetype.'>'.$titlename.'</a></li>';
+						if( !empty($this->thumbnail) ) {
+							$linkfile = '<li><img src="'.$wpiconurl.'"><a href="'.$this->topurl.$file.'" '.$mimetype.'>'.$titlename.'</a></li>';
 						} else {
-							$linkfile = '<li><a href="'.$topurl.$file.'" '.$mimetype.'>'.$titlename.'</a></li>';
+							$linkfile = '<li><a href="'.$this->topurl.$file.'" '.$mimetype.'>'.$titlename.'</a></li>';
 						}
 					}
 				}else{ //PC
@@ -193,12 +209,12 @@ class GalleryLink {
 					}
 
 					if( $thumbfind === "true" ){
-						$linkfile = '<li><img src="'.$topurl.$thumbfile.'"><a href="'.$scriptname.$permlinkstr.$dparam.'&glp='.$page.'&f='.$fileparam.'">'.$filetitle.'</a></li>';
+						$linkfile = '<li><img src="'.$this->topurl.$thumbfile.'"><a href="'.$scriptname.$permlinkstr.$this->dparam.'&glp='.$page.'&f='.$fileparam.'">'.$filetitle.'</a></li>';
 					}else{
-						if( !empty($thumbnail) ) {
-							$linkfile = '<li><img src="'.$wpiconurl.'"><a href="'.$scriptname.$permlinkstr.$dparam.'&glp='.$page.'&f='.$fileparam.'">'.$filetitle.'</a></li>';
+						if( !empty($this->thumbnail) ) {
+							$linkfile = '<li><img src="'.$wpiconurl.'"><a href="'.$scriptname.$permlinkstr.$this->dparam.'&glp='.$page.'&f='.$fileparam.'">'.$filetitle.'</a></li>';
 						} else {
-							$linkfile = '<li><a href="'.$scriptname.$permlinkstr.$dparam.'&glp='.$page.'&f='.$fileparam.'">'.$filetitle.'</a></li>';
+							$linkfile = '<li><a href="'.$scriptname.$permlinkstr.$this->dparam.'&glp='.$page.'&f='.$fileparam.'">'.$filetitle.'</a></li>';
 						}
 					}
 				}
@@ -216,7 +232,7 @@ class GalleryLink {
 	 * @return	string	$linkpages
 	 * @since	1.0.0
 	 */
-	function print_pages($page,$maxpage,$mode) {
+	function print_pages() {
 
 		$pagetagleft = NULL;
 		$pagetagright = NULL;
@@ -238,8 +254,8 @@ class GalleryLink {
 		$scriptname = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
 
 		$query = $_SERVER['QUERY_STRING'];
-		$query = str_replace('&glp='.$page, '', $query);
-		$query = str_replace('glp='.$page, '', $query);
+		$query = str_replace('&glp='.$this->page, '', $query);
+		$query = str_replace('glp='.$this->page, '', $query);
 		$query = preg_replace('/&f=.*/', '', $query);
 
 		if ( $mode === 'pc' ) { //PC
@@ -255,13 +271,13 @@ class GalleryLink {
 			$page_no_tag_right = '</a>';
 		}
 
-		if( $maxpage > 1 ){
-			if( $page == 1 ){
-				$linkpages = $pagetagleft.$pagetagright.$pagetagleft.$page_no_tag_left.$page.'/'.$maxpage.$page_no_tag_right.$pagetagright.$pagetagleft.'<a href="'.$scriptname.'?'.$query.'&glp='.($page+1).'">'.$displaynext.$pagerightalow.'</a>'.$pagetagright;
-			}else if( $page == $maxpage ){
-				$linkpages = $pagetagleft.'<a href="'.$scriptname.'?'.$query.'&glp='.($page-1).'">'.$pageleftalow.$displayprev.'</a>'.$pagetagright.$pagetagleft.$page_no_tag_left.$page.'/'.$maxpage.$page_no_tag_right.$pagetagright.$pagetagleft.$pagetagright;
+		if( $this->maxpage > 1 ){
+			if( $this->page == 1 ){
+				$linkpages = $pagetagleft.$pagetagright.$pagetagleft.$page_no_tag_left.$this->page.'/'.$this->maxpage.$page_no_tag_right.$pagetagright.$pagetagleft.'<a href="'.$scriptname.'?'.$query.'&glp='.($this->page+1).'">'.$displaynext.$pagerightalow.'</a>'.$pagetagright;
+			}else if( $this->page == $this->maxpage ){
+				$linkpages = $pagetagleft.'<a href="'.$scriptname.'?'.$query.'&glp='.($this->page-1).'">'.$pageleftalow.$displayprev.'</a>'.$pagetagright.$pagetagleft.$page_no_tag_left.$this->page.'/'.$this->maxpage.$page_no_tag_right.$pagetagright.$pagetagleft.$pagetagright;
 			}else{
-				$linkpages = $pagetagleft.'<a href="'.$scriptname.'?'.$query.'&glp='.($page-1).'">'.$pageleftalow.$displayprev.'</a>'.$pagetagright.$pagetagleft.$page_no_tag_left.$page.'/'.$maxpage.$page_no_tag_right.$pagetagright.$pagetagleft.'<a href="'.$scriptname.'?'.$query.'&glp='.($page+1).'">'.$displaynext.$pagerightalow.'</a>'.$pagetagright;
+				$linkpages = $pagetagleft.'<a href="'.$scriptname.'?'.$query.'&glp='.($this->page-1).'">'.$pageleftalow.$displayprev.'</a>'.$pagetagright.$pagetagleft.$page_no_tag_left.$this->page.'/'.$this->maxpage.$page_no_tag_right.$pagetagright.$pagetagleft.'<a href="'.$scriptname.'?'.$query.'&glp='.($this->page+1).'">'.$displaynext.$pagerightalow.'</a>'.$pagetagright;
 			}
 		}
 
@@ -278,18 +294,18 @@ class GalleryLink {
 	 * @return	string	$xmlitem
 	 * @since	1.0.0
 	 */
-	function xmlitem_read($file, $thumbnail, $suffix, $document_root, $topurl) {
+	function xmlitem_read($file) {
 
 		$filesize = filesize($file);
 		$filestat = stat($file);
 		date_default_timezone_set(timezone_name_from_abbr(get_the_date(T)));
 		$stamptime = date(DATE_RSS,  $filestat['mtime']);
 
-		$fparam = mb_convert_encoding(str_replace($document_root.'/', "", $file), "UTF8", "auto");
+		$fparam = mb_convert_encoding(str_replace($this->document_root.'/', "", $file), "UTF8", "auto");
 		$fparam = str_replace("%2F","/",urlencode($fparam));
 		$thumbfindfile = $file;
 
-		$file = str_replace($suffix, "", str_replace($document_root, "", $file));
+		$file = str_replace($this->suffix, "", str_replace($this->document_root, "", $file));
 		$titlename = mb_convert_encoding(substr($file,1), "UTF8", "auto");
 		$file = str_replace("%2F","/",urlencode(mb_convert_encoding($file, "UTF8", "auto")));
 
@@ -306,15 +322,15 @@ class GalleryLink {
 		}
 
 		$thumbfind =NULL;
-		if ( preg_match( "/jpg|jpeg|jpe|gif|png|bmp|tif|tiff|ico/i", $suffix) ){
-			$link_url = 'http://'.$servername.$topurl.$file.$suffix;
-			$img_url = '<a href="'.$link_url.'"><img src = "http://'.$servername.$topurl.$file.$thumbnail.$suffix.'"></a>';
+		if ( preg_match( "/jpg|jpeg|jpe|gif|png|bmp|tif|tiff|ico/i", $this->suffix) ){
+			$link_url = 'http://'.$servername.$this->topurl.$file.$this->suffix;
+			$img_url = '<a href="'.$link_url.'"><img src = "http://'.$servername.$this->topurl.$file.$this->thumbnail.$this->suffix.'"></a>';
 		}else{
 			$link_url = 'http://'.$servername.$scriptname.$fparam;
-			$enc_url = 'http://'.$servername.$topurl.$file.$suffix;
-			if(file_exists($document_root.'/'.$titlename.$thumbnail)){ $thumbfind = 'true'; }
+			$enc_url = 'http://'.$servername.$this->topurl.$file.$this->suffix;
+			if(file_exists($this->document_root.'/'.$titlename.$this->thumbnail)){ $thumbfind = 'true'; }
 			if( $thumbfind === "true" ){
-				$img_url = '<a href="'.$link_url.'"><img src = "http://'.$servername.$topurl.$file.$thumbnail.'"></a>';
+				$img_url = '<a href="'.$link_url.'"><img src = "http://'.$servername.$this->topurl.$file.$this->thumbnail.'"></a>';
 			}
 		}
 
@@ -322,10 +338,10 @@ class GalleryLink {
 		$xmlitem .= "<item>\n";
 		$xmlitem .= "<title>".$titlename."</title>\n";
 		$xmlitem .= "<link>".$link_url."</link>\n";
-		if ( !preg_match( "/jpg|jpeg|jpe|gif|png|bmp|tif|tiff|ico/i", $suffix) ){
-			$xmlitem .= '<enclosure url="'.$enc_url.'" length="'.$filesize.'" type="'.$this->mime_type($suffix).'" />'."\n";
+		if ( !preg_match( "/jpg|jpeg|jpe|gif|png|bmp|tif|tiff|ico/i", $this->suffix) ){
+			$xmlitem .= '<enclosure url="'.$enc_url.'" length="'.$filesize.'" type="'.$this->mime_type($this->suffix).'" />'."\n";
 		}
-		if ( preg_match( "/jpg|jpeg|jpe|gif|png|bmp|tif|tiff|ico/i", $suffix) || $thumbfind === "true"){
+		if ( preg_match( "/jpg|jpeg|jpe|gif|png|bmp|tif|tiff|ico/i", $this->suffix) || $thumbfind === "true"){
 			$xmlitem .= "<description><![CDATA[".$img_url."]]></description>\n";
 		}
 		$xmlitem .= "<pubDate>".$stamptime."</pubDate>\n";
@@ -341,14 +357,11 @@ class GalleryLink {
 	 * @param	string	$rssname
 	 * @param	string	$rssmax
 	 * @param	array	$rssfiles
-	 * @param	string	$thumbnail
-	 * @param	string	$suffix
 	 * @param	string	$document_root
-	 * @param	string	$topurl
 	 * @return	none
 	 * @since	2.21
 	 */
-	function rss_wirte($xml_title, $dparam, $mode, $rssname, $rssmax, $rssfiles, $thumbnail, $suffix, $document_root, $topurl) {
+	function rss_wirte($xml_title, $rssfiles) {
 
 		$xml_begin = NULL;
 		$xml_end = NULL;
@@ -366,10 +379,10 @@ $xml_end = <<<XMLEND
 </rss>
 XMLEND;
 
-		$xmlfile = $document_root.'/'.$rssname.'.xml';
-		if(count($rssfiles) < $rssmax){$rssmax = count($rssfiles);}
+		$xmlfile = $this->document_root.'/'.$this->rssname.'.xml';
+		if(count($rssfiles) < $this->rssmax){$this->rssmax = count($rssfiles);}
 		if ( file_exists($xmlfile)){
-			if (empty($dparam) && ($mode === "pc" || $mode === "sp")) {
+			if (empty($this->dparam) && ($this->mode === "pc" || $this->mode === "sp")) {
 				$pubdate = NULL;
 				$xml = simplexml_load_file($xmlfile);
 				$exist_rssfile_count = 0;
@@ -378,13 +391,13 @@ XMLEND;
 					++$exist_rssfile_count;
 				}
 				$exist_rss_pubdate = $pubdate[0];
-				if(preg_match("/\<pubDate\>(.+)\<\/pubDate\>/ms", $this->xmlitem_read($rssfiles[0], $thumbnail, $suffix, $document_root, $topurl), $reg)){
+				if(preg_match("/\<pubDate\>(.+)\<\/pubDate\>/ms", $this->xmlitem_read($rssfiles[0]), $reg)){
 					$new_rss_pubdate = $reg[1];
 				}
-				if ($exist_rss_pubdate <> $new_rss_pubdate || $exist_rssfile_count != $rssmax){
+				if ($exist_rss_pubdate <> $new_rss_pubdate || $exist_rssfile_count != $this->rssmax){
 					$xmlitem = NULL;
-					for ( $i = 0; $i <= $rssmax-1; $i++ ) {
-						$xmlitem .= $this->xmlitem_read($rssfiles[$i], $thumbnail, $suffix, $document_root, $topurl);
+					for ( $i = 0; $i <= $this->rssmax-1; $i++ ) {
+						$xmlitem .= $this->xmlitem_read($rssfiles[$i]);
 					}
 					$xmlitem = $xml_begin.$xmlitem.$xml_end;
 					$fno = fopen($xmlfile, 'w');
@@ -393,8 +406,8 @@ XMLEND;
 				}
 			}
 		}else{
-			for ( $i = 0; $i <= $rssmax-1; $i++ ) {
-				$xmlitem .= $this->xmlitem_read($rssfiles[$i], $thumbnail, $suffix, $document_root, $topurl);
+			for ( $i = 0; $i <= $this->rssmax-1; $i++ ) {
+				$xmlitem .= $this->xmlitem_read($rssfiles[$i]);
 			}
 			$xmlitem = $xml_begin.$xmlitem.$xml_end;
 			$fno = fopen($xmlfile, 'w');
@@ -410,9 +423,9 @@ XMLEND;
 	 * @return	string	$mimetype
 	 * @since	1.0.0
 	 */
-	function mime_type($suffix){
+	function mime_type(){
 
-		$suffix = str_replace('.', '', $suffix);
+		$suffix = str_replace('.', '', $this->suffix);
 
 		switch ($suffix){
 			case '3gp':
@@ -436,3 +449,5 @@ XMLEND;
 	}
 
 }
+
+?>
