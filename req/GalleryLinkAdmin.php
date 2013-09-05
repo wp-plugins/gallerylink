@@ -3,6 +3,21 @@
 class GalleryLinkAdmin {
 
 	/* ==================================================
+	 * Add a "Settings" link to the plugins page
+	 * @since	1.0.18
+	 */
+	function settings_link($links, $file) {
+		static $this_plugin;
+		if ( empty($this_plugin) ) {
+			$this_plugin = GALLERYLINK_PLUGIN_BASE_FILE;
+		}
+		if ( $file == $this_plugin ) {
+			$links[] = '<a href="'.admin_url('options-general.php?page=GalleryLink').'">'.__( 'Settings').'</a>';
+		}
+		return $links;
+	}
+
+	/* ==================================================
 	 * Settings page
 	 * @since	1.0.6
 	 */

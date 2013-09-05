@@ -2,7 +2,7 @@
 /*
 Plugin Name: GalleryLink
 Plugin URI: http://wordpress.org/plugins/gallerylink/
-Version: 2.23
+Version: 2.24
 Description: Output as a gallery by find the file extension and directory specified.
 Author: Katsushi Kawamori
 Author URI: http://gallerylink.nyanko.org/
@@ -26,7 +26,7 @@ Domain Path: /languages
 
 	load_plugin_textdomain('gallerylink', false, basename( dirname( __FILE__ ) ) . '/languages' );
 
-	add_filter( 'plugin_action_links', 'gallerylink_settings_link', 10, 2 );
+	define("GALLERYLINK_PLUGIN_BASE_FILE", plugin_basename(__FILE__));
 
 	require_once( dirname( __FILE__ ) . '/req/GalleryLinkRegistAndHeader.php' );
 	$gallerylinkregistandheader = new GalleryLinkRegistAndHeader();
@@ -40,27 +40,13 @@ Domain Path: /languages
 	require_once( dirname( __FILE__ ) . '/req/GalleryLinkAdmin.php' );
 	$gallerylinkadmin = new GalleryLinkAdmin();
 	add_action( 'admin_menu', array($gallerylinkadmin, 'plugin_menu'));
+	add_filter( 'plugin_action_links', array($gallerylinkadmin, 'settings_link'), 10, 2 );
+	unset($gallerylinkadmin);
 
 	add_shortcode( 'gallerylink', 'gallerylink_func' );
 
 	require_once( dirname( __FILE__ ) . '/req/GalleryLinkWidgetItem.php' );
 	add_action('widgets_init', create_function('', 'return register_widget("GalleryLinkWidgetItem");'));
-
-
-/* ==================================================
- * Add a "Settings" link to the plugins page
- * @since	1.0.18
- */
-function gallerylink_settings_link( $links, $file ) {
-	static $this_plugin;
-	if ( empty($this_plugin) ) {
-		$this_plugin = plugin_basename(__FILE__);
-	}
-	if ( $file == $this_plugin ) {
-		$links[] = '<a href="'.admin_url('options-general.php?page=GalleryLink').'">'.__( 'Settings').'</a>';
-	}
-	return $links;
-}
 
 /* ==================================================
  * Main
