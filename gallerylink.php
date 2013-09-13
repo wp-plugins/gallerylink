@@ -2,7 +2,7 @@
 /*
 Plugin Name: GalleryLink
 Plugin URI: http://wordpress.org/plugins/gallerylink/
-Version: 2.24
+Version: 2.25
 Description: Output as a gallery by find the file extension and directory specified.
 Author: Katsushi Kawamori
 Author URI: http://gallerylink.nyanko.org/
@@ -51,7 +51,7 @@ Domain Path: /languages
 /* ==================================================
  * Main
  */
-function gallerylink_func( $atts ) {
+function gallerylink_func( $atts, $html = NULL ) {
 
 	include_once dirname(__FILE__).'/inc/GalleryLink.php';
 	$gallerylink = new GalleryLink();
@@ -575,7 +575,7 @@ FLASHMUSICPLAYER;
 			if ( $set === 'music' ){
 				wp_enqueue_script( 'jQuery SWFObject', $pluginurl.'/gallerylink/jqueryswf/jquery.swfobject.1-1-1.min.js', null, '1.1.1' );
 			}
-			echo '<h2>'.$selectedfilename.'</h2>';
+			$html .= '<h2>'.$selectedfilename.'</h2>';
 		}
 	} else if ( $mode === 'sp') {
 		if ( $set === 'album' || $set === 'slideshow' ){
@@ -605,13 +605,13 @@ FLASHMUSICPLAYER;
 
 	if ( $mode === 'pc' && $set === 'movie' ) {
 		if(preg_match("/MSIE 9\.0/", $_SERVER['HTTP_USER_AGENT'])){
-			echo $movieplayercontainerIE9;
+			$html .= $movieplayercontainerIE9;
 		} else {
-			echo $movieplayercontainer;
+			$html .= $movieplayercontainer;
 		}
 	} else if ( $mode === 'pc' && $set === 'music' ) {
-		echo $flashmusicplayer;
-		echo $musicplayercontainer;
+		$html .= $flashmusicplayer;
+		$html .= $musicplayercontainer;
 	}
 
 	$linkfiles_begin = NULL;
@@ -714,32 +714,32 @@ FLASHMUSICPLAYER;
 		}
 	}
 
-	echo $linkfiles_begin;
-	echo $linkfiles;
-	echo $linkfiles_end;
+	$html .= $linkfiles_begin;
+	$html .= $linkfiles;
+	$html .= $linkfiles_end;
 
 	if ( $directorylinks_show === 'Show' ) {
-		echo $dirselectbox_begin;
-		echo $dirselectbox;
-		echo $dirselectbox_end;
+		$html .= $dirselectbox_begin;
+		$html .= $dirselectbox;
+		$html .= $dirselectbox_end;
 	}
 
 	if ( $pagelinks_show === 'Show' ) {
-		echo $linkpages_begin;
-		echo $linkpages;
-		echo $linkpages_end;
+		$html .= $linkpages_begin;
+		$html .= $linkpages;
+		$html .= $linkpages_end;
 	}
 
 	if ( $sortlinks_show === 'Show' ) {
-		echo $sortlink_begin;
-		echo $sortlinks;
-		echo $sortlink_end;
+		$html .= $sortlink_begin;
+		$html .= $sortlinks;
+		$html .= $sortlink_end;
 	}
 
 	if ( $searchbox_show === 'Show' ) {
-		echo $searchform_begin;
-		echo $searchform;
-		echo $searchform_end;
+		$html .= $searchform_begin;
+		$html .= $searchform;
+		$html .= $searchform_end;
 	}
 
 	// RSS Feeds
@@ -752,9 +752,9 @@ FLASHMUSICPLAYER;
 		$rssfeeds_icon = '<div align="right"><a href="'.$rssfeed_url.'"><img src="'.$pluginurl.'/gallerylink/icon/podcast.png"></a></div>';
 	}
 	if ( $mode === "pc" || $mode === "sp" ) {
-		if ( $rssicon_show === 'Show' ) { echo $rssfeeds_icon; }
+		if ( $rssicon_show === 'Show' ) { $html .= $rssfeeds_icon; }
 		if ( $rssdef === false ) {
-			echo '<link rel="alternate" type="application/rss+xml" href="'.$rssfeed_url.'" title="'.$xml_title.'" />';
+			$html .= '<link rel="alternate" type="application/rss+xml" href="'.$rssfeed_url.'" title="'.$xml_title.'" />';
 		}
 	}
 	if(!empty($rssfiles)){
@@ -762,8 +762,10 @@ FLASHMUSICPLAYER;
 	}
 
 	if ( $credit_show === 'Show' ) {
-		echo '<div align = "right"><a href="http://wordpress.org/plugins/gallerylink/"><span style="font-size : xx-small">by GalleryLink</span></a></div>';
+		$html .= '<div align = "right"><a href="http://wordpress.org/plugins/gallerylink/"><span style="font-size : xx-small">by GalleryLink</span></a></div>';
 	}
+
+	return $html;
 
 }
 
