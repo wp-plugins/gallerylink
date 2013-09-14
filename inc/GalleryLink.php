@@ -410,10 +410,15 @@ XMLEND;
 				$xmlitem .= $this->xmlitem_read($rssfiles[$i]);
 			}
 			$xmlitem = $xml_begin.$xmlitem.$xml_end;
-			$fno = fopen($xmlfile, 'w');
-				fwrite($fno, $xmlitem);
-			fclose($fno);
-			chmod($xmlfile, 0646);
+			if (is_writable($this->document_root)) {
+				$fno = fopen($xmlfile, 'w');
+					fwrite($fno, $xmlitem);
+				fclose($fno);
+				chmod($xmlfile, 0646);
+			} else {
+				_e('Could not create an RSS Feed. Please change to 777 or 757 to permissions of following directory.', 'gallerylink');
+				echo '<div>'.$this->topurl.'</div>';
+			}
 		}
 
 	}

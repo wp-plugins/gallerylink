@@ -41,6 +41,10 @@
 	delete_option('gallerylink_slideshow_suffix_thumbnail');
 	delete_option('gallerylink_exclude_file');
 	delete_option('gallerylink_exclude_dir');
+	delete_option('gallerylink_album_generate_rssfeed');
+	delete_option('gallerylink_movie_generate_rssfeed');
+	delete_option('gallerylink_music_generate_rssfeed');
+	delete_option('gallerylink_slideshow_generate_rssfeed');
 	delete_option('gallerylink_album_rssname');
 	delete_option('gallerylink_movie_rssname');
 	delete_option('gallerylink_music_rssname');

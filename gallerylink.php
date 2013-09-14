@@ -2,7 +2,7 @@
 /*
 Plugin Name: GalleryLink
 Plugin URI: http://wordpress.org/plugins/gallerylink/
-Version: 2.25
+Version: 2.26
 Description: Output as a gallery by find the file extension and directory specified.
 Author: Katsushi Kawamori
 Author URI: http://gallerylink.nyanko.org/
@@ -72,7 +72,8 @@ function gallerylink_func( $atts, $html = NULL ) {
         'thumbnail'  => '',
         'exclude_file' => '',
         'exclude_dir' => '',
-        'rssname' => '',
+        'generate_rssfeed' => '',
+		'rssname' => '',
         'rssmax'  => '',
         'directorylinks_show'  => '',
         'pagelinks_show'  => '',
@@ -93,6 +94,7 @@ function gallerylink_func( $atts, $html = NULL ) {
 		if( empty($display_sp) ) { $display_sp = intval(get_option('gallerylink_album_display_sp')); }
 		if( empty($display_keitai) ) { $display_keitai = intval(get_option('gallerylink_album_display_keitai')); }
 		if( empty($thumbnail) ) { $thumbnail = get_option('gallerylink_album_suffix_thumbnail'); }
+		if( empty($generate_rssfeed) ) { $generate_rssfeed = get_option('gallerylink_album_generate_rssfeed'); }
 		if( empty($rssname) ) {
 			$rssname = get_option('gallerylink_album_rssname');
 			$rssdef = true;
@@ -115,6 +117,7 @@ function gallerylink_func( $atts, $html = NULL ) {
 		if( empty($display_sp) ) { $display_sp = intval(get_option('gallerylink_movie_display_sp')); }
 		if( empty($display_keitai) ) { $display_keitai = intval(get_option('gallerylink_movie_display_keitai')); }
 		if( empty($thumbnail) ) { $thumbnail = get_option('gallerylink_movie_suffix_thumbnail'); }
+		if( empty($generate_rssfeed) ) { $generate_rssfeed = get_option('gallerylink_movie_generate_rssfeed'); }
 		if( empty($rssname) ) {
 			$rssname = get_option('gallerylink_movie_rssname');
 			$rssdef = true;
@@ -137,6 +140,7 @@ function gallerylink_func( $atts, $html = NULL ) {
 		if( empty($display_sp) ) { $display_sp = intval(get_option('gallerylink_music_display_sp')); }
 		if( empty($display_keitai) ) { $display_keitai = intval(get_option('gallerylink_music_display_keitai')); }
 		if( empty($thumbnail) ) { $thumbnail = get_option('gallerylink_music_suffix_thumbnail'); }
+		if( empty($generate_rssfeed) ) { $generate_rssfeed = get_option('gallerylink_music_generate_rssfeed'); }
 		if( empty($rssname) ) {
 			$rssname = get_option('gallerylink_music_rssname');
 			$rssdef = true;
@@ -159,6 +163,7 @@ function gallerylink_func( $atts, $html = NULL ) {
 		if( empty($display_sp) ) { $display_sp = intval(get_option('gallerylink_slideshow_display_sp')); }
 		if( empty($display_keitai) ) { $display_keitai = intval(get_option('gallerylink_album_display_keitai')); }
 		if( empty($thumbnail) ) { $thumbnail = get_option('gallerylink_slideshow_suffix_thumbnail'); }
+		if( empty($generate_rssfeed) ) { $generate_rssfeed = get_option('gallerylink_slideshow_generate_rssfeed'); }
 		if( empty($rssname) ) {
 			$rssname = get_option('gallerylink_slideshow_rssname');
 			$rssdef = true;
@@ -294,8 +299,10 @@ function gallerylink_func( $atts, $html = NULL ) {
 	// sort for newer & sort for RSS feeds
 	if (!empty($files)){
 		array_multisort($time_list,SORT_DESC,$files); 
-		foreach ( $files as $file ){
-			$rssfiles[] = $file;
+		if ( $generate_rssfeed === 'on' ) {
+			foreach ( $files as $file ){
+				$rssfiles[] = $file;
+			}
 		}
 	}
 	if ( $sort === "n" || empty($sort) ) {
@@ -742,23 +749,26 @@ FLASHMUSICPLAYER;
 		$html .= $searchform_end;
 	}
 
-	// RSS Feeds
-	$xml_title =  get_bloginfo('name').' | '.get_the_title();
 
-	$rssfeed_url = $topurl.'/'.$rssname.'.xml';
-	if ( $set === "album" || $set === "slideshow" ) {
-		$rssfeeds_icon = '<div align="right"><a href="'.$rssfeed_url.'"><img src="'.$pluginurl.'/gallerylink/icon/rssfeeds.png"></a></div>';
-	} else {
-		$rssfeeds_icon = '<div align="right"><a href="'.$rssfeed_url.'"><img src="'.$pluginurl.'/gallerylink/icon/podcast.png"></a></div>';
-	}
-	if ( $mode === "pc" || $mode === "sp" ) {
-		if ( $rssicon_show === 'Show' ) { $html .= $rssfeeds_icon; }
-		if ( $rssdef === false ) {
-			$html .= '<link rel="alternate" type="application/rss+xml" href="'.$rssfeed_url.'" title="'.$xml_title.'" />';
+	// RSS Feeds
+	if ($generate_rssfeed === 'on') {
+		$xml_title =  get_bloginfo('name').' | '.get_the_title();
+
+		$rssfeed_url = $topurl.'/'.$rssname.'.xml';
+		if ( $set === "album" || $set === "slideshow" ) {
+			$rssfeeds_icon = '<div align="right"><a href="'.$rssfeed_url.'"><img src="'.$pluginurl.'/gallerylink/icon/rssfeeds.png"></a></div>';
+		} else {
+			$rssfeeds_icon = '<div align="right"><a href="'.$rssfeed_url.'"><img src="'.$pluginurl.'/gallerylink/icon/podcast.png"></a></div>';
 		}
-	}
-	if(!empty($rssfiles)){
-		$gallerylink->rss_wirte($xml_title, $rssfiles);
+		if ( $mode === "pc" || $mode === "sp" ) {
+			if ( $rssicon_show === 'Show' ) { $html .= $rssfeeds_icon; }
+			if ( $rssdef === false ) {
+				$html .= '<link rel="alternate" type="application/rss+xml" href="'.$rssfeed_url.'" title="'.$xml_title.'" />';
+			}
+		}
+		if(!empty($rssfiles)){
+			$gallerylink->rss_wirte($xml_title, $rssfiles);
+		}
 	}
 
 	if ( $credit_show === 'Show' ) {

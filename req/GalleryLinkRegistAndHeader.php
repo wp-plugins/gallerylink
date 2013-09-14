@@ -47,6 +47,10 @@ class GalleryLinkRegistAndHeader {
 		register_setting( 'gallerylink-settings-group', 'gallerylink_slideshow_suffix_thumbnail');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_exclude_file');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_exclude_dir');
+		register_setting( 'gallerylink-settings-group', 'gallerylink_album_generate_rssfeed');
+		register_setting( 'gallerylink-settings-group', 'gallerylink_movie_generate_rssfeed');
+		register_setting( 'gallerylink-settings-group', 'gallerylink_music_generate_rssfeed');
+		register_setting( 'gallerylink-settings-group', 'gallerylink_slideshow_generate_rssfeed');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_album_rssname');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_movie_rssname');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_music_rssname');
@@ -130,6 +134,10 @@ class GalleryLinkRegistAndHeader {
 		add_option('gallerylink_slideshow_suffix_thumbnail', '-'.get_option('thumbnail_size_w').'x'.get_option('thumbnail_size_h'));
 		add_option('gallerylink_exclude_file', '');
 		add_option('gallerylink_exclude_dir', '');
+		add_option('gallerylink_album_generate_rssfeed', 'on');
+		add_option('gallerylink_movie_generate_rssfeed', 'on');
+		add_option('gallerylink_music_generate_rssfeed', 'on');
+		add_option('gallerylink_slideshow_generate_rssfeed', 'on');
 		add_option('gallerylink_album_rssname', 'gallerylink_album_feed');
 		add_option('gallerylink_movie_rssname', 'gallerylink_movie_feed');
 		add_option('gallerylink_music_rssname', 'gallerylink_music_feed');

@@ -265,6 +265,17 @@ class GalleryLinkAdmin {
 		</tr>
 
 		<tr>
+		<td align="center" valign="middle"><b>generate_rssfeed</b></td>
+		<td align="center" valign="middle"><?php echo get_option('gallerylink_album_generate_rssfeed') ?></td>
+		<td align="center" valign="middle"><?php echo get_option('gallerylink_movie_generate_rssfeed') ?></td>
+		<td align="center" valign="middle"><?php echo get_option('gallerylink_music_generate_rssfeed') ?></td>
+		<td align="center" valign="middle"><?php echo get_option('gallerylink_slideshow_generate_rssfeed') ?></td>
+		<td align="left" valign="middle">
+		<?php _e('Generation of RSS feed.', 'gallerylink'); ?>
+		</td>
+		</tr>
+
+		<tr>
 		<td align="center" valign="middle"><b>rssname</b></td>
 		<td align="center" valign="middle"><?php echo get_option('gallerylink_album_rssname') ?></td>
 		<td align="center" valign="middle"><?php echo get_option('gallerylink_movie_rssname') ?></td>
@@ -699,6 +710,40 @@ class GalleryLinkAdmin {
 					</td>
 					<td align="left" valign="middle">
 						<?php _e('Directory you want to exclude. More than one, specified separated by |.', 'gallerylink'); ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle"><b>generate_rssfeed</b></td>
+					<td align="center" valign="middle">
+					<?php $target_album_generate_rssfeed = get_option('gallerylink_album_generate_rssfeed'); ?>
+					<select id="gallerylink_album_generate_rssfeed" name="gallerylink_album_generate_rssfeed">
+						<option <?php if ('on' == $target_album_generate_rssfeed)echo 'selected="selected"'; ?>>on</option>
+						<option <?php if ('off' == $target_album_generate_rssfeed)echo 'selected="selected"'; ?>>off</option>
+					</select>
+					</td>
+					<td align="center" valign="middle">
+					<?php $target_movie_generate_rssfeed = get_option('gallerylink_movie_generate_rssfeed'); ?>
+					<select id="gallerylink_movie_generate_rssfeed" name="gallerylink_movie_generate_rssfeed">
+						<option <?php if ('on' == $target_movie_generate_rssfeed)echo 'selected="selected"'; ?>>on</option>
+						<option <?php if ('off' == $target_movie_generate_rssfeed)echo 'selected="selected"'; ?>>off</option>
+					</select>
+					</td>
+					<td align="center" valign="middle">
+					<?php $target_music_generate_rssfeed = get_option('gallerylink_music_generate_rssfeed'); ?>
+					<select id="gallerylink_music_generate_rssfeed" name="gallerylink_music_generate_rssfeed">
+						<option <?php if ('on' == $target_music_generate_rssfeed)echo 'selected="selected"'; ?>>on</option>
+						<option <?php if ('off' == $target_music_generate_rssfeed)echo 'selected="selected"'; ?>>off</option>
+					</select>
+					</td>
+					<td align="center" valign="middle">
+					<?php $target_slideshow_generate_rssfeed = get_option('gallerylink_slideshow_generate_rssfeed'); ?>
+					<select id="gallerylink_slideshow_generate_rssfeed" name="gallerylink_slideshow_generate_rssfeed">
+						<option <?php if ('on' == $target_slideshow_generate_rssfeed)echo 'selected="selected"'; ?>>on</option>
+						<option <?php if ('off' == $target_slideshow_generate_rssfeed)echo 'selected="selected"'; ?>>off</option>
+					</select>
+					</td>
+					<td align="left" valign="middle">
+					<?php _e('Generation of RSS feed.', 'gallerylink') ?>
 					</td>
 				</tr>
 				<tr>
