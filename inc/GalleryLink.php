@@ -258,13 +258,13 @@ class GalleryLink {
 		$query = str_replace('glp='.$this->page, '', $query);
 		$query = preg_replace('/&f=.*/', '', $query);
 
-		if ( $mode === 'pc' ) { //PC
+		if ( $this->mode === 'pc' ) { //PC
 			$pageleftalow = '&lt;&lt;';
 			$pagerightalow = '&gt;&gt;';
-		} else if ( $mode === 'mb' ) { //Ktai
+		} else if ( $this->mode === 'mb' ) { //Ktai
 			$pageleftalow = '&lt;&lt;';
 			$pagerightalow = '&gt;&gt;';
-		} else if ( $mode === 'sp' ) { //SP
+		} else if ( $this->mode === 'sp' ) { //SP
 			$pagetagleft = '<li>';
 			$pagetagright = '</li>';
 			$page_no_tag_left = '<a>';
