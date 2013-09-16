@@ -18,6 +18,7 @@ class GalleryLinkWidgetItem extends WP_Widget {
 		$checkbox4 = apply_filters('widget_checkbox', $instance['checkbox4']);
 		$checkbox5 = apply_filters('widget_checkbox', $instance['checkbox5']);
 		$checkbox6 = apply_filters('widget_checkbox', $instance['checkbox6']);
+		$checkbox7 = apply_filters('widget_checkbox', $instance['checkbox7']);
 
 		$pluginurl = plugins_url($path='',$scheme=null);
 
@@ -28,6 +29,7 @@ class GalleryLinkWidgetItem extends WP_Widget {
 		$xml4 = get_option('gallerylink_movie_topurl').'/'.get_option('gallerylink_movie_rssname').'.xml';
 		$xml5 = get_option('gallerylink_music_topurl').'/'.get_option('gallerylink_music_rssname').'.xml';
 		$xml6 = get_option('gallerylink_slideshow_topurl').'/'.get_option('gallerylink_slideshow_rssname').'.xml';
+		$xml7 = get_option('gallerylink_document_topurl').'/'.get_option('gallerylink_document_rssname').'.xml';
 
 		if ($title) {
 			echo $before_widget;
@@ -95,6 +97,16 @@ class GalleryLinkWidgetItem extends WP_Widget {
 				</tr>
 				<?
 			}
+			if ($checkbox7) {
+				$xmldata7 = simplexml_load_file($servername.$xml7);
+				?>
+				<tr>
+				<td align="center" valign="middle"><a href="<?php echo get_option('gallerylink_document_topurl') ?>/<?php echo get_option('gallerylink_document_rssname') ?>.xml">
+				<img src="<?php echo $pluginurl ?>/gallerylink/icon/rssfeeds.png"></a></td>
+				<td align="left" valign="middle"><?php echo $xmldata7->channel->title; ?></td>
+				</tr>
+				<?
+			}
 			echo '</table>';
 			echo $after_widget;
 		}
@@ -109,6 +121,7 @@ class GalleryLinkWidgetItem extends WP_Widget {
 		$instance['checkbox4'] = strip_tags($new_instance['checkbox4']);
 		$instance['checkbox5'] = strip_tags($new_instance['checkbox5']);
 		$instance['checkbox6'] = strip_tags($new_instance['checkbox6']);
+		$instance['checkbox7'] = strip_tags($new_instance['checkbox7']);
 		return $instance;
 	}
 	
@@ -120,6 +133,7 @@ class GalleryLinkWidgetItem extends WP_Widget {
 		$checkbox4 = esc_attr($instance['checkbox4']);
 		$checkbox5 = esc_attr($instance['checkbox5']);
 		$checkbox6 = esc_attr($instance['checkbox6']);
+		$checkbox7 = esc_attr($instance['checkbox7']);
 
 		?>
 		<p>
@@ -171,6 +185,13 @@ class GalleryLinkWidgetItem extends WP_Widget {
 			<label for="<?php echo $this->get_field_id('checkbox6'); ?> ">
 			<input class="widefat" id="<?php echo $this->get_field_id('checkbox6'); ?>" name="<?php echo $this->get_field_name('checkbox6'); ?>" type="checkbox"<?php checked('Slideshow', $checkbox6); ?> value="Slideshow" />
 			<?php _e('Slideshow (RSS)', 'gallerylink'); ?></label>
+		</td>
+		</tr>
+		<tr>
+		<td align="left" valign="middle" nowrap>
+			<label for="<?php echo $this->get_field_id('checkbox7'); ?> ">
+			<input class="widefat" id="<?php echo $this->get_field_id('checkbox7'); ?>" name="<?php echo $this->get_field_name('checkbox7'); ?>" type="checkbox"<?php checked('Document', $checkbox7); ?> value="Document" />
+			<?php _e('Document (RSS)', 'gallerylink'); ?></label>
 		</td>
 		</tr>
 		</table>

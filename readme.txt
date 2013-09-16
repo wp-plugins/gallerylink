@@ -4,7 +4,7 @@ Donate link: http://gallerylink.nyanko.org/
 Tags: audio,feed,feeds,flash,gallery,html5,image,images,list,music,photo,photos,picture,pictures,rss,shortcode,video,xml
 Requires at least: 3.0.1
 Tested up to: 3.4
-Stable tag: 2.27
+Stable tag: 3.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,7 +12,7 @@ Output as a gallery by find the file extension and directory specified.
 
 == Description ==
 
-Create a playlist (music, pictures, videos) of data in the directory below the specified, GalleryLink displays Pages by passing the data to various software.
+Create a playlist (music, pictures, videos, document) of data in the directory below the specified, GalleryLink displays Pages by passing the data to various software.
 
 If you want to use the data on the Media Library, please use the [MediaLink](http://wordpress.org/plugins/medialink/).
 
@@ -41,7 +41,7 @@ Bundled software and function
 2. Activate the plugin through the 'Plugins' menu in WordPress
 3. Add a new Page
 4. Write a short code. The following text field. `[gallerylink]`
-5. For pictures `[gallerylink set='album']`. For video `[gallerylink set='movie']`. For music `[gallerylink set='music']`.
+5. For pictures `[gallerylink set='album']`. For video `[gallerylink set='movie']`. For music `[gallerylink set='music']`. For document `[gallerylink set='document']`.
 6. Please set. (Settings > Gallerylink)
 
     [Settings](http://wordpress.org/plugins/gallerylink/other_notes/)
@@ -57,6 +57,11 @@ none
 1. screenshot-1.jpg
 
 == Changelog ==
+
+= 3.0 =
+Add document mode.
+Change /languages
+Change readme.txt
 
 = 2.27 =
 Fixed problem of pagination for smartphone.
@@ -264,6 +269,7 @@ Delete screenshot
 
 == Upgrade Notice ==
 
+= 3.0 =
 = 2.27 =
 = 2.26 =
 = 2.25 =
@@ -346,6 +352,9 @@ In the case of video
 In the case of music
 [gallerylink set='music']
 
+In the case of document
+[gallerylink set='document']
+
 Customization 1
 
 If you want to use MULTI-BYTE CHARACTER SETS to the display of the directory name and the file name. In this case, please upload the file after UTF-8 character code setting of the FTP software.
@@ -359,6 +368,8 @@ Image Example [gallerylink set='album' topurl='/wordpress/wp-content/uploads' th
 Video Example [gallerylink set='movie' topurl='/gallery/video' rssmax=5]
 
 Music Example [gallerylink set='music' topurl='/gallery/music' rssmax=20]
+
+Document Example [gallerylink set='document' topurl='/gallery/document' suffix_pc='xls']
 
 * Please set to 777 or 757 the attributes of topurl directory. Because GalleryLink create an RSS feed in the directory.
 

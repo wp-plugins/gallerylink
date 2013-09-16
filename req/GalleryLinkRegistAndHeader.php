@@ -15,6 +15,7 @@ class GalleryLinkRegistAndHeader {
 		register_setting( 'gallerylink-settings-group', 'gallerylink_movie_topurl');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_music_topurl');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_slideshow_topurl');
+		register_setting( 'gallerylink-settings-group', 'gallerylink_document_topurl');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_album_suffix_pc');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_album_suffix_sp');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_album_suffix_keitai');
@@ -30,6 +31,9 @@ class GalleryLinkRegistAndHeader {
 		register_setting( 'gallerylink-settings-group', 'gallerylink_music_suffix_keitai');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_slideshow_suffix_pc');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_slideshow_suffix_sp');
+		register_setting( 'gallerylink-settings-group', 'gallerylink_document_suffix_pc');
+		register_setting( 'gallerylink-settings-group', 'gallerylink_document_suffix_sp');
+		register_setting( 'gallerylink-settings-group', 'gallerylink_document_suffix_keitai');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_album_display_pc', 'intval');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_album_display_sp', 'intval');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_album_display_keitai', 'intval');
@@ -41,24 +45,31 @@ class GalleryLinkRegistAndHeader {
 		register_setting( 'gallerylink-settings-group', 'gallerylink_music_display_keitai', 'intval');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_slideshow_display_pc', 'intval');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_slideshow_display_sp', 'intval');
+		register_setting( 'gallerylink-settings-group', 'gallerylink_document_display_pc', 'intval');
+		register_setting( 'gallerylink-settings-group', 'gallerylink_document_display_sp', 'intval');
+		register_setting( 'gallerylink-settings-group', 'gallerylink_document_display_keitai', 'intval');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_album_suffix_thumbnail');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_movie_suffix_thumbnail');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_music_suffix_thumbnail');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_slideshow_suffix_thumbnail');
+		register_setting( 'gallerylink-settings-group', 'gallerylink_document_suffix_thumbnail');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_exclude_file');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_exclude_dir');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_album_generate_rssfeed');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_movie_generate_rssfeed');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_music_generate_rssfeed');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_slideshow_generate_rssfeed');
+		register_setting( 'gallerylink-settings-group', 'gallerylink_document_generate_rssfeed');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_album_rssname');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_movie_rssname');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_music_rssname');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_slideshow_rssname');
+		register_setting( 'gallerylink-settings-group', 'gallerylink_document_rssname');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_album_rssmax', 'intval');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_movie_rssmax', 'intval');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_music_rssmax', 'intval');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_slideshow_rssmax', 'intval');
+		register_setting( 'gallerylink-settings-group', 'gallerylink_document_rssmax', 'intval');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_movie_container');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_css_listthumbsize');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_css_pc_listwidth', 'intval');
@@ -94,6 +105,12 @@ class GalleryLinkRegistAndHeader {
 		register_setting( 'gallerylink-settings-group', 'gallerylink_slideshow_searchbox_show');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_slideshow_rssicon_show');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_slideshow_credit_show');
+		register_setting( 'gallerylink-settings-group', 'gallerylink_document_directorylinks_show');
+		register_setting( 'gallerylink-settings-group', 'gallerylink_document_pagelinks_show');
+		register_setting( 'gallerylink-settings-group', 'gallerylink_document_sortlinks_show');
+		register_setting( 'gallerylink-settings-group', 'gallerylink_document_searchbox_show');
+		register_setting( 'gallerylink-settings-group', 'gallerylink_document_rssicon_show');
+		register_setting( 'gallerylink-settings-group', 'gallerylink_document_credit_show');
 		add_option('gallerylink_album_effect_pc', 'colorbox');
 		add_option('gallerylink_album_effect_sp', 'photoswipe');
 		add_option('gallerylink_slideshow_effect_pc', 'nivoslider');
@@ -101,6 +118,7 @@ class GalleryLinkRegistAndHeader {
 		add_option('gallerylink_album_topurl', '');
 		add_option('gallerylink_movie_topurl', '');
 		add_option('gallerylink_music_topurl', '');
+		add_option('gallerylink_document_topurl', '');
 		add_option('gallerylink_slideshow_topurl', '');
 		add_option('gallerylink_album_suffix_pc', 'jpg');
 		add_option('gallerylink_album_suffix_sp', 'jpg');
@@ -117,6 +135,9 @@ class GalleryLinkRegistAndHeader {
 		add_option('gallerylink_music_suffix_keitai', '3gp');
 		add_option('gallerylink_slideshow_suffix_pc', 'jpg');
 		add_option('gallerylink_slideshow_suffix_sp', 'jpg');
+		add_option('gallerylink_document_suffix_pc', 'pdf');
+		add_option('gallerylink_document_suffix_sp', 'pdf');
+		add_option('gallerylink_document_suffix_keitai', 'pdf');
 		add_option('gallerylink_album_display_pc', 20); 	
 		add_option('gallerylink_album_display_sp', 9);
 		add_option('gallerylink_album_display_keitai', 6);
@@ -128,24 +149,31 @@ class GalleryLinkRegistAndHeader {
 		add_option('gallerylink_music_display_keitai', 6);
 		add_option('gallerylink_slideshow_display_pc', 10);
 		add_option('gallerylink_slideshow_display_sp', 10);
+		add_option('gallerylink_document_display_pc', 20);
+		add_option('gallerylink_document_display_sp', 9);
+		add_option('gallerylink_document_display_keitai', 6);
 		add_option('gallerylink_album_suffix_thumbnail', '-'.get_option('thumbnail_size_w').'x'.get_option('thumbnail_size_h'));
 		add_option('gallerylink_movie_suffix_thumbnail', '');
 		add_option('gallerylink_music_suffix_thumbnail', '');
 		add_option('gallerylink_slideshow_suffix_thumbnail', '-'.get_option('thumbnail_size_w').'x'.get_option('thumbnail_size_h'));
+		add_option('gallerylink_document_suffix_thumbnail', '');
 		add_option('gallerylink_exclude_file', '');
 		add_option('gallerylink_exclude_dir', '');
 		add_option('gallerylink_album_generate_rssfeed', 'on');
 		add_option('gallerylink_movie_generate_rssfeed', 'on');
 		add_option('gallerylink_music_generate_rssfeed', 'on');
+		add_option('gallerylink_document_generate_rssfeed', 'on');
 		add_option('gallerylink_slideshow_generate_rssfeed', 'on');
 		add_option('gallerylink_album_rssname', 'gallerylink_album_feed');
 		add_option('gallerylink_movie_rssname', 'gallerylink_movie_feed');
 		add_option('gallerylink_music_rssname', 'gallerylink_music_feed');
 		add_option('gallerylink_slideshow_rssname', 'gallerylink_slideshow_feed');
+		add_option('gallerylink_document_rssname', 'gallerylink_document_feed');
 		add_option('gallerylink_album_rssmax', 10);
 		add_option('gallerylink_movie_rssmax', 10);
 		add_option('gallerylink_music_rssmax', 10);
 		add_option('gallerylink_slideshow_rssmax', 10);
+		add_option('gallerylink_document_rssmax', 10);
 		add_option('gallerylink_movie_container', '512x384');
 		add_option('gallerylink_css_pc_listwidth', 400);
 		add_option('gallerylink_css_pc_listthumbsize', '50x35');
@@ -181,6 +209,12 @@ class GalleryLinkRegistAndHeader {
 		add_option('gallerylink_slideshow_searchbox_show', 'Hide');
 		add_option('gallerylink_slideshow_rssicon_show', 'Hide');
 		add_option('gallerylink_slideshow_credit_show', 'Show');
+		add_option('gallerylink_document_directorylinks_show', 'Show');
+		add_option('gallerylink_document_pagelinks_show', 'Show');
+		add_option('gallerylink_document_sortlinks_show', 'Show');
+		add_option('gallerylink_document_searchbox_show', 'Show');
+		add_option('gallerylink_document_rssicon_show', 'Show');
+		add_option('gallerylink_document_credit_show', 'Show');
 	}
 
 	/* ==================================================
@@ -195,6 +229,7 @@ class GalleryLinkRegistAndHeader {
 		$xml_movie = get_option('gallerylink_movie_topurl').'/'.get_option('gallerylink_movie_rssname').'.xml';
 		$xml_music = get_option('gallerylink_music_topurl').'/'.get_option('gallerylink_music_rssname').'.xml';
 		$xml_slideshow = get_option('gallerylink_slideshow_topurl').'/'.get_option('gallerylink_slideshow_rssname').'.xml';
+		$xml_document = get_option('gallerylink_document_topurl').'/'.get_option('gallerylink_document_rssname').'.xml';
 
 		include_once dirname(__FILE__).'/../inc/GalleryLink.php';
 		$gallerylink = new GalleryLink();
@@ -217,6 +252,10 @@ class GalleryLinkRegistAndHeader {
 			if (file_exists($documentrootname.$xml_slideshow)) {
 				$xml_slideshow_data = simplexml_load_file($servername.$xml_slideshow);
 				echo '<link rel="alternate" type="application/rss+xml" href="'.$servername.$xml_slideshow.'" title="'.$xml_slideshow_data->channel->title.'" />'."\n";
+			}
+			if (file_exists($documentrootname.$xml_document)) {
+				$xml_document_data = simplexml_load_file($servername.$xml_document);
+				echo '<link rel="alternate" type="application/rss+xml" href="'.$servername.$xml_document.'" title="'.$xml_document_data->channel->title.'" />'."\n";
 			}
 			echo '<!-- End Gallerylink feed -->'."\n";
 		}

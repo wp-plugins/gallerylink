@@ -138,6 +138,16 @@ class GalleryLink {
 			$wpiconurl = $pluginurl.'/gallerylink/icon/video.png';
 		} else if ( $this->set === 'music') {
 			$wpiconurl = $pluginurl.'/gallerylink/icon/audio.png';
+		} else if ( $this->set === 'document') {
+			if ( $this->suffix === '.pdf' ) {
+				$wpiconurl = $pluginurl.'/gallerylink/icon/pdf.png';
+			} else if ( $this->suffix === '.doc' || $this->suffix === '.docx' ) {
+				$wpiconurl = $pluginurl.'/gallerylink/icon/word.png';
+			} else if ( $this->suffix === '.xls' || $this->suffix === '.xlsx' || $this->suffix === '.xla' || $this->suffix === '.xlt' || $this->suffix === '.xlw' ) {
+				$wpiconurl = $pluginurl.'/gallerylink/icon/excel.png';
+			} else if ( $this->suffix === '.pot' || $this->suffix === '.pps' || $this->suffix === '.ppt' || $this->suffix === '.pptx' || $this->suffix === '.pptm' || $this->suffix === '.ppsx' || $this->suffix === '.ppsm' || $this->suffix === '.potx' || $this->suffix === '.potm' || $this->suffix === '.ppam' || $this->suffix === '.sldx' || $this->suffix === '.sldm' ) {
+				$wpiconurl = $pluginurl.'/gallerylink/icon/powerpoint.png';
+			}
 		}
 
 		if (empty($this->dparam)) {
@@ -182,7 +192,7 @@ class GalleryLink {
 					$linkfile = '<li><a href="'.$this->topurl.$file.'" title="'.$titlename.'"><img src="'.$this->topurl.$thumbfile.'" alt="'.$titlename.'" title="'.$titlename.'"></a></li>';
 				}
 			}else{
-				if ( $this->mode === 'sp' ) {
+				if ( $this->mode === 'sp' || $this->set === 'document' ) {
 					if( $thumbfind === "true" ){
 						$linkfile = '<li><img src="'.$this->topurl.$thumbfile.'"><a href="'.$this->topurl.$file.'" '.$mimetype.'>'.$titlename.'</a></li>';
 					}else{
@@ -326,8 +336,12 @@ class GalleryLink {
 			$link_url = 'http://'.$servername.$this->topurl.$file.$this->suffix;
 			$img_url = '<a href="'.$link_url.'"><img src = "http://'.$servername.$this->topurl.$file.$this->thumbnail.$this->suffix.'"></a>';
 		}else{
-			$link_url = 'http://'.$servername.$scriptname.$fparam;
-			$enc_url = 'http://'.$servername.$this->topurl.$file.$this->suffix;
+			if ( $this->set === 'document' ){
+				$link_url = 'http://'.$servername.$this->topurl.$file.$this->suffix;
+			} else {
+				$link_url = 'http://'.$servername.$scriptname.$fparam;
+				$enc_url = 'http://'.$servername.$this->topurl.$file.$this->suffix;
+			}
 			if(file_exists($this->document_root.'/'.$titlename.$this->thumbnail)){ $thumbfind = 'true'; }
 			if( $thumbfind === "true" ){
 				$img_url = '<a href="'.$link_url.'"><img src = "http://'.$servername.$this->topurl.$file.$this->thumbnail.'"></a>';
@@ -338,7 +352,7 @@ class GalleryLink {
 		$xmlitem .= "<item>\n";
 		$xmlitem .= "<title>".$titlename."</title>\n";
 		$xmlitem .= "<link>".$link_url."</link>\n";
-		if ( !preg_match( "/jpg|jpeg|jpe|gif|png|bmp|tif|tiff|ico/i", $this->suffix) ){
+		if ( $this->set === 'movie' || $this->set === 'music'){
 			$xmlitem .= '<enclosure url="'.$enc_url.'" length="'.$filesize.'" type="'.$this->mime_type($this->suffix).'" />'."\n";
 		}
 		if ( preg_match( "/jpg|jpeg|jpe|gif|png|bmp|tif|tiff|ico/i", $this->suffix) || $thumbfind === "true"){

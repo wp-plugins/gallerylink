@@ -70,6 +70,9 @@ class GalleryLinkAdmin {
 		<b><?php _e('In the case of music', 'gallerylink'); ?></b>
 		<p>&#91;gallerylink set='music'&#93</p>
 
+		<b><?php _e('In the case of document', 'gallerylink'); ?></b>
+		<p>&#91;gallerylink set='document'&#93</p>
+
 		<p><div><strong><?php _e('Customization 1', 'gallerylink'); ?></strong></div>
 		<?php _e('If you want to use MULTI-BYTE CHARACTER SETS to the display of the directory name and the file name. In this case, please upload the file after UTF-8 character code setting of the FTP software.', 'gallerylink'); ?></p>
 		<p><div><strong><?php _e('Customization 2', 'gallerylink'); ?></strong></div>
@@ -80,6 +83,8 @@ class GalleryLinkAdmin {
 		<div>&#91;gallerylink set='movie' topurl='/gallery/video' rssmax=5&#93</div>
 		<div><?php _e('Music Example', 'gallerylink'); ?></div>
 		<div>&#91;gallerylink set='music' topurl='/gallery/music' rssmax=20&#93</div>
+		<div><?php _e('Document Example', 'gallerylink'); ?></div>
+		<div>&#91;gallerylink set='music' topurl='/gallery/document' suffix_pc='doc'&#93</div>
 		<p><div><?php _e('* Please set to 777 or 757 the attributes of topurl directory. Because GalleryLink create an RSS feed in the directory.', 'gallerylink'); ?></div>
 		<div><?php _e('* (WordPress > Settings > General Timezone) Please specify your area other than UTC. For accurate time display of RSS feed.', 'gallerylink'); ?></div>
 		<div><?php _e('* When you move to (WordPress > Appearance > Widgets), there is a widget GalleryLinkRssFeed. If you place you can set this to display the sidebar link the RSS feed.', 'gallerylink'); ?></div></p>
@@ -93,7 +98,7 @@ class GalleryLinkAdmin {
 		<td align="center" valign="middle">
 		<?php _e('Attribute', 'gallerylink'); ?>
 		</td>
-		<td colspan="4" align="center" valign="middle">
+		<td colspan="5" align="center" valign="middle">
 		<?php _e('Default'); ?>
 		</td>
 		<td align="center" valign="middle">
@@ -107,8 +112,9 @@ class GalleryLinkAdmin {
 		<td align="center" valign="middle">movie</td>
 		<td align="center" valign="middle">music</td>
 		<td align="center" valign="middle">slideshow</td>
+		<td align="center" valign="middle">document</td>
 		<td align="left" valign="middle">
-		<?php _e('Next only four. album(image), movie(video), music(music), slideshow(image)', 'gallerylink'); ?>
+		<?php _e('Next only five. album(image), movie(video), music(music), slideshow(image), document(document)', 'gallerylink'); ?>
 		</td>
 		</tr>
 
@@ -117,6 +123,7 @@ class GalleryLinkAdmin {
 		<td align="center" valign="middle"><?php echo get_option('gallerylink_album_effect_pc') ?></td>
 		<td colspan="2" align="center" valign="middle" bgcolor="#dddddd"></td>
 		<td align="center" valign="middle"><?php echo get_option('gallerylink_slideshow_effect_pc') ?></td>
+		<td bgcolor="#dddddd"></td>
 		<td align="left" valign="middle">
 		<?php _e('Effects of PC. If you want to use the Lightbox, please install a plugin that is compatible to the Lightbox. I would recommend some plugins below.', 'gallerylink'); ?>
 		<div>
@@ -133,6 +140,7 @@ class GalleryLinkAdmin {
 		<td align="center" valign="middle"><?php echo get_option('gallerylink_album_effect_sp') ?></td>
 		<td colspan="2" align="center" valign="middle" bgcolor="#dddddd"></td>
 		<td align="center" valign="middle"><?php echo get_option('gallerylink_slideshow_effect_sp') ?></td>
+		<td bgcolor="#dddddd"></td>
 		<td align="left" valign="middle">
 		<?php _e('Effects of Smartphone', 'gallerylink'); ?>
 		</td>
@@ -144,6 +152,7 @@ class GalleryLinkAdmin {
 		<td align="center" valign="middle"><?php echo get_option('gallerylink_movie_topurl') ?></td>
 		<td align="center" valign="middle"><?php echo get_option('gallerylink_music_topurl') ?></td>
 		<td align="center" valign="middle"><?php echo get_option('gallerylink_slideshow_topurl') ?></td>
+		<td align="center" valign="middle"><?php echo get_option('gallerylink_document_topurl') ?></td>
 		<td align="left" valign="middle">
 		<?php _e('Full path to the top directory containing the data', 'gallerylink'); ?>
 		</td>
@@ -155,6 +164,7 @@ class GalleryLinkAdmin {
 		<td align="center" valign="middle"><?php echo get_option('gallerylink_movie_suffix_pc') ?></td>
 		<td align="center" valign="middle"><?php echo get_option('gallerylink_music_suffix_pc') ?></td>
 		<td align="center" valign="middle"><?php echo get_option('gallerylink_slideshow_suffix_pc') ?></td>
+		<td align="center" valign="middle"><?php echo get_option('gallerylink_document_suffix_pc') ?></td>
 		<td align="left" valign="middle">
 		<?php _e('extension of PC', 'gallerylink'); ?>
 		</td>
@@ -165,7 +175,7 @@ class GalleryLinkAdmin {
 		<td align="center" valign="middle" bgcolor="#dddddd"></td>
 		<td align="center" valign="middle"><?php echo get_option('gallerylink_movie_suffix_pc2') ?></td>
 		<td align="center" valign="middle"><?php echo get_option('gallerylink_music_suffix_pc2') ?></td>
-		<td align="center" valign="middle" bgcolor="#dddddd"></td>
+		<td colspan="2" bgcolor="#dddddd"></td>
 		<td align="left" valign="middle">
 		<?php _e('second extension on the PC. Second candidate when working with html5', 'gallerylink'); ?>
 		</td>
@@ -176,7 +186,7 @@ class GalleryLinkAdmin {
 		<td align="center" valign="middle" bgcolor="#dddddd"></td>
 		<td align="center" valign="middle"><?php echo get_option('gallerylink_movie_suffix_flash') ?></td>
 		<td align="center" valign="middle"><?php echo get_option('gallerylink_music_suffix_flash') ?></td>
-		<td align="center" valign="middle" bgcolor="#dddddd"></td>
+		<td colspan="2" bgcolor="#dddddd"></td>
 		<td align="left" valign="middle">
 		<?php _e('Flash extension on the PC. Flash Player to be used when a HTML5 player does not work.', 'gallerylink'); ?>
 		</td>
@@ -188,6 +198,7 @@ class GalleryLinkAdmin {
 		<td align="center" valign="middle"><?php echo get_option('gallerylink_movie_suffix_sp') ?></td>
 		<td align="center" valign="middle"><?php echo get_option('gallerylink_music_suffix_sp') ?></td>
 		<td align="center" valign="middle"><?php echo get_option('gallerylink_slideshow_suffix_sp') ?></td>
+		<td align="center" valign="middle"><?php echo get_option('gallerylink_document_suffix_sp') ?></td>
 		<td align="left" valign="middle">
 		<?php _e('extension of Smartphone', 'gallerylink'); ?>
 		</td>
@@ -199,6 +210,7 @@ class GalleryLinkAdmin {
 		<td align="center" valign="middle"><?php echo get_option('gallerylink_movie_suffix_keitai') ?></td>
 		<td align="center" valign="middle"><?php echo get_option('gallerylink_music_suffix_keitai') ?></td>
 		<td align="center" valign="middle" bgcolor="#dddddd"></td>
+		<td align="center" valign="middle"><?php echo get_option('gallerylink_document_suffix_keitai') ?></td>
 		<td align="left" valign="middle">
 		<?php _e('extension of Japanese mobile phone', 'gallerylink'); ?>
 		</td>
@@ -210,6 +222,7 @@ class GalleryLinkAdmin {
 		<td align="center" valign="middle"><?php echo intval(get_option('gallerylink_movie_display_pc')) ?></td>
 		<td align="center" valign="middle"><?php echo intval(get_option('gallerylink_music_display_pc')) ?></td>
 		<td align="center" valign="middle"><?php echo intval(get_option('gallerylink_slideshow_display_pc')) ?></td>
+		<td align="center" valign="middle"><?php echo intval(get_option('gallerylink_document_display_pc')) ?></td>
 		<td align="left" valign="middle">
 		<?php _e('File Display per page(PC)', 'gallerylink'); ?>
 		</td>
@@ -221,6 +234,7 @@ class GalleryLinkAdmin {
 		<td align="center" valign="middle"><?php echo intval(get_option('gallerylink_movie_display_sp')) ?></td>
 		<td align="center" valign="middle"><?php echo intval(get_option('gallerylink_music_display_sp')) ?></td>
 		<td align="center" valign="middle"><?php echo intval(get_option('gallerylink_slideshow_display_sp')) ?></td>
+		<td align="center" valign="middle"><?php echo intval(get_option('gallerylink_document_display_sp')) ?></td>
 		<td align="left" valign="middle">
 		<?php _e('File Display per page(Smartphone)', 'gallerylink'); ?>
 		</td>
@@ -232,6 +246,7 @@ class GalleryLinkAdmin {
 		<td align="center" valign="middle"><?php echo intval(get_option('gallerylink_movie_display_keitai')) ?></td>
 		<td align="center" valign="middle"><?php echo intval(get_option('gallerylink_music_display_keitai')) ?></td>
 		<td align="center" valign="middle" bgcolor="#dddddd"></td>
+		<td align="center" valign="middle"><?php echo intval(get_option('gallerylink_document_display_keitai')) ?></td>
 		<td align="left" valign="middle">
 		<?php _e('File Display per page(Japanese mobile phone)', 'gallerylink'); ?>
 		</td>
@@ -243,14 +258,15 @@ class GalleryLinkAdmin {
 		<td align="center" valign="middle"><?php echo get_option('gallerylink_movie_suffix_thumbnail') ?></td>
 		<td align="center" valign="middle"><?php echo get_option('gallerylink_music_suffix_thumbnail') ?></td>
 		<td align="center" valign="middle"><?php echo get_option('gallerylink_slideshow_suffix_thumbnail') ?></td>
+		<td align="center" valign="middle"><?php echo get_option('gallerylink_document_suffix_thumbnail') ?></td>
 		<td align="left" valign="middle">
-		<?php _e('(album, slideshow) thumbnail suffix name. (movie, music) specify an extension for the thumbnail of the title the same name as the file you want to view, but if the thumbnail is not found, display the icon of WordPress standard, the thumbnail display if you do not specify anything.', 'gallerylink'); ?>
+		<?php _e('(album, slideshow) thumbnail suffix name. (movie, music) specify an extension for the thumbnail of the title the same name as the file you want to view, but if the thumbnail is not found, display the icon. The thumbnail no display if you do not specify anything. (document) The icon is displayed if you specify icon. The thumbnail no display if you do not specify anything.', 'gallerylink'); ?>
 		</td>
 		</tr>
 
 		<tr>
 		<td align="center" valign="middle"><b>exclude_file</b></td>
-		<td colspan="4" align="center" valign="middle"><?php echo get_option('gallerylink_exclude_file') ?></td>
+		<td colspan="5" align="center" valign="middle"><?php echo get_option('gallerylink_exclude_file') ?></td>
 		<td align="left" valign="middle">
 		<?php _e('File you want to exclude. More than one, specified separated by |.', 'gallerylink'); ?>
 		</td>
@@ -258,7 +274,7 @@ class GalleryLinkAdmin {
 
 		<tr>
 		<td align="center" valign="middle"><b>exclude_dir</b></td>
-		<td colspan="4" align="center" valign="middle"><?php echo get_option('gallerylink_exclude_dir') ?></td>
+		<td colspan="5" align="center" valign="middle"><?php echo get_option('gallerylink_exclude_dir') ?></td>
 		<td align="left" valign="middle">
 		<?php _e('Directory you want to exclude. More than one, specified separated by |.', 'gallerylink'); ?>
 		</td>
@@ -270,6 +286,7 @@ class GalleryLinkAdmin {
 		<td align="center" valign="middle"><?php echo get_option('gallerylink_movie_generate_rssfeed') ?></td>
 		<td align="center" valign="middle"><?php echo get_option('gallerylink_music_generate_rssfeed') ?></td>
 		<td align="center" valign="middle"><?php echo get_option('gallerylink_slideshow_generate_rssfeed') ?></td>
+		<td align="center" valign="middle"><?php echo get_option('gallerylink_document_generate_rssfeed') ?></td>
 		<td align="left" valign="middle">
 		<?php _e('Generation of RSS feed.', 'gallerylink'); ?>
 		</td>
@@ -281,6 +298,7 @@ class GalleryLinkAdmin {
 		<td align="center" valign="middle"><?php echo get_option('gallerylink_movie_rssname') ?></td>
 		<td align="center" valign="middle"><?php echo get_option('gallerylink_music_rssname') ?></td>
 		<td align="center" valign="middle"><?php echo get_option('gallerylink_slideshow_rssname') ?></td>
+		<td align="center" valign="middle"><?php echo get_option('gallerylink_document_rssname') ?></td>
 		<td align="left" valign="middle">
 		<?php _e('The name of the RSS feed file (Use to widget)', 'gallerylink'); ?>
 		</td>
@@ -292,6 +310,7 @@ class GalleryLinkAdmin {
 		<td align="center" valign="middle"><?php echo intval(get_option('gallerylink_movie_rssmax')) ?></td>
 		<td align="center" valign="middle"><?php echo intval(get_option('gallerylink_music_rssmax')) ?></td>
 		<td align="center" valign="middle"><?php echo intval(get_option('gallerylink_slideshow_rssmax')) ?></td>
+		<td align="center" valign="middle"><?php echo intval(get_option('gallerylink_document_rssmax')) ?></td>
 		<td align="left" valign="middle">
 		<?php _e('Syndication feeds show the most recent (Use to widget)', 'gallerylink'); ?>
 		</td>
@@ -303,6 +322,7 @@ class GalleryLinkAdmin {
 		<td align="center" valign="middle"><?php echo get_option('gallerylink_movie_directorylinks_show') ?></td>
 		<td align="center" valign="middle"><?php echo get_option('gallerylink_music_directorylinks_show') ?></td>
 		<td align="center" valign="middle"><?php echo get_option('gallerylink_slideshow_directorylinks_show') ?></td>
+		<td align="center" valign="middle"><?php echo get_option('gallerylink_document_directorylinks_show') ?></td>
 		<td align="left" valign="middle">
 		<?php _e('Selectbox of directories.', 'gallerylink'); ?>
 		</td>
@@ -314,6 +334,7 @@ class GalleryLinkAdmin {
 		<td align="center" valign="middle"><?php echo get_option('gallerylink_movie_pagelinks_show') ?></td>
 		<td align="center" valign="middle"><?php echo get_option('gallerylink_music_pagelinks_show') ?></td>
 		<td align="center" valign="middle"><?php echo get_option('gallerylink_slideshow_pagelinks_show') ?></td>
+		<td align="center" valign="middle"><?php echo get_option('gallerylink_document_pagelinks_show') ?></td>
 		<td align="left" valign="middle">
 		<?php _e('Navigation of page.', 'gallerylink'); ?>
 		</td>
@@ -325,6 +346,7 @@ class GalleryLinkAdmin {
 		<td align="center" valign="middle"><?php echo get_option('gallerylink_movie_sortlinks_show') ?></td>
 		<td align="center" valign="middle"><?php echo get_option('gallerylink_music_sortlinks_show') ?></td>
 		<td align="center" valign="middle"><?php echo get_option('gallerylink_slideshow_sortlinks_show') ?></td>
+		<td align="center" valign="middle"><?php echo get_option('gallerylink_document_sortlinks_show') ?></td>
 		<td align="left" valign="middle">
 		<?php _e('Navigation of sort.', 'gallerylink'); ?>
 		</td>
@@ -336,6 +358,7 @@ class GalleryLinkAdmin {
 		<td align="center" valign="middle"><?php echo get_option('gallerylink_movie_searchbox_show') ?></td>
 		<td align="center" valign="middle"><?php echo get_option('gallerylink_music_searchbox_show') ?></td>
 		<td align="center" valign="middle"><?php echo get_option('gallerylink_slideshow_searchbox_show') ?></td>
+		<td align="center" valign="middle"><?php echo get_option('gallerylink_document_searchbox_show') ?></td>
 		<td align="left" valign="middle">
 		<?php _e('Search box', 'gallerylink'); ?>
 		</td>
@@ -347,6 +370,7 @@ class GalleryLinkAdmin {
 		<td align="center" valign="middle"><?php echo get_option('gallerylink_movie_rssicon_show') ?></td>
 		<td align="center" valign="middle"><?php echo get_option('gallerylink_music_rssicon_show') ?></td>
 		<td align="center" valign="middle"><?php echo get_option('gallerylink_slideshow_rssicon_show') ?></td>
+		<td align="center" valign="middle"><?php echo get_option('gallerylink_document_rssicon_show') ?></td>
 		<td align="left" valign="middle">
 		<?php _e('RSS Icon', 'gallerylink'); ?>
 		</td>
@@ -358,6 +382,7 @@ class GalleryLinkAdmin {
 		<td align="center" valign="middle"><?php echo get_option('gallerylink_movie_credit_show') ?></td>
 		<td align="center" valign="middle"><?php echo get_option('gallerylink_music_credit_show') ?></td>
 		<td align="center" valign="middle"><?php echo get_option('gallerylink_slideshow_credit_show') ?></td>
+		<td align="center" valign="middle"><?php echo get_option('gallerylink_document_credit_show') ?></td>
 		<td align="left" valign="middle">
 		<?php _e('Credit', 'gallerylink'); ?>
 		</td>
@@ -376,7 +401,7 @@ class GalleryLinkAdmin {
 			<tbody>
 				<tr>
 					<td align="center" valign="middle"><?php _e('Attribute', 'gallerylink'); ?></td>
-					<td align="center" valign="middle" colspan=4><?php _e('Default'); ?></td>
+					<td align="center" valign="middle" colspan=5><?php _e('Default'); ?></td>
 					<td align="center" valign="middle"><?php _e('Description'); ?></td>
 				</tr>
 				<tr>
@@ -385,8 +410,9 @@ class GalleryLinkAdmin {
 					<td align="center" valign="middle">movie</td>
 					<td align="center" valign="middle">music</td>
 					<td align="center" valign="middle">slideshow</td>
+					<td align="center" valign="middle">document</td>
 					<td align="left" valign="middle">
-					<?php _e('Next only four. album(image), movie(video), music(music), slideshow(image)', 'gallerylink'); ?>
+					<?php _e('Next only five. album(image), movie(video), music(music), slideshow(image), document(document)', 'gallerylink'); ?>
 					</td>
 				</tr>
 
@@ -407,6 +433,7 @@ class GalleryLinkAdmin {
 						<option <?php if ('nivoslider' == $target_slideshow_effect_pc)echo 'selected="selected"'; ?>>nivoslider</option>
 					</select>
 					</td>
+					<td></td>
 					<td align="left" valign="middle">
 						<?php _e('Effects of PC. If you want to use the Lightbox, please install a plugin that is compatible to the Lightbox. I would recommend some plugins below.', 'gallerylink'); ?>
 						<div>
@@ -434,6 +461,7 @@ class GalleryLinkAdmin {
 						<option <?php if ('nivoslider' == $target_slideshow_effect_sp)echo 'selected="selected"'; ?>>nivoslider</option>
 					</select>
 					</td>
+					<td></td>
 					<td align="left" valign="middle">
 						<?php _e('Effects of Smartphone', 'gallerylink'); ?>
 					</td>
@@ -452,6 +480,9 @@ class GalleryLinkAdmin {
 					</td>
 					<td align="center" valign="middle">
 						<input type="text" id="gallerylink_slideshow_topurl" name="gallerylink_slideshow_topurl" value="<?php echo get_option('gallerylink_slideshow_topurl') ?>" size="20" />
+					</td>
+					<td align="center" valign="middle">
+						<input type="text" id="gallerylink_document_topurl" name="gallerylink_document_topurl" value="<?php echo get_option('gallerylink_document_topurl') ?>" size="20" />
 					</td>
 					<td align="left" valign="middle">
 						<?php _e('Full path to the top directory containing the data', 'gallerylink'); ?>
@@ -495,6 +526,31 @@ class GalleryLinkAdmin {
 						<option <?php if ('gif' == $target_slideshow_suffix_pc)echo 'selected="selected"'; ?>>gif</option>
 					</select>
 					</td>
+					<td align="center" valign="middle">
+					<?php $target_document_suffix_pc = get_option('gallerylink_document_suffix_pc'); ?>
+					<select id="gallerylink_document_suffix_pc" name="gallerylink_document_suffix_pc">
+						<option <?php if ('pdf' == $target_document_suffix_pc)echo 'selected="selected"'; ?>>pdf</option>
+						<option <?php if ('doc' == $target_document_suffix_pc)echo 'selected="selected"'; ?>>doc</option>
+						<option <?php if ('docx' == $target_document_suffix_pc)echo 'selected="selected"'; ?>>docx</option>
+						<option <?php if ('xls' == $target_document_suffix_pc)echo 'selected="selected"'; ?>>xls</option>
+						<option <?php if ('xlsx' == $target_document_suffix_pc)echo 'selected="selected"'; ?>>xlsx</option>
+						<option <?php if ('xlsa' == $target_document_suffix_pc)echo 'selected="selected"'; ?>>xlsa</option>
+						<option <?php if ('xlst' == $target_document_suffix_pc)echo 'selected="selected"'; ?>>xlst</option>
+						<option <?php if ('xlsw' == $target_document_suffix_pc)echo 'selected="selected"'; ?>>xlsw</option>
+						<option <?php if ('pot' == $target_document_suffix_pc)echo 'selected="selected"'; ?>>pot</option>
+						<option <?php if ('pps' == $target_document_suffix_pc)echo 'selected="selected"'; ?>>pps</option>
+						<option <?php if ('ppt' == $target_document_suffix_pc)echo 'selected="selected"'; ?>>ppt</option>
+						<option <?php if ('pptx' == $target_document_suffix_pc)echo 'selected="selected"'; ?>>pptx</option>
+						<option <?php if ('pptm' == $target_document_suffix_pc)echo 'selected="selected"'; ?>>pptm</option>
+						<option <?php if ('ppsx' == $target_document_suffix_pc)echo 'selected="selected"'; ?>>ppsx</option>
+						<option <?php if ('ppsm' == $target_document_suffix_pc)echo 'selected="selected"'; ?>>ppsm</option>
+						<option <?php if ('potx' == $target_document_suffix_pc)echo 'selected="selected"'; ?>>potx</option>
+						<option <?php if ('potm' == $target_document_suffix_pc)echo 'selected="selected"'; ?>>potm</option>
+						<option <?php if ('ppam' == $target_document_suffix_pc)echo 'selected="selected"'; ?>>ppam</option>
+						<option <?php if ('sldx' == $target_document_suffix_pc)echo 'selected="selected"'; ?>>sldx</option>
+						<option <?php if ('sldm' == $target_document_suffix_pc)echo 'selected="selected"'; ?>>sldm</option>
+					</select>
+					</td>
 					<td align="left" valign="middle">
 						<?php _e('extension of PC', 'gallerylink'); ?>
 					</td>
@@ -521,7 +577,7 @@ class GalleryLinkAdmin {
 						<option <?php if ('m4b' == $target_music_suffix_pc2)echo 'selected="selected"'; ?>>m4b</option>
 					</select>
 					</td>
-					<td></td>
+					<td colspan="2"></td>
 					<td align="left" valign="middle">
 						<?php _e('second extension on the PC. Second candidate when working with html5', 'gallerylink'); ?>
 					</td>
@@ -542,7 +598,7 @@ class GalleryLinkAdmin {
 						<option <?php if ('mp3' == $target_music_suffix_flash)echo 'selected="selected"'; ?>>mp3</option>
 					</select>
 					</td>
-					<td></td>
+					<td colspan="2"></td>
 					<td align="left" valign="middle">
 						<?php _e('Flash extension on the PC. Flash Player to be used when a HTML5 player does not work.', 'gallerylink'); ?>
 					</td>
@@ -579,6 +635,31 @@ class GalleryLinkAdmin {
 						<option <?php if ('gif' == $target_slideshow_suffix_sp)echo 'selected="selected"'; ?>>gif</option>
 					</select>
 					</td>
+					<td align="center" valign="middle">
+					<?php $target_document_suffix_sp = get_option('gallerylink_document_suffix_sp'); ?>
+					<select id="gallerylink_document_suffix_sp" name="gallerylink_document_suffix_sp">
+						<option <?php if ('pdf' == $target_document_suffix_sp)echo 'selected="selected"'; ?>>pdf</option>
+						<option <?php if ('doc' == $target_document_suffix_sp)echo 'selected="selected"'; ?>>doc</option>
+						<option <?php if ('docx' == $target_document_suffix_sp)echo 'selected="selected"'; ?>>docx</option>
+						<option <?php if ('xls' == $target_document_suffix_sp)echo 'selected="selected"'; ?>>xls</option>
+						<option <?php if ('xlsx' == $target_document_suffix_sp)echo 'selected="selected"'; ?>>xlsx</option>
+						<option <?php if ('xlsa' == $target_document_suffix_sp)echo 'selected="selected"'; ?>>xlsa</option>
+						<option <?php if ('xlst' == $target_document_suffix_sp)echo 'selected="selected"'; ?>>xlst</option>
+						<option <?php if ('xlsw' == $target_document_suffix_sp)echo 'selected="selected"'; ?>>xlsw</option>
+						<option <?php if ('pot' == $target_document_suffix_sp)echo 'selected="selected"'; ?>>pot</option>
+						<option <?php if ('pps' == $target_document_suffix_sp)echo 'selected="selected"'; ?>>pps</option>
+						<option <?php if ('ppt' == $target_document_suffix_sp)echo 'selected="selected"'; ?>>ppt</option>
+						<option <?php if ('pptx' == $target_document_suffix_sp)echo 'selected="selected"'; ?>>pptx</option>
+						<option <?php if ('pptm' == $target_document_suffix_sp)echo 'selected="selected"'; ?>>pptm</option>
+						<option <?php if ('ppsx' == $target_document_suffix_sp)echo 'selected="selected"'; ?>>ppsx</option>
+						<option <?php if ('ppsm' == $target_document_suffix_sp)echo 'selected="selected"'; ?>>ppsm</option>
+						<option <?php if ('potx' == $target_document_suffix_sp)echo 'selected="selected"'; ?>>potx</option>
+						<option <?php if ('potm' == $target_document_suffix_sp)echo 'selected="selected"'; ?>>potm</option>
+						<option <?php if ('ppam' == $target_document_suffix_sp)echo 'selected="selected"'; ?>>ppam</option>
+						<option <?php if ('sldx' == $target_document_suffix_sp)echo 'selected="selected"'; ?>>sldx</option>
+						<option <?php if ('sldm' == $target_document_suffix_sp)echo 'selected="selected"'; ?>>sldm</option>
+					</select>
+					</td>
 					<td align="left" valign="middle">
 						<?php _e('extension of Smartphone', 'gallerylink'); ?>
 					</td>
@@ -603,11 +684,36 @@ class GalleryLinkAdmin {
 					<td align="center" valign="middle">
 					<?php $target_music_suffix_keitai = get_option('gallerylink_music_suffix_keitai'); ?>
 					<select id="gallerylink_music_suffix_keitai" name="gallerylink_music_suffix_keitai">
-						<option <?php if ('3gp' == $target_movie_suffix_keitai)echo 'selected="selected"'; ?>>3gp</option>
-						<option <?php if ('3g2' == $target_movie_suffix_keitai)echo 'selected="selected"'; ?>>3g2</option>
+						<option <?php if ('3gp' == $target_music_suffix_keitai)echo 'selected="selected"'; ?>>3gp</option>
+						<option <?php if ('3g2' == $target_music_suffix_keitai)echo 'selected="selected"'; ?>>3g2</option>
 					</select>
 					</td>
 					<td></td>
+					<td align="center" valign="middle">
+					<?php $target_document_suffix_keitai = get_option('gallerylink_document_suffix_keitai'); ?>
+					<select id="gallerylink_document_suffix_keitai" name="gallerylink_document_suffix_keitai">
+						<option <?php if ('pdf' == $target_document_suffix_keitai)echo 'selected="selected"'; ?>>pdf</option>
+						<option <?php if ('doc' == $target_document_suffix_keitai)echo 'selected="selected"'; ?>>doc</option>
+						<option <?php if ('docx' == $target_document_suffix_keitai)echo 'selected="selected"'; ?>>docx</option>
+						<option <?php if ('xls' == $target_document_suffix_keitai)echo 'selected="selected"'; ?>>xls</option>
+						<option <?php if ('xlsx' == $target_document_suffix_keitai)echo 'selected="selected"'; ?>>xlsx</option>
+						<option <?php if ('xlsa' == $target_document_suffix_keitai)echo 'selected="selected"'; ?>>xlsa</option>
+						<option <?php if ('xlst' == $target_document_suffix_keitai)echo 'selected="selected"'; ?>>xlst</option>
+						<option <?php if ('xlsw' == $target_document_suffix_keitai)echo 'selected="selected"'; ?>>xlsw</option>
+						<option <?php if ('pot' == $target_document_suffix_keitai)echo 'selected="selected"'; ?>>pot</option>
+						<option <?php if ('pps' == $target_document_suffix_keitai)echo 'selected="selected"'; ?>>pps</option>
+						<option <?php if ('ppt' == $target_document_suffix_keitai)echo 'selected="selected"'; ?>>ppt</option>
+						<option <?php if ('pptx' == $target_document_suffix_keitai)echo 'selected="selected"'; ?>>pptx</option>
+						<option <?php if ('pptm' == $target_document_suffix_keitai)echo 'selected="selected"'; ?>>pptm</option>
+						<option <?php if ('ppsx' == $target_document_suffix_keitai)echo 'selected="selected"'; ?>>ppsx</option>
+						<option <?php if ('ppsm' == $target_document_suffix_keitai)echo 'selected="selected"'; ?>>ppsm</option>
+						<option <?php if ('potx' == $target_document_suffix_keitai)echo 'selected="selected"'; ?>>potx</option>
+						<option <?php if ('potm' == $target_document_suffix_keitai)echo 'selected="selected"'; ?>>potm</option>
+						<option <?php if ('ppam' == $target_document_suffix_keitai)echo 'selected="selected"'; ?>>ppam</option>
+						<option <?php if ('sldx' == $target_document_suffix_keitai)echo 'selected="selected"'; ?>>sldx</option>
+						<option <?php if ('sldm' == $target_document_suffix_keitai)echo 'selected="selected"'; ?>>sldm</option>
+					</select>
+					</td>
 					<td align="left" valign="middle">
 						<?php _e('extension of Japanese mobile phone', 'gallerylink'); ?>
 					</td>
@@ -625,6 +731,9 @@ class GalleryLinkAdmin {
 					</td>
 					<td align="center" valign="middle">
 						<input type="text" id="gallerylink_slideshow_display_pc" name="gallerylink_slideshow_display_pc" value="<?php echo intval(get_option('gallerylink_slideshow_display_pc')) ?>" size="3" />
+					</td>
+					<td align="center" valign="middle">
+						<input type="text" id="gallerylink_document_display_pc" name="gallerylink_document_display_pc" value="<?php echo intval(get_option('gallerylink_document_display_pc')) ?>" size="3" />
 					</td>
 					<td align="left" valign="middle">
 						<?php _e('File Display per page(PC)', 'gallerylink') ?>
@@ -644,6 +753,9 @@ class GalleryLinkAdmin {
 					<td align="center" valign="middle">
 						<input type="text" id="gallerylink_slideshow_display_sp" name="gallerylink_slideshow_display_sp" value="<?php echo intval(get_option('gallerylink_slideshow_display_sp')) ?>" size="3" />
 					</td>
+					<td align="center" valign="middle">
+						<input type="text" id="gallerylink_document_display_sp" name="gallerylink_document_display_sp" value="<?php echo intval(get_option('gallerylink_document_display_sp')) ?>" size="3" />
+					</td>
 					<td align="left" valign="middle">
 						<?php _e('File Display per page(Smartphone)', 'gallerylink') ?>
 					</td>
@@ -660,6 +772,9 @@ class GalleryLinkAdmin {
 						<input type="text" id="gallerylink_music_display_keitai" name="gallerylink_music_display_keitai" value="<?php echo intval(get_option('gallerylink_music_display_keitai')) ?>" size="3" />
 					</td>
 					<td></td>
+					<td align="center" valign="middle">
+						<input type="text" id="gallerylink_document_display_keitai" name="gallerylink_document_display_keitai" value="<?php echo intval(get_option('gallerylink_document_display_keitai')) ?>" size="3" />
+					</td>
 					<td align="left" valign="middle">
 						<?php _e('File Display per page(Japanese mobile phone)', 'gallerylink') ?>
 					</td>
@@ -690,13 +805,20 @@ class GalleryLinkAdmin {
 					<td align="center" valign="middle">
 						<input type="text" id="gallerylink_slideshow_suffix_thumbnail" name="gallerylink_slideshow_suffix_thumbnail" value="<?php echo get_option('gallerylink_slideshow_suffix_thumbnail') ?>" size="10" />
 					</td>
+					<td align="center" valign="middle">
+					<?php $target_document_suffix_thumbnail = get_option('gallerylink_document_suffix_thumbnail'); ?>
+					<select id="gallerylink_document_suffix_thumbnail" name="gallerylink_document_suffix_thumbnail">
+						<option <?php if ('' == $target_document_suffix_thumbnail)echo 'selected="selected"'; ?>></option>
+						<option <?php if ('icon' == $target_document_suffix_thumbnail)echo 'selected="selected"'; ?>>icon</option>
+					</select>
+					</td>
 					<td align="left" valign="middle">
-						<?php _e('(album, slideshow) thumbnail suffix name. (movie, music) specify an extension for the thumbnail of the title the same name as the file you want to view, but if the thumbnail is not found, display the icon of WordPress standard, the thumbnail display if you do not specify anything.', 'gallerylink'); ?>
+						<?php _e('(album, slideshow) thumbnail suffix name. (movie, music) specify an extension for the thumbnail of the title the same name as the file you want to view, but if the thumbnail is not found, display the icon. The thumbnail no display if you do not specify anything. (document) The icon is displayed if you specify icon. The thumbnail no display if you do not specify anything.', 'gallerylink'); ?>
 					</td>
 				</tr>
 				<tr>
 					<td align="center" valign="middle"><b>exclude_file</b></td>
-					<td align="center" valign="middle" colspan="4">
+					<td align="center" valign="middle" colspan="5">
 						<input type="text" id="gallerylink_exclude_file" name="gallerylink_exclude_file" value="<?php echo get_option('gallerylink_exclude_file') ?>" size="40" />
 					</td>
 					<td align="left" valign="middle">
@@ -705,7 +827,7 @@ class GalleryLinkAdmin {
 				</tr>
 				<tr>
 					<td align="center" valign="middle"><b>exclude_dir</b></td>
-					<td align="center" valign="middle" colspan="4">
+					<td align="center" valign="middle" colspan="5">
 						<input type="text" id="gallerylink_exclude_dir" name="gallerylink_exclude_dir" value="<?php echo get_option('gallerylink_exclude_dir') ?>" size="40" />
 					</td>
 					<td align="left" valign="middle">
@@ -742,6 +864,13 @@ class GalleryLinkAdmin {
 						<option <?php if ('off' == $target_slideshow_generate_rssfeed)echo 'selected="selected"'; ?>>off</option>
 					</select>
 					</td>
+					<td align="center" valign="middle">
+					<?php $target_document_generate_rssfeed = get_option('gallerylink_document_generate_rssfeed'); ?>
+					<select id="gallerylink_document_generate_rssfeed" name="gallerylink_document_generate_rssfeed">
+						<option <?php if ('on' == $target_document_generate_rssfeed)echo 'selected="selected"'; ?>>on</option>
+						<option <?php if ('off' == $target_document_generate_rssfeed)echo 'selected="selected"'; ?>>off</option>
+					</select>
+					</td>
 					<td align="left" valign="middle">
 					<?php _e('Generation of RSS feed.', 'gallerylink') ?>
 					</td>
@@ -760,6 +889,9 @@ class GalleryLinkAdmin {
 					<td align="center" valign="middle">
 						<input type="text" id="gallerylink_slideshow_rssname" name="gallerylink_slideshow_rssname" value="<?php echo get_option('gallerylink_slideshow_rssname') ?>" size="25" />
 					</td>
+					<td align="center" valign="middle">
+						<input type="text" id="gallerylink_document_rssname" name="gallerylink_document_rssname" value="<?php echo get_option('gallerylink_document_rssname') ?>" size="25" />
+					</td>
 					<td align="left" valign="middle">
 						<?php _e('The name of the RSS feed file (Use to widget)', 'gallerylink'); ?>
 					</td>
@@ -777,6 +909,9 @@ class GalleryLinkAdmin {
 					</td>
 					<td align="center" valign="middle">
 						<input type="text" id="gallerylink_slideshow_rssmax" name="gallerylink_slideshow_rssmax" value="<?php echo intval(get_option('gallerylink_slideshow_rssmax')) ?>" size="3" />
+					</td>
+					<td align="center" valign="middle">
+						<input type="text" id="gallerylink_document_rssmax" name="gallerylink_document_rssmax" value="<?php echo intval(get_option('gallerylink_document_rssmax')) ?>" size="3" />
 					</td>
 					<td align="left" valign="middle">
 						<?php _e('Syndication feeds show the most recent (Use to widget)', 'gallerylink') ?>
@@ -810,6 +945,13 @@ class GalleryLinkAdmin {
 					<select id="gallerylink_slideshow_directorylinks_show" name="gallerylink_slideshow_directorylinks_show">
 						<option <?php if ('Show' == $target_slideshow_directorylinks_show)echo 'selected="selected"'; ?>>Show</option>
 						<option <?php if ('Hide' == $target_slideshow_directorylinks_show)echo 'selected="selected"'; ?>>Hide</option>
+					</select>
+					</td>
+					<td align="center" valign="middle">
+					<?php $target_document_directorylinks_show = get_option('gallerylink_document_directorylinks_show'); ?>
+					<select id="gallerylink_document_directorylinks_show" name="gallerylink_document_directorylinks_show">
+						<option <?php if ('Show' == $target_document_directorylinks_show)echo 'selected="selected"'; ?>>Show</option>
+						<option <?php if ('Hide' == $target_document_directorylinks_show)echo 'selected="selected"'; ?>>Hide</option>
 					</select>
 					</td>
 					<td align="left" valign="middle">
@@ -846,6 +988,13 @@ class GalleryLinkAdmin {
 						<option <?php if ('Hide' == $target_slideshow_pagelinks_show)echo 'selected="selected"'; ?>>Hide</option>
 					</select>
 					</td>
+					<td align="center" valign="middle">
+					<?php $target_document_pagelinks_show = get_option('gallerylink_document_pagelinks_show'); ?>
+					<select id="gallerylink_document_pagelinks_show" name="gallerylink_document_pagelinks_show">
+						<option <?php if ('Show' == $target_document_pagelinks_show)echo 'selected="selected"'; ?>>Show</option>
+						<option <?php if ('Hide' == $target_document_pagelinks_show)echo 'selected="selected"'; ?>>Hide</option>
+					</select>
+					</td>
 					<td align="left" valign="middle">
 					<?php _e('Navigation of page.', 'gallerylink') ?>
 					</td>
@@ -878,6 +1027,13 @@ class GalleryLinkAdmin {
 					<select id="gallerylink_slideshow_sortlinks_show" name="gallerylink_slideshow_sortlinks_show">
 						<option <?php if ('Show' == $target_slideshow_sortlinks_show)echo 'selected="selected"'; ?>>Show</option>
 						<option <?php if ('Hide' == $target_slideshow_sortlinks_show)echo 'selected="selected"'; ?>>Hide</option>
+					</select>
+					</td>
+					<td align="center" valign="middle">
+					<?php $target_document_sortlinks_show = get_option('gallerylink_document_sortlinks_show'); ?>
+					<select id="gallerylink_document_sortlinks_show" name="gallerylink_document_sortlinks_show">
+						<option <?php if ('Show' == $target_document_sortlinks_show)echo 'selected="selected"'; ?>>Show</option>
+						<option <?php if ('Hide' == $target_document_sortlinks_show)echo 'selected="selected"'; ?>>Hide</option>
 					</select>
 					</td>
 					<td align="left" valign="middle">
@@ -914,6 +1070,13 @@ class GalleryLinkAdmin {
 						<option <?php if ('Hide' == $target_slideshow_searchbox_show)echo 'selected="selected"'; ?>>Hide</option>
 					</select>
 					</td>
+					<td align="center" valign="middle">
+					<?php $target_document_searchbox_show = get_option('gallerylink_document_searchbox_show'); ?>
+					<select id="gallerylink_document_searchbox_show" name="gallerylink_document_searchbox_show">
+						<option <?php if ('Show' == $target_document_searchbox_show)echo 'selected="selected"'; ?>>Show</option>
+						<option <?php if ('Hide' == $target_document_searchbox_show)echo 'selected="selected"'; ?>>Hide</option>
+					</select>
+					</td>
 					<td align="left" valign="middle">
 					<?php _e('Search box', 'gallerylink') ?>
 					</td>
@@ -948,6 +1111,13 @@ class GalleryLinkAdmin {
 						<option <?php if ('Hide' == $target_slideshow_rssicon_show)echo 'selected="selected"'; ?>>Hide</option>
 					</select>
 					</td>
+					<td align="center" valign="middle">
+					<?php $target_document_rssicon_show = get_option('gallerylink_document_rssicon_show'); ?>
+					<select id="gallerylink_document_rssicon_show" name="gallerylink_document_rssicon_show">
+						<option <?php if ('Show' == $target_document_rssicon_show)echo 'selected="selected"'; ?>>Show</option>
+						<option <?php if ('Hide' == $target_document_rssicon_show)echo 'selected="selected"'; ?>>Hide</option>
+					</select>
+					</td>
 					<td align="left" valign="middle">
 					<?php _e('RSS Icon', 'gallerylink') ?>
 					</td>
@@ -980,6 +1150,13 @@ class GalleryLinkAdmin {
 					<select id="gallerylink_slideshow_credit_show" name="gallerylink_slideshow_credit_show">
 						<option <?php if ('Show' == $target_slideshow_credit_show)echo 'selected="selected"'; ?>>Show</option>
 						<option <?php if ('Hide' == $target_slideshow_credit_show)echo 'selected="selected"'; ?>>Hide</option>
+					</select>
+					</td>
+					<td align="center" valign="middle">
+					<?php $target_document_credit_show = get_option('gallerylink_document_credit_show'); ?>
+					<select id="gallerylink_document_credit_show" name="gallerylink_document_credit_show">
+						<option <?php if ('Show' == $target_document_credit_show)echo 'selected="selected"'; ?>>Show</option>
+						<option <?php if ('Hide' == $target_document_credit_show)echo 'selected="selected"'; ?>>Hide</option>
 					</select>
 					</td>
 					<td align="left" valign="middle">
@@ -1134,21 +1311,31 @@ class GalleryLinkAdmin {
 		</form>
 
 	<h3><?php _e('The to playback of video and music, that such as the next, .htaccess may be required to topurl directory containing the data file by the environment.', 'gallerylink') ?></h3>
-	<textarea rows="14" cols="30">
-AddType video/mp4 .mp4
-AddType video/mp4 .m4v
-AddType video/ogg .ogv
-AddType video/webm .webm
-AddType video/x-flv .flv
-AddType video/3gpp .3gp
-AddType video/3gpp2 .3g2
-AddType audio/mpeg .mp3
-AddType audio/mpeg .m4a
-AddType audio/mpeg .m4b
-AddType audio/ogg .ogg
-AddType audio/ogg .oga
-AddType audio/3gpp .3gp
-AddType audio/3gpp2 .3g2
+	<textarea rows="25" cols="100">
+AddType video/mp4 mp4 m4v
+AddType video/webm webm
+AddType video/ogg ogv
+AddType video/x-flv flv
+AddType video/3gpp 3gp
+AddType video/3gpp2 3g2
+AddType audio/mpeg mp3 m4a m4b
+AddType audio/ogg ogg oga
+AddType audio/midi mid midi
+AddType application/pdf pdf
+AddType application/msword doc
+AddType application/vnd.ms-excel xla xls xlt xlw
+AddType application/vnd.openxmlformats-officedocument.wordprocessingml.document docx
+AddType application/vnd.openxmlformats-officedocument.spreadsheetml.sheet xlsx
+AddType application/vnd.ms-powerpoint pot pps ppt
+AddType application/vnd.openxmlformats-officedocument.presentationml.presentation pptx
+AddType application/vnd.ms-powerpoint.presentation.macroEnabled.12 pptm
+AddType application/vnd.openxmlformats-officedocument.presentationml.slideshow ppsx
+AddType application/vnd.ms-powerpoint.slideshow.macroEnabled.12 ppsm
+AddType application/vnd.openxmlformats-officedocument.presentationml.template potx
+AddType application/vnd.ms-powerpoint.template.macroEnabled.12 potm
+AddType application/vnd.ms-powerpoint.addin.macroEnabled.12 ppam
+AddType application/vnd.openxmlformats-officedocument.presentationml.slide sldx
+AddType application/vnd.ms-powerpoint.slide.macroEnabled.12 sldm
 	</textarea>
 
 		</div>
