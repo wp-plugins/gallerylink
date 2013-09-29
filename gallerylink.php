@@ -2,7 +2,7 @@
 /*
 Plugin Name: GalleryLink
 Plugin URI: http://wordpress.org/plugins/gallerylink/
-Version: 3.0
+Version: 3.1
 Description: Output as a gallery by find the file extension and directory specified.
 Author: Katsushi Kawamori
 Author URI: http://gallerylink.nyanko.org/
@@ -82,6 +82,7 @@ function gallerylink_func( $atts, $html = NULL ) {
         'rssicon_show'  => '',
         'credit_show'  => ''
 	), $atts));
+
 	$rssdef = false;
 	if ( $set === 'album' ){
 		if( empty($effect_pc) ) { $effect_pc = get_option('gallerylink_album_effect_pc'); }
@@ -197,7 +198,6 @@ function gallerylink_func( $atts, $html = NULL ) {
 		if( empty($rssicon_show) ) { $rssicon_show = get_option('gallerylink_document_rssicon_show'); }
 		if( empty($credit_show) ) { $credit_show = get_option('gallerylink_document_credit_show'); }
 	}
-
 	if ( empty($exclude_file) && ($set === 'album' || $set === 'movie' || $set === 'music' || $set === 'slideshow' || $set === 'document') ) {
 		$exclude_file = get_option('gallerylink_exclude_file');
 	}
@@ -211,9 +211,7 @@ function gallerylink_func( $atts, $html = NULL ) {
 	$mode = NULL;
 	$suffix = NULL;
 	$display = NULL;
-
 	$mode = $gallerylink->agent_check();
-
 	if ( $mode === 'pc' ) {
 		$effect = $effect_pc;
 		$suffix = $suffix_pc;
@@ -241,7 +239,6 @@ function gallerylink_func( $atts, $html = NULL ) {
 	$page = NULL;
 	$search = NULL;
 	$sort =  NULL;
-
 	if (!empty($_GET['d'])){
 		$dparam = urldecode($_GET['d']);	//dirs
 	}
@@ -257,19 +254,14 @@ function gallerylink_func( $atts, $html = NULL ) {
 	if (!empty($_GET['sort'])){
 		$sort = $_GET['sort'];				//sort
 	}
-
 	$dparam = mb_convert_encoding($dparam, "UTF-8", "auto");
 	$fparam = mb_convert_encoding($fparam, "UTF-8", "auto");
 	$search = mb_convert_encoding($search, "UTF-8", "auto");
-
 	if (empty($dparam)){
 		$dir = $document_root;
 	}else{
 		$dir = $document_root."/".$dparam;
 	}
-
-	$exclude_file = mb_convert_encoding($exclude_file, "UTF-8", "auto");
-	$exclude_dir = mb_convert_encoding($exclude_dir, "UTF-8", "auto");
 
 	$sortnamenew = __('New', 'gallerylink');
 	$sortnameold = __('Old', 'gallerylink');
@@ -289,6 +281,7 @@ function gallerylink_func( $atts, $html = NULL ) {
 	$dirselectall = mb_convert_encoding($dirselectall, "UTF-8", "auto");
 	$dirselectbutton = mb_convert_encoding($dirselectbutton, "UTF-8", "auto");
 
+	$pluginurl = plugins_url($path='',$scheme=null);
 
 	$gallerylink->thumbnail = $thumbnail;
 	$gallerylink->suffix = $suffix;
@@ -297,6 +290,7 @@ function gallerylink_func( $atts, $html = NULL ) {
 	$gallerylink->search = $search;
 	$gallerylink->dparam = $dparam;
 	$gallerylink->topurl = $topurl;
+	$gallerylink->pluginurl = $pluginurl;
 	$gallerylink->document_root = $document_root;
 	$gallerylink->set = $set;
 	$gallerylink->mode = $mode;
@@ -305,14 +299,6 @@ function gallerylink_func( $atts, $html = NULL ) {
 	$gallerylink->rssmax = $rssmax;
 
 	$files = $gallerylink->scan_file($dir);
-
-	$maxpage = ceil(count($files) / $display);
-	if(empty($page)){
-		$page = 1;
-	}
-	$gallerylink->page = $page;
-	$gallerylink->maxpage = $maxpage;
-
 	// sort
 	foreach ( $files as $file ){
 		$time_list[] = filemtime($file);
@@ -338,8 +324,14 @@ function gallerylink_func( $atts, $html = NULL ) {
 		// asc
 		sort($files, SORT_STRING);
 	}
-
 	$dirs = $gallerylink->scan_dir($document_root);
+
+	$maxpage = ceil(count($files) / $display);
+	if(empty($page)){
+		$page = 1;
+	}
+	$gallerylink->page = $page;
+	$gallerylink->maxpage = $maxpage;
 
 	$beginfiles = 0;
 	$endfiles = 0;
@@ -351,14 +343,8 @@ function gallerylink_func( $atts, $html = NULL ) {
 		$endfiles = ( $display * $page ) - 1;
 	}
 
-	$linkpages = NULL;
-	if ( $set <> 'slideshow' ) {
-		$linkpages = $gallerylink->print_pages();
-	}
-
 	$linkfiles = NULL;
 	$linkdirs = NULL;
-
 	for ( $i = $beginfiles; $i <= $endfiles; $i++ ) {
 		$file = str_replace($document_root, "", $files[$i]);
 		if (!empty($file)){
@@ -384,6 +370,9 @@ function gallerylink_func( $atts, $html = NULL ) {
 	}
 	$linkdirs = $linkdirs.$linkdir;
 
+	$linkpages = NULL;
+	$linkpages = $gallerylink->print_pages();
+
 	$servername = $_SERVER['HTTP_HOST'];
 	$scriptname = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
 	$query = $_SERVER['QUERY_STRING'];
@@ -391,9 +380,6 @@ function gallerylink_func( $atts, $html = NULL ) {
 	$currentfolder = $dparam;
 	$selectedfilename = mb_convert_encoding(str_replace($suffix, "", $fparam), "UTF-8", "auto");
 
-	if(empty($page)){
-		$page = 1;
-	}
 	$pagestr = '&glp='.$page;
 
 	$permlinkstrform = NULL;
@@ -498,8 +484,6 @@ $searchform = <<<SEARCHFORM
 <input type="submit" value="{$searchbutton}">
 </form>
 SEARCHFORM;
-
-$pluginurl = plugins_url($path='',$scheme=null);
 
 list($movie_container_w, $movie_container_h) = explode( 'x', get_option('gallerylink_movie_container') );
 

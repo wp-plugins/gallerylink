@@ -9,6 +9,7 @@ class GalleryLink {
 	public $search;
 	public $dparam;
 	public $topurl;
+	public $pluginurl;
 	public $document_root;
 	public $set;
 	public $mode;
@@ -118,6 +119,7 @@ class GalleryLink {
 	 * @param	string	$suffix
 	 * @param	string	$thumbnail
 	 * @param	string	$document_root
+	 * @param	string	$pluginurl
 	 * @param	string	$set
 	 * @param	string	$mode
 	 * @param	string	$effect
@@ -133,20 +135,20 @@ class GalleryLink {
 		$filename = str_replace($this->suffix, "", $filename);
 		$titlename = str_replace($this->suffix, "", $titlename);
 
-		$pluginurl = plugins_url($path='',$scheme=null);
+		$this->pluginurl = plugins_url($path='',$scheme=null);
 		if ( $this->set === 'movie') {
-			$wpiconurl = $pluginurl.'/gallerylink/icon/video.png';
+			$wpiconurl = $this->pluginurl.'/gallerylink/icon/video.png';
 		} else if ( $this->set === 'music') {
-			$wpiconurl = $pluginurl.'/gallerylink/icon/audio.png';
+			$wpiconurl = $this->pluginurl.'/gallerylink/icon/audio.png';
 		} else if ( $this->set === 'document') {
 			if ( $this->suffix === '.pdf' ) {
-				$wpiconurl = $pluginurl.'/gallerylink/icon/pdf.png';
+				$wpiconurl = $this->pluginurl.'/gallerylink/icon/pdf.png';
 			} else if ( $this->suffix === '.doc' || $this->suffix === '.docx' ) {
-				$wpiconurl = $pluginurl.'/gallerylink/icon/word.png';
+				$wpiconurl = $this->pluginurl.'/gallerylink/icon/word.png';
 			} else if ( $this->suffix === '.xls' || $this->suffix === '.xlsx' || $this->suffix === '.xla' || $this->suffix === '.xlt' || $this->suffix === '.xlw' ) {
-				$wpiconurl = $pluginurl.'/gallerylink/icon/excel.png';
+				$wpiconurl = $this->pluginurl.'/gallerylink/icon/excel.png';
 			} else if ( $this->suffix === '.pot' || $this->suffix === '.pps' || $this->suffix === '.ppt' || $this->suffix === '.pptx' || $this->suffix === '.pptm' || $this->suffix === '.ppsx' || $this->suffix === '.ppsm' || $this->suffix === '.potx' || $this->suffix === '.potm' || $this->suffix === '.ppam' || $this->suffix === '.sldx' || $this->suffix === '.sldm' ) {
-				$wpiconurl = $pluginurl.'/gallerylink/icon/powerpoint.png';
+				$wpiconurl = $this->pluginurl.'/gallerylink/icon/powerpoint.png';
 			}
 		}
 
