@@ -7,6 +7,11 @@ class GalleryLinkRegistAndHeader {
 	 * @since	2.0
 	 */
 	function register_settings(){
+		register_setting( 'gallerylink-settings-group', 'gallerylink_album_type');
+		register_setting( 'gallerylink-settings-group', 'gallerylink_movie_type');
+		register_setting( 'gallerylink-settings-group', 'gallerylink_music_type');
+		register_setting( 'gallerylink-settings-group', 'gallerylink_slideshow_type');
+		register_setting( 'gallerylink-settings-group', 'gallerylink_document_type');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_album_effect_pc');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_album_effect_sp');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_slideshow_effect_pc');
@@ -48,6 +53,8 @@ class GalleryLinkRegistAndHeader {
 		register_setting( 'gallerylink-settings-group', 'gallerylink_document_display_pc', 'intval');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_document_display_sp', 'intval');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_document_display_keitai', 'intval');
+		register_setting( 'gallerylink-settings-group', 'gallerylink_album_image_show_size');
+		register_setting( 'gallerylink-settings-group', 'gallerylink_slideshow_image_show_size');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_album_suffix_thumbnail');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_movie_suffix_thumbnail');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_music_suffix_thumbnail');
@@ -55,6 +62,12 @@ class GalleryLinkRegistAndHeader {
 		register_setting( 'gallerylink-settings-group', 'gallerylink_document_suffix_thumbnail');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_exclude_file');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_exclude_dir');
+		register_setting( 'gallerylink-settings-group', 'gallerylink_album_include_cat');
+		register_setting( 'gallerylink-settings-group', 'gallerylink_movie_include_cat');
+		register_setting( 'gallerylink-settings-group', 'gallerylink_music_include_cat');
+		register_setting( 'gallerylink-settings-group', 'gallerylink_slideshow_include_cat');
+		register_setting( 'gallerylink-settings-group', 'gallerylink_document_include_cat');
+		register_setting( 'gallerylink-settings-group', 'gallerylink_exclude_cat');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_album_generate_rssfeed');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_movie_generate_rssfeed');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_music_generate_rssfeed');
@@ -81,36 +94,41 @@ class GalleryLinkRegistAndHeader {
 		register_setting( 'gallerylink-settings-group', 'gallerylink_css_sp_listbackcolor');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_css_sp_listarrowcolor');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_css_sp_listpartitionlinecolor');
-		register_setting( 'gallerylink-settings-group', 'gallerylink_album_directorylinks_show');
+		register_setting( 'gallerylink-settings-group', 'gallerylink_album_selectbox_show');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_album_pagelinks_show');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_album_sortlinks_show');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_album_searchbox_show');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_album_rssicon_show');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_album_credit_show');
-		register_setting( 'gallerylink-settings-group', 'gallerylink_movie_directorylinks_show');
+		register_setting( 'gallerylink-settings-group', 'gallerylink_movie_selectbox_show');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_movie_pagelinks_show');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_movie_sortlinks_show');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_movie_searchbox_show');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_movie_rssicon_show');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_movie_credit_show');
-		register_setting( 'gallerylink-settings-group', 'gallerylink_music_directorylinks_show');
+		register_setting( 'gallerylink-settings-group', 'gallerylink_music_selectbox_show');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_music_pagelinks_show');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_music_sortlinks_show');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_music_searchbox_show');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_music_rssicon_show');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_music_credit_show');
-		register_setting( 'gallerylink-settings-group', 'gallerylink_slideshow_directorylinks_show');
+		register_setting( 'gallerylink-settings-group', 'gallerylink_slideshow_selectbox_show');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_slideshow_pagelinks_show');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_slideshow_sortlinks_show');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_slideshow_searchbox_show');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_slideshow_rssicon_show');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_slideshow_credit_show');
-		register_setting( 'gallerylink-settings-group', 'gallerylink_document_directorylinks_show');
+		register_setting( 'gallerylink-settings-group', 'gallerylink_document_selectbox_show');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_document_pagelinks_show');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_document_sortlinks_show');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_document_searchbox_show');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_document_rssicon_show');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_document_credit_show');
+		add_option('gallerylink_album_type', 'dir');
+		add_option('gallerylink_movie_type', 'dir');
+		add_option('gallerylink_music_type', 'dir');
+		add_option('gallerylink_slideshow_type', 'dir');
+		add_option('gallerylink_document_type', 'dir');
 		add_option('gallerylink_album_effect_pc', 'colorbox');
 		add_option('gallerylink_album_effect_sp', 'photoswipe');
 		add_option('gallerylink_slideshow_effect_pc', 'nivoslider');
@@ -152,6 +170,8 @@ class GalleryLinkRegistAndHeader {
 		add_option('gallerylink_document_display_pc', 20);
 		add_option('gallerylink_document_display_sp', 9);
 		add_option('gallerylink_document_display_keitai', 6);
+		add_option('gallerylink_album_image_show_size', 'Full');
+		add_option('gallerylink_slideshow_image_show_size', 'Full');
 		add_option('gallerylink_album_suffix_thumbnail', '-'.get_option('thumbnail_size_w').'x'.get_option('thumbnail_size_h'));
 		add_option('gallerylink_movie_suffix_thumbnail', '');
 		add_option('gallerylink_music_suffix_thumbnail', '');
@@ -159,6 +179,12 @@ class GalleryLinkRegistAndHeader {
 		add_option('gallerylink_document_suffix_thumbnail', '');
 		add_option('gallerylink_exclude_file', '');
 		add_option('gallerylink_exclude_dir', '');
+		add_option('gallerylink_album_include_cat', '');
+		add_option('gallerylink_movie_include_cat', '');
+		add_option('gallerylink_music_include_cat', '');
+		add_option('gallerylink_slideshow_include_cat', '');
+		add_option('gallerylink_document_include_cat', '');
+		add_option('gallerylink_exclude_cat', '');
 		add_option('gallerylink_album_generate_rssfeed', 'on');
 		add_option('gallerylink_movie_generate_rssfeed', 'on');
 		add_option('gallerylink_music_generate_rssfeed', 'on');
@@ -185,31 +211,31 @@ class GalleryLinkRegistAndHeader {
 		add_option('gallerylink_css_sp_listbackcolor', '#ffffff');
 		add_option('gallerylink_css_sp_listarrowcolor', '#e2a6a6');
 		add_option('gallerylink_css_sp_listpartitionlinecolor', '#f6efe2');
-		add_option('gallerylink_album_directorylinks_show', 'Show');
+		add_option('gallerylink_album_selectbox_show', 'Show');
 		add_option('gallerylink_album_pagelinks_show', 'Show');
 		add_option('gallerylink_album_sortlinks_show', 'Show');
 		add_option('gallerylink_album_searchbox_show', 'Show');
 		add_option('gallerylink_album_rssicon_show', 'Show');
 		add_option('gallerylink_album_credit_show', 'Show');
-		add_option('gallerylink_movie_directorylinks_show', 'Show');
+		add_option('gallerylink_movie_selectbox_show', 'Show');
 		add_option('gallerylink_movie_pagelinks_show', 'Show');
 		add_option('gallerylink_movie_sortlinks_show', 'Show');
 		add_option('gallerylink_movie_searchbox_show', 'Show');
 		add_option('gallerylink_movie_rssicon_show', 'Show');
 		add_option('gallerylink_movie_credit_show', 'Show');
-		add_option('gallerylink_music_directorylinks_show', 'Show');
+		add_option('gallerylink_music_selectbox_show', 'Show');
 		add_option('gallerylink_music_pagelinks_show', 'Show');
 		add_option('gallerylink_music_sortlinks_show', 'Show');
 		add_option('gallerylink_music_searchbox_show', 'Show');
 		add_option('gallerylink_music_rssicon_show', 'Show');
 		add_option('gallerylink_music_credit_show', 'Show');
-		add_option('gallerylink_slideshow_directorylinks_show', 'Hide');
+		add_option('gallerylink_slideshow_selectbox_show', 'Hide');
 		add_option('gallerylink_slideshow_pagelinks_show', 'Hide');
 		add_option('gallerylink_slideshow_sortlinks_show', 'Hide');
 		add_option('gallerylink_slideshow_searchbox_show', 'Hide');
 		add_option('gallerylink_slideshow_rssicon_show', 'Hide');
 		add_option('gallerylink_slideshow_credit_show', 'Show');
-		add_option('gallerylink_document_directorylinks_show', 'Show');
+		add_option('gallerylink_document_selectbox_show', 'Show');
 		add_option('gallerylink_document_pagelinks_show', 'Show');
 		add_option('gallerylink_document_sortlinks_show', 'Show');
 		add_option('gallerylink_document_searchbox_show', 'Show');
@@ -223,13 +249,23 @@ class GalleryLinkRegistAndHeader {
 	 */
 	function add_feedlink(){
 
+		$wp_uploads = wp_upload_dir();
+		$wp_uploads_path = str_replace('http://'.$_SERVER["SERVER_NAME"], '', $wp_uploads['baseurl']);
+
 		$documentrootname = $_SERVER['DOCUMENT_ROOT'];
 		$servername = 'http://'.$_SERVER['HTTP_HOST'];
-		$xml_album = get_option('gallerylink_album_topurl').'/'.get_option('gallerylink_album_rssname').'.xml';
-		$xml_movie = get_option('gallerylink_movie_topurl').'/'.get_option('gallerylink_movie_rssname').'.xml';
-		$xml_music = get_option('gallerylink_music_topurl').'/'.get_option('gallerylink_music_rssname').'.xml';
-		$xml_slideshow = get_option('gallerylink_slideshow_topurl').'/'.get_option('gallerylink_slideshow_rssname').'.xml';
-		$xml_document = get_option('gallerylink_document_topurl').'/'.get_option('gallerylink_document_rssname').'.xml';
+
+		$xml_album_file = get_option('gallerylink_album_topurl').'/'.get_option('gallerylink_album_rssname').'.xml';
+		$xml_album_media = $wp_uploads_path.'/'.get_option('gallerylink_album_rssname').'.xml';
+		$xml_movie_file = get_option('gallerylink_movie_topurl').'/'.get_option('gallerylink_movie_rssname').'.xml';
+		$xml_movie_media = $wp_uploads_path.'/'.get_option('gallerylink_movie_rssname').'.xml';
+		$xml_music_file = get_option('gallerylink_music_topurl').'/'.get_option('gallerylink_music_rssname').'.xml';
+		$xml_music_media = $wp_uploads_path.'/'.get_option('gallerylink_music_rssname').'.xml';
+		$xml_slideshow_file = get_option('gallerylink_slideshow_topurl').'/'.get_option('gallerylink_slideshow_rssname').'.xml';
+		$xml_slideshow_media = $wp_uploads_path.'/'.get_option('gallerylink_slideshow_rssname').'.xml';
+		$xml_document_file = get_option('gallerylink_document_topurl').'/'.get_option('gallerylink_document_rssname').'.xml';
+		$xml_document_media = $wp_uploads_path.'/'.get_option('gallerylink_document_rssname').'.xml';
+		echo get_option('gallerylink_type');
 
 		include_once dirname(__FILE__).'/../inc/GalleryLink.php';
 		$gallerylink = new GalleryLink();
@@ -237,25 +273,45 @@ class GalleryLinkRegistAndHeader {
 
 		if ( $mode === "pc" || $mode === "sp" ) {
 			echo '<!-- Start Gallerylink feed -->'."\n";
-			if (file_exists($documentrootname.$xml_album)) {
-				$xml_album_data = simplexml_load_file($servername.$xml_album);
-				echo '<link rel="alternate" type="application/rss+xml" href="'.$servername.$xml_album.'" title="'.$xml_album_data->channel->title.'" />'."\n";
+			if (file_exists($documentrootname.$xml_album_file)) {
+				$xml_album_file_data = simplexml_load_file($servername.$xml_album_file);
+				echo '<link rel="alternate" type="application/rss+xml" href="'.$servername.$xml_album_file.'" title="'.$xml_album_file_data->channel->title.'" />'."\n";
 			}
-			if (file_exists($documentrootname.$xml_movie)) {
-				$xml_movie_data = simplexml_load_file($servername.$xml_movie);
-				echo '<link rel="alternate" type="application/rss+xml" href="'.$servername.$xml_movie.'" title="'.$xml_movie_data->channel->title.'" />'."\n";
+			if (file_exists($documentrootname.$xml_album_media)) {
+				$xml_album_media_data = simplexml_load_file($servername.$xml_album_media);
+				echo '<link rel="alternate" type="application/rss+xml" href="'.$servername.$xml_album_media.'" title="'.$xml_album_media_data->channel->title.'" />'."\n";
 			}
-			if (file_exists($documentrootname.$xml_music)) {
-				$xml_music_data = simplexml_load_file($servername.$xml_music);
-				echo '<link rel="alternate" type="application/rss+xml" href="'.$servername.$xml_music.'" title="'.$xml_music_data->channel->title.'" />'."\n";
+			if (file_exists($documentrootname.$xml_movie_file)) {
+				$xml_movie_file_data = simplexml_load_file($servername.$xml_movie_file);
+				echo '<link rel="alternate" type="application/rss+xml" href="'.$servername.$xml_movie_file.'" title="'.$xml_movie_file_data->channel->title.'" />'."\n";
 			}
-			if (file_exists($documentrootname.$xml_slideshow)) {
-				$xml_slideshow_data = simplexml_load_file($servername.$xml_slideshow);
-				echo '<link rel="alternate" type="application/rss+xml" href="'.$servername.$xml_slideshow.'" title="'.$xml_slideshow_data->channel->title.'" />'."\n";
+			if (file_exists($documentrootname.$xml_movie_media)) {
+				$xml_movie_media_data = simplexml_load_file($servername.$xml_movie_media);
+				echo '<link rel="alternate" type="application/rss+xml" href="'.$servername.$xml_movie_media.'" title="'.$xml_movie_media_data->channel->title.'" />'."\n";
 			}
-			if (file_exists($documentrootname.$xml_document)) {
-				$xml_document_data = simplexml_load_file($servername.$xml_document);
-				echo '<link rel="alternate" type="application/rss+xml" href="'.$servername.$xml_document.'" title="'.$xml_document_data->channel->title.'" />'."\n";
+			if (file_exists($documentrootname.$xml_music_file)) {
+				$xml_music_file_data = simplexml_load_file($servername.$xml_music_file);
+				echo '<link rel="alternate" type="application/rss+xml" href="'.$servername.$xml_music_file.'" title="'.$xml_music_file_data->channel->title.'" />'."\n";
+			}
+			if (file_exists($documentrootname.$xml_music_media)) {
+				$xml_music_media_data = simplexml_load_file($servername.$xml_music_media);
+				echo '<link rel="alternate" type="application/rss+xml" href="'.$servername.$xml_music_media.'" title="'.$xml_music_media_data->channel->title.'" />'."\n";
+			}
+			if (file_exists($documentrootname.$xml_slideshow_file)) {
+				$xml_slideshow_file_data = simplexml_load_file($servername.$xml_slideshow_file);
+				echo '<link rel="alternate" type="application/rss+xml" href="'.$servername.$xml_slideshow_file.'" title="'.$xml_slideshow_file_data->channel->title.'" />'."\n";
+			}
+			if (file_exists($documentrootname.$xml_slideshow_media)) {
+				$xml_slideshow_media_data = simplexml_load_file($servername.$xml_slideshow_media);
+				echo '<link rel="alternate" type="application/rss+xml" href="'.$servername.$xml_slideshow_media.'" title="'.$xml_slideshow_media_data->channel->title.'" />'."\n";
+			}
+			if (file_exists($documentrootname.$xml_document_file)) {
+				$xml_document_file_data = simplexml_load_file($servername.$xml_document_file);
+				echo '<link rel="alternate" type="application/rss+xml" href="'.$servername.$xml_document_file.'" title="'.$xml_document_file_data->channel->title.'" />'."\n";
+			}
+			if (file_exists($documentrootname.$xml_document_media)) {
+				$xml_document_media_data = simplexml_load_file($servername.$xml_document_media);
+				echo '<link rel="alternate" type="application/rss+xml" href="'.$servername.$xml_document_media.'" title="'.$xml_document_media_data->channel->title.'" />'."\n";
 			}
 			echo '<!-- End Gallerylink feed -->'."\n";
 		}

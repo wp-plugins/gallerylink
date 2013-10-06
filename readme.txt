@@ -4,21 +4,29 @@ Donate link: http://gallerylink.nyanko.org/
 Tags: audio,feed,feeds,flash,gallery,html5,image,images,list,music,photo,photos,picture,pictures,rss,shortcode,video,xml
 Requires at least: 3.0.1
 Tested up to: 3.4
-Stable tag: 3.1
+Stable tag: 4.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Output as a gallery by find the file extension and directory specified.
+Output as a gallery from the directory or the media library.
 
 == Description ==
 
-Create a playlist (music, pictures, videos, document) of data in the directory below the specified, GalleryLink displays Pages by passing the data to various software.
+GalleryLink outputs as a gallery from the directory.
 
-If you want to use the data on the Media Library, please use the [MediaLink](http://wordpress.org/plugins/medialink/).
+* Directory name and file name support for multi-byte character.
+
+GalleryLink outputs as a gallery from the media library.
+
+* Support the classification of the category. Use the caption of the media library, and are classified.
+
+(Photos, music, videos, documents) data that is supported.
+
+If you want to use only the data of the media library, please use the [MediaLink](http://wordpress.org/plugins/medialink/).
+
+In the media uploader, you may not be able to upload by the environment of server. That's when the files are large. If you want to upload to the media library without having to worry about the file size, please use the [Media from FTP](http://wordpress.org/plugins/media-from-ftp/).
 
 You write and use short codes to page.
-
-Directory name and file name support for multi-byte character.
 
 Bundled software and function
 
@@ -54,9 +62,14 @@ none
 
 == Screenshots ==
 
-1. screenshot-1.jpg
+none
 
 == Changelog ==
+
+= 4.0 =
+Output as a gallery from the directory or the media library.
+Change /languages
+Change readme.txt
 
 = 3.1 =
 Optimization
@@ -272,6 +285,8 @@ Delete screenshot
 
 == Upgrade Notice ==
 
+= 4.0 =
+= 3.1 =
 = 3.0 =
 = 2.27 =
 = 2.26 =
@@ -337,47 +352,218 @@ Delete screenshot
 How to use
 Please set the default value in the setting page.
 
-Please upload the data to the data directory (topurl) by the FTP software. At the same time upload thumbnail.
+In the case of read data from the directory.
+
+* Please upload the data to the data directory (topurl) by the FTP software. At the same time upload thumbnail.
+
+In the case of read data from the Media Library.
+
+* Please upload the data to the Media Library.
+
 Please add new Page. Please write a short code in the text field of the Page. Please go in Text mode this task.
 
 In the case of image
-[gallerylink set='album']
 
-In addition, you want to place add an attribute like this in the short code.
+* [gallerylink set='album']
 
-[gallerylink set='slideshow']
+In the case of slideshow
 
-When you view this Page, it is displayed in slideshow mode.
+* [gallerylink set='slideshow']
 
 In the case of video
-[gallerylink set='movie']
+
+* [gallerylink set='movie']
 
 In the case of music
-[gallerylink set='music']
+
+* [gallerylink set='music']
 
 In the case of document
-[gallerylink set='document']
 
-Customization 1
+* [gallerylink set='document']
 
-If you want to use MULTI-BYTE CHARACTER SETS to the display of the directory name and the file name. In this case, please upload the file after UTF-8 character code setting of the FTP software.
+In the case of read data from the directory.
 
-Customization 2
+* If you want to use MULTI-BYTE CHARACTER SETS to the display of the directory name and the file name. In this case, please upload the file after UTF-8 character code setting of the FTP software.
 
-GalleryLink can be used to specify the attributes of the table below to short code. It will override the default settings.
+Customization
 
-Image Example [gallerylink set='album' topurl='/wordpress/wp-content/uploads' thumbnail='-80x80' exclude_file='(.ktai.)|(-[0-9]*x[0-9]*.)' exclude_dir='ps_auto_sitemap|backwpup.*|wpcf7_captcha' rssname='album']
+GalleryLink can be used to specify various attributes to the short code. It will override the default settings.
 
-Video Example [gallerylink set='movie' topurl='/gallery/video' rssmax=5]
+Image Example
 
-Music Example [gallerylink set='music' topurl='/gallery/music' rssmax=20]
+* [gallerylink set='album' type='dir' topurl='/wordpress/wp-content/uploads' thumbnail='-80x80' exclude_file='(.ktai.)|(-[0-9]*x[0-9]*.)' exclude_dir='ps_auto_sitemap|backwpup.*|wpcf7_captcha' rssname='album']
+* [gallerylink set='album' type='media' image_show_size='Medium' exclude_cat='test|test2' rssname='album2']
 
-Document Example [gallerylink set='document' topurl='/gallery/document' suffix_pc='xls']
+Video Example
 
-* Please set to 777 or 757 the attributes of topurl directory. Because GalleryLink create an RSS feed in the directory.
+* [gallerylink set='movie' type='dir' topurl='/gallery/video' rssmax=5]
+* [gallerylink set='movie' type='media' include_cat='test3']
+
+Music Example
+
+* [gallerylink set='music' type='dir' topurl='/gallery/music' thumbnail='gif']
+* [gallerylink set='music' type='media' credit_show='Hide']
+
+Document Example
+
+* [gallerylink set='document' type='dir' topurl='/gallery/document' suffix_pc='doc']
+* [gallerylink set='document' type='media' suffix_pc='pdf']
+
+Caution
+
+* Please set to 777 or 757 the attributes of topurl directory. Because GalleryLink create an RSS feed in the directory.*In the case of read data from the directory.
 
 * (WordPress > Settings > General Timezone) Please specify your area other than UTC. For accurate time display of RSS feed.
 
-* When you move to (WordPress > Appearance> Widgets), there is a widget GalleryLinkRssFeed. If you place you can set this to display the sidebar link the RSS feed.
+* When you move to (WordPress > Appearance > Widgets), there is a widget GalleryLinkRssFeed. If you place you can set this to display the sidebar link the RSS feed.
 
-[The default value for the short code attribute](http://wordpress.org/plugins/gallerylink/screenshots/)
+The default value for the short code attribute
+
+set
+
+* Value -> album	movie music slideshow document
+
+* Description -> Next only five. album(image), movie(video), music(music), slideshow(image), document(document)
+
+type
+
+* Value -> dir media
+
+* Description -> Read from the directory data.(dir) Read from the media library data.(media)
+
+effect_pc
+
+* Value -> colorbox nivoslider Lightbox
+
+* Description -> Effects of PC.
+
+effect_sp
+
+* Value -> photoswipe nivoslider
+
+* Description -> Effects of Smartphone
+
+topurl
+
+* Description -> Use only type='dir'. Full path to the top directory containing the data.
+
+suffix_pc
+
+* Value -> jpg png gif mp4 m4v ogv webm mp3 m4a m4b ogg oga jpg png gif pdf doc docx xls xlsx xlsa xlst xlsw pot pps ppt pptx pptm ppsx ppsm potx potm ppam sldx sldm
+
+* Description -> extension of PC
+
+suffix_pc2
+
+* Value -> mp4 m4v ogv webm mp3 m4a m4b ogg oga
+
+* Description -> second extension on the PC. Second candidate when working with html5
+
+suffix_flash
+
+* Value -> mp4 flv mp3
+
+* Description -> Flash extension on the PC. Flash Player to be used when a HTML5 player does not work.
+
+suffix_sp
+
+* Value -> jpg png gif mp4 ogv mp3 ogg jpg png gif pdf doc docx xls xlsx xlsa xlst xlsw pot pps ppt pptx pptm ppsx ppsm potx potm ppam sldx sldm
+
+* Description -> extension of Smartphone
+
+suffix_keitai
+
+* Value -> jpg png gif 3gp 3g2 3gp 3g2 jpg png gif pdf doc docx xls xlsx xlsa xlst xlsw pot pps ppt pptx pptm ppsx ppsm potx potm ppam sldx sldm
+
+* Description -> extension of Japanese mobile phone
+
+display_pc
+
+* Description -> File Display per page(PC)
+
+display_sp
+
+* Description -> File Display per page(Smartphone)
+
+display_keitai
+
+* Description -> File Display per page(Japanese mobile phone)
+
+image_show_size
+
+* Value -> Full Medium Large
+
+* Description -> Use only type='media'. Size of the image display. (Media Settings > Image Size)
+
+thumbnail
+
+* Value -> gif jpg png icon
+
+* Description -> (album, slideshow) thumbnail suffix name. (movie, music) specify an extension for the thumbnail of the title the same name as the file you want to view, but if the thumbnail is not found, display the icon. The thumbnail no display if you do not specify anything. (document) The icon is displayed if you specify icon. The thumbnail no display if you do not specify anything.
+
+include_cat
+
+* Description -> Use only type='media'. Category you want to include. Only one.
+
+exclude_cat
+
+* Description -> Use only type='media'. Category you want to exclude. More than one, specified separated by |.
+
+exclude_file
+
+* Description -> Use only type='dir'. File you want to exclude. More than one, specified separated by |.
+
+exclude_dir
+
+* Description -> Use only type='dir'. Directory you want to exclude. More than one, specified separated by |.
+
+generate_rssfeed
+
+* Value -> on off
+
+* Description -> Generation of RSS feed.
+
+rssname
+
+* Description -> The name of the RSS feed file (Use to widget)
+
+rssmax
+
+* Description -> Syndication feeds show the most recent (Use to widget)
+
+selectbox_show
+
+* Value -> Show Hide
+
+* Description -> Selectbox of directories or categories.
+
+pagelinks_show
+
+* Value -> Show Hide
+
+* Description -> Navigation of page.
+
+sortlinks_show
+
+* Value -> Show Hide
+
+* Description -> Navigation of sort.
+
+searchbox_show
+
+* Value -> Show Hide
+
+* Description -> Search box
+
+rssicon_show
+
+* Value -> Show Hide
+
+* Description -> RSS Icon
+
+credit_show
+
+* Value -> Show Hide
+
+* Description -> Credit

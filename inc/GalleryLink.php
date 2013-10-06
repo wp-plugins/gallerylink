@@ -2,13 +2,22 @@
 
 class GalleryLink {
 
+	public $type;
 	public $thumbnail;
 	public $suffix;
 	public $exclude_file;
 	public $exclude_dir;
+	public $include_cat;
+	public $exclude_cat;
+	public $image_show_size;
+	public $generate_rssfeed;
+	public $sort_order;
 	public $search;
+	public $catparam;
 	public $dparam;
 	public $topurl;
+	public $wp_uploads_baseurl;
+	public $wp_path;
 	public $pluginurl;
 	public $document_root;
 	public $set;
@@ -113,9 +122,236 @@ class GalleryLink {
 	}
 
 	/* ==================================================
+	 * @param	array	$files
+	 * @return	array	$titles
+	 * @return	array	$thumblinks
+	 * @return	array	$largemediumlinks
+	 * @return	array	$rssfiles
+	 * @return	array	$rsstitles
+	 * @return	array	$rssthumblinks
+	 * @return	array	$rsslargemediumlinks
+	 * @since	3.2
+	 */
+	function files_args($files) {
+
+		$titles = array();
+		$thumblinks = array();
+		$largemediumlinks = array();
+		$rssfiles = array();
+		$rsstitles = array();
+		$rssthumblinks = array();
+		$rsslargemediumlinks = array();
+
+		foreach ( $files as $file ){
+
+			$searchfilename = str_replace($this->suffix, "", $file);
+			$file = mb_convert_encoding($file, "UTF-8", "auto");
+			$file = str_replace($this->document_root, "", $file);
+			$filename = mb_convert_encoding($file, "UTF-8", "auto");
+			$filename = str_replace($this->suffix, "", $filename);
+			$titlename = substr(mb_convert_encoding($file, "UTF-8", "auto"),1);
+			$titlename = str_replace($this->suffix, "", $titlename);
+
+			$titles[] = $titlename;
+
+			$servername = $_SERVER['HTTP_HOST'];
+
+			$thumblink = NULL;
+			if ( preg_match( "/jpg|jpeg|jpe|gif|png|bmp|tif|tiff|ico/i", $this->suffix) ){
+				$thumblink = 'http://'.$servername.$this->topurl.str_replace("%2F","/",urlencode($filename)).$this->thumbnail.$this->suffix;
+			}else{
+				if (!empty($this->thumbnail) ) {
+					$thumbcheck = $searchfilename.$this->thumbnail;
+					if(file_exists($thumbcheck)){
+						$thumblink = str_replace($this->document_root, '', $thumbcheck);
+						$thumblink = '<img src="http://'.$servername.$this->topurl.$thumblink.'">';
+					} else {
+						if ( $this->set === 'movie') {
+							$thumblink = '<img src = "'.$this->pluginurl.'/gallerylink/icon/video.png">';
+						} else if ( $this->set === 'music') {
+							$thumblink = '<img src = "'.$this->pluginurl.'/gallerylink/icon/audio.png">';
+						} else if ( $this->set === 'document') {
+							if ( $this->suffix === '.pdf' ) {
+								$thumblink = '<img src = "'.$this->pluginurl.'/gallerylink/icon/pdf.png">';
+							} else if ( $this->suffix === '.doc' || $this->suffix === '.docx' ) {
+								$thumblink = '<img src = "'.$this->pluginurl.'/gallerylink/icon/word.png">';
+							} else if ( $this->suffix === '.xls' || $this->suffix === '.xlsx' || $this->suffix === '.xla' || $this->suffix === '.xlt' || $this->suffix === '.xlw' ) {
+								$thumblink = '<img src = "'.$this->pluginurl.'/gallerylink/icon/excel.png">';
+							} else if ( $this->suffix === '.pot' || $this->suffix === '.pps' || $this->suffix === '.ppt' || $this->suffix === '.pptx' || $this->suffix === '.pptm' || $this->suffix === '.ppsx' || $this->suffix === '.ppsm' || $this->suffix === '.potx' || $this->suffix === '.potm' || $this->suffix === '.ppam' || $this->suffix === '.sldx' || $this->suffix === '.sldm' ) {
+								$thumblink = '<img src = "'.$this->pluginurl.'/gallerylink/icon/powerpoint.png">';
+							}
+						}
+					}
+				}
+			}
+			$thumblinks [] = $thumblink;
+
+			$largemediumlinks [] = NULL;
+
+			if ( $this->generate_rssfeed === 'on' ) {
+				$rssfiles[] = $file;
+				$rsstitles[] = $titlename;
+				$rssthumblinks[] = $thumblink;
+				$rsslargemediumlinks [] = NULL;
+			}
+
+		}
+
+		return array($titles, $thumblinks, $largemediumlinks, $rssfiles, $rsstitles, $rssthumblinks, $rsslargemediumlinks);
+
+	}
+
+	/* ==================================================
+	 * @param	array	$attachments
+	 * @param	string	$include_cat
+	 * @param	string	$exclude_cat
+	 * @param	string	$thumbnail
+	 * @param	string	$image_show_size
+	 * @param	string	$generate_rssfeed
+	 * @param	string	$sort_order
+	 * @param	string	$search
+	 * @param	string	$topurl
+	 * @param	string	$wp_path
+	 * @param	string	$pluginurl
+	 * @return	array	$files
+	 * @return	array	$titles
+	 * @return	array	$thumblinks
+	 * @return	array	$largemediumlinks
+	 * @return	array	$categories
+	 * @return	array	$rssfiles
+	 * @return	array	$rsstitles
+	 * @return	array	$rssthumblinks
+	 * @return	array	$rsslargemediumlinks
+	 * @since	2.1
+	 */
+	function scan_media($attachments){
+
+		$attachment = NULL;
+		$title = NULL;
+		$caption = NULL;
+		$rsscount = 0;
+		$filecount = 0;
+		$categorycount = 0;
+		$files = array();
+		$categories = array();
+		$thumblinks = array();
+		$largemediumlinks = array();
+		$titles = array();
+		$rssfiles = array();
+		$rsstitles = array();
+		$rssthumblinks = array();
+		$rsslargemediumlinks = array();
+		if ($attachments) {
+			foreach ( $attachments as $attachment ) {
+				$title = $attachment->post_title;
+				$caption = $attachment->post_excerpt;
+				$suffix = '.'.end(explode('.', $attachment->guid));
+				if( empty($this->exclude_cat) ) { 
+					$loops = TRUE;
+				} else {
+					if ( preg_match("/".$this->exclude_cat."/", $caption) ) {
+						$loops = FALSE;
+					} else {
+						$loops = TRUE;
+					}
+				}
+				if( $loops === TRUE ) {
+					if ( !empty($caption) && (($caption === $this->include_cat) || empty($this->include_cat)) ) {
+						$categories[$categorycount] = $caption;
+						++$categorycount;
+					}
+					$thumblink = NULL;
+					$mediumlink = NULL;
+					$largelink = NULL;
+					$largemediumlink = NULL;
+					if ( $this->set === 'album'  || $this->set === 'slideshow' ){
+						$thumb_src = wp_get_attachment_image_src($attachment->ID);
+						$medium_src = wp_get_attachment_image_src($attachment->ID, 'medium');
+						$large_src = wp_get_attachment_image_src($attachment->ID, 'large');
+						$thumblink = $thumb_src[0];
+						$mediumlink = $medium_src[0];
+						$largelink = $large_src[0];
+					} else {
+						if( !empty($this->thumbnail) ) {
+							if ( preg_match( "/jpg|jpeg|jpe|gif|png|bmp|tif|tiff|ico/i", $this->thumbnail) || $this->set === 'document') {
+								$thumbname = NULL;
+								$thumbname_md5 = NULL;
+								$thumbpath = NULL;
+								$thumbname = str_replace($suffix, '', end(explode('/', $attachment->guid)));
+								$thumbname_md5 = md5($thumbname);
+								$thumbpath = str_replace($thumbname.$suffix, '', $attachment->guid);
+								$thumbcheck = str_replace($this->wp_path, '', ABSPATH).$this->topurl.str_replace($this->wp_uploads_baseurl, '', $thumbpath.$thumbname.$this->thumbnail);
+								$thumbcheck_md5 = str_replace($this->wp_path, '', ABSPATH).$this->topurl.str_replace($this->wp_uploads_baseurl, '', $thumbpath.$thumbname_md5.$this->thumbnail);
+								if( file_exists( $thumbcheck ) ){
+									$thumblink = '<img src = "'.$thumbpath.$thumbname.$this->thumbnail.'">';
+								} else if( file_exists( $thumbcheck_md5 ) ){
+									$thumblink = '<img src = "'.$thumbpath.$thumbname_md5.$this->thumbnail.'">';
+								} else {
+									if ( $this->set === 'document' && $this->thumbnail === 'icon' ) {
+										if ( $suffix === '.pdf' ) {
+											$thumblink = '<img src = "'.$this->pluginurl.'/medialink/icon/pdf.png">';
+										} else if ( $suffix === '.doc' || $suffix === '.docx' ) {
+											$thumblink = '<img src = "'.$this->pluginurl.'/medialink/icon/word.png">';
+										} else if ( $suffix === '.xls' || $suffix === '.xlsx' || $suffix === '.xla' || $suffix === '.xlt' || $suffix === '.xlw' ) {
+											$thumblink = '<img src = "'.$this->pluginurl.'/medialink/icon/excel.png">';
+										} else if ( $suffix === '.pot' || $suffix === '.pps' || $suffix === '.ppt' || $suffix === '.pptx' || $suffix === '.pptm' || $suffix === '.ppsx' || $suffix === '.ppsm' || $suffix === '.potx' || $suffix === '.potm' || $suffix === '.ppam' || $suffix === '.sldx' || $suffix === '.sldm' ) {
+											$thumblink = '<img src = "'.$this->pluginurl.'/medialink/icon/powerpoint.png">';
+										} else {
+											$thumblink = wp_get_attachment_image( $attachment->ID, 'thumbnail', TRUE );
+										}
+									} else {
+										$thumblink = wp_get_attachment_image( $attachment->ID, 'thumbnail', TRUE );
+									}
+								}
+							}
+						}
+					}
+					$attachment = str_replace($this->wp_path, '', ABSPATH).$this->topurl.str_replace($this->wp_uploads_baseurl, '', $attachment->guid);
+					$attachment = str_replace($this->document_root, "", $attachment);
+					if ( $this->set === 'album' || $this->set === 'slideshow' ) {
+						if ( $this->image_show_size === 'Medium' ) {
+							$largemediumlink = $mediumlink;
+						} else if ( $this->image_show_size === 'Large' ) {
+							$largemediumlink = $largelink;
+						} else {
+							$largemediumlink = NULL;
+						}
+					}
+					if ( $this->generate_rssfeed === 'on' ) {
+						if ( $this->sort_order === 'DESC' && empty($this->search) ) {
+							if ( ($caption === $this->include_cat) || empty($this->include_cat) ) {
+								$rssfiles[$rsscount] = $attachment;
+								$rsstitles[$rsscount] = $title;
+								$rssthumblinks [$rsscount] = $thumblink;
+								$rsslargemediumlinks [$rsscount] = $largemediumlink;
+								++$rsscount;
+							}
+						}
+					}
+					if ( ($caption === $this->catparam || empty($this->catparam)) ) {
+						if ( ($caption === $this->include_cat) || empty($this->include_cat) ) {
+							$files[$filecount] = $attachment;
+							$titles[$filecount] = $title;
+							$thumblinks [$filecount] = $thumblink;
+							$largemediumlinks [$filecount] = $largemediumlink;
+							++$filecount;
+						}
+					}
+				}
+			}
+		}
+
+		return array($files, $titles, $thumblinks, $largemediumlinks, $categories, $rssfiles, $rsstitles, $rssthumblinks, $rsslargemediumlinks);
+
+	}
+
+	/* ==================================================
 	 * @param	string	$dparam
 	 * @param	string	$file
+	 * @param	string	$title
 	 * @param	string	$topurl
+	 * @param	string	$thumblink
+	 * @param	string	$largemediumlink
 	 * @param	string	$suffix
 	 * @param	string	$thumbnail
 	 * @param	string	$document_root
@@ -126,82 +362,73 @@ class GalleryLink {
 	 * @return	string	$linkfile
 	 * @since	1.0.0
 	 */
-	function print_file($file) {
+	function print_file($file,$title,$thumblink,$largemediumlink) {
 
-		$searchfilename = str_replace($this->suffix, "", $file);
-		$filename = mb_convert_encoding($file, "UTF-8", "auto");
-		$titlename = substr(mb_convert_encoding($file, "UTF-8", "auto"),1);
-		$file = mb_convert_encoding($file, "UTF-8", "auto");
-		$filename = str_replace($this->suffix, "", $filename);
-		$titlename = str_replace($this->suffix, "", $titlename);
+		$suffix = '.'.end(explode('.', $file));
 
-		$this->pluginurl = plugins_url($path='',$scheme=null);
-		if ( $this->set === 'movie') {
-			$wpiconurl = $this->pluginurl.'/gallerylink/icon/video.png';
-		} else if ( $this->set === 'music') {
-			$wpiconurl = $this->pluginurl.'/gallerylink/icon/audio.png';
-		} else if ( $this->set === 'document') {
-			if ( $this->suffix === '.pdf' ) {
-				$wpiconurl = $this->pluginurl.'/gallerylink/icon/pdf.png';
-			} else if ( $this->suffix === '.doc' || $this->suffix === '.docx' ) {
-				$wpiconurl = $this->pluginurl.'/gallerylink/icon/word.png';
-			} else if ( $this->suffix === '.xls' || $this->suffix === '.xlsx' || $this->suffix === '.xla' || $this->suffix === '.xlt' || $this->suffix === '.xlw' ) {
-				$wpiconurl = $this->pluginurl.'/gallerylink/icon/excel.png';
-			} else if ( $this->suffix === '.pot' || $this->suffix === '.pps' || $this->suffix === '.ppt' || $this->suffix === '.pptx' || $this->suffix === '.pptm' || $this->suffix === '.ppsx' || $this->suffix === '.ppsm' || $this->suffix === '.potx' || $this->suffix === '.potm' || $this->suffix === '.ppam' || $this->suffix === '.sldx' || $this->suffix === '.sldm' ) {
-				$wpiconurl = $this->pluginurl.'/gallerylink/icon/powerpoint.png';
-			}
+		if ( $this->type === 'dir' ) {
+			$dparam = mb_convert_encoding($this->dparam, "UTF-8", "auto");
+		} else if ( $this->type === 'media' ) {
+			$catparam = mb_convert_encoding($this->catparam, "UTF-8", "auto");
 		}
+		$filename = mb_convert_encoding($file, "UTF-8", "auto");
+		$filename = str_replace($suffix, "", $filename);
+		$titlename = $title;
 
-		if (empty($this->dparam)) {
+		if ( empty($dparam) || $this->type === 'media' ) {
 			$fileparam = substr($file,1);
 		}else{
-			$fileparam = str_replace('/'.$this->dparam.'/', "",$file);
-			$dparam = str_replace("%2F","/",urlencode($this->dparam));
+			$fileparam = str_replace('/'.$dparam.'/', "",$file);
+			$dparam = str_replace("%2F","/",urlencode($dparam));
 		}
-		$filetitle = str_replace($this->suffix, "", $fileparam);
+		if ( $this->type === 'dir' ) {
+			$filetitle = str_replace($suffix, "", $fileparam);
+		} else if ( $this->type === 'media' ) {
+			$filetitle = $titlename;
+		}
 		$fileparam = str_replace("%2F","/",urlencode($fileparam));
+
 		$file = str_replace("%2F","/",urlencode($file));
 
-		$scriptname = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
-		$thumbfind = "";
-		if ( preg_match( "/jpg|jpeg|jpe|gif|png|bmp|tif|tiff|ico/i", $this->suffix) ){
-			$thumbfile = str_replace("%2F","/",urlencode($filename)).$this->thumbnail.$this->suffix;
-		}else{
-			if(file_exists($this->document_root.$searchfilename.$this->thumbnail)){ $thumbfind = 'true'; }
-			$thumbfile = str_replace("%2F","/",urlencode($filename)).$this->thumbnail;
+		if ( !empty($largemediumlink) ) {
+			$imgshowlink = $largemediumlink;
+		} else {
+			$imgshowlink = $this->topurl.$file;
 		}
 
-		$mimetype = 'type="'.$this->mime_type($this->suffix).'"'; // MimeType
+		$scriptname = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
+
+		$mimetype = 'type="'.$this->mime_type($suffix).'"'; // MimeType
 
 		$linkfile = NULL;
 		if ( $this->mode === 'mb' ){	//keitai
-			if ( preg_match( "/jpg|jpeg|jpe|gif|png|bmp|tif|tiff|ico/i", $this->suffix) ){
-				$linkfile = '<div><a href="'.$this->topurl.$file.'"><img src="'.$this->topurl.$thumbfile.'" align="middle" vspace="5">'.$titlename.'</a></div>';
+			if ( preg_match( "/jpg|jpeg|jpe|gif|png|bmp|tif|tiff|ico/i", $suffix) ){
+				$linkfile = '<div><a href="'.$imgshowlink.'"><img src="'.$thumblink.'" align="middle" vspace="5">'.$titlename.'</a></div>';
 			}else{
-				$linkfile = '<div><a href="'.$this->topurl.$file.'" '.$mimetype.'>'.$titlename.'</a></div>';
+				$linkfile = '<div><a href="'.$imgshowlink.'" '.$mimetype.'>'.$titlename.'</a></div>';
 			}
 		}else{	//PC or SmartPhone
-			if ( preg_match( "/jpg|jpeg|jpe|gif|png|bmp|tif|tiff|ico/i", $this->suffix) ) {
+			if ( preg_match( "/jpg|jpeg|jpe|gif|png|bmp|tif|tiff|ico/i", $suffix) ) {
 				if ($this->effect === 'nivoslider'){ // for nivoslider
-					$linkfile = '<img src="'.$this->topurl.$file.'" alt="'.$titlename.'" title="'.$titlename.'">';
+					$linkfile = '<img src="'.$imgshowlink.'" alt="'.$titlename.'" title="'.$titlename.'">';
 				} else if ($this->effect === 'colorbox' && $this->mode === 'pc'){ // for colorbox
-					$linkfile = '<a class=gallerylink href="'.$this->topurl.$file.'" title="'.$titlename.'"><img src="'.$this->topurl.$thumbfile.'" alt="'.$titlename.'" title="'.$titlename.'"></a>';
+					$linkfile = '<a class=gallerylink href="'.$imgshowlink.'" title="'.$titlename.'"><img src="'.$thumblink.'" alt="'.$titlename.'" title="'.$titlename.'"></a>';
 				} else if ($this->effect === 'photoswipe' && $this->mode === 'sp'){ // for Photoswipe
-					$linkfile = '<li><a rel="external" href="'.$this->topurl.$file.'" title="'.$titlename.'"><img src="'.$this->topurl.$thumbfile.'" alt="'.$titlename.'" title="'.$titlename.'"></a></li>';
+					$linkfile = '<li><a rel="external" href="'.$imgshowlink.'" title="'.$titlename.'"><img src="'.$thumblink.'" alt="'.$titlename.'" title="'.$titlename.'"></a></li>';
 				} else if ($this->effect === 'Lightbox' && $this->mode === 'pc'){ // for Lightbox
-					$linkfile = '<a href="'.$this->topurl.$file.'" rel="lightbox[gallerylink]" title="'.$titlename.'"><img src="'.$this->topurl.$thumbfile.'" alt="'.$titlename.'" title="'.$titlename.'"></a>';
+					$linkfile = '<a href="'.$imgshowlink.'" rel="lightbox[gallerylink]" title="'.$titlename.'"><img src="'.$thumblink.'" alt="'.$titlename.'" title="'.$titlename.'"></a>';
 				} else {
-					$linkfile = '<li><a href="'.$this->topurl.$file.'" title="'.$titlename.'"><img src="'.$this->topurl.$thumbfile.'" alt="'.$titlename.'" title="'.$titlename.'"></a></li>';
+					$linkfile = '<li><a href="'.$imgshowlink.'" title="'.$titlename.'"><img src="'.$thumblink.'" alt="'.$titlename.'" title="'.$titlename.'"></a></li>';
 				}
 			}else{
 				if ( $this->mode === 'sp' || $this->set === 'document' ) {
 					if( $thumbfind === "true" ){
-						$linkfile = '<li><img src="'.$this->topurl.$thumbfile.'"><a href="'.$this->topurl.$file.'" '.$mimetype.'>'.$titlename.'</a></li>';
+						$linkfile = '<li>'.$thumblink.'<a href="'.$imgshowlink.'" '.$mimetype.'>'.$titlename.'</a></li>';
 					}else{
 						if( !empty($this->thumbnail) ) {
-							$linkfile = '<li><img src="'.$wpiconurl.'"><a href="'.$this->topurl.$file.'" '.$mimetype.'>'.$titlename.'</a></li>';
+							$linkfile = '<li>'.$thumblink.'<a href="'.$imgshowlink.'" '.$mimetype.'>'.$titlename.'</a></li>';
 						} else {
-							$linkfile = '<li><a href="'.$this->topurl.$file.'" '.$mimetype.'>'.$titlename.'</a></li>';
+							$linkfile = '<li><a href="'.$imgshowlink.'" '.$mimetype.'>'.$titlename.'</a></li>';
 						}
 					}
 				}else{ //PC
@@ -213,22 +440,23 @@ class GalleryLink {
 					$permlinkstr = NULL;
 					$permalinkstruct = NULL;
 					$permalinkstruct = get_option('permalink_structure');
+					$permcategoryfolder = NULL;
+					$categoryfolder = NULL;
+					if ( $this->type === 'dir' ) {
+						$permcategoryfolder = 'd';
+						$categoryfolder = $dparam;
+					} else if ( $this->type === 'media' ) {
+						$permcategoryfolder = 'glcat';
+						$categoryfolder = $catparam;
+					}
 					if( empty($permalinkstruct) ){
 						$perm_id = get_the_ID();
-						$permlinkstr = '?page_id='.$perm_id.'&d=';
+						$permlinkstr = '?page_id='.$perm_id.'&'.$permcategoryfolder.'=';
 					} else {
-						$permlinkstr = '?d=';
+						$permlinkstr = '?'.$permcategoryfolder.'=';
 					}
 
-					if( $thumbfind === "true" ){
-						$linkfile = '<li><img src="'.$this->topurl.$thumbfile.'"><a href="'.$scriptname.$permlinkstr.$this->dparam.'&glp='.$page.'&f='.$fileparam.'">'.$filetitle.'</a></li>';
-					}else{
-						if( !empty($this->thumbnail) ) {
-							$linkfile = '<li><img src="'.$wpiconurl.'"><a href="'.$scriptname.$permlinkstr.$this->dparam.'&glp='.$page.'&f='.$fileparam.'">'.$filetitle.'</a></li>';
-						} else {
-							$linkfile = '<li><a href="'.$scriptname.$permlinkstr.$this->dparam.'&glp='.$page.'&f='.$fileparam.'">'.$filetitle.'</a></li>';
-						}
-					}
+					$linkfile = '<li>'.$thumblink.'<a href="'.$scriptname.$permlinkstr.$categoryfolder.'&glp='.$page.'&f='.$fileparam.'&sort='.$_GET['sort'].'">'.$filetitle.'</a></li>';
 				}
 			}
 		}
@@ -299,26 +527,33 @@ class GalleryLink {
 
 	/* ==================================================
 	 * @param	string	$file
-	 * @param	string	$thumbnail
-	 * @param	string	$suffix
+	 * @param	string	$title
+	 * @param	string	$thumblink
+	 * @param	string	$largemediumlink
 	 * @param	string	$document_root
 	 * @param	string	$topurl
 	 * @return	string	$xmlitem
 	 * @since	1.0.0
 	 */
-	function xmlitem_read($file) {
+	function xmlitem_read($file, $title, $thumblink, $largemediumlink) {
+
+		$suffix = '.'.end(explode('.', $file));
+
+		$file = $this->document_root.$file;
 
 		$filesize = filesize($file);
 		$filestat = stat($file);
+
 		date_default_timezone_set(timezone_name_from_abbr(get_the_date(T)));
 		$stamptime = date(DATE_RSS,  $filestat['mtime']);
 
 		$fparam = mb_convert_encoding(str_replace($this->document_root.'/', "", $file), "UTF8", "auto");
 		$fparam = str_replace("%2F","/",urlencode($fparam));
-		$thumbfindfile = $file;
 
-		$file = str_replace($this->suffix, "", str_replace($this->document_root, "", $file));
-		$titlename = mb_convert_encoding(substr($file,1), "UTF8", "auto");
+		$file = str_replace($suffix, '', str_replace($this->document_root, '', $file));
+
+		$titlename = $title;
+
 		$file = str_replace("%2F","/",urlencode(mb_convert_encoding($file, "UTF8", "auto")));
 
 		$servername = $_SERVER['HTTP_HOST'];
@@ -333,20 +568,22 @@ class GalleryLink {
 			$scriptname .= '?f=';
 		}
 
-		$thumbfind =NULL;
-		if ( preg_match( "/jpg|jpeg|jpe|gif|png|bmp|tif|tiff|ico/i", $this->suffix) ){
-			$link_url = 'http://'.$servername.$this->topurl.$file.$this->suffix;
-			$img_url = '<a href="'.$link_url.'"><img src = "http://'.$servername.$this->topurl.$file.$this->thumbnail.$this->suffix.'"></a>';
+		if ( preg_match( "/jpg|jpeg|jpe|gif|png|bmp|tif|tiff|ico/i", $suffix) ){
+			if ( !empty($largemediumlink) ) {
+				$link_url = $largemediumlink;
+			} else {
+				$link_url = 'http://'.$servername.$this->topurl.$file.$suffix;
+			}
+			$img_url = '<a href="'.$link_url.'"><img src = "'.$thumblink.'"></a>';
 		}else{
 			if ( $this->set === 'document' ){
-				$link_url = 'http://'.$servername.$this->topurl.$file.$this->suffix;
+				$link_url = 'http://'.$servername.$this->topurl.$file.$suffix;
 			} else {
 				$link_url = 'http://'.$servername.$scriptname.$fparam;
-				$enc_url = 'http://'.$servername.$this->topurl.$file.$this->suffix;
+				$enc_url = 'http://'.$servername.$this->topurl.$file.$suffix;
 			}
-			if(file_exists($this->document_root.'/'.$titlename.$this->thumbnail)){ $thumbfind = 'true'; }
-			if( $thumbfind === "true" ){
-				$img_url = '<a href="'.$link_url.'"><img src = "http://'.$servername.$this->topurl.$file.$this->thumbnail.'"></a>';
+			if( !empty($thumblink) ) {
+				$img_url = '<a href="'.$link_url.'">'.$thumblink.'</a>';
 			}
 		}
 
@@ -355,9 +592,9 @@ class GalleryLink {
 		$xmlitem .= "<title>".$titlename."</title>\n";
 		$xmlitem .= "<link>".$link_url."</link>\n";
 		if ( $this->set === 'movie' || $this->set === 'music'){
-			$xmlitem .= '<enclosure url="'.$enc_url.'" length="'.$filesize.'" type="'.$this->mime_type($this->suffix).'" />'."\n";
+			$xmlitem .= '<enclosure url="'.$enc_url.'" length="'.$filesize.'" type="'.$this->mime_type($suffix).'" />'."\n";
 		}
-		if ( preg_match( "/jpg|jpeg|jpe|gif|png|bmp|tif|tiff|ico/i", $this->suffix) || $thumbfind === "true"){
+		if( !empty($thumblink) ) {
 			$xmlitem .= "<description><![CDATA[".$img_url."]]></description>\n";
 		}
 		$xmlitem .= "<pubDate>".$stamptime."</pubDate>\n";
@@ -377,7 +614,7 @@ class GalleryLink {
 	 * @return	none
 	 * @since	2.21
 	 */
-	function rss_wirte($xml_title, $rssfiles) {
+	function rss_wirte($xml_title, $rssfiles, $rsstitles, $rssthumblinks, $rsslargemediumlinks) {
 
 		$xml_begin = NULL;
 		$xml_end = NULL;
@@ -395,10 +632,16 @@ $xml_end = <<<XMLEND
 </rss>
 XMLEND;
 
+		if ( $this->type === 'media' ) {
+			$paramcategoryfolder = $this->dparam;
+		} else if ( $this->type === 'dir' ) {
+			$paramcategoryfolder = $this->catparam;
+		}
+
 		$xmlfile = $this->document_root.'/'.$this->rssname.'.xml';
 		if(count($rssfiles) < $this->rssmax){$this->rssmax = count($rssfiles);}
 		if ( file_exists($xmlfile)){
-			if (empty($this->dparam) && ($this->mode === "pc" || $this->mode === "sp")) {
+			if (empty($paramcategoryfolder) && ($this->mode === "pc" || $this->mode === "sp")) {
 				$pubdate = NULL;
 				$xml = simplexml_load_file($xmlfile);
 				$exist_rssfile_count = 0;
@@ -407,13 +650,13 @@ XMLEND;
 					++$exist_rssfile_count;
 				}
 				$exist_rss_pubdate = $pubdate[0];
-				if(preg_match("/\<pubDate\>(.+)\<\/pubDate\>/ms", $this->xmlitem_read($rssfiles[0]), $reg)){
+				if(preg_match("/\<pubDate\>(.+)\<\/pubDate\>/ms", $this->xmlitem_read($rssfiles[0], $rsstitles[0], $rssthumblinks[0], $rsslargemediumlinks[0]), $reg)){
 					$new_rss_pubdate = $reg[1];
 				}
 				if ($exist_rss_pubdate <> $new_rss_pubdate || $exist_rssfile_count != $this->rssmax){
 					$xmlitem = NULL;
 					for ( $i = 0; $i <= $this->rssmax-1; $i++ ) {
-						$xmlitem .= $this->xmlitem_read($rssfiles[$i]);
+						$xmlitem .= $this->xmlitem_read($rssfiles[$i], $rsstitles[$i], $rssthumblinks[$i], $rsslargemediumlinks[$i]);
 					}
 					$xmlitem = $xml_begin.$xmlitem.$xml_end;
 					$fno = fopen($xmlfile, 'w');
@@ -423,7 +666,7 @@ XMLEND;
 			}
 		}else{
 			for ( $i = 0; $i <= $this->rssmax-1; $i++ ) {
-				$xmlitem .= $this->xmlitem_read($rssfiles[$i]);
+				$xmlitem .= $this->xmlitem_read($rssfiles[$i], $rsstitles[$i], $rssthumblinks[$i], $rsslargemediumlinks[$i]);
 			}
 			$xmlitem = $xml_begin.$xmlitem.$xml_end;
 			if (is_writable($this->document_root)) {

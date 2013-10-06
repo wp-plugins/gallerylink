@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Gallerylink\n"
 "POT-Creation-Date: 2013-05-27 21:10+0900\n"
-"PO-Revision-Date: 2013-09-17 00:39+0900\n"
+"PO-Revision-Date: 2013-10-06 22:13+0900\n"
 "Last-Translator: dodesyo312 <dodesyoswift312@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -65,15 +65,11 @@ msgstr ""
 "FTPソフトウェアでデータディレクトリ(topurl)以下にデータをアップロードしてくだ"
 "さい。同時にサムネイルもアップロードします。"
 
-msgid ""
-"In addition, you want to place add an attribute like this in the short code."
-msgstr "また、以下の様にショートコードに属性値を追加してみます。"
-
-msgid "When you view this Page, it is displayed in slideshow mode."
-msgstr "この固定ページを更新し表示すると、スライドショーモードで表示されます。"
-
 msgid "In the case of image"
 msgstr "画像の場合"
+
+msgid "In the case of slideshow"
+msgstr "スライドショーの場合"
 
 msgid "In the case of video"
 msgstr "動画の場合"
@@ -84,8 +80,8 @@ msgstr "音楽の場合"
 msgid "In the case of document"
 msgstr "文書の場合"
 
-msgid "Customization 1"
-msgstr "カスタマイズ１"
+msgid "Customization"
+msgstr "カスタマイズ"
 
 msgid ""
 "If you want to use MULTI-BYTE CHARACTER SETS to the display of the directory "
@@ -94,9 +90,6 @@ msgid ""
 msgstr ""
 "ファイル名やディレクトリ名の表示を日本語のまま使いたい場合は、FTPソフトの文字"
 "コードの設定をUTF8でアップロードしてください。"
-
-msgid "Customization 2"
-msgstr "カスタマイズ２"
 
 msgid ""
 "GalleryLink can be used to specify the attributes of the table below to "
@@ -237,10 +230,10 @@ msgstr "ナビゲーションの文字色"
 
 msgid ""
 "The to playback of video and music, that such as the next, .htaccess may be "
-"required to topurl directory containing the data file by the environment."
+"required to the directory containing the data file by the environment."
 msgstr ""
-"動画や音楽の再生では、環境によってデータファイルのあるtopurlディレクトリに以"
-"下の様な、.htaccess が必要になります。"
+"動画や音楽の再生では、環境によってデータファイルのあるディレクトリに以下の様"
+"な、.htaccess が必要になります。"
 
 msgid "Album (RSS)"
 msgstr "アルバム (RSS)"
@@ -272,8 +265,8 @@ msgid ""
 msgstr ""
 "PCのFlashの拡張子。HTML5プレーヤーが動作しない場合Flash Playerが使用される。"
 
-msgid "Selectbox of directories."
-msgstr "ディレクトリーのセレクトボックス"
+msgid "Selectbox of directories or categories."
+msgstr "ディレクトリーあるいはカテゴリーのセレクトボックス"
 
 msgid "Navigation of page."
 msgstr "ページネーション"
@@ -299,3 +292,33 @@ msgstr ""
 
 msgid "Generation of RSS feed."
 msgstr "RSSフィードの生成"
+
+msgid "Read from the directory data.(dir)"
+msgstr "ディレクトリからデータを読みます。(dir)"
+
+msgid "Read from the media library data.(media)"
+msgstr "メディアライブラリからデータを読みます。(media)"
+
+msgid "Size of the image display. (Media Settings > Image Size)"
+msgstr "画像表示のサイズ。（メディア設定 > 画像サイズ）"
+
+msgid "Category you want to include. Only one."
+msgstr "指定カテゴリ。１つだけ指定します。"
+
+msgid "Category you want to exclude. More than one, specified separated by |."
+msgstr "除外するカテゴリ。複数の場合は、|で区切って指定します。"
+
+msgid "Use only"
+msgstr "専用"
+
+msgid "In the case of read data from the directory."
+msgstr "ディレクトリからデータを読み出す場合"
+
+msgid "In the case of read data from the Media Library."
+msgstr "メディアライブラリからデータを読み出す場合"
+
+msgid "Please upload the data to the Media Library."
+msgstr "メディアライブラリにデータをアップロードしてください。"
+
+msgid "Alias read extension : "
+msgstr "読み込み拡張子のエイリアス : "
