@@ -158,7 +158,7 @@ class GalleryLink {
 
 			$thumblink = NULL;
 			if ( preg_match( "/jpg|jpeg|jpe|gif|png|bmp|tif|tiff|ico/i", $this->suffix) ){
-				$thumblink = 'http://'.$servername.$this->topurl.str_replace("%2F","/",urlencode($filename)).$this->thumbnail.$this->suffix;
+				$thumblink = 'http://'.$servername.str_replace("%2F","/",urlencode($this->topurl)).str_replace("%2F","/",urlencode($filename)).$this->thumbnail.$this->suffix;
 			}else{
 				if (!empty($this->thumbnail) ) {
 					$thumbcheck = $searchfilename.$this->thumbnail;
@@ -386,14 +386,15 @@ class GalleryLink {
 		} else if ( $this->type === 'media' ) {
 			$filetitle = $titlename;
 		}
-		$fileparam = str_replace("%2F","/",urlencode($fileparam));
 
+		$fileparam = str_replace("%2F","/",urlencode($fileparam));
 		$file = str_replace("%2F","/",urlencode($file));
+		$topurl_urlencode = str_replace("%2F","/",urlencode($this->topurl));
 
 		if ( !empty($largemediumlink) ) {
 			$imgshowlink = $largemediumlink;
 		} else {
-			$imgshowlink = $this->topurl.$file;
+			$imgshowlink = $topurl_urlencode.$file;
 		}
 
 		$scriptname = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
@@ -568,19 +569,20 @@ class GalleryLink {
 			$scriptname .= '?f=';
 		}
 
+		$topurl_urlencode = str_replace("%2F","/",urlencode($this->topurl));
 		if ( preg_match( "/jpg|jpeg|jpe|gif|png|bmp|tif|tiff|ico/i", $suffix) ){
 			if ( !empty($largemediumlink) ) {
 				$link_url = $largemediumlink;
 			} else {
-				$link_url = 'http://'.$servername.$this->topurl.$file.$suffix;
+				$link_url = 'http://'.$servername.$topurl_urlencode.$file.$suffix;
 			}
 			$img_url = '<a href="'.$link_url.'"><img src = "'.$thumblink.'"></a>';
 		}else{
 			if ( $this->set === 'document' ){
-				$link_url = 'http://'.$servername.$this->topurl.$file.$suffix;
+				$link_url = 'http://'.$servername.$topurl_urlencode.$file.$suffix;
 			} else {
 				$link_url = 'http://'.$servername.$scriptname.$fparam;
-				$enc_url = 'http://'.$servername.$this->topurl.$file.$suffix;
+				$enc_url = 'http://'.$servername.$topurl_urlencode.$file.$suffix;
 			}
 			if( !empty($thumblink) ) {
 				$img_url = '<a href="'.$link_url.'">'.$thumblink.'</a>';

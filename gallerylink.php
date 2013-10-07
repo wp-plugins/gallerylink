@@ -2,7 +2,7 @@
 /*
 Plugin Name: GalleryLink
 Plugin URI: http://wordpress.org/plugins/gallerylink/
-Version: 4.0
+Version: 4.1
 Description: Output as a gallery by find the file extension and directory specified.
 Author: Katsushi Kawamori
 Author URI: http://gallerylink.nyanko.org/
@@ -449,9 +449,9 @@ function gallerylink_func( $atts, $html = NULL ) {
 		foreach ($dirs as $linkdir) {
 			$linkdir = mb_convert_encoding(str_replace($document_root."/", "", $linkdir), "UTF-8", "auto");
 			if($dparam === $linkdir){
-				$linkdir = '<option value="'.$linkdir.'" selected>'.$linkdir.'</option>';
+				$linkdir = '<option value="'.urlencode($linkdir).'" selected>'.$linkdir.'</option>';
 			}else{
-				$linkdir = '<option value="'.$linkdir.'">'.$linkdir.'</option>';
+				$linkdir = '<option value="'.urlencode($linkdir).'">'.$linkdir.'</option>';
 			}
 			$linkselectbox = $linkselectbox.$linkdir;
 		}
@@ -467,9 +467,9 @@ function gallerylink_func( $atts, $html = NULL ) {
 		foreach ($categories as $linkcategory) {
 			$linkcategory = mb_convert_encoding(str_replace($document_root."/", "", $linkcategory), "UTF-8", "auto");
 			if($catparam === $linkcategory){
-				$linkcategory = '<option value="'.$linkcategory.'" selected>'.$linkcategory.'</option>';
+				$linkcategory = '<option value="'.urlencode($linkcategory).'" selected>'.$linkcategory.'</option>';
 			}else{
-				$linkcategory = '<option value="'.$linkcategory.'">'.$linkcategory.'</option>';
+				$linkcategory = '<option value="'.urlencode($linkcategory).'">'.$linkcategory.'</option>';
 			}
 			$linkselectbox = $linkselectbox.$linkcategory;
 		}
