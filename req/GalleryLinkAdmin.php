@@ -138,6 +138,18 @@ class GalleryLinkAdmin {
 		</tr>
 
 		<tr>
+		<td align="center" valign="middle"><b>sort</b></td>
+		<td align="center" valign="middle"><?php echo get_option('gallerylink_album_sort') ?></td>
+		<td align="center" valign="middle"><?php echo get_option('gallerylink_movie_sort') ?></td>
+		<td align="center" valign="middle"><?php echo get_option('gallerylink_music_sort') ?></td>
+		<td align="center" valign="middle"><?php echo get_option('gallerylink_slideshow_sort') ?></td>
+		<td align="center" valign="middle"><?php echo get_option('gallerylink_document_sort') ?></td>
+		<td align="left" valign="middle">
+		<?php _e('Type of Sort', 'gallerylink'); ?>
+		</td>
+		</tr>
+
+		<tr>
 		<td align="center" valign="middle"><b>effect_pc</b></td>
 		<td align="center" valign="middle"><?php echo get_option('gallerylink_album_effect_pc') ?></td>
 		<td colspan="2" align="center" valign="middle" bgcolor="#dddddd"></td>
@@ -536,6 +548,58 @@ class GalleryLinkAdmin {
 					<td align="left" valign="middle">
 						<div><?php _e('Read from the directory data.(dir)', 'gallerylink'); ?></div>
 						<div><?php _e('Read from the media library data.(media)', 'gallerylink'); ?></div>
+					</td>
+				</tr>
+
+				<tr>
+					<td align="center" valign="middle"><b>sort</b></td>
+					<td align="center" valign="middle">
+					<?php $target_album_sort = get_option('gallerylink_album_sort'); ?>
+					<select id="gallerylink_album_sort" name="gallerylink_album_sort">
+						<option <?php if ('new' == $target_album_sort)echo 'selected="selected"'; ?>>new</option>
+						<option <?php if ('old' == $target_album_sort)echo 'selected="selected"'; ?>>old</option>
+						<option <?php if ('des' == $target_album_sort)echo 'selected="selected"'; ?>>des</option>
+						<option <?php if ('asc' == $target_album_sort)echo 'selected="selected"'; ?>>asc</option>
+					</select>
+					</td>
+					<td align="center" valign="middle">
+					<?php $target_movie_sort = get_option('gallerylink_movie_sort'); ?>
+					<select id="gallerylink_movie_sort" name="gallerylink_movie_sort">
+						<option <?php if ('new' == $target_movie_sort)echo 'selected="selected"'; ?>>new</option>
+						<option <?php if ('old' == $target_movie_sort)echo 'selected="selected"'; ?>>old</option>
+						<option <?php if ('des' == $target_movie_sort)echo 'selected="selected"'; ?>>des</option>
+						<option <?php if ('asc' == $target_movie_sort)echo 'selected="selected"'; ?>>asc</option>
+					</select>
+					</td>
+					<td align="center" valign="middle">
+					<?php $target_music_sort = get_option('gallerylink_music_sort'); ?>
+					<select id="gallerylink_music_sort" name="gallerylink_music_sort">
+						<option <?php if ('new' == $target_music_sort)echo 'selected="selected"'; ?>>new</option>
+						<option <?php if ('old' == $target_music_sort)echo 'selected="selected"'; ?>>old</option>
+						<option <?php if ('des' == $target_music_sort)echo 'selected="selected"'; ?>>des</option>
+						<option <?php if ('asc' == $target_music_sort)echo 'selected="selected"'; ?>>asc</option>
+					</select>
+					</td>
+					<td align="center" valign="middle">
+					<?php $target_slideshow_sort = get_option('gallerylink_slideshow_sort'); ?>
+					<select id="gallerylink_slideshow_sort" name="gallerylink_slideshow_sort">
+						<option <?php if ('new' == $target_slideshow_sort)echo 'selected="selected"'; ?>>new</option>
+						<option <?php if ('old' == $target_slideshow_sort)echo 'selected="selected"'; ?>>old</option>
+						<option <?php if ('des' == $target_slideshow_sort)echo 'selected="selected"'; ?>>des</option>
+						<option <?php if ('asc' == $target_slideshow_sort)echo 'selected="selected"'; ?>>asc</option>
+					</select>
+					</td>
+					<td align="center" valign="middle">
+					<?php $target_document_sort = get_option('gallerylink_document_sort'); ?>
+					<select id="gallerylink_document_sort" name="gallerylink_document_sort">
+						<option <?php if ('new' == $target_document_sort)echo 'selected="selected"'; ?>>new</option>
+						<option <?php if ('old' == $target_document_sort)echo 'selected="selected"'; ?>>old</option>
+						<option <?php if ('des' == $target_document_sort)echo 'selected="selected"'; ?>>des</option>
+						<option <?php if ('asc' == $target_document_sort)echo 'selected="selected"'; ?>>asc</option>
+					</select>
+					</td>
+					<td align="left" valign="middle">
+						<?php _e('Type of Sort', 'gallerylink'); ?>
 					</td>
 				</tr>
 

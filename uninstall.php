@@ -8,6 +8,11 @@
 	delete_option('gallerylink_music_type');
 	delete_option('gallerylink_slideshow_type');
 	delete_option('gallerylink_document_type');
+	delete_option('gallerylink_album_sort');
+	delete_option('gallerylink_movie_sort');
+	delete_option('gallerylink_music_sort');
+	delete_option('gallerylink_slideshow_sort');
+	delete_option('gallerylink_document_sort');
 	delete_option('gallerylink_album_effect_pc');
 	delete_option('gallerylink_album_effect_sp');
 	delete_option('gallerylink_slideshow_effect_pc');

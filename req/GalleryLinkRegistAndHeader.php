@@ -12,6 +12,11 @@ class GalleryLinkRegistAndHeader {
 		register_setting( 'gallerylink-settings-group', 'gallerylink_music_type');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_slideshow_type');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_document_type');
+		register_setting( 'gallerylink-settings-group', 'gallerylink_album_sort');
+		register_setting( 'gallerylink-settings-group', 'gallerylink_movie_sort');
+		register_setting( 'gallerylink-settings-group', 'gallerylink_music_sort');
+		register_setting( 'gallerylink-settings-group', 'gallerylink_slideshow_sort');
+		register_setting( 'gallerylink-settings-group', 'gallerylink_document_sort');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_album_effect_pc');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_album_effect_sp');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_slideshow_effect_pc');
@@ -129,6 +134,11 @@ class GalleryLinkRegistAndHeader {
 		add_option('gallerylink_music_type', 'dir');
 		add_option('gallerylink_slideshow_type', 'dir');
 		add_option('gallerylink_document_type', 'dir');
+		add_option('gallerylink_album_sort', 'new');
+		add_option('gallerylink_movie_sort', 'new');
+		add_option('gallerylink_music_sort', 'new');
+		add_option('gallerylink_slideshow_sort', 'new');
+		add_option('gallerylink_document_sort', 'new');
 		add_option('gallerylink_album_effect_pc', 'colorbox');
 		add_option('gallerylink_album_effect_sp', 'photoswipe');
 		add_option('gallerylink_slideshow_effect_pc', 'nivoslider');

@@ -4,7 +4,7 @@ Donate link: http://gallerylink.nyanko.org/
 Tags: audio,feed,feeds,flash,gallery,html5,image,images,list,music,photo,photos,picture,pictures,rss,shortcode,video,xml
 Requires at least: 3.0.1
 Tested up to: 3.4
-Stable tag: 4.1
+Stable tag: 4.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -63,6 +63,9 @@ none
 none
 
 == Changelog ==
+
+= 4.2 =
+Added shortcode attribute is the type of sort.
 
 = 4.1 =
 Fixed problem of URL Encode.
@@ -286,6 +289,7 @@ Delete screenshot
 
 == Upgrade Notice ==
 
+= 4.2 =
 = 4.1 =
 = 4.0 =
 = 3.1 =
@@ -433,6 +437,12 @@ type
 * Value -> dir media
 
 * Description -> Read from the directory data.(dir) Read from the media library data.(media)
+
+sort
+
+* Value -> new old des asc
+
+* Description -> Type of Sort.
 
 effect_pc
 

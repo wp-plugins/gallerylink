@@ -2,7 +2,7 @@
 /*
 Plugin Name: GalleryLink
 Plugin URI: http://wordpress.org/plugins/gallerylink/
-Version: 4.1
+Version: 4.2
 Description: Output as a gallery by find the file extension and directory specified.
 Author: Katsushi Kawamori
 Author URI: http://gallerylink.nyanko.org/
@@ -59,6 +59,7 @@ function gallerylink_func( $atts, $html = NULL ) {
 	extract(shortcode_atts(array(
         'set' => '',
         'type' => '',
+        'sort' => '',
         'effect_pc' => '',
         'effect_sp' => '',
         'topurl' => '',
@@ -94,6 +95,7 @@ function gallerylink_func( $atts, $html = NULL ) {
 	$rssdef = false;
 	if ( $set === 'album' ){
 		if( empty($type) ) { $type = get_option('gallerylink_album_type'); }
+		if( empty($sort) ) { $sort = get_option('gallerylink_album_sort'); }
 		if( empty($effect_pc) ) { $effect_pc = get_option('gallerylink_album_effect_pc'); }
 		if( empty($effect_sp) ) { $effect_sp = get_option('gallerylink_album_effect_sp'); }
 		if( empty($topurl) ) { $topurl = get_option('gallerylink_album_topurl'); }
@@ -120,6 +122,7 @@ function gallerylink_func( $atts, $html = NULL ) {
 		if( empty($credit_show) ) { $credit_show = get_option('gallerylink_album_credit_show'); }
 	} else if ( $set === 'movie' ){
 		if( empty($type) ) { $type = get_option('gallerylink_movie_type'); }
+		if( empty($sort) ) { $sort = get_option('gallerylink_movie_sort'); }
 		if( empty($topurl) ) { $topurl = get_option('gallerylink_movie_topurl'); }
 		if( empty($suffix_pc) ) { $suffix_pc = get_option('gallerylink_movie_suffix_pc'); }
 		if( empty($suffix_pc2) ) { $suffix_pc2 = get_option('gallerylink_movie_suffix_pc2'); }
@@ -145,6 +148,7 @@ function gallerylink_func( $atts, $html = NULL ) {
 		if( empty($credit_show) ) { $credit_show = get_option('gallerylink_movie_credit_show'); }
 	} else if ( $set === 'music' ){
 		if( empty($type) ) { $type = get_option('gallerylink_music_type'); }
+		if( empty($sort) ) { $sort = get_option('gallerylink_music_sort'); }
 		if( empty($topurl) ) { $topurl = get_option('gallerylink_music_topurl'); }
 		if( empty($suffix_pc) ) { $suffix_pc = get_option('gallerylink_music_suffix_pc'); }
 		if( empty($suffix_pc2) ) { $suffix_pc2 = get_option('gallerylink_music_suffix_pc2'); }
@@ -170,6 +174,7 @@ function gallerylink_func( $atts, $html = NULL ) {
 		if( empty($credit_show) ) { $credit_show = get_option('gallerylink_music_credit_show'); }
 	} else if ( $set === 'slideshow' ){
 		if( empty($type) ) { $type = get_option('gallerylink_slideshow_type'); }
+		if( empty($sort) ) { $sort = get_option('gallerylink_slideshow_sort'); }
 		if( empty($effect_pc) ) { $effect_pc = get_option('gallerylink_slideshow_effect_pc'); }
 		if( empty($effect_sp) ) { $effect_sp = get_option('gallerylink_slideshow_effect_sp'); }
 		if( empty($topurl) ) { $topurl = get_option('gallerylink_slideshow_topurl'); }
@@ -196,6 +201,7 @@ function gallerylink_func( $atts, $html = NULL ) {
 		if( empty($credit_show) ) { $credit_show = get_option('gallerylink_slideshow_credit_show'); }
 	} else if ( $set === 'document' ){
 		if( empty($type) ) { $type = get_option('gallerylink_document_type'); }
+		if( empty($sort) ) { $sort = get_option('gallerylink_document_sort'); }
 		if( empty($topurl) ) { $topurl = get_option('gallerylink_document_topurl'); }
 		if( empty($suffix_pc) ) { $suffix_pc = get_option('gallerylink_document_suffix_pc'); }
 		if( empty($suffix_sp) ) { $suffix_sp = get_option('gallerylink_document_suffix_sp'); }
@@ -226,9 +232,6 @@ function gallerylink_func( $atts, $html = NULL ) {
 	}
 	if ( empty($exclude_cat) ) {
 		$exclude_cat = get_option('gallerylink_exclude_cat');
-	}
-	if ( empty($type) ) {
-		$type = get_option('gallerylink_type');
 	}
 
 	if ( $type === 'media' ) { $topurl = $wp_uploads_path; }
@@ -267,7 +270,6 @@ function gallerylink_func( $atts, $html = NULL ) {
 	$fparam = NULL;
 	$page = NULL;
 	$search = NULL;
-	$sort =  NULL;
 	if (!empty($_GET['d'])){
 		$dparam = urldecode($_GET['d']);	//dirs
 	}
@@ -361,16 +363,12 @@ function gallerylink_func( $atts, $html = NULL ) {
 		if (!empty($files)){
 			array_multisort($time_list,SORT_DESC,$files); 
 		}
-		if ( $sort === "n" || empty($sort) ) {
-			// new
-		} else if ($sort === 'o') {
-			// old
+		if ( $sort === "new" || empty($sort) ) {
+		} else if ($sort === 'old') {
 			array_multisort($time_list,SORT_ASC,$files); 
-		} else if ($sort === 'd') {
-			// des
+		} else if ($sort === 'des') {
 			rsort($files, SORT_STRING);
-		} else if ($sort === 'a') {
-			// asc
+		} else if ($sort === 'asc') {
 			sort($files, SORT_STRING);
 		}
 		list($titles, $thumblinks, $largemediumlinks, $rssfiles, $rsstitles, $rssthumblinks, $rsslargemediumlinks) = $gallerylink->files_args($files);
@@ -378,20 +376,16 @@ function gallerylink_func( $atts, $html = NULL ) {
 	} else if ( $type === 'media' ) {
 		$sort_key = NULL;
 		$sort_order = NULL;
-		if ( $sort === "n" || empty($sort) ) {
-			// new
+		if ( $sort === "new" || empty($sort) ) {
 			$sort_key = 'date';
 			$sort_order = 'DESC';
-		} else if ($sort === 'o') {
-			// old
+		} else if ($sort === 'old') {
 			$sort_key = 'date';
 			$sort_order = 'ASC';
-		} else if ($sort === 'd') {
-			// des
+		} else if ($sort === 'des') {
 			$sort_key = 'title';
 			$sort_order = 'DESC';
-		} else if ($sort === 'a') {
-			// asc
+		} else if ($sort === 'asc') {
 			$sort_key = 'title';
 			$sort_order = 'ASC';
 		}
@@ -548,29 +542,25 @@ function gallerylink_func( $atts, $html = NULL ) {
 		$page_no_tag_left = NULL;
 		$page_no_tag_right = NULL;
 	}
-	if ( $sort === "n" || empty($sort) ) {
-		// new
+	if ( $sort === "new" || empty($sort) ) {
 		$sortlink_n = $page_no_tag_left.$sortnamenew.$page_no_tag_right;
-		$sortlink_o = '<a href="'.$scripturl.'&sort=o">'.$sortnameold.'</a>';
-		$sortlink_d = '<a href="'.$scripturl.'&sort=d">'.$sortnamedes.'</a>';
-		$sortlink_a = '<a href="'.$scripturl.'&sort=a">'.$sortnameasc.'</a>';
-	} else if ($sort === 'o') {
-		// old
-		$sortlink_n = '<a href="'.$scripturl.'&sort=n">'.$sortnamenew.'</a>';
+		$sortlink_o = '<a href="'.$scripturl.'&sort=old">'.$sortnameold.'</a>';
+		$sortlink_d = '<a href="'.$scripturl.'&sort=des">'.$sortnamedes.'</a>';
+		$sortlink_a = '<a href="'.$scripturl.'&sort=asc">'.$sortnameasc.'</a>';
+	} else if ($sort === 'old') {
+		$sortlink_n = '<a href="'.$scripturl.'&sort=new">'.$sortnamenew.'</a>';
 		$sortlink_o = $page_no_tag_left.$sortnameold.$page_no_tag_right;
-		$sortlink_d = '<a href="'.$scripturl.'&sort=d">'.$sortnamedes.'</a>';
-		$sortlink_a = '<a href="'.$scripturl.'&sort=a">'.$sortnameasc.'</a>';
-	} else if ($sort === 'd') {
-		// des
-		$sortlink_n = '<a href="'.$scripturl.'&sort=n">'.$sortnamenew.'</a>';
-		$sortlink_o = '<a href="'.$scripturl.'&sort=o">'.$sortnameold.'</a>';
+		$sortlink_d = '<a href="'.$scripturl.'&sort=des">'.$sortnamedes.'</a>';
+		$sortlink_a = '<a href="'.$scripturl.'&sort=asc">'.$sortnameasc.'</a>';
+	} else if ($sort === 'des') {
+		$sortlink_n = '<a href="'.$scripturl.'&sort=new">'.$sortnamenew.'</a>';
+		$sortlink_o = '<a href="'.$scripturl.'&sort=old">'.$sortnameold.'</a>';
 		$sortlink_d = $page_no_tag_left.$sortnamedes.$page_no_tag_right;
-		$sortlink_a = '<a href="'.$scripturl.'&sort=a">'.$sortnameasc.'</a>';
-	} else if ($sort === 'a') {
-		// asc
-		$sortlink_n = '<a href="'.$scripturl.'&sort=n">'.$sortnamenew.'</a>';
-		$sortlink_o = '<a href="'.$scripturl.'&sort=o">'.$sortnameold.'</a>';
-		$sortlink_d = '<a href="'.$scripturl.'&sort=d">'.$sortnamedes.'</a>';
+		$sortlink_a = '<a href="'.$scripturl.'&sort=asc">'.$sortnameasc.'</a>';
+	} else if ($sort === 'asc') {
+		$sortlink_n = '<a href="'.$scripturl.'&sort=new">'.$sortnamenew.'</a>';
+		$sortlink_o = '<a href="'.$scripturl.'&sort=old">'.$sortnameold.'</a>';
+		$sortlink_d = '<a href="'.$scripturl.'&sort=des">'.$sortnamedes.'</a>';
 		$sortlink_a = $page_no_tag_left.$sortnameasc.$page_no_tag_right;
 	}
 	if ( $mode === 'sp' ) {
