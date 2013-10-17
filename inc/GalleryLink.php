@@ -634,9 +634,9 @@ $xml_end = <<<XMLEND
 </rss>
 XMLEND;
 
-		if ( $this->type === 'media' ) {
+		if ( $this->type === 'dir' ) {
 			$paramcategoryfolder = $this->dparam;
-		} else if ( $this->type === 'dir' ) {
+		} else if ( $this->type === 'media' ) {
 			$paramcategoryfolder = $this->catparam;
 		}
 
