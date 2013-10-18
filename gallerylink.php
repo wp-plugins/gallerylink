@@ -2,7 +2,7 @@
 /*
 Plugin Name: GalleryLink
 Plugin URI: http://wordpress.org/plugins/gallerylink/
-Version: 4.3
+Version: 4.4
 Description: Output as a gallery by find the file extension and directory specified.
 Author: Katsushi Kawamori
 Author URI: http://gallerylink.nyanko.org/
@@ -359,19 +359,22 @@ function gallerylink_func( $atts, $html = NULL ) {
 		foreach ( $files as $file ){
 			$time_list[] = filemtime($file);
 		}
-		// sort for newer & sort for RSS feeds
+		// sort for newer
 		if (!empty($files)){
 			array_multisort($time_list,SORT_DESC,$files); 
 		}
 		if ( $sort === "new" || empty($sort) ) {
+			list($titles, $thumblinks, $largemediumlinks, $rssfiles, $rsstitles, $rssthumblinks, $rsslargemediumlinks) = $gallerylink->files_args($files);
 		} else if ($sort === 'old') {
 			array_multisort($time_list,SORT_ASC,$files); 
+			list($titles, $thumblinks, $largemediumlinks, $rssdummy, $rssdummy, $rssdummy, $rssdummy) = $gallerylink->files_args($files);
 		} else if ($sort === 'des') {
 			rsort($files, SORT_STRING);
+			list($titles, $thumblinks, $largemediumlinks, $rssdummy, $rssdummy, $rssdummy, $rssdummy) = $gallerylink->files_args($files);
 		} else if ($sort === 'asc') {
 			sort($files, SORT_STRING);
+			list($titles, $thumblinks, $largemediumlinks, $rssdummy, $rssdummy, $rssdummy, $rssdummy) = $gallerylink->files_args($files);
 		}
-		list($titles, $thumblinks, $largemediumlinks, $rssfiles, $rsstitles, $rssthumblinks, $rsslargemediumlinks) = $gallerylink->files_args($files);
 		$dirs = $gallerylink->scan_dir($document_root);
 	} else if ( $type === 'media' ) {
 		$sort_key = NULL;
