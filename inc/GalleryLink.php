@@ -27,6 +27,7 @@ class GalleryLink {
 	public $maxpage;
 	public $rssname;
 	public $rssmax;
+	public $sort;
 
 	/* ==================================================
 	* @param	none
@@ -189,10 +190,12 @@ class GalleryLink {
 			$largemediumlinks [] = NULL;
 
 			if ( $this->generate_rssfeed === 'on' ) {
-				$rssfiles[] = $file;
-				$rsstitles[] = $titlename;
-				$rssthumblinks[] = $thumblink;
-				$rsslargemediumlinks [] = NULL;
+				if ( ($this->sort === "new" || empty($this->sort)) && empty($this->dparam) && empty($this->search) ) {
+					$rssfiles[] = $file;
+					$rsstitles[] = $titlename;
+					$rssthumblinks[] = $thumblink;
+					$rsslargemediumlinks [] = NULL;
+				}
 			}
 
 		}
@@ -318,7 +321,7 @@ class GalleryLink {
 						}
 					}
 					if ( $this->generate_rssfeed === 'on' ) {
-						if ( $this->sort_order === 'DESC' && empty($this->search) ) {
+						if ( ($this->sort === "new" || empty($this->sort)) && empty($this->catparam) && empty($this->search) ) {
 							if ( ($caption === $this->include_cat) || empty($this->include_cat) ) {
 								$rssfiles[$rsscount] = $attachment;
 								$rsstitles[$rsscount] = $title;

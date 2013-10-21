@@ -4,7 +4,7 @@ Donate link: http://gallerylink.nyanko.org/
 Tags: audio,feed,feeds,flash,gallery,html5,image,images,list,music,photo,photos,picture,pictures,rss,shortcode,video,xml
 Requires at least: 3.0.1
 Tested up to: 3.4
-Stable tag: 4.4
+Stable tag: 4.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -63,6 +63,9 @@ none
 none
 
 == Changelog ==
+
+= 4.5 =
+Fixed the problem of RSS Feed creation.
 
 = 4.4 =
 Fixed the problem of RSS Feed creation.
@@ -295,6 +298,8 @@ Delete screenshot
 
 == Upgrade Notice ==
 
+= 4.5 =
+= 4.4 =
 = 4.3 =
 = 4.2 =
 = 4.1 =
