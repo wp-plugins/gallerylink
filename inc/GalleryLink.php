@@ -40,17 +40,17 @@ class GalleryLink {
 
 		$detect = new GalleryLink_Mobile_Detect();
 
-		if ((! function_exists('is_mobile') || ! is_mobile()) && (! function_exists('is_ktai') || ! is_ktai() && ! wp_is_mobile() )) { //PC
-			$mode = 'pc';
-		} else if ((! function_exists('is_mobile') || is_mobile()) && (! function_exists('is_ktai') || is_ktai())) { //Ktai
-			$mode = 'mb';
-		} else if ( function_exists('wp_is_mobile') && wp_is_mobile() ) { //smartphone or tablet
+		if ( function_exists('wp_is_mobile') && wp_is_mobile() ) { //smartphone or tablet
 			// Check for any mobile device, excluding tablets.
 			if ($detect->isMobile() && !$detect->isTablet()){
 				$mode = 'sp';
 			} else {
 				$mode = 'pc';
 			}
+		} else if ((! function_exists('is_mobile') || ! is_mobile()) && (! function_exists('is_ktai') || ! is_ktai() && ! wp_is_mobile() )) { //PC
+			$mode = 'pc';
+		} else if ((! function_exists('is_mobile') || is_mobile()) && (! function_exists('is_ktai') || is_ktai())) { //Ktai
+			$mode = 'mb';
 		}
 
 		return $mode;
@@ -78,12 +78,12 @@ class GalleryLink {
 
 	   	foreach(glob($dir.'/*'.$this->suffix, GLOB_BRACE) as $file) {
 			if (!preg_match("/".$this->thumbnail."/", $file) || empty($this->thumbnail)) {
-				if (!preg_match("/".$this->exclude_file."/", $file) || empty($this->exclude_file)) {
-					if (!preg_match("/".$this->exclude_dir."/", $file) || empty($this->exclude_dir)) {
+				if (!preg_match("/".preg_quote($this->exclude_file,"/")."/", $file) || empty($this->exclude_file)) {
+					if (!preg_match("/".preg_quote($this->exclude_dir,"/")."/", $file) || empty($this->exclude_dir)) {
 						if (empty($this->search)) {
 							$list[] = $file;
 						}else{
-							if(preg_match("/".$this->search."/", $file)) {
+							if(preg_match("/".preg_quote($this->search,"/")."/", $file)) {
 								$list[] = $file;
 							}
 						}
@@ -112,7 +112,7 @@ class GalleryLink {
    		}
 
 	    foreach(glob($dir . '/*', GLOB_ONLYDIR) as $child_dir) {
-			if (!preg_match("/".$this->exclude_dir."/", $child_dir) || empty($this->exclude_dir)) {
+			if (!preg_match("/".preg_quote($this->exclude_dir,"/")."/", $child_dir) || empty($this->exclude_dir)) {
 				$dirlist[] = $child_dir;
 			}
    		}
@@ -146,11 +146,12 @@ class GalleryLink {
 		foreach ( $files as $file ){
 
 			$searchfilename = str_replace($this->suffix, "", $file);
-			$file = mb_convert_encoding($file, "UTF-8", "auto");
+
 			$file = str_replace($this->document_root, "", $file);
-			$filename = mb_convert_encoding($file, "UTF-8", "auto");
+			$filename = $file;
 			$filename = str_replace($this->suffix, "", $filename);
-			$titlename = substr(mb_convert_encoding($file, "UTF-8", "auto"),1);
+			$filename = mb_convert_encoding($filename, "UTF-8", "auto");
+			$titlename = substr($file,1);
 			$titlename = str_replace($this->suffix, "", $titlename);
 
 			$titles[] = $titlename;
@@ -283,8 +284,8 @@ class GalleryLink {
 								$thumbname = str_replace($suffix, '', end(explode('/', $attachment->guid)));
 								$thumbname_md5 = md5($thumbname);
 								$thumbpath = str_replace($thumbname.$suffix, '', $attachment->guid);
-								$thumbcheck = str_replace($this->wp_path, '', ABSPATH).$this->topurl.str_replace($this->wp_uploads_baseurl, '', $thumbpath.$thumbname.$this->thumbnail);
-								$thumbcheck_md5 = str_replace($this->wp_path, '', ABSPATH).$this->topurl.str_replace($this->wp_uploads_baseurl, '', $thumbpath.$thumbname_md5.$this->thumbnail);
+								$thumbcheck = str_replace($this->wp_path, '', str_replace("\\", "/", ABSPATH)).$this->topurl.str_replace($this->wp_uploads_baseurl, '', $thumbpath.$thumbname.$this->thumbnail);
+								$thumbcheck_md5 = str_replace($this->wp_path, '', str_replace("\\", "/", ABSPATH)).$this->topurl.str_replace($this->wp_uploads_baseurl, '', $thumbpath.$thumbname_md5.$this->thumbnail);
 								if( file_exists( $thumbcheck ) ){
 									$thumblink = '<img src = "'.$thumbpath.$thumbname.$this->thumbnail.'">';
 								} else if( file_exists( $thumbcheck_md5 ) ){
@@ -309,7 +310,7 @@ class GalleryLink {
 							}
 						}
 					}
-					$attachment = str_replace($this->wp_path, '', ABSPATH).$this->topurl.str_replace($this->wp_uploads_baseurl, '', $attachment->guid);
+					$attachment = str_replace($this->wp_path, '', str_replace("\\", "/", ABSPATH)).$this->topurl.str_replace($this->wp_uploads_baseurl, '', $attachment->guid);
 					$attachment = str_replace($this->document_root, "", $attachment);
 					if ( $this->set === 'album' || $this->set === 'slideshow' ) {
 						if ( $this->image_show_size === 'Medium' ) {
@@ -370,27 +371,34 @@ class GalleryLink {
 		$suffix = '.'.end(explode('.', $file));
 
 		if ( $this->type === 'dir' ) {
-			$dparam = mb_convert_encoding($this->dparam, "UTF-8", "auto");
+			$dparam = $this->dparam;
 		} else if ( $this->type === 'media' ) {
-			$catparam = mb_convert_encoding($this->catparam, "UTF-8", "auto");
+			$catparam = $this->catparam;
 		}
-		$filename = mb_convert_encoding($file, "UTF-8", "auto");
+
+		$filename = $file;
 		$filename = str_replace($suffix, "", $filename);
-		$titlename = $title;
+		$filename = mb_convert_encoding($filename, "UTF-8", "auto");
 
 		if ( empty($dparam) || $this->type === 'media' ) {
 			$fileparam = substr($file,1);
 		}else{
 			$fileparam = str_replace('/'.$dparam.'/', "",$file);
+			$dparam = mb_convert_encoding($this->dparam, "UTF-8", "auto");
 			$dparam = str_replace("%2F","/",urlencode($dparam));
 		}
 		if ( $this->type === 'dir' ) {
+			$titlename = mb_convert_encoding($title, "UTF-8", "auto");
 			$filetitle = str_replace($suffix, "", $fileparam);
+			$filetitle = mb_convert_encoding($filetitle, "UTF-8", "auto");
 		} else if ( $this->type === 'media' ) {
+			$titlename = mb_convert_encoding($title, "UTF-8", "auto");
 			$filetitle = $titlename;
 		}
 
+		$fileparam = mb_convert_encoding($fileparam, "UTF-8", "auto");
 		$fileparam = str_replace("%2F","/",urlencode($fileparam));
+		$file = mb_convert_encoding($file, "UTF-8", "auto");
 		$file = str_replace("%2F","/",urlencode($file));
 		$topurl_urlencode = str_replace("%2F","/",urlencode($this->topurl));
 
@@ -556,7 +564,11 @@ class GalleryLink {
 
 		$file = str_replace($suffix, '', str_replace($this->document_root, '', $file));
 
-		$titlename = $title;
+		if ( $this->type === 'dir' ) {
+			$titlename = mb_convert_encoding($title, "UTF8", "auto");
+		} else if ( $this->type === 'media' ) {
+			$titlename = mb_convert_encoding($title, "UTF8", "auto");
+		}
 
 		$file = str_replace("%2F","/",urlencode(mb_convert_encoding($file, "UTF8", "auto")));
 

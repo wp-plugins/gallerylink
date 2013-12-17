@@ -2,7 +2,7 @@
 /*
 Plugin Name: GalleryLink
 Plugin URI: http://wordpress.org/plugins/gallerylink/
-Version: 4.5
+Version: 4.6
 Description: Output as a gallery by find the file extension and directory specified.
 Author: Katsushi Kawamori
 Author URI: http://gallerylink.nyanko.org/
@@ -55,6 +55,8 @@ function gallerylink_func( $atts, $html = NULL ) {
 
 	include_once dirname(__FILE__).'/inc/GalleryLink.php';
 	$gallerylink = new GalleryLink();
+	$languages = explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
+    mb_language($languages[0]);
 
 	extract(shortcode_atts(array(
         'set' => '',
@@ -237,7 +239,7 @@ function gallerylink_func( $atts, $html = NULL ) {
 	if ( $type === 'media' ) { $topurl = $wp_uploads_path; }
 
 	$wp_path = str_replace('http://'.$_SERVER["SERVER_NAME"], '', get_bloginfo('wpurl')).'/';
-	$document_root = str_replace($wp_path, '', ABSPATH).$topurl;
+	$document_root = str_replace($wp_path, '', str_replace("\\", "/", ABSPATH)).$topurl;
 
 	$mode = NULL;
 	$suffix = NULL;
@@ -288,14 +290,23 @@ function gallerylink_func( $atts, $html = NULL ) {
 	if (!empty($_GET['sort'])){
 		$sort = $_GET['sort'];				//sort
 	}
-	$dparam = mb_convert_encoding($dparam, "UTF-8", "auto");
-	$catparam = mb_convert_encoding($catparam, "UTF-8", "auto");
-	$fparam = mb_convert_encoding($fparam, "UTF-8", "auto");
-	$search = mb_convert_encoding($search, "UTF-8", "auto");
-	if (empty($dparam)){
-		$dir = $document_root;
-	}else{
-		$dir = $document_root."/".$dparam;
+	if ($type === 'dir') {
+		if (DIRECTORY_SEPARATOR === '\\' && mb_language() === 'Japanese') {
+			$dparam = mb_convert_encoding($dparam, "sjis-win", "auto");
+			$search = mb_convert_encoding($search, "sjis-win", "auto");
+			$document_root = mb_convert_encoding($document_root, "sjis-win", "auto");
+		} else {
+			$dparam = mb_convert_encoding($dparam, "UTF-8", "auto");
+			$search = mb_convert_encoding($search, "UTF-8", "auto");
+			$document_root = mb_convert_encoding($document_root, "UTF-8", "auto");
+		}
+		if (empty($dparam)){
+			$dir = $document_root;
+		}else{
+			$dir = $document_root."/".$dparam;
+		}
+	} else if ( $type === 'media' ) {
+		$catparam = mb_convert_encoding($catparam, "UTF-8", "auto");
 	}
 
 	$sortnamenew = __('New', 'gallerylink');
@@ -355,8 +366,13 @@ function gallerylink_func( $atts, $html = NULL ) {
 	$rsslargemediumlinks = array();
 
 	if ( $type === 'dir' ) {
-		$files = $gallerylink->scan_file($dir);
-		// sort
+		if (DIRECTORY_SEPARATOR === '\\' && mb_language() === 'Japanese') {
+			$dir = mb_convert_encoding($dir, "sjis-win", "auto");
+			$files = $gallerylink->scan_file($dir);
+		} else {
+			$files = $gallerylink->scan_file($dir);
+		}
+		// time
 		foreach ( $files as $file ){
 			$time_list[] = filemtime($file);
 		}
@@ -442,39 +458,39 @@ function gallerylink_func( $atts, $html = NULL ) {
 	$linkselectbox = NULL;
 	if ( $type === 'dir' ) {
 		foreach ($dirs as $linkdir) {
-			$linkdir = mb_convert_encoding(str_replace($document_root."/", "", $linkdir), "UTF-8", "auto");
-			if($dparam === $linkdir){
-				$linkdir = '<option value="'.urlencode($linkdir).'" selected>'.$linkdir.'</option>';
+			$linkdirenc = mb_convert_encoding(str_replace($document_root."/", "", $linkdir), "UTF-8", "auto");
+			if($document_root.'/'.$dparam === $linkdir){
+				$linkdirs = '<option value="'.urlencode($linkdirenc).'" selected>'.$linkdirenc.'</option>';
 			}else{
-				$linkdir = '<option value="'.urlencode($linkdir).'">'.$linkdir.'</option>';
+				$linkdirs = '<option value="'.urlencode($linkdirenc).'">'.$linkdirenc.'</option>';
 			}
-			$linkselectbox = $linkselectbox.$linkdir;
+			$linkselectbox = $linkselectbox.$linkdirs;
 		}
 		$dirselectall = mb_convert_encoding($dirselectall, "UTF-8", "auto");
 		if(empty($dparam)){
-			$linkdir = '<option value="" selected>'.$dirselectall.'</option>';
+			$linkdirs = '<option value="" selected>'.$dirselectall.'</option>';
 		}else{
-			$linkdir = '<option value="">'.$dirselectall.'</option>';
+			$linkdirs = '<option value="">'.$dirselectall.'</option>';
 		}
-		$linkselectbox = $linkselectbox.$linkdir;
+		$linkselectbox = $linkselectbox.$linkdirs;
 	} else if ( $type === 'media' ) {
 		$categories = array_unique($categories);
 		foreach ($categories as $linkcategory) {
-			$linkcategory = mb_convert_encoding(str_replace($document_root."/", "", $linkcategory), "UTF-8", "auto");
+			$linkcategoryenc = mb_convert_encoding(str_replace($document_root."/", "", $linkcategory), "UTF-8", "auto");
 			if($catparam === $linkcategory){
-				$linkcategory = '<option value="'.urlencode($linkcategory).'" selected>'.$linkcategory.'</option>';
+				$linkcategorys = '<option value="'.urlencode($linkcategoryenc).'" selected>'.$linkcategoryenc.'</option>';
 			}else{
-				$linkcategory = '<option value="'.urlencode($linkcategory).'">'.$linkcategory.'</option>';
+				$linkcategorys = '<option value="'.urlencode($linkcategoryenc).'">'.$linkcategoryenc.'</option>';
 			}
-			$linkselectbox = $linkselectbox.$linkcategory;
+			$linkselectbox = $linkselectbox.$linkcategorys;
 		}
 		$categoryselectall = mb_convert_encoding($categoryselectall, "UTF-8", "auto");
 		if(empty($catparam)){
-			$linkcategory = '<option value="" selected>'.$categoryselectall.'</option>';
+			$linkcategorys = '<option value="" selected>'.$categoryselectall.'</option>';
 		}else{
-			$linkcategory = '<option value="">'.$categoryselectall.'</option>';
+			$linkcategorys = '<option value="">'.$categoryselectall.'</option>';
 		}
-		$linkselectbox = $linkselectbox.$linkcategory;
+		$linkselectbox = $linkselectbox.$linkcategorys;
 	}
 
 	$linkpages = NULL;
@@ -486,11 +502,11 @@ function gallerylink_func( $atts, $html = NULL ) {
 
 	
 	if ( $type === 'dir' ) {
-		$currentfoldercategory = $dparam;
+		$currentfoldercategory = mb_convert_encoding($dparam, "UTF-8", "auto");
 		$selectedfilename = mb_convert_encoding(str_replace($suffix, "", $fparam), "UTF-8", "auto");
 	} else if ( $type === 'media' ) {
-		$currentfoldercategory = $catparam;
-		$selectedfilename = $titlename;
+		$currentfoldercategory = mb_convert_encoding($catparam, "UTF-8", "auto");
+		$selectedfilename = mb_convert_encoding($titlename, "UTF-8", "auto");
 	}
 
 	$pagestr = '&glp='.$page;

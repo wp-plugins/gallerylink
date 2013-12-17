@@ -56,7 +56,7 @@ class GalleryLinkWidgetItem extends WP_Widget {
 				</td>
 				<td align="left" valign="middle"><?php echo bloginfo('name'); ?></td>
 				</tr>
-				<?
+				<?php
 			}
 			if ($checkbox2) {
 				$xmldata2 = simplexml_load_file($xmlurl2);
@@ -67,7 +67,7 @@ class GalleryLinkWidgetItem extends WP_Widget {
 				</td>
 				<td align="left" valign="middle"><?php echo $xmldata2->channel->title; ?></td>
 				</tr>
-				<?
+				<?php
 			}	
 			if ($checkbox3 && file_exists($documentrootname.$xml3)) {
 				$xmldata3 = simplexml_load_file($servername.$xml3);
@@ -77,7 +77,7 @@ class GalleryLinkWidgetItem extends WP_Widget {
 				<img src="<?php echo $pluginurl ?>/gallerylink/icon/rssfeeds.png"></a></td>
 				<td align="left" valign="middle"><?php echo $xmldata3->channel->title; ?></td>
 				</tr>
-				<?
+				<?php
 			}
 			if ($checkbox4 && file_exists($documentrootname.$xml4)) {
 				$xmldata4 = simplexml_load_file($servername.$xml4);
@@ -87,7 +87,7 @@ class GalleryLinkWidgetItem extends WP_Widget {
 				<img src="<?php echo $pluginurl ?>/gallerylink/icon/podcast.png"></a></td>
 				<td align="left" valign="middle"><?php echo $xmldata4->channel->title; ?></td>
 				</tr>
-				<?
+				<?php
 			}
 			if ($checkbox5 && file_exists($documentrootname.$xml5)) {
 				$xmldata5 = simplexml_load_file($servername.$xml5);
@@ -97,7 +97,7 @@ class GalleryLinkWidgetItem extends WP_Widget {
 				<img src="<?php echo $pluginurl ?>/gallerylink/icon/podcast.png"></a></td>
 				<td align="left" valign="middle"><?php echo $xmldata5->channel->title; ?></td>
 				</tr>
-				<?
+				<?php
 			}
 			if ($checkbox6) {
 				$xmldata6 = simplexml_load_file($servername.$xml6);
@@ -107,7 +107,7 @@ class GalleryLinkWidgetItem extends WP_Widget {
 				<img src="<?php echo $pluginurl ?>/gallerylink/icon/rssfeeds.png"></a></td>
 				<td align="left" valign="middle"><?php echo $xmldata6->channel->title; ?></td>
 				</tr>
-				<?
+				<?php
 			}
 			if ($checkbox7) {
 				$xmldata7 = simplexml_load_file($servername.$xml7);
@@ -117,7 +117,7 @@ class GalleryLinkWidgetItem extends WP_Widget {
 				<img src="<?php echo $pluginurl ?>/gallerylink/icon/rssfeeds.png"></a></td>
 				<td align="left" valign="middle"><?php echo $xmldata7->channel->title; ?></td>
 				</tr>
-				<?
+				<?php
 			}
 			if ($checkbox8 && file_exists($documentrootname.$xml8)) {
 				$xmldata8 = simplexml_load_file($servername.$xml8);
@@ -127,7 +127,7 @@ class GalleryLinkWidgetItem extends WP_Widget {
 				<img src="<?php echo $pluginurl ?>/gallerylink/icon/rssfeeds.png"></a></td>
 				<td align="left" valign="middle"><?php echo $xmldata8->channel->title; ?></td>
 				</tr>
-				<?
+				<?php
 			}
 			if ($checkbox9 && file_exists($documentrootname.$xml9)) {
 				$xmldata9 = simplexml_load_file($servername.$xml9);
@@ -137,7 +137,7 @@ class GalleryLinkWidgetItem extends WP_Widget {
 				<img src="<?php echo $pluginurl ?>/gallerylink/icon/podcast.png"></a></td>
 				<td align="left" valign="middle"><?php echo $xmldata9->channel->title; ?></td>
 				</tr>
-				<?
+				<?php
 			}
 			if ($checkbox10 && file_exists($documentrootname.$xml10)) {
 				$xmldata10 = simplexml_load_file($servername.$xml10);
@@ -147,7 +147,7 @@ class GalleryLinkWidgetItem extends WP_Widget {
 				<img src="<?php echo $pluginurl ?>/gallerylink/icon/podcast.png"></a></td>
 				<td align="left" valign="middle"><?php echo $xmldata10->channel->title; ?></td>
 				</tr>
-				<?
+				<?php
 			}
 			if ($checkbox11 && file_exists($documentrootname.$xml11)) {
 				$xmldata11 = simplexml_load_file($servername.$xml11);
@@ -157,7 +157,7 @@ class GalleryLinkWidgetItem extends WP_Widget {
 				<img src="<?php echo $pluginurl ?>/gallerylink/icon/rssfeeds.png"></a></td>
 				<td align="left" valign="middle"><?php echo $xmldata11->channel->title; ?></td>
 				</tr>
-				<?
+				<?php
 			}
 			if ($checkbox12 && file_exists($documentrootname.$xml12)) {
 				$xmldata12 = simplexml_load_file($servername.$xml12);
@@ -167,7 +167,7 @@ class GalleryLinkWidgetItem extends WP_Widget {
 				<img src="<?php echo $pluginurl ?>/gallerylink/icon/rssfeeds.png"></a></td>
 				<td align="left" valign="middle"><?php echo $xmldata12->channel->title; ?></td>
 				</tr>
-				<?
+				<?php
 			}
 			echo '</table>';
 			echo $after_widget;
