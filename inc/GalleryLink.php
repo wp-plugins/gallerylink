@@ -76,14 +76,24 @@ class GalleryLink {
 	       	}
    		}
 
+		if (DIRECTORY_SEPARATOR === '\\' && mb_language() === 'Japanese') {
+			$exclude_file = preg_quote($this->exclude_file,"/");
+			$exclude_dir = preg_quote($this->exclude_dir,"/");
+			$search = preg_quote($this->search,"/");
+		} else {
+			$exclude_file = $this->exclude_file;
+			$exclude_dir = $this->exclude_dir;
+			$search = $this->search;
+		}
+
 	   	foreach(glob($dir.'/*'.$this->suffix, GLOB_BRACE) as $file) {
 			if (!preg_match("/".$this->thumbnail."/", $file) || empty($this->thumbnail)) {
-				if (!preg_match("/".preg_quote($this->exclude_file,"/")."/", $file) || empty($this->exclude_file)) {
-					if (!preg_match("/".preg_quote($this->exclude_dir,"/")."/", $file) || empty($this->exclude_dir)) {
+				if (!preg_match("/".$exclude_file."/", $file) || empty($exclude_file)) {
+					if (!preg_match("/".$exclude_dir."/", $file) || empty($exclude_dir)) {
 						if (empty($this->search)) {
 							$list[] = $file;
 						}else{
-							if(preg_match("/".preg_quote($this->search,"/")."/", $file)) {
+							if(preg_match("/".$search."/", $file)) {
 								$list[] = $file;
 							}
 						}
@@ -111,8 +121,14 @@ class GalleryLink {
 	       	}
    		}
 
+		if (DIRECTORY_SEPARATOR === '\\' && mb_language() === 'Japanese') {
+			$exclude_dir = preg_quote($this->exclude_dir,"/");
+		} else {
+			$exclude_dir = $this->exclude_dir;
+		}
+
 	    foreach(glob($dir . '/*', GLOB_ONLYDIR) as $child_dir) {
-			if (!preg_match("/".preg_quote($this->exclude_dir,"/")."/", $child_dir) || empty($this->exclude_dir)) {
+			if (!preg_match("/".$exclude_dir."/", $child_dir) || empty($exclude_dir)) {
 				$dirlist[] = $child_dir;
 			}
    		}
