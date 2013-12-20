@@ -2,7 +2,7 @@
 /*
 Plugin Name: GalleryLink
 Plugin URI: http://wordpress.org/plugins/gallerylink/
-Version: 4.7
+Version: 4.8
 Description: Output as a gallery by find the file extension and directory specified.
 Author: Katsushi Kawamori
 Author URI: http://gallerylink.nyanko.org/
@@ -31,6 +31,7 @@ Domain Path: /languages
 	require_once( dirname( __FILE__ ) . '/req/GalleryLinkRegistAndHeader.php' );
 	$gallerylinkregistandheader = new GalleryLinkRegistAndHeader();
 	add_action('admin_init', array($gallerylinkregistandheader, 'register_settings'));
+	add_action('wp_head', array($gallerylinkregistandheader, 'add_meta'), 0);
 	add_action('wp_head', array($gallerylinkregistandheader, 'add_feedlink'));
 	add_action('wp_head', array($gallerylinkregistandheader, 'add_css'));
 	unset($gallerylinkregistandheader);
@@ -56,7 +57,7 @@ function gallerylink_func( $atts, $html = NULL ) {
 	include_once dirname(__FILE__).'/inc/GalleryLink.php';
 	$gallerylink = new GalleryLink();
 	$languages = explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
-    mb_language($languages[0]);
+    mb_language(substr($languages[0],0,2));
 
 	extract(shortcode_atts(array(
         'set' => '',

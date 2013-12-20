@@ -387,6 +387,28 @@ GALLERYLINKADDCSSSP;
 
 	}
 
+	/* ==================================================
+	 * For IE
+	 * @since	4.8
+	 */
+	function add_meta(){
+
+$gallerylink_add_meta_ie_emulation = <<<GALLERYLINKADDMETAIEEMULATION
+<!-- Start Gallerylink meta -->
+<meta http-equiv="x-ua-compatible" content="IE=9" />
+<!-- End Gallerylink meta -->
+GALLERYLINKADDMETAIEEMULATION;
+
+		include_once dirname(__FILE__).'/../inc/GalleryLink.php';
+		$gallerylink = new GalleryLink();
+		$mode = $gallerylink->agent_check();
+
+		if ( $mode === 'pc' ) {
+			echo $gallerylink_add_meta_ie_emulation;
+		}
+
+	}
+
 }
 
 ?>
