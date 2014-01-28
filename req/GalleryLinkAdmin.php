@@ -186,7 +186,7 @@ class GalleryLinkAdmin {
 		<td align="center" valign="middle"><?php echo get_option('gallerylink_document_topurl') ?></td>
 		<td align="left" valign="middle">
 		<div><b><font color="red"><?php _e('Use only', 'gallerylink'); ?> type=&#39;dir&#39;</font></b></div>
-		<?php _e('Full path to the top directory containing the data', 'gallerylink'); ?>
+		<?php _e('Full path to the top directory containing the data. Example:In the case of http://www.mysite.xxx/wordpress/wp-content/uploads is /wordpress/wp-content/uploads.', 'gallerylink'); ?>
 		</td>
 		</tr>
 
@@ -673,7 +673,7 @@ class GalleryLinkAdmin {
 					</td>
 					<td align="left" valign="middle">
 						<div><b><font color="red"><?php _e('Use only', 'gallerylink'); ?> type=&#39;dir&#39;</font></b></div>
-						<?php _e('Full path to the top directory containing the data', 'gallerylink'); ?>
+						<?php _e('Full path to the top directory containing the data. Example:In the case of http://www.mysite.xxx/wordpress/wp-content/uploads is /wordpress/wp-content/uploads.', 'gallerylink'); ?>
 					</td>
 				</tr>
 
