@@ -443,6 +443,8 @@ class GalleryLink {
 					$linkfile = '<a class=gallerylink href="'.$imgshowlink.'" title="'.$titlename.'"><img src="'.$thumblink.'" alt="'.$titlename.'" title="'.$titlename.'"></a>';
 				} else if ($this->effect === 'photoswipe' && $this->mode === 'sp'){ // for Photoswipe
 					$linkfile = '<li><a rel="external" href="'.$imgshowlink.'" title="'.$titlename.'"><img src="'.$thumblink.'" alt="'.$titlename.'" title="'.$titlename.'"></a></li>';
+				} else if ($this->effect === 'swipebox' && $this->mode === 'sp'){ // for Swipebox
+					$linkfile = '<li><a rel="gallery" href="'.$imgshowlink.'" class="swipebox" title="'.$titlename.'"><img src="'.$thumblink.'" alt="'.$titlename.'" title="'.$titlename.'"></a></li>';
 				} else if ($this->effect === 'Lightbox' && $this->mode === 'pc'){ // for Lightbox
 					$linkfile = '<a href="'.$imgshowlink.'" rel="lightbox[gallerylink]" title="'.$titlename.'"><img src="'.$thumblink.'" alt="'.$titlename.'" title="'.$titlename.'"></a>';
 				} else {

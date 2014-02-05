@@ -2,7 +2,7 @@
 /*
 Plugin Name: GalleryLink
 Plugin URI: http://wordpress.org/plugins/gallerylink/
-Version: 4.9
+Version: 4.10
 Description: Output as a gallery by find the file extension and directory specified.
 Author: Katsushi Kawamori
 Author URI: http://gallerylink.nyanko.org/
@@ -741,6 +741,12 @@ FLASHMUSICPLAYER;
 				wp_enqueue_script( 'klass' , $pluginurl.'/gallerylink/photoswipe/lib/klass.min.js', null, '1.0' );
 				wp_enqueue_script( 'photoswipe' , $pluginurl.'/gallerylink/photoswipe/code.photoswipe.jquery-3.0.4.min.js', null, '3.0.4' );
 				wp_enqueue_script( 'photoswipe-in', $pluginurl.'/gallerylink/js/photoswipe-in.js' );
+			} else if ($effect === 'swipebox'){
+				// for Swipebox
+				wp_enqueue_style( 'photoswipe-style',  $pluginurl.'/gallerylink/photoswipe/examples/styles.css' );
+				wp_enqueue_style( 'swipebox-style',  $pluginurl.'/gallerylink/swipebox/source/swipebox.css' );
+				wp_enqueue_script( 'swipebox' , $pluginurl.'/gallerylink/swipebox/source/jquery.swipebox.min.js', null, '1.2.1' );
+				wp_enqueue_script( 'swipebox-in', $pluginurl.'/gallerylink/js/swipebox-in.js' );
 			} else {
 				wp_enqueue_style( 'photoswipe-style',  $pluginurl.'/gallerylink/photoswipe/examples/styles.css' );
 			}
@@ -782,6 +788,10 @@ FLASHMUSICPLAYER;
 			$linkfiles_end = '</ul><br clear=all>';
 		} else if ($effect === 'photoswipe' && $mode === 'sp'){
 			// for PhotoSwipe
+			$linkfiles_begin = '<div id="Gallery" class="gallery">';
+			$linkfiles_end = '</div>';
+		} else if ($effect === 'swipebox' && $mode === 'sp'){
+			// for Swipebox
 			$linkfiles_begin = '<div id="Gallery" class="gallery">';
 			$linkfiles_end = '</div>';
 		} else if ($effect === 'Lightbox' && $mode === 'pc'){

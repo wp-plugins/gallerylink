@@ -4,7 +4,7 @@ Donate link: http://gallerylink.nyanko.org/
 Tags: audio,feed,feeds,flash,gallery,html5,image,images,list,music,photo,photos,picture,pictures,rss,shortcode,video,xml
 Requires at least: 3.0.1
 Tested up to: 3.4
-Stable tag: 4.9
+Stable tag: 4.10
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -31,7 +31,7 @@ Bundled software and function
 *   HTML5 player (video, music)
 *   FlashPlugin: jQuery SWFObject
 *   Flash player (video, music): Flowplayer Flash, MP3Player (for previous versions of IE8)
-*   Image: Nivo Slider, ColorBox, PhotoSwipe
+*   Image: Nivo Slider, ColorBox, PhotoSwipe, Swipebox
 *   Create RSS feeds of data (XML). It support to the podcast.
 *   Switching of smartphones or tablets: PHP Mobile Detect
 
@@ -40,6 +40,10 @@ Bundled software and function
     It support to the japanese mobile phone. Plug-in Ktai Style is required.
 
     [Demo1(Music)](http://gallerylink.nyanko.org/music/):::[Demo2(Album)](http://gallerylink.nyanko.org/album/):::[Demo3(Movie)](http://gallerylink.nyanko.org/movie/):::[Demo4(Slideshow)](http://gallerylink.nyanko.org/slideshow/)
+
+Translators
+
+*   Japanese (ja) - [Katsushi Kawamori](http://gallerylink.nyanko.org/)
 
 == Installation ==
 
@@ -63,6 +67,10 @@ none
 none
 
 == Changelog ==
+
+= 4.10 =
+Supported Swipebox
+Change /icon.
 
 = 4.9 =
 Change Settings Page
@@ -312,6 +320,7 @@ Delete screenshot
 
 == Upgrade Notice ==
 
+= 4.10 =
 = 4.9 =
 = 4.8 =
 = 4.7 =
