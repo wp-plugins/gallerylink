@@ -86,7 +86,8 @@ class GalleryLink {
 			$search = $this->search;
 		}
 
-	   	foreach(glob($dir.'/*'.$this->suffix, GLOB_BRACE) as $file) {
+	$pattern = $dir.'/*'.'{'.strtoupper($this->suffix).','.strtolower($this->suffix).'}';
+	foreach(glob($pattern, GLOB_BRACE) as $file) {
 			if (!preg_match("/".$this->thumbnail."/", $file) || empty($this->thumbnail)) {
 				if (!preg_match("/".$exclude_file."/", $file) || empty($exclude_file)) {
 					if (!preg_match("/".$exclude_dir."/", $file) || empty($exclude_dir)) {
@@ -161,22 +162,24 @@ class GalleryLink {
 
 		foreach ( $files as $file ){
 
-			$searchfilename = str_replace($this->suffix, "", $file);
+			$suffix = '.'.end(explode('.', $file));
+
+			$searchfilename = str_replace($suffix, "", $file);
 
 			$file = str_replace($this->document_root, "", $file);
 			$filename = $file;
-			$filename = str_replace($this->suffix, "", $filename);
+			$filename = str_replace($suffix, "", $filename);
 			$filename = mb_convert_encoding($filename, "UTF-8", "auto");
 			$titlename = substr($file,1);
-			$titlename = str_replace($this->suffix, "", $titlename);
+			$titlename = str_replace($suffix, "", $titlename);
 
 			$titles[] = $titlename;
 
 			$servername = $_SERVER['HTTP_HOST'];
 
 			$thumblink = NULL;
-			if ( preg_match( "/jpg|jpeg|jpe|gif|png|bmp|tif|tiff|ico/i", $this->suffix) ){
-				$thumblink = 'http://'.$servername.str_replace("%2F","/",urlencode($this->topurl)).str_replace("%2F","/",urlencode($filename)).$this->thumbnail.$this->suffix;
+			if ( preg_match( "/jpg|jpeg|jpe|gif|png|bmp|tif|tiff|ico/i", $suffix) ){
+				$thumblink = 'http://'.$servername.str_replace("%2F","/",urlencode($this->topurl)).str_replace("%2F","/",urlencode($filename)).$this->thumbnail.$suffix;
 			}else{
 				if (!empty($this->thumbnail) ) {
 					$thumbcheck = $searchfilename.$this->thumbnail;
@@ -189,13 +192,13 @@ class GalleryLink {
 						} else if ( $this->set === 'music') {
 							$thumblink = '<img src = "'.$this->pluginurl.'/gallerylink/icon/audio.png">';
 						} else if ( $this->set === 'document') {
-							if ( $this->suffix === '.pdf' ) {
+							if ( preg_match("/pdf/i", $suffix) ) {
 								$thumblink = '<img src = "'.$this->pluginurl.'/gallerylink/icon/pdf.png">';
-							} else if ( $this->suffix === '.doc' || $this->suffix === '.docx' ) {
+							} else if ( preg_match("/doc|docx/i", $suffix) ) {
 								$thumblink = '<img src = "'.$this->pluginurl.'/gallerylink/icon/word.png">';
-							} else if ( $this->suffix === '.xls' || $this->suffix === '.xlsx' || $this->suffix === '.xla' || $this->suffix === '.xlt' || $this->suffix === '.xlw' ) {
+							} else if ( preg_match("/xls|xlsx|xla|xlt|xlw/i", $suffix) ) {
 								$thumblink = '<img src = "'.$this->pluginurl.'/gallerylink/icon/excel.png">';
-							} else if ( $this->suffix === '.pot' || $this->suffix === '.pps' || $this->suffix === '.ppt' || $this->suffix === '.pptx' || $this->suffix === '.pptm' || $this->suffix === '.ppsx' || $this->suffix === '.ppsm' || $this->suffix === '.potx' || $this->suffix === '.potm' || $this->suffix === '.ppam' || $this->suffix === '.sldx' || $this->suffix === '.sldm' ) {
+							} else if ( preg_match("/pot|pps|ppt|pptx|pptm|ppsx|ppsm|potx|potm|ppam|sldx|sldm/i", $suffix) ) {
 								$thumblink = '<img src = "'.$this->pluginurl.'/gallerylink/icon/powerpoint.png">';
 							}
 						}

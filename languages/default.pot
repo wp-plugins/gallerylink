@@ -2,16 +2,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Gallerylink\n"
 "POT-Creation-Date: 2013-05-27 21:10+0900\n"
-"PO-Revision-Date: 2013-05-27 22:04+0900\n"
-"Last-Translator: dodesyo312 <dodesyoswift312@gmail.com>\n"
-"Language-Team:  <dodesyoswift312@gmail.com>\n"
+"PO-Revision-Date: 2014-02-11 09:47+0900\n"
+"Last-Translator: Katsushi Kawamori <dodesyoswift312@gmail.com>\n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.5.5\n"
+"X-Generator: Poedit 1.6.4\n"
 "X-Poedit-KeywordsList: __;_e;gettext;gettext_noop\n"
 "X-Poedit-Basepath: .\n"
-"X-Poedit-SearchPath: .\n"
 
 msgid "prev"
 msgstr ""
@@ -38,4 +37,266 @@ msgid "all"
 msgstr ""
 
 msgid "Select"
+msgstr ""
+
+msgid "How to use"
+msgstr ""
+
+msgid "Default settings"
+msgstr ""
+
+msgid "The default value for the short code attribute"
+msgstr ""
+
+msgid "Please set the default value in the setting page."
+msgstr ""
+
+msgid ""
+"Please add new Page. Please write a short code in the text field of the "
+"Page. Please go in Text mode this task."
+msgstr ""
+
+msgid ""
+"Please upload the data to the data directory (topurl) by the FTP software. "
+"At the same time upload thumbnail."
+msgstr ""
+
+msgid "In the case of image"
+msgstr ""
+
+msgid "In the case of slideshow"
+msgstr ""
+
+msgid "In the case of video"
+msgstr ""
+
+msgid "In the case of music"
+msgstr ""
+
+msgid "In the case of document"
+msgstr ""
+
+msgid "Customization"
+msgstr ""
+
+msgid ""
+"If you want to use MULTI-BYTE CHARACTER SETS to the display of the directory "
+"name and the file name. In this case, please upload the file after UTF-8 "
+"character code setting of the FTP software."
+msgstr ""
+
+msgid ""
+"GalleryLink can be used to specify the attributes of the table below to "
+"short code. It will override the default settings."
+msgstr ""
+
+msgid "Image Example"
+msgstr ""
+
+msgid "Video Example"
+msgstr ""
+
+msgid "Music Example"
+msgstr ""
+
+msgid "Document Example"
+msgstr ""
+
+msgid ""
+"* Please set to 777 or 757 the attributes of topurl directory. Because "
+"GalleryLink create an RSS feed in the directory."
+msgstr ""
+
+msgid ""
+"* (WordPress > Settings > General Timezone) Please specify your area other "
+"than UTC. For accurate time display of RSS feed."
+msgstr ""
+
+msgid "Attribute"
+msgstr ""
+
+msgid ""
+"Next only five. album(image), movie(video), music(music), slideshow(image), "
+"document(document)"
+msgstr ""
+
+msgid ""
+"Effects of PC. If you want to use the Lightbox, please install a plugin that "
+"is compatible to the Lightbox. I would recommend some plugins below."
+msgstr ""
+
+msgid "Effects of Smartphone"
+msgstr ""
+
+msgid ""
+"Full path to the top directory containing the data. Example:In the case of "
+"http://www.mysite.xxx/wordpress/wp-content/uploads is /wordpress/wp-content/"
+"uploads."
+msgstr ""
+
+msgid "extension of PC"
+msgstr ""
+
+msgid "second extension on the PC. Second candidate when working with html5"
+msgstr ""
+
+msgid "extension of Smartphone"
+msgstr ""
+
+msgid "extension of Japanese mobile phone"
+msgstr ""
+
+msgid "File Display per page(PC)"
+msgstr ""
+
+msgid "File Display per page(Smartphone)"
+msgstr ""
+
+msgid "File Display per page(Japanese mobile phone)"
+msgstr ""
+
+msgid ""
+"(album, slideshow) thumbnail suffix name. (movie, music) specify an "
+"extension for the thumbnail of the title the same name as the file you want "
+"to view, but if the thumbnail is not found, display the icon. The thumbnail "
+"no display if you do not specify anything. (document) The icon is displayed "
+"if you specify icon. The thumbnail no display if you do not specify anything."
+msgstr ""
+
+msgid "File you want to exclude. More than one, specified separated by |."
+msgstr ""
+
+msgid "Directory you want to exclude. More than one, specified separated by |."
+msgstr ""
+
+msgid "The name of the RSS feed file (Use to widget)"
+msgstr ""
+
+msgid "Syndication feeds show the most recent (Use to widget)"
+msgstr ""
+
+msgid "The default value for other."
+msgstr ""
+
+msgid "Size of the movie container."
+msgstr ""
+
+msgid "Size of the thumbnail size for Video and Music"
+msgstr ""
+
+msgid "Background color"
+msgstr ""
+
+msgid "Text color"
+msgstr ""
+
+msgid "Width of the list"
+msgstr ""
+
+msgid "Color of the arrow"
+msgstr ""
+
+msgid "Background color of the list"
+msgstr ""
+
+msgid "Background color of the partition line in the list"
+msgstr ""
+
+msgid "Background color of the navigation"
+msgstr ""
+
+msgid "Background color of the partition line in the navigation"
+msgstr ""
+
+msgid "Text color navigation"
+msgstr ""
+
+msgid ""
+"The to playback of video and music, that such as the next, .htaccess may be "
+"required to the directory containing the data file by the environment."
+msgstr ""
+
+msgid "Album (RSS)"
+msgstr ""
+
+msgid "Video (Podcast)"
+msgstr ""
+
+msgid "Music (Podcast)"
+msgstr ""
+
+msgid "Slideshow (RSS)"
+msgstr ""
+
+msgid "Document (RSS)"
+msgstr ""
+
+msgid ""
+"* When you move to (WordPress > Appearance > Widgets), there is a widget "
+"GalleryLinkRssFeed. If you place you can set this to display the sidebar "
+"link the RSS feed."
+msgstr ""
+
+msgid ""
+"Flash extension on the PC. Flash Player to be used when a HTML5 player does "
+"not work."
+msgstr ""
+
+msgid "Selectbox of directories or categories."
+msgstr ""
+
+msgid "Navigation of page."
+msgstr ""
+
+msgid "Navigation of sort."
+msgstr ""
+
+msgid "Search box"
+msgstr ""
+
+msgid "RSS Icon"
+msgstr ""
+
+msgid "Credit"
+msgstr ""
+
+msgid ""
+"Could not create an RSS Feed. Please change to 777 or 757 to permissions of "
+"following directory."
+msgstr ""
+
+msgid "Generation of RSS feed."
+msgstr ""
+
+msgid "Read from the directory data.(dir)"
+msgstr ""
+
+msgid "Read from the media library data.(media)"
+msgstr ""
+
+msgid "Size of the image display. (Media Settings > Image Size)"
+msgstr ""
+
+msgid "Category you want to include. Only one."
+msgstr ""
+
+msgid "Category you want to exclude. More than one, specified separated by |."
+msgstr ""
+
+msgid "Use only"
+msgstr ""
+
+msgid "In the case of read data from the directory."
+msgstr ""
+
+msgid "In the case of read data from the Media Library."
+msgstr ""
+
+msgid "Please upload the data to the Media Library."
+msgstr ""
+
+msgid "Alias read extension : "
+msgstr ""
+
+msgid "Type of Sort"
 msgstr ""
