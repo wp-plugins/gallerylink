@@ -7,6 +7,7 @@ class GalleryLinkRegistAndHeader {
 	 * @since	2.0
 	 */
 	function register_settings(){
+		register_setting( 'gallerylink-settings-group', 'gallerylink_mb_language');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_album_type');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_movie_type');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_music_type');
@@ -129,6 +130,19 @@ class GalleryLinkRegistAndHeader {
 		register_setting( 'gallerylink-settings-group', 'gallerylink_document_searchbox_show');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_document_rssicon_show');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_document_credit_show');
+		register_setting( 'gallerylink-settings-group', 'gallerylink_useragent_tb');
+		register_setting( 'gallerylink-settings-group', 'gallerylink_useragent_sp');
+		register_setting( 'gallerylink-settings-group', 'gallerylink_useragent_mb');
+
+		$languages = explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
+		if( substr($languages[0],0,2) === 'ja' ) {
+			add_option('gallerylink_mb_language', 'Japanese');
+		} else if( substr($languages[0],0,2) === 'en' ) {
+			add_option('gallerylink_mb_language', 'English');
+		} else {
+			add_option('gallerylink_mb_language', 'uni');
+		}
+
 		add_option('gallerylink_album_type', 'dir');
 		add_option('gallerylink_movie_type', 'dir');
 		add_option('gallerylink_music_type', 'dir');
@@ -251,6 +265,9 @@ class GalleryLinkRegistAndHeader {
 		add_option('gallerylink_document_searchbox_show', 'Show');
 		add_option('gallerylink_document_rssicon_show', 'Show');
 		add_option('gallerylink_document_credit_show', 'Show');
+		add_option('gallerylink_useragent_tb','iPad｜^.*Android.*Nexus(((?:(?!Mobile))|(?:(\s(7|10).+))).)*$|Kindle|Silk.*Accelerated|Sony.*Tablet|Xperia Tablet|Sony Tablet S|SAMSUNG.*Tablet|Galaxy.*Tab|SC-01C|SC-01D|SC-01E|SC-02D');
+		add_option('gallerylink_useragent_sp','iPhone|iPod|Android.*Mobile|BlackBerry|IEMobile');
+		add_option('gallerylink_useragent_mb','DoCoMo\/|KDDI-|UP\.Browser|SoftBank|Vodafone|J-PHONE|MOT-|WILLCOM|DDIPOCKET|PDXGW|emobile|ASTEL|L-mode');
 	}
 
 	/* ==================================================

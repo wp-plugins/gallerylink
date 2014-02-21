@@ -2,13 +2,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Gallerylink\n"
 "POT-Creation-Date: 2013-05-27 21:10+0900\n"
-"PO-Revision-Date: 2014-01-28 21:53+0900\n"
+"PO-Revision-Date: 2014-02-21 23:47+0900\n"
 "Last-Translator: Katsushi Kawamori <dodesyoswift312@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.6.3\n"
+"X-Generator: Poedit 1.6.4\n"
 "X-Poedit-KeywordsList: __;_e;gettext;gettext_noop\n"
 "X-Poedit-Basepath: .\n"
 "Language: ja\n"
@@ -331,3 +331,31 @@ msgstr "読み込み拡張子のエイリアス : "
 
 msgid "Type of Sort"
 msgstr "ソートの種類"
+
+msgid "The default value for current language."
+msgstr "言語のデフォルト値。"
+
+msgid ""
+"Configuration language of directory and file names, case of reading data "
+"from the directory."
+msgstr ""
+"ディレクトリからデータを読み出す場合の、ディレクトリ名とファイル名の設定言"
+"語。"
+
+msgid "The default value for User Agent."
+msgstr "ユーザーエージェントのデフォルト値"
+
+msgid "Generate html"
+msgstr "htmlの生成"
+
+msgid "for Pc or Tablet"
+msgstr "Pcあるいはタブレット用"
+
+msgid "for Smartphone"
+msgstr "スマートフォン用"
+
+msgid "for Japanese mobile phone"
+msgstr "携帯電話用"
+
+msgid "| Specify separated by. Regular expression is possible."
+msgstr "| で区切って指定します。正規表現が可能です。"

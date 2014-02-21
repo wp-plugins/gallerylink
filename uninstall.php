@@ -3,6 +3,7 @@
 	if( !defined('WP_UNINSTALL_PLUGIN') )
     	exit();
 
+	delete_option('gallerylink_mb_language');
 	delete_option('gallerylink_album_type');
 	delete_option('gallerylink_movie_type');
 	delete_option('gallerylink_music_type');
@@ -123,5 +124,8 @@
 	delete_option('gallerylink_document_searchbox_show');
 	delete_option('gallerylink_document_rssicon_show');
 	delete_option('gallerylink_document_credit_show');
+	delete_option('gallerylink_useragent_tb');
+	delete_option('gallerylink_useragent_sp');
+	delete_option('gallerylink_useragent_mb');
 
 ?>

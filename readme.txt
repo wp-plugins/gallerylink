@@ -4,7 +4,7 @@ Donate link: http://gallerylink.nyanko.org/
 Tags: audio,feed,feeds,flash,gallery,html5,image,images,list,music,photo,photos,picture,pictures,rss,shortcode,video,xml
 Requires at least: 3.0.1
 Tested up to: 3.4
-Stable tag: 4.12
+Stable tag: 4.13
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -33,9 +33,6 @@ Bundled software and function
 *   Flash player (video, music): Flowplayer Flash, MP3Player (for previous versions of IE8)
 *   Image: Nivo Slider, ColorBox, PhotoSwipe, Swipebox
 *   Create RSS feeds of data (XML). It support to the podcast.
-*   Switching of smartphones or tablets: PHP Mobile Detect
-
-    It support to the smartphone. WordPress3.4 or higher.
 
     It support to the japanese mobile phone. Plug-in Ktai Style is required.
 
@@ -67,6 +64,12 @@ none
 none
 
 == Changelog ==
+
+= 4.13 =
+Added configuration language of directory and file names.
+Was added the ability to allocate to each terminal by the user agent that you specify.
+Version up of colorbox.
+Removed of PHP Mobile Detect.
 
 = 4.12 =
 Removed unnecessary code.
@@ -327,6 +330,8 @@ Delete screenshot
 
 == Upgrade Notice ==
 
+= 4.13 =
+= 4.12 =
 = 4.11 =
 = 4.10 =
 = 4.9 =

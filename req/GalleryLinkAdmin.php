@@ -486,9 +486,29 @@ class GalleryLinkAdmin {
 
 	  <div id="tabs-2">
 		<div class="wrap">
-		<h2><?php _e('The default value for the short code attribute', 'gallerylink') ?></h2>	
+
 		<form method="post" action="options.php">
 			<?php settings_fields('gallerylink-settings-group'); ?>
+
+			<h2><?php _e('The default value for current language.', 'gallerylink') ?></h2>	
+			<table border="1" bgcolor="#dddddd">
+				<tr>
+					<td align="center" valign="middle">
+					<?php $target_mb_language = get_option('gallerylink_mb_language'); ?>
+					<select id="gallerylink_mb_language" name="gallerylink_mb_language">
+						<option <?php if ('Japanese' == $target_mb_language)echo 'selected="selected"'; ?>>Japanese</option>
+						<option <?php if ('English' == $target_mb_language)echo 'selected="selected"'; ?>>English</option>
+						<option <?php if ('uni' == $target_mb_language)echo 'selected="selected"'; ?>>UTF-8</option>
+					</select>
+					</td>
+					<td align="center" valign="middle"><?php _e('Configuration language of directory and file names, case of reading data from the directory.', 'gallerylink'); ?> <font color="red"><?php _e('Use only', 'gallerylink'); ?> type=&#39;dir&#39;</font></td>
+				</tr>
+			<tbody>
+
+			</tbody>
+			</table>
+
+			<h2><?php _e('The default value for the short code attribute', 'gallerylink') ?></h2>	
 			<table border="1" bgcolor="#dddddd">
 			<tbody>
 				<tr>
@@ -1581,6 +1601,36 @@ class GalleryLinkAdmin {
 					</td>
 					<td align="left" valign="middle">
 					<?php _e('Text color navigation', 'gallerylink') ?>
+					</td>
+				</tr>
+			</tbody>
+			</table>
+
+			<h2><?php _e('The default value for User Agent.', 'gallerylink') ?></h2>	
+			<table border="1" bgcolor="#dddddd">
+			<tbody>
+				<tr>
+					<td align="center" valign="middle"><?php _e('Generate html', 'gallerylink'); ?></td>
+					<td align="center" valign="middle"><?php _e('Default'); ?></td>
+					<td align="center" valign="middle"><?php _e('Description'); ?></td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle"><?php _e('for Pc or Tablet', 'gallerylink'); ?></td>
+					<td align="center" valign="middle">
+						<input type="text" id="gallerylink_useragent_tb" name="gallerylink_useragent_tb" value="<?php echo get_option('gallerylink_useragent_tb') ?>" size="150" />
+					</td>
+					<td align="left" valign="middle" rowspan="3"><?php _e('| Specify separated by. Regular expression is possible.', 'gallerylink'); ?></td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle"><?php _e('for Smartphone', 'gallerylink'); ?></td>
+					<td align="center" valign="middle">
+						<input type="text" id="gallerylink_useragent_sp" name="gallerylink_useragent_sp" value="<?php echo get_option('gallerylink_useragent_sp') ?>" size="150" />
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle"><?php _e('for Japanese mobile phone', 'gallerylink'); ?></td>
+					<td align="center" valign="middle">
+						<input type="text" id="gallerylink_useragent_mb" name="gallerylink_useragent_mb" value="<?php echo get_option('gallerylink_useragent_mb') ?>" size="150" />
 					</td>
 				</tr>
 			</tbody>

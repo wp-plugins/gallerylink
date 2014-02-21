@@ -300,3 +300,27 @@ msgstr ""
 
 msgid "Type of Sort"
 msgstr ""
+
+msgid "The default value for current language."
+msgstr ""
+
+msgid "Configuration language of directory and file names, case of reading data from the directory."
+msgstr ""
+
+msgid "The default value for User Agent."
+msgstr ""
+
+msgid "Generate html"
+msgstr ""
+
+msgid "for Pc or Tablet"
+msgstr ""
+
+msgid "for Smartphone"
+msgstr ""
+
+msgid "for Japanese mobile phone"
+msgstr ""
+
+msgid "| Specify separated by. Regular expression is possible."
+msgstr ""

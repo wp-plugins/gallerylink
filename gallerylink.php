@@ -2,7 +2,7 @@
 /*
 Plugin Name: GalleryLink
 Plugin URI: http://wordpress.org/plugins/gallerylink/
-Version: 4.12
+Version: 4.13
 Description: Output as a gallery by find the file extension and directory specified.
 Author: Katsushi Kawamori
 Author URI: http://gallerylink.nyanko.org/
@@ -56,8 +56,8 @@ function gallerylink_func( $atts, $html = NULL ) {
 
 	include_once dirname(__FILE__).'/inc/GalleryLink.php';
 	$gallerylink = new GalleryLink();
-	$languages = explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
-    mb_language(substr($languages[0],0,2));
+
+	mb_language(get_option('gallerylink_mb_language'));
 
 	extract(shortcode_atts(array(
         'set' => '',
@@ -251,7 +251,6 @@ function gallerylink_func( $atts, $html = NULL ) {
 		$suffix = $suffix_pc;
 		$display = $display_pc;
 	} else if ( $mode === 'mb' ) {
-		mb_language("Japanese");	// for Ktai Style
 		$suffix = $suffix_keitai;
 		$display = $display_keitai;
 	} else {
@@ -712,7 +711,7 @@ FLASHMUSICPLAYER;
 			} else if ($effect === 'colorbox'){
 				// for COLORBOX
 				wp_enqueue_style( 'colorbox',  $pluginurl.'/gallerylink/colorbox/colorbox.css' );
-				wp_enqueue_script( 'colorbox', $pluginurl.'/gallerylink/colorbox/jquery.colorbox-min.js', null, '1.3.20.1');
+				wp_enqueue_script( 'colorbox', $pluginurl.'/gallerylink/colorbox/jquery.colorbox-min.js', null, '1.4.37');
 				wp_enqueue_script( 'colorbox-in', $pluginurl.'/gallerylink/js/colorbox-in.js' );
 			}
 		} else {

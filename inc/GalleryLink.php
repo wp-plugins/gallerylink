@@ -36,21 +36,20 @@ class GalleryLink {
 	*/
 	function agent_check(){
 
-		include_once dirname(__FILE__).'/Mobile-Detect-2.6.2/Mobile_Detect.php';
+		$user_agent = $_SERVER['HTTP_USER_AGENT'];
 
-		$detect = new GalleryLink_Mobile_Detect();
-
-		if ( function_exists('wp_is_mobile') && wp_is_mobile() ) { //smartphone or tablet
-			// Check for any mobile device, excluding tablets.
-			if ($detect->isMobile() && !$detect->isTablet()){
-				$mode = 'sp';
-			} else {
-				$mode = 'pc';
-			}
-		} else if ((! function_exists('is_mobile') || ! is_mobile()) && (! function_exists('is_ktai') || ! is_ktai() && ! wp_is_mobile() )) { //PC
-			$mode = 'pc';
-		} else if ((! function_exists('is_mobile') || is_mobile()) && (! function_exists('is_ktai') || is_ktai())) { //Ktai
-			$mode = 'mb';
+		if(preg_match("{".get_option('gallerylink_useragent_tb')."}",$user_agent)){
+			//Tablet
+			$mode = "pc"; 
+		}else if(preg_match("{".get_option('gallerylink_useragent_sp')."}",$user_agent)){
+			//Smartphone
+			$mode = "sp";
+		}else if(preg_match("{".get_option('gallerylink_useragent_mb')."}",$user_agent)){
+			//Japanese mobile phone
+			$mode = "mb";
+		}else{
+			//PC or Tablet
+			$mode = "pc"; 
 		}
 
 		return $mode;
@@ -76,7 +75,7 @@ class GalleryLink {
 	       	}
    		}
 
-		if (DIRECTORY_SEPARATOR === '\\' && mb_language() === 'Japanese') {
+		if (DIRECTORY_SEPARATOR === '\\') {
 			$exclude_file = preg_quote($this->exclude_file,"/");
 			$exclude_dir = preg_quote($this->exclude_dir,"/");
 			$search = preg_quote($this->search,"/");
@@ -122,7 +121,7 @@ class GalleryLink {
 	       	}
    		}
 
-		if (DIRECTORY_SEPARATOR === '\\' && mb_language() === 'Japanese') {
+		if (DIRECTORY_SEPARATOR === '\\') {
 			$exclude_dir = preg_quote($this->exclude_dir,"/");
 		} else {
 			$exclude_dir = $this->exclude_dir;
