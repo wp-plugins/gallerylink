@@ -265,7 +265,7 @@ class GalleryLinkRegistAndHeader {
 		add_option('gallerylink_document_searchbox_show', 'Show');
 		add_option('gallerylink_document_rssicon_show', 'Show');
 		add_option('gallerylink_document_credit_show', 'Show');
-		add_option('gallerylink_useragent_tb','iPad｜^.*Android.*Nexus(((?:(?!Mobile))|(?:(\s(7|10).+))).)*$|Kindle|Silk.*Accelerated|Sony.*Tablet|Xperia Tablet|Sony Tablet S|SAMSUNG.*Tablet|Galaxy.*Tab|SC-01C|SC-01D|SC-01E|SC-02D');
+		add_option('gallerylink_useragent_tb','iPad|^.*Android.*Nexus(((?:(?!Mobile))|(?:(\s(7|10).+))).)*$|Kindle|Silk.*Accelerated|Sony.*Tablet|Xperia Tablet|Sony Tablet S|SAMSUNG.*Tablet|Galaxy.*Tab|SC-01C|SC-01D|SC-01E|SC-02D');
 		add_option('gallerylink_useragent_sp','iPhone|iPod|Android.*Mobile|BlackBerry|IEMobile');
 		add_option('gallerylink_useragent_mb','DoCoMo\/|KDDI-|UP\.Browser|SoftBank|Vodafone|J-PHONE|MOT-|WILLCOM|DDIPOCKET|PDXGW|emobile|ASTEL|L-mode');
 	}

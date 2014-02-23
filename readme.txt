@@ -4,7 +4,7 @@ Donate link: http://gallerylink.nyanko.org/
 Tags: audio,feed,feeds,flash,gallery,html5,image,images,list,music,photo,photos,picture,pictures,rss,shortcode,video,xml
 Requires at least: 3.0.1
 Tested up to: 3.4
-Stable tag: 4.13
+Stable tag: 4.14
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -64,6 +64,9 @@ none
 none
 
 == Changelog ==
+
+= 4.14 =
+Removed unnecessary code.
 
 = 4.13 =
 Added configuration language of directory and file names.
@@ -330,6 +333,7 @@ Delete screenshot
 
 == Upgrade Notice ==
 
+= 4.14 =
 = 4.13 =
 = 4.12 =
 = 4.11 =
