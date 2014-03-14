@@ -4,7 +4,7 @@ Donate link: http://gallerylink.nyanko.org/
 Tags: audio,feed,feeds,flash,gallery,html5,image,images,list,music,photo,photos,picture,pictures,rss,shortcode,video,xml
 Requires at least: 3.0.1
 Tested up to: 3.4
-Stable tag: 4.14
+Stable tag: 5.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -36,7 +36,7 @@ Bundled software and function
 
     It support to the japanese mobile phone. Plug-in Ktai Style is required.
 
-    [Demo1(Music)](http://gallerylink.nyanko.org/music/):::[Demo2(Album)](http://gallerylink.nyanko.org/album/):::[Demo3(Movie)](http://gallerylink.nyanko.org/movie/):::[Demo4(Slideshow)](http://gallerylink.nyanko.org/slideshow/)
+    [Demo1(All data)](http://gallerylink.nyanko.org/all-data/):::[Demo2(Music)](http://gallerylink.nyanko.org/music/):::[Demo3(Album)](http://gallerylink.nyanko.org/album/):::[Demo4(Movie)](http://gallerylink.nyanko.org/movie/):::[Demo5(Slideshow)](http://gallerylink.nyanko.org/slideshow/):::[Demo6(Documents)](http://gallerylink.nyanko.org/documents/)
 
 Translators
 
@@ -48,7 +48,7 @@ Translators
 2. Activate the plugin through the 'Plugins' menu in WordPress
 3. Add a new Page
 4. Write a short code. The following text field. `[gallerylink]`
-5. For pictures `[gallerylink set='album']`. For video `[gallerylink set='movie']`. For music `[gallerylink set='music']`. For document `[gallerylink set='document']`.
+5. For all data `[gallerylink set='all']`. For pictures `[gallerylink set='album']`. For video `[gallerylink set='movie']`. For music `[gallerylink set='music']`. For document `[gallerylink set='document']`.
 6. Please set. (Settings > Gallerylink)
 
     [Settings](http://wordpress.org/plugins/gallerylink/other_notes/)
@@ -64,6 +64,11 @@ none
 none
 
 == Changelog ==
+
+= 5.0 =
+Add mode for output of all data.
+Change /languages.
+Change readme.txt.
 
 = 4.14 =
 Removed unnecessary code.
@@ -333,6 +338,7 @@ Delete screenshot
 
 == Upgrade Notice ==
 
+= 5.0 =
 = 4.14 =
 = 4.13 =
 = 4.12 =
@@ -424,6 +430,10 @@ In the case of read data from the Media Library.
 
 Please add new Page. Please write a short code in the text field of the Page. Please go in Text mode this task.
 
+In the case of all data
+
+* [gallerylink set='all']
+
 In the case of image
 
 * [gallerylink set='album']
@@ -451,6 +461,10 @@ In the case of read data from the directory.
 Customization
 
 GalleryLink can be used to specify various attributes to the short code. It will override the default settings.
+
+All data Example
+
+* [gallerylink set='all']
 
 Image Example
 
@@ -486,7 +500,7 @@ set
 
 * Value -> album	movie music slideshow document
 
-* Description -> Next only five. album(image), movie(video), music(music), slideshow(image), document(document)
+* Description -> Next only six. all(all data), album(image), movie(video), music(music), slideshow(image), document(document)
 
 type
 
@@ -508,7 +522,7 @@ effect_pc
 
 effect_sp
 
-* Value -> photoswipe nivoslider
+* Value -> photoswipe nivoslider swipebox
 
 * Description -> Effects of Smartphone
 
@@ -568,7 +582,7 @@ thumbnail
 
 * Value -> gif jpg png icon
 
-* Description -> (album, slideshow) thumbnail suffix name. (movie, music) specify an extension for the thumbnail of the title the same name as the file you want to view, but if the thumbnail is not found, display the icon. The thumbnail no display if you do not specify anything. (document) The icon is displayed if you specify icon. The thumbnail no display if you do not specify anything.
+* Description -> (album, slideshow) thumbnail suffix name. (movie, music, document) The icon is displayed if you specify icon. The thumbnail no display if you do not specify anything.
 
 include_cat
 

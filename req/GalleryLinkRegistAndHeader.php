@@ -8,20 +8,25 @@ class GalleryLinkRegistAndHeader {
 	 */
 	function register_settings(){
 		register_setting( 'gallerylink-settings-group', 'gallerylink_mb_language');
+		register_setting( 'gallerylink-settings-group', 'gallerylink_all_type');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_album_type');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_movie_type');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_music_type');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_slideshow_type');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_document_type');
+		register_setting( 'gallerylink-settings-group', 'gallerylink_all_sort');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_album_sort');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_movie_sort');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_music_sort');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_slideshow_sort');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_document_sort');
+		register_setting( 'gallerylink-settings-group', 'gallerylink_all_effect_pc');
+		register_setting( 'gallerylink-settings-group', 'gallerylink_all_effect_sp');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_album_effect_pc');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_album_effect_sp');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_slideshow_effect_pc');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_slideshow_effect_sp');
+		register_setting( 'gallerylink-settings-group', 'gallerylink_all_topurl');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_album_topurl');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_movie_topurl');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_music_topurl');
@@ -45,6 +50,9 @@ class GalleryLinkRegistAndHeader {
 		register_setting( 'gallerylink-settings-group', 'gallerylink_document_suffix_pc');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_document_suffix_sp');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_document_suffix_keitai');
+		register_setting( 'gallerylink-settings-group', 'gallerylink_all_display_pc', 'intval');
+		register_setting( 'gallerylink-settings-group', 'gallerylink_all_display_sp', 'intval');
+		register_setting( 'gallerylink-settings-group', 'gallerylink_all_display_keitai', 'intval');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_album_display_pc', 'intval');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_album_display_sp', 'intval');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_album_display_keitai', 'intval');
@@ -59,8 +67,10 @@ class GalleryLinkRegistAndHeader {
 		register_setting( 'gallerylink-settings-group', 'gallerylink_document_display_pc', 'intval');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_document_display_sp', 'intval');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_document_display_keitai', 'intval');
+		register_setting( 'gallerylink-settings-group', 'gallerylink_all_image_show_size');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_album_image_show_size');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_slideshow_image_show_size');
+		register_setting( 'gallerylink-settings-group', 'gallerylink_all_suffix_thumbnail');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_album_suffix_thumbnail');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_movie_suffix_thumbnail');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_music_suffix_thumbnail');
@@ -68,22 +78,26 @@ class GalleryLinkRegistAndHeader {
 		register_setting( 'gallerylink-settings-group', 'gallerylink_document_suffix_thumbnail');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_exclude_file');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_exclude_dir');
+		register_setting( 'gallerylink-settings-group', 'gallerylink_all_include_cat');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_album_include_cat');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_movie_include_cat');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_music_include_cat');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_slideshow_include_cat');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_document_include_cat');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_exclude_cat');
+		register_setting( 'gallerylink-settings-group', 'gallerylink_all_generate_rssfeed');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_album_generate_rssfeed');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_movie_generate_rssfeed');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_music_generate_rssfeed');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_slideshow_generate_rssfeed');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_document_generate_rssfeed');
+		register_setting( 'gallerylink-settings-group', 'gallerylink_all_rssname');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_album_rssname');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_movie_rssname');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_music_rssname');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_slideshow_rssname');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_document_rssname');
+		register_setting( 'gallerylink-settings-group', 'gallerylink_all_rssmax', 'intval');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_album_rssmax', 'intval');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_movie_rssmax', 'intval');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_music_rssmax', 'intval');
@@ -91,7 +105,6 @@ class GalleryLinkRegistAndHeader {
 		register_setting( 'gallerylink-settings-group', 'gallerylink_document_rssmax', 'intval');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_movie_container');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_css_listthumbsize');
-		register_setting( 'gallerylink-settings-group', 'gallerylink_css_pc_listwidth', 'intval');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_css_pc_linkstrcolor');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_css_pc_linkbackcolor');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_css_sp_navstrcolor');
@@ -100,6 +113,12 @@ class GalleryLinkRegistAndHeader {
 		register_setting( 'gallerylink-settings-group', 'gallerylink_css_sp_listbackcolor');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_css_sp_listarrowcolor');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_css_sp_listpartitionlinecolor');
+		register_setting( 'gallerylink-settings-group', 'gallerylink_all_selectbox_show');
+		register_setting( 'gallerylink-settings-group', 'gallerylink_all_pagelinks_show');
+		register_setting( 'gallerylink-settings-group', 'gallerylink_all_sortlinks_show');
+		register_setting( 'gallerylink-settings-group', 'gallerylink_all_searchbox_show');
+		register_setting( 'gallerylink-settings-group', 'gallerylink_all_rssicon_show');
+		register_setting( 'gallerylink-settings-group', 'gallerylink_all_credit_show');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_album_selectbox_show');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_album_pagelinks_show');
 		register_setting( 'gallerylink-settings-group', 'gallerylink_album_sortlinks_show');
@@ -143,20 +162,25 @@ class GalleryLinkRegistAndHeader {
 			add_option('gallerylink_mb_language', 'uni');
 		}
 
+		add_option('gallerylink_all_type', 'dir');
 		add_option('gallerylink_album_type', 'dir');
 		add_option('gallerylink_movie_type', 'dir');
 		add_option('gallerylink_music_type', 'dir');
 		add_option('gallerylink_slideshow_type', 'dir');
 		add_option('gallerylink_document_type', 'dir');
+		add_option('gallerylink_all_sort', 'new');
 		add_option('gallerylink_album_sort', 'new');
 		add_option('gallerylink_movie_sort', 'new');
 		add_option('gallerylink_music_sort', 'new');
 		add_option('gallerylink_slideshow_sort', 'new');
 		add_option('gallerylink_document_sort', 'new');
+		add_option('gallerylink_all_effect_pc', 'colorbox');
+		add_option('gallerylink_all_effect_sp', 'swipebox');
 		add_option('gallerylink_album_effect_pc', 'colorbox');
-		add_option('gallerylink_album_effect_sp', 'photoswipe');
+		add_option('gallerylink_album_effect_sp', 'swipebox');
 		add_option('gallerylink_slideshow_effect_pc', 'nivoslider');
 		add_option('gallerylink_slideshow_effect_sp', 'nivoslider');
+		add_option('gallerylink_all_topurl', '');
 		add_option('gallerylink_album_topurl', '');
 		add_option('gallerylink_movie_topurl', '');
 		add_option('gallerylink_music_topurl', '');
@@ -180,6 +204,9 @@ class GalleryLinkRegistAndHeader {
 		add_option('gallerylink_document_suffix_pc', 'pdf');
 		add_option('gallerylink_document_suffix_sp', 'pdf');
 		add_option('gallerylink_document_suffix_keitai', 'pdf');
+		add_option('gallerylink_all_display_pc', 8); 	
+		add_option('gallerylink_all_display_sp', 6);
+		add_option('gallerylink_all_display_keitai', 6);
 		add_option('gallerylink_album_display_pc', 20); 	
 		add_option('gallerylink_album_display_sp', 9);
 		add_option('gallerylink_album_display_keitai', 6);
@@ -194,8 +221,10 @@ class GalleryLinkRegistAndHeader {
 		add_option('gallerylink_document_display_pc', 20);
 		add_option('gallerylink_document_display_sp', 9);
 		add_option('gallerylink_document_display_keitai', 6);
+		add_option('gallerylink_all_image_show_size', 'Full');
 		add_option('gallerylink_album_image_show_size', 'Full');
 		add_option('gallerylink_slideshow_image_show_size', 'Full');
+		add_option('gallerylink_all_suffix_thumbnail', '-'.get_option('thumbnail_size_w').'x'.get_option('thumbnail_size_h'));
 		add_option('gallerylink_album_suffix_thumbnail', '-'.get_option('thumbnail_size_w').'x'.get_option('thumbnail_size_h'));
 		add_option('gallerylink_movie_suffix_thumbnail', '');
 		add_option('gallerylink_music_suffix_thumbnail', '');
@@ -203,30 +232,33 @@ class GalleryLinkRegistAndHeader {
 		add_option('gallerylink_document_suffix_thumbnail', '');
 		add_option('gallerylink_exclude_file', '');
 		add_option('gallerylink_exclude_dir', '');
+		add_option('gallerylink_all_include_cat', '');
 		add_option('gallerylink_album_include_cat', '');
 		add_option('gallerylink_movie_include_cat', '');
 		add_option('gallerylink_music_include_cat', '');
 		add_option('gallerylink_slideshow_include_cat', '');
 		add_option('gallerylink_document_include_cat', '');
 		add_option('gallerylink_exclude_cat', '');
+		add_option('gallerylink_all_generate_rssfeed', 'on');
 		add_option('gallerylink_album_generate_rssfeed', 'on');
 		add_option('gallerylink_movie_generate_rssfeed', 'on');
 		add_option('gallerylink_music_generate_rssfeed', 'on');
 		add_option('gallerylink_document_generate_rssfeed', 'on');
 		add_option('gallerylink_slideshow_generate_rssfeed', 'on');
+		add_option('gallerylink_all_rssname', 'gallerylink_all_feed');
 		add_option('gallerylink_album_rssname', 'gallerylink_album_feed');
 		add_option('gallerylink_movie_rssname', 'gallerylink_movie_feed');
 		add_option('gallerylink_music_rssname', 'gallerylink_music_feed');
 		add_option('gallerylink_slideshow_rssname', 'gallerylink_slideshow_feed');
 		add_option('gallerylink_document_rssname', 'gallerylink_document_feed');
+		add_option('gallerylink_all_rssmax', 10);
 		add_option('gallerylink_album_rssmax', 10);
 		add_option('gallerylink_movie_rssmax', 10);
 		add_option('gallerylink_music_rssmax', 10);
 		add_option('gallerylink_slideshow_rssmax', 10);
 		add_option('gallerylink_document_rssmax', 10);
 		add_option('gallerylink_movie_container', '512x384');
-		add_option('gallerylink_css_pc_listwidth', 400);
-		add_option('gallerylink_css_pc_listthumbsize', '50x35');
+		add_option('gallerylink_css_pc_listthumbsize', '40x40');
 		add_option('gallerylink_css_pc_linkstrcolor', '#000000');
 		add_option('gallerylink_css_pc_linkbackcolor', '#f6efe2');
 		add_option('gallerylink_css_sp_navstrcolor', '#000000');
@@ -235,6 +267,12 @@ class GalleryLinkRegistAndHeader {
 		add_option('gallerylink_css_sp_listbackcolor', '#ffffff');
 		add_option('gallerylink_css_sp_listarrowcolor', '#e2a6a6');
 		add_option('gallerylink_css_sp_listpartitionlinecolor', '#f6efe2');
+		add_option('gallerylink_all_selectbox_show', 'Show');
+		add_option('gallerylink_all_pagelinks_show', 'Show');
+		add_option('gallerylink_all_sortlinks_show', 'Show');
+		add_option('gallerylink_all_searchbox_show', 'Show');
+		add_option('gallerylink_all_rssicon_show', 'Show');
+		add_option('gallerylink_all_credit_show', 'Show');
 		add_option('gallerylink_album_selectbox_show', 'Show');
 		add_option('gallerylink_album_pagelinks_show', 'Show');
 		add_option('gallerylink_album_sortlinks_show', 'Show');
@@ -366,13 +404,10 @@ class GalleryLinkRegistAndHeader {
 $gallerylink_add_css_pc = <<<GALLERYLINKADDCSSPC
 <!-- Start Gallerylink CSS for PC -->
 <style type="text/css">
-#playlists-gallerylink { width: {$pc_listwidth}px; }
-#playlists-gallerylink li { width: {$pc_listwidth}px; }
-#playlists-gallerylink li a { width: {$pc_listwidth}px; height: {$pc_listthumbsize_h}px; }
+#playlists-gallerylink li a { width: 100%; height: {$listthumbsize_h}px; }
 #playlists-gallerylink img { width: {$listthumbsize_w}px; height: {$listthumbsize_h}px; }
-* html #playlists-gallerylink li a { width: {$pc_listwidth}px; }
 #playlists-gallerylink li:hover {background: {$pc_linkbackcolor};}
-#playlists-gallerylink li a:hover {color: {$pc_linkstrcolor}; background: {$pc_linkbackcolor};}
+#playlists-gallerylink a:hover {color: {$pc_linkstrcolor}; background: {$pc_linkbackcolor};}
 </style>
 <!-- End Gallerylink CSS for PC -->
 GALLERYLINKADDCSSPC;

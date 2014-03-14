@@ -4,7 +4,7 @@ class GalleryLink {
 
 	public $type;
 	public $thumbnail;
-	public $suffix;
+	public $suffix_pattern;
 	public $exclude_file;
 	public $exclude_dir;
 	public $include_cat;
@@ -85,22 +85,25 @@ class GalleryLink {
 			$search = $this->search;
 		}
 
-	$pattern = $dir.'/*'.'{'.strtoupper($this->suffix).','.strtolower($this->suffix).'}';
-	foreach(glob($pattern, GLOB_BRACE) as $file) {
+		$pattern = $dir.'/*'.'{'.$this->suffix_pattern.'}';
+
+		foreach(glob($pattern, GLOB_BRACE) as $file) {
 			if (!preg_match("/".$this->thumbnail."/", $file) || empty($this->thumbnail)) {
 				if (!preg_match("/".$exclude_file."/", $file) || empty($exclude_file)) {
 					if (!preg_match("/".$exclude_dir."/", $file) || empty($exclude_dir)) {
-						if (empty($this->search)) {
-							$list[] = $file;
-						}else{
-							if(preg_match("/".$search."/", $file)) {
+						if ( !is_dir( $file ) ) {
+							if (empty($this->search)) {
 								$list[] = $file;
+							}else{
+								if(preg_match("/".$search."/", $file)) {
+								$list[] = $file;
+								}
 							}
 						}
 					}
 				}
 			}
-   		}
+		}
 
    		return $list;
 
@@ -161,9 +164,11 @@ class GalleryLink {
 
 		foreach ( $files as $file ){
 
-			$suffix = '.'.end(explode('.', $file));
+			$ext = end(explode('.', $file));
+			$ext2type = wp_ext2type($ext);
+			$suffix = '.'.$ext;
 
-			$searchfilename = str_replace($suffix, "", $file);
+			$icon_url_path = includes_url( $path = "images/crystal" );
 
 			$file = str_replace($this->document_root, "", $file);
 			$filename = $file;
@@ -177,32 +182,24 @@ class GalleryLink {
 			$servername = $_SERVER['HTTP_HOST'];
 
 			$thumblink = NULL;
-			if ( preg_match( "/jpg|jpeg|jpe|gif|png|bmp|tif|tiff|ico/i", $suffix) ){
+			if ( $ext2type === 'image' ) {
 				$thumblink = 'http://'.$servername.str_replace("%2F","/",urlencode($this->topurl)).str_replace("%2F","/",urlencode($filename)).$this->thumbnail.$suffix;
-			}else{
-				if (!empty($this->thumbnail) ) {
-					$thumbcheck = $searchfilename.$this->thumbnail;
-					if(file_exists($thumbcheck)){
-						$thumblink = str_replace($this->document_root, '', $thumbcheck);
-						$thumblink = '<img src="http://'.$servername.$this->topurl.$thumblink.'">';
-					} else {
-						if ( $this->set === 'movie') {
-							$thumblink = '<img src = "'.$this->pluginurl.'/gallerylink/icon/video.png">';
-						} else if ( $this->set === 'music') {
-							$thumblink = '<img src = "'.$this->pluginurl.'/gallerylink/icon/audio.png">';
-						} else if ( $this->set === 'document') {
-							if ( preg_match("/pdf/i", $suffix) ) {
-								$thumblink = '<img src = "'.$this->pluginurl.'/gallerylink/icon/pdf.png">';
-							} else if ( preg_match("/doc|docx/i", $suffix) ) {
-								$thumblink = '<img src = "'.$this->pluginurl.'/gallerylink/icon/word.png">';
-							} else if ( preg_match("/xls|xlsx|xla|xlt|xlw/i", $suffix) ) {
-								$thumblink = '<img src = "'.$this->pluginurl.'/gallerylink/icon/excel.png">';
-							} else if ( preg_match("/pot|pps|ppt|pptx|pptm|ppsx|ppsm|potx|potm|ppam|sldx|sldm/i", $suffix) ) {
-								$thumblink = '<img src = "'.$this->pluginurl.'/gallerylink/icon/powerpoint.png">';
-							}
-						}
-					}
-				}
+			} else if ( $ext2type === 'audio' ) {
+				$thumblink = '<img src = "'.$icon_url_path.'/audio.png">';
+			} else if ( $ext2type === 'video' ) {
+				$thumblink = '<img src = "'.$icon_url_path.'/video.png">';
+			} else if ( $ext2type === 'document' ) {
+				$thumblink = '<img src = "'.$icon_url_path.'/document.png">';
+			} else if ( $ext2type === 'spreadsheet' ) {
+				$thumblink = '<img src = "'.$icon_url_path.'/spreadsheet.png">';
+			} else if ( $ext2type === 'interactive' ) {
+				$thumblink = '<img src = "'.$icon_url_path.'/interactive.png">';
+			} else if ( $ext2type === 'text' ) {
+				$thumblink = '<img src = "'.$icon_url_path.'/text.png">';
+			} else if ( $ext2type === 'archive' ) {
+				$thumblink = '<img src = "'.$icon_url_path.'/archive.png">';
+			} else if ( $ext2type === 'code' ) {
+				$thumblink = '<img src = "'.$icon_url_path.'/code.png">';
 			}
 			$thumblinks [] = $thumblink;
 
@@ -267,7 +264,9 @@ class GalleryLink {
 			foreach ( $attachments as $attachment ) {
 				$title = $attachment->post_title;
 				$caption = $attachment->post_excerpt;
-				$suffix = '.'.end(explode('.', $attachment->guid));
+				$ext = end(explode('.', $attachment->guid));
+				$ext2type = wp_ext2type($ext);
+				$suffix = '.'.$ext;
 				if( empty($this->exclude_cat) ) { 
 					$loops = TRUE;
 				} else {
@@ -294,43 +293,11 @@ class GalleryLink {
 						$mediumlink = $medium_src[0];
 						$largelink = $large_src[0];
 					} else {
-						if( !empty($this->thumbnail) ) {
-							if ( preg_match( "/jpg|jpeg|jpe|gif|png|bmp|tif|tiff|ico/i", $this->thumbnail) || $this->set === 'document') {
-								$thumbname = NULL;
-								$thumbname_md5 = NULL;
-								$thumbpath = NULL;
-								$thumbname = str_replace($suffix, '', end(explode('/', $attachment->guid)));
-								$thumbname_md5 = md5($thumbname);
-								$thumbpath = str_replace($thumbname.$suffix, '', $attachment->guid);
-								$thumbcheck = str_replace($this->wp_path, '', str_replace("\\", "/", ABSPATH)).$this->topurl.str_replace($this->wp_uploads_baseurl, '', $thumbpath.$thumbname.$this->thumbnail);
-								$thumbcheck_md5 = str_replace($this->wp_path, '', str_replace("\\", "/", ABSPATH)).$this->topurl.str_replace($this->wp_uploads_baseurl, '', $thumbpath.$thumbname_md5.$this->thumbnail);
-								if( file_exists( $thumbcheck ) ){
-									$thumblink = '<img src = "'.$thumbpath.$thumbname.$this->thumbnail.'">';
-								} else if( file_exists( $thumbcheck_md5 ) ){
-									$thumblink = '<img src = "'.$thumbpath.$thumbname_md5.$this->thumbnail.'">';
-								} else {
-									if ( $this->set === 'document' && $this->thumbnail === 'icon' ) {
-										if ( $suffix === '.pdf' ) {
-											$thumblink = '<img src = "'.$this->pluginurl.'/medialink/icon/pdf.png">';
-										} else if ( $suffix === '.doc' || $suffix === '.docx' ) {
-											$thumblink = '<img src = "'.$this->pluginurl.'/medialink/icon/word.png">';
-										} else if ( $suffix === '.xls' || $suffix === '.xlsx' || $suffix === '.xla' || $suffix === '.xlt' || $suffix === '.xlw' ) {
-											$thumblink = '<img src = "'.$this->pluginurl.'/medialink/icon/excel.png">';
-										} else if ( $suffix === '.pot' || $suffix === '.pps' || $suffix === '.ppt' || $suffix === '.pptx' || $suffix === '.pptm' || $suffix === '.ppsx' || $suffix === '.ppsm' || $suffix === '.potx' || $suffix === '.potm' || $suffix === '.ppam' || $suffix === '.sldx' || $suffix === '.sldm' ) {
-											$thumblink = '<img src = "'.$this->pluginurl.'/medialink/icon/powerpoint.png">';
-										} else {
-											$thumblink = wp_get_attachment_image( $attachment->ID, 'thumbnail', TRUE );
-										}
-									} else {
-										$thumblink = wp_get_attachment_image( $attachment->ID, 'thumbnail', TRUE );
-									}
-								}
-							}
-						}
+						$thumblink = wp_get_attachment_image( $attachment->ID, 'thumbnail', TRUE );
 					}
 					$attachment = str_replace($this->wp_path, '', str_replace("\\", "/", ABSPATH)).$this->topurl.str_replace($this->wp_uploads_baseurl, '', $attachment->guid);
 					$attachment = str_replace($this->document_root, "", $attachment);
-					if ( $this->set === 'album' || $this->set === 'slideshow' ) {
+					if ( $ext2type === 'image' ) {
 						if ( $this->image_show_size === 'Medium' ) {
 							$largemediumlink = $mediumlink;
 						} else if ( $this->image_show_size === 'Large' ) {
@@ -386,7 +353,9 @@ class GalleryLink {
 	 */
 	function print_file($file,$title,$thumblink,$largemediumlink) {
 
-		$suffix = '.'.end(explode('.', $file));
+		$ext = end(explode('.', $file));
+		$ext2type = wp_ext2type($ext);
+		$suffix = '.'.$ext;
 
 		if ( $this->type === 'dir' ) {
 			$dparam = $this->dparam;
@@ -432,37 +401,49 @@ class GalleryLink {
 
 		$linkfile = NULL;
 		if ( $this->mode === 'mb' ){	//keitai
-			if ( preg_match( "/jpg|jpeg|jpe|gif|png|bmp|tif|tiff|ico/i", $suffix) ){
+			if ( $ext2type === 'image' ) {
 				$linkfile = '<div><a href="'.$imgshowlink.'"><img src="'.$thumblink.'" align="middle" vspace="5">'.$titlename.'</a></div>';
 			}else{
 				$linkfile = '<div><a href="'.$imgshowlink.'" '.$mimetype.'>'.$titlename.'</a></div>';
 			}
 		}else{	//PC or SmartPhone
-			if ( preg_match( "/jpg|jpeg|jpe|gif|png|bmp|tif|tiff|ico/i", $suffix) ) {
-				if ($this->effect === 'nivoslider'){ // for nivoslider
-					$linkfile = '<img src="'.$imgshowlink.'" alt="'.$titlename.'" title="'.$titlename.'">';
-				} else if ($this->effect === 'colorbox' && $this->mode === 'pc'){ // for colorbox
-					$linkfile = '<a class=gallerylink href="'.$imgshowlink.'" title="'.$titlename.'"><img src="'.$thumblink.'" alt="'.$titlename.'" title="'.$titlename.'"></a>';
-				} else if ($this->effect === 'photoswipe' && $this->mode === 'sp'){ // for Photoswipe
-					$linkfile = '<li><a rel="external" href="'.$imgshowlink.'" title="'.$titlename.'"><img src="'.$thumblink.'" alt="'.$titlename.'" title="'.$titlename.'"></a></li>';
-				} else if ($this->effect === 'swipebox' && $this->mode === 'sp'){ // for Swipebox
-					$linkfile = '<li><a rel="gallery" href="'.$imgshowlink.'" class="swipebox" title="'.$titlename.'"><img src="'.$thumblink.'" alt="'.$titlename.'" title="'.$titlename.'"></a></li>';
-				} else if ($this->effect === 'Lightbox' && $this->mode === 'pc'){ // for Lightbox
-					$linkfile = '<a href="'.$imgshowlink.'" rel="lightbox[gallerylink]" title="'.$titlename.'"><img src="'.$thumblink.'" alt="'.$titlename.'" title="'.$titlename.'"></a>';
+			if ( $ext2type === 'image' ) {
+				if ( $this->type === 'dir' ) {
+					$thumblink = '<img src="'.$thumblink.'" alt="'.$titlename.'" title="'.$titlename.'">';
+				}
+				if ( $this->set === 'all' ) {
+					if ($this->effect === 'colorbox' && $this->mode === 'pc'){ // for colorbox
+						$linkfile = '<li><a class=gallerylink href="'.$imgshowlink.'" title="'.$titlename.'">'.$thumblink.$titlename.'</a></li>';
+					} else if ($this->effect === 'photoswipe' && $this->mode === 'sp'){ // for Photoswipe
+						$linkfile = '<li><a rel="external" href="'.$imgshowlink.'" title="'.$titlename.'">'.$thumblink.'</a></li>';
+					} else if ($this->effect === 'swipebox' && $this->mode === 'sp'){ // for Swipebox
+						$linkfile = '<li><a rel="gallery" href="'.$imgshowlink.'" class="swipebox" title="'.$titlename.'">'.$thumblink.$titlename.'</a></li>';
+					} else if ($this->effect === 'Lightbox' && $this->mode === 'pc'){ // for Lightbox
+						$linkfile = '<li><a href="'.$imgshowlink.'" rel="lightbox[gallerylink]" title="'.$titlename.'">'.$thumblink.$titlename.'</a></li>';
+					} else {
+						$linkfile = '<li><a href="'.$imgshowlink.'" title="'.$titlename.'">'.$thumblink.$titlename.'</a></li>';
+					}
 				} else {
-					$linkfile = '<li><a href="'.$imgshowlink.'" title="'.$titlename.'"><img src="'.$thumblink.'" alt="'.$titlename.'" title="'.$titlename.'"></a></li>';
+					if ($this->effect === 'nivoslider'){ // for nivoslider
+						$linkfile = '<img src="'.$imgshowlink.'" alt="'.$titlename.'" title="'.$titlename.'">';
+					} else if ($this->effect === 'colorbox' && $this->mode === 'pc'){ // for colorbox
+						$linkfile = '<a class=gallerylink href="'.$imgshowlink.'" title="'.$titlename.'">'.$thumblink.'</a>';
+					} else if ($this->effect === 'photoswipe' && $this->mode === 'sp'){ // for Photoswipe
+						$linkfile = '<li><a rel="external" href="'.$imgshowlink.'" title="'.$titlename.'">'.$thumblink.'</a></li>';
+					} else if ($this->effect === 'swipebox' && $this->mode === 'sp'){ // for Swipebox
+						$linkfile = '<li><a rel="gallery" href="'.$imgshowlink.'" class="swipebox" title="'.$titlename.'">'.$thumblink.'</a></li>';
+					} else if ($this->effect === 'Lightbox' && $this->mode === 'pc'){ // for Lightbox
+						$linkfile = '<a href="'.$imgshowlink.'" rel="lightbox[gallerylink]" title="'.$titlename.'">'.$thumblink.'</a>';
+					} else {
+						$linkfile = '<li><a href="'.$imgshowlink.'" title="'.$titlename.'">'.$thumblink.'</a></li>';
+					}
 				}
 			}else{
-				if ( $this->mode === 'sp' || $this->set === 'document' ) {
-					if( $thumbfind === "true" ){
-						$linkfile = '<li>'.$thumblink.'<a href="'.$imgshowlink.'" '.$mimetype.'>'.$titlename.'</a></li>';
-					}else{
-						if( !empty($this->thumbnail) ) {
-							$linkfile = '<li>'.$thumblink.'<a href="'.$imgshowlink.'" '.$mimetype.'>'.$titlename.'</a></li>';
-						} else {
-							$linkfile = '<li><a href="'.$imgshowlink.'" '.$mimetype.'>'.$titlename.'</a></li>';
-						}
-					}
+				if( $this->set <> 'all' && $this->thumbnail <> 'icon' ) {
+					$thumblink = '';
+				}
+				if ( $this->mode === 'sp' || $ext2type === 'document' || $ext2type === 'spreadsheet' || $ext2type === 'interactive' || $ext2type === 'text' || $ext2type === 'archive' || $ext2type === 'code' ) {
+					$linkfile = '<li>'.$thumblink.'<a href="'.$imgshowlink.'" '.$mimetype.'>'.$titlename.'</a></li>';
 				}else{ //PC
 					$page =NULL;
 					if (!empty($_GET['glp'])){
@@ -569,7 +550,9 @@ class GalleryLink {
 	 */
 	function xmlitem_read($file, $title, $thumblink, $largemediumlink) {
 
-		$suffix = '.'.end(explode('.', $file));
+		$ext = end(explode('.', $file));
+		$ext2type = wp_ext2type($ext);
+		$suffix = '.'.$ext;
 
 		$file = $this->document_root.$file;
 
@@ -605,7 +588,7 @@ class GalleryLink {
 		}
 
 		$topurl_urlencode = str_replace("%2F","/",urlencode($this->topurl));
-		if ( preg_match( "/jpg|jpeg|jpe|gif|png|bmp|tif|tiff|ico/i", $suffix) ){
+		if ( $ext2type === 'image' ) {
 			if ( !empty($largemediumlink) ) {
 				$link_url = $largemediumlink;
 			} else {
@@ -613,7 +596,7 @@ class GalleryLink {
 			}
 			$img_url = '<a href="'.$link_url.'"><img src = "'.$thumblink.'"></a>';
 		}else{
-			if ( $this->set === 'document' ){
+			if ( $ext2type === 'document' || $ext2type === 'spreadsheet' || $ext2type === 'interactive' || $ext2type === 'text' || $ext2type === 'archive' || $ext2type === 'code' ){
 				$link_url = 'http://'.$servername.$topurl_urlencode.$file.$suffix;
 			} else {
 				$link_url = 'http://'.$servername.$scriptname.$fparam;
@@ -724,9 +707,9 @@ XMLEND;
 	 * @return	string	$mimetype
 	 * @since	1.0.0
 	 */
-	function mime_type(){
+	function mime_type($suffix){
 
-		$suffix = str_replace('.', '', $this->suffix);
+		$suffix = str_replace('.', '', $suffix);
 
 		switch ($suffix){
 			case '3gp':
