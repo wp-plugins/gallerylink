@@ -2,7 +2,7 @@
 /*
 Plugin Name: GalleryLink
 Plugin URI: http://wordpress.org/plugins/gallerylink/
-Version: 5.0
+Version: 5.1
 Description: Output as a gallery by find the file extension and directory specified.
 Author: Katsushi Kawamori
 Author URI: http://gallerylink.nyanko.org/
@@ -105,8 +105,8 @@ function gallerylink_func( $atts, $html = NULL ) {
 		if( empty($sort) ) { $sort = get_option('gallerylink_all_sort'); }
 		if( empty($topurl) ) { $topurl = get_option('gallerylink_all_topurl'); }
 
-		$effect_pc = get_option('gallerylink_all_effect_pc');
-		$effect_sp = get_option('gallerylink_all_effect_sp');
+		if( empty($effect_pc) ) { $effect_pc = get_option('gallerylink_all_effect_pc'); }
+		if( empty($effect_sp) ) { $effect_sp = get_option('gallerylink_all_effect_sp'); }
 
 		$suffix_pattern_pc = strtoupper(get_option('gallerylink_album_suffix_pc')).','.strtolower(get_option('gallerylink_album_suffix_pc'));
 		$suffix_pattern_sp = strtoupper(get_option('gallerylink_album_suffix_sp')).','.strtolower(get_option('gallerylink_album_suffix_sp'));

@@ -401,17 +401,17 @@ class GalleryLink {
 
 		$linkfile = NULL;
 		if ( $this->mode === 'mb' ){	//keitai
-			if ( $ext2type === 'image' ) {
+			if ( $ext2type === 'image' && $this->set <> 'all' ) {
 				$linkfile = '<div><a href="'.$imgshowlink.'"><img src="'.$thumblink.'" align="middle" vspace="5">'.$titlename.'</a></div>';
 			}else{
 				$linkfile = '<div><a href="'.$imgshowlink.'" '.$mimetype.'>'.$titlename.'</a></div>';
 			}
 		}else{	//PC or SmartPhone
 			if ( $ext2type === 'image' ) {
-				if ( $this->type === 'dir' ) {
-					$thumblink = '<img src="'.$thumblink.'" alt="'.$titlename.'" title="'.$titlename.'">';
-				}
 				if ( $this->set === 'all' ) {
+					if ( $this->type === 'dir' ) {
+						$thumblink = '<img src="'.$thumblink.'" alt="'.$titlename.'" title="'.$titlename.'">';
+					}
 					if ($this->effect === 'colorbox' && $this->mode === 'pc'){ // for colorbox
 						$linkfile = '<li><a class=gallerylink href="'.$imgshowlink.'" title="'.$titlename.'">'.$thumblink.$titlename.'</a></li>';
 					} else if ($this->effect === 'photoswipe' && $this->mode === 'sp'){ // for Photoswipe
@@ -424,6 +424,7 @@ class GalleryLink {
 						$linkfile = '<li><a href="'.$imgshowlink.'" title="'.$titlename.'">'.$thumblink.$titlename.'</a></li>';
 					}
 				} else {
+					$thumblink = '<img src="'.$thumblink.'" alt="'.$titlename.'" title="'.$titlename.'">';
 					if ($this->effect === 'nivoslider'){ // for nivoslider
 						$linkfile = '<img src="'.$imgshowlink.'" alt="'.$titlename.'" title="'.$titlename.'">';
 					} else if ($this->effect === 'colorbox' && $this->mode === 'pc'){ // for colorbox
