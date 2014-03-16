@@ -2,7 +2,7 @@
 /*
 Plugin Name: GalleryLink
 Plugin URI: http://wordpress.org/plugins/gallerylink/
-Version: 5.1
+Version: 5.2
 Description: Output as a gallery by find the file extension and directory specified.
 Author: Katsushi Kawamori
 Author URI: http://gallerylink.nyanko.org/
@@ -630,17 +630,15 @@ function gallerylink_func( $atts, $html = NULL ) {
 
 	$pagestr = '&glp='.$page;
 
+	$queryhead = $gallerylink->permlink_queryhead();
+
 	$permlinkstrform = NULL;
-	$permalinkstruct = NULL;
-	$permalinkstruct = get_option('permalink_structure');
 	$scripturl = $scriptname;
-	if( empty($permalinkstruct) ){
+	if( $queryhead <> '?' ){
 		$perm_id = get_the_ID();
-		$scripturl .= '?page_id='.$perm_id;
 		$permlinkstrform = '<input type="hidden" name="page_id" value="'.$perm_id.'">';
-	} else {
-		$scripturl .= '?';
 	}
+	$scripturl .= $queryhead;
 
 	$permcategoryfolder = NULL;
 	if ( $type === 'dir' ) {

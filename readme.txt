@@ -4,7 +4,7 @@ Donate link: http://gallerylink.nyanko.org/
 Tags: audio,feed,feeds,flash,gallery,html5,image,images,list,music,photo,photos,picture,pictures,rss,shortcode,video,xml
 Requires at least: 3.0.1
 Tested up to: 3.4
-Stable tag: 5.1
+Stable tag: 5.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -64,6 +64,10 @@ none
 none
 
 == Changelog ==
+
+= 5.2 =
+Fixed the problem of permalinks.
+Fixed the problem of podcast.
 
 = 5.1 =
 Fixed the problem of images view.
@@ -341,6 +345,7 @@ Delete screenshot
 
 == Upgrade Notice ==
 
+= 5.2 =
 = 5.1 =
 = 5.0 =
 = 4.14 =

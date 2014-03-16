@@ -452,8 +452,6 @@ class GalleryLink {
 					}
 
 					$permlinkstr = NULL;
-					$permalinkstruct = NULL;
-					$permalinkstruct = get_option('permalink_structure');
 					$permcategoryfolder = NULL;
 					$categoryfolder = NULL;
 					if ( $this->type === 'dir' ) {
@@ -463,11 +461,12 @@ class GalleryLink {
 						$permcategoryfolder = 'glcat';
 						$categoryfolder = $catparam;
 					}
-					if( empty($permalinkstruct) ){
-						$perm_id = get_the_ID();
-						$permlinkstr = '?page_id='.$perm_id.'&'.$permcategoryfolder.'=';
-					} else {
+
+					$queryhead = $this->permlink_queryhead();
+					if( $queryhead === '?' ){
 						$permlinkstr = '?'.$permcategoryfolder.'=';
+					} else {
+						$permlinkstr = $queryhead.'&'.$permcategoryfolder.'=';
 					}
 
 					$linkfile = '<li>'.$thumblink.'<a href="'.$scriptname.$permlinkstr.$categoryfolder.'&glp='.$page.'&f='.$fileparam.'&sort='.$_GET['sort'].'">'.$filetitle.'</a></li>';
@@ -507,7 +506,12 @@ class GalleryLink {
 
 		$scriptname = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
 
+		$queryhead = $this->permlink_queryhead();
+		$querypaged = 'paged='.get_query_var('paged');
+
 		$query = $_SERVER['QUERY_STRING'];
+		$query = str_replace($querypaged, '', $query);
+		$query = str_replace(str_replace('?', '', $queryhead), '', $query);
 		$query = str_replace('&glp='.$this->page, '', $query);
 		$query = str_replace('glp='.$this->page, '', $query);
 		$query = preg_replace('/&f=.*/', '', $query);
@@ -527,11 +531,11 @@ class GalleryLink {
 
 		if( $this->maxpage > 1 ){
 			if( $this->page == 1 ){
-				$linkpages = $pagetagleft.$pagetagright.$pagetagleft.$page_no_tag_left.$this->page.'/'.$this->maxpage.$page_no_tag_right.$pagetagright.$pagetagleft.'<a href="'.$scriptname.'?'.$query.'&glp='.($this->page+1).'">'.$displaynext.$pagerightalow.'</a>'.$pagetagright;
+				$linkpages = $pagetagleft.$pagetagright.$pagetagleft.$page_no_tag_left.$this->page.'/'.$this->maxpage.$page_no_tag_right.$pagetagright.$pagetagleft.'<a href="'.$scriptname.$queryhead.$query.'&glp='.($this->page+1).'">'.$displaynext.$pagerightalow.'</a>'.$pagetagright;
 			}else if( $this->page == $this->maxpage ){
-				$linkpages = $pagetagleft.'<a href="'.$scriptname.'?'.$query.'&glp='.($this->page-1).'">'.$pageleftalow.$displayprev.'</a>'.$pagetagright.$pagetagleft.$page_no_tag_left.$this->page.'/'.$this->maxpage.$page_no_tag_right.$pagetagright.$pagetagleft.$pagetagright;
+				$linkpages = $pagetagleft.'<a href="'.$scriptname.$queryhead.$query.'&glp='.($this->page-1).'">'.$pageleftalow.$displayprev.'</a>'.$pagetagright.$pagetagleft.$page_no_tag_left.$this->page.'/'.$this->maxpage.$page_no_tag_right.$pagetagright.$pagetagleft.$pagetagright;
 			}else{
-				$linkpages = $pagetagleft.'<a href="'.$scriptname.'?'.$query.'&glp='.($this->page-1).'">'.$pageleftalow.$displayprev.'</a>'.$pagetagright.$pagetagleft.$page_no_tag_left.$this->page.'/'.$this->maxpage.$page_no_tag_right.$pagetagright.$pagetagleft.'<a href="'.$scriptname.'?'.$query.'&glp='.($this->page+1).'">'.$displaynext.$pagerightalow.'</a>'.$pagetagright;
+				$linkpages = $pagetagleft.'<a href="'.$scriptname.$queryhead.$query.'&glp='.($this->page-1).'">'.$pageleftalow.$displayprev.'</a>'.$pagetagright.$pagetagleft.$page_no_tag_left.$this->page.'/'.$this->maxpage.$page_no_tag_right.$pagetagright.$pagetagleft.'<a href="'.$scriptname.$queryhead.$query.'&glp='.($this->page+1).'">'.$displaynext.$pagerightalow.'</a>'.$pagetagright;
 			}
 		}
 
@@ -579,13 +583,11 @@ class GalleryLink {
 		$servername = $_SERVER['HTTP_HOST'];
 		$scriptname = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
 
-		$permalinkstruct = NULL;
-		$permalinkstruct = get_option('permalink_structure');
-		if( empty($permalinkstruct) ){
-			$perm_id = get_the_ID();
-			$scriptname .= '?page_id='.$perm_id.'&#38;f=';
-		} else {
+		$queryhead = $this->permlink_queryhead();
+		if( $queryhead === '?' ){
 			$scriptname .= '?f=';
+		} else {
+			$scriptname .= $queryhead.'&#38;f=';
 		}
 
 		$topurl_urlencode = str_replace("%2F","/",urlencode($this->topurl));
@@ -612,7 +614,7 @@ class GalleryLink {
 		$xmlitem .= "<item>\n";
 		$xmlitem .= "<title>".$titlename."</title>\n";
 		$xmlitem .= "<link>".$link_url."</link>\n";
-		if ( $this->set === 'movie' || $this->set === 'music'){
+		if ( $ext2type === 'audio' || $ext2type === 'video' ){
 			$xmlitem .= '<enclosure url="'.$enc_url.'" length="'.$filesize.'" type="'.$this->mime_type($suffix).'" />'."\n";
 		}
 		if( !empty($thumblink) ) {
@@ -730,6 +732,25 @@ XMLEND;
 		}
 
 		return $mimetype;
+
+	}
+
+	/* ==================================================
+	 * @return	string	$queryhead
+	 * @since	5.2
+	 */
+	function permlink_queryhead() {
+
+		$permalinkstruct = get_option('permalink_structure');
+
+		if( empty($permalinkstruct) ){
+			$perm_id = get_the_ID();
+			$queryhead = '?p='.$perm_id;
+		} else {
+			$queryhead = '?';
+		}
+
+		return $queryhead;
 
 	}
 

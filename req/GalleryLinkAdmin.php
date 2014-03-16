@@ -159,7 +159,7 @@ class GalleryLinkAdmin {
 
 		<tr>
 		<td align="center" valign="middle"><b>effect_pc</b></td>
-		<td align="center" valign="middle"><?php echo get_option('gallerylink_album_effect_pc') ?></td>
+		<td align="center" valign="middle"><?php echo get_option('gallerylink_all_effect_pc') ?></td>
 		<td align="center" valign="middle"><?php echo get_option('gallerylink_album_effect_pc') ?></td>
 		<td colspan="2" align="center" valign="middle" bgcolor="#dddddd"></td>
 		<td align="center" valign="middle"><?php echo get_option('gallerylink_slideshow_effect_pc') ?></td>
@@ -177,7 +177,7 @@ class GalleryLinkAdmin {
 
 		<tr>
 		<td align="center" valign="middle"><b>effect_sp</b></td>
-		<td align="center" valign="middle"><?php echo get_option('gallerylink_album_effect_sp') ?></td>
+		<td align="center" valign="middle"><?php echo get_option('gallerylink_all_effect_sp') ?></td>
 		<td align="center" valign="middle"><?php echo get_option('gallerylink_album_effect_sp') ?></td>
 		<td colspan="2" align="center" valign="middle" bgcolor="#dddddd"></td>
 		<td align="center" valign="middle"><?php echo get_option('gallerylink_slideshow_effect_sp') ?></td>
@@ -321,7 +321,7 @@ class GalleryLinkAdmin {
 
 		<tr>
 		<td align="center" valign="middle"><b>image_show_size</b></td>
-		<td align="center" valign="middle"><?php echo get_option('gallerylink_album_image_show_size') ?></td>
+		<td align="center" valign="middle"><?php echo get_option('gallerylink_all_image_show_size') ?></td>
 		<td align="center" valign="middle"><?php echo get_option('gallerylink_album_image_show_size') ?></td>
 		<td colspan="2" bgcolor="#dddddd"></td>
 		<td align="center" valign="middle"><?php echo get_option('gallerylink_slideshow_image_show_size') ?></td>
@@ -1364,17 +1364,17 @@ class GalleryLinkAdmin {
 				<tr>
 					<td align="center" valign="middle"><b>pagelinks_show</b></td>
 					<td align="center" valign="middle">
-					<?php $target_album_pagelinks_show = get_option('gallerylink_album_pagelinks_show'); ?>
-					<select id="gallerylink_album_pagelinks_show" name="gallerylink_album_pagelinks_show">
-						<option <?php if ('Show' == $target_album_pagelinks_show)echo 'selected="selected"'; ?>>Show</option>
-						<option <?php if ('Hide' == $target_album_pagelinks_show)echo 'selected="selected"'; ?>>Hide</option>
-					</select>
-					</td>
-					<td align="center" valign="middle">
 					<?php $target_all_pagelinks_show = get_option('gallerylink_all_pagelinks_show'); ?>
 					<select id="gallerylink_all_pagelinks_show" name="gallerylink_all_pagelinks_show">
 						<option <?php if ('Show' == $target_all_pagelinks_show)echo 'selected="selected"'; ?>>Show</option>
 						<option <?php if ('Hide' == $target_all_pagelinks_show)echo 'selected="selected"'; ?>>Hide</option>
+					</select>
+					</td>
+					<td align="center" valign="middle">
+					<?php $target_album_pagelinks_show = get_option('gallerylink_album_pagelinks_show'); ?>
+					<select id="gallerylink_album_pagelinks_show" name="gallerylink_album_pagelinks_show">
+						<option <?php if ('Show' == $target_album_pagelinks_show)echo 'selected="selected"'; ?>>Show</option>
+						<option <?php if ('Hide' == $target_album_pagelinks_show)echo 'selected="selected"'; ?>>Hide</option>
 					</select>
 					</td>
 					<td align="center" valign="middle">
@@ -1412,17 +1412,17 @@ class GalleryLinkAdmin {
 				<tr>
 					<td align="center" valign="middle"><b>sortlinks_show</b></td>
 					<td align="center" valign="middle">
-					<?php $target_album_sortlinks_show = get_option('gallerylink_album_sortlinks_show'); ?>
-					<select id="gallerylink_album_sortlinks_show" name="gallerylink_album_sortlinks_show">
-						<option <?php if ('Show' == $target_album_sortlinks_show)echo 'selected="selected"'; ?>>Show</option>
-						<option <?php if ('Hide' == $target_album_sortlinks_show)echo 'selected="selected"'; ?>>Hide</option>
-					</select>
-					</td>
-					<td align="center" valign="middle">
 					<?php $target_all_sortlinks_show = get_option('gallerylink_all_sortlinks_show'); ?>
 					<select id="gallerylink_all_sortlinks_show" name="gallerylink_all_sortlinks_show">
 						<option <?php if ('Show' == $target_all_sortlinks_show)echo 'selected="selected"'; ?>>Show</option>
 						<option <?php if ('Hide' == $target_all_sortlinks_show)echo 'selected="selected"'; ?>>Hide</option>
+					</select>
+					</td>
+					<td align="center" valign="middle">
+					<?php $target_album_sortlinks_show = get_option('gallerylink_album_sortlinks_show'); ?>
+					<select id="gallerylink_album_sortlinks_show" name="gallerylink_album_sortlinks_show">
+						<option <?php if ('Show' == $target_album_sortlinks_show)echo 'selected="selected"'; ?>>Show</option>
+						<option <?php if ('Hide' == $target_album_sortlinks_show)echo 'selected="selected"'; ?>>Hide</option>
 					</select>
 					</td>
 					<td align="center" valign="middle">
@@ -1460,17 +1460,17 @@ class GalleryLinkAdmin {
 				<tr>
 					<td align="center" valign="middle"><b>searchbox_show</b></td>
 					<td align="center" valign="middle">
-					<?php $target_album_searchbox_show = get_option('gallerylink_album_searchbox_show'); ?>
-					<select id="gallerylink_album_searchbox_show" name="gallerylink_album_searchbox_show">
-						<option <?php if ('Show' == $target_album_searchbox_show)echo 'selected="selected"'; ?>>Show</option>
-						<option <?php if ('Hide' == $target_album_searchbox_show)echo 'selected="selected"'; ?>>Hide</option>
-					</select>
-					</td>
-					<td align="center" valign="middle">
 					<?php $target_all_searchbox_show = get_option('gallerylink_all_searchbox_show'); ?>
 					<select id="gallerylink_all_searchbox_show" name="gallerylink_all_searchbox_show">
 						<option <?php if ('Show' == $target_all_searchbox_show)echo 'selected="selected"'; ?>>Show</option>
 						<option <?php if ('Hide' == $target_all_searchbox_show)echo 'selected="selected"'; ?>>Hide</option>
+					</select>
+					</td>
+					<td align="center" valign="middle">
+					<?php $target_album_searchbox_show = get_option('gallerylink_album_searchbox_show'); ?>
+					<select id="gallerylink_album_searchbox_show" name="gallerylink_album_searchbox_show">
+						<option <?php if ('Show' == $target_album_searchbox_show)echo 'selected="selected"'; ?>>Show</option>
+						<option <?php if ('Hide' == $target_album_searchbox_show)echo 'selected="selected"'; ?>>Hide</option>
 					</select>
 					</td>
 					<td align="center" valign="middle">
@@ -1508,17 +1508,17 @@ class GalleryLinkAdmin {
 				<tr>
 					<td align="center" valign="middle"><b>rssicon_show</b></td>
 					<td align="center" valign="middle">
-					<?php $target_album_rssicon_show = get_option('gallerylink_album_rssicon_show'); ?>
-					<select id="gallerylink_album_rssicon_show" name="gallerylink_album_rssicon_show">
-						<option <?php if ('Show' == $target_album_rssicon_show)echo 'selected="selected"'; ?>>Show</option>
-						<option <?php if ('Hide' == $target_album_rssicon_show)echo 'selected="selected"'; ?>>Hide</option>
-					</select>
-					</td>
-					<td align="center" valign="middle">
 					<?php $target_all_rssicon_show = get_option('gallerylink_all_rssicon_show'); ?>
 					<select id="gallerylink_all_rssicon_show" name="gallerylink_all_rssicon_show">
 						<option <?php if ('Show' == $target_all_rssicon_show)echo 'selected="selected"'; ?>>Show</option>
 						<option <?php if ('Hide' == $target_all_rssicon_show)echo 'selected="selected"'; ?>>Hide</option>
+					</select>
+					</td>
+					<td align="center" valign="middle">
+					<?php $target_album_rssicon_show = get_option('gallerylink_album_rssicon_show'); ?>
+					<select id="gallerylink_album_rssicon_show" name="gallerylink_album_rssicon_show">
+						<option <?php if ('Show' == $target_album_rssicon_show)echo 'selected="selected"'; ?>>Show</option>
+						<option <?php if ('Hide' == $target_album_rssicon_show)echo 'selected="selected"'; ?>>Hide</option>
 					</select>
 					</td>
 					<td align="center" valign="middle">
