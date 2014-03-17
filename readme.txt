@@ -4,7 +4,7 @@ Donate link: http://gallerylink.nyanko.org/
 Tags: audio,feed,feeds,flash,gallery,html5,image,images,list,music,photo,photos,picture,pictures,rss,shortcode,video,xml
 Requires at least: 3.0.1
 Tested up to: 3.4
-Stable tag: 5.2
+Stable tag: 5.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -36,7 +36,7 @@ Bundled software and function
 
     It support to the japanese mobile phone. Plug-in Ktai Style is required.
 
-    [Demo1(All data)](http://gallerylink.nyanko.org/all-data/):::[Demo2(Music)](http://gallerylink.nyanko.org/music/):::[Demo3(Album)](http://gallerylink.nyanko.org/album/):::[Demo4(Movie)](http://gallerylink.nyanko.org/movie/):::[Demo5(Slideshow)](http://gallerylink.nyanko.org/slideshow/):::[Demo6(Documents)](http://gallerylink.nyanko.org/documents/)
+    [Demo1(All data)](http://gallerylink.nyanko.org/all-data/):::[Demo2(Music)](http://gallerylink.nyanko.org/music/):::[Demo3(Images)](http://gallerylink.nyanko.org/album/):::[Demo4(Video)](http://gallerylink.nyanko.org/movie/):::[Demo5(Slideshow)](http://gallerylink.nyanko.org/slideshow/):::[Demo6(Documents)](http://gallerylink.nyanko.org/documents/)
 
 Translators
 
@@ -64,6 +64,9 @@ none
 none
 
 == Changelog ==
+
+= 5.3 =
+Fixed the problem of exclude_file & exclude_dir.
 
 = 5.2 =
 Fixed the problem of permalinks.
@@ -345,6 +348,7 @@ Delete screenshot
 
 == Upgrade Notice ==
 
+= 5.3 =
 = 5.2 =
 = 5.1 =
 = 5.0 =

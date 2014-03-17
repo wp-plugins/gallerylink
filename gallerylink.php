@@ -2,7 +2,7 @@
 /*
 Plugin Name: GalleryLink
 Plugin URI: http://wordpress.org/plugins/gallerylink/
-Version: 5.2
+Version: 5.3
 Description: Output as a gallery by find the file extension and directory specified.
 Author: Katsushi Kawamori
 Author URI: http://gallerylink.nyanko.org/
@@ -334,10 +334,10 @@ function gallerylink_func( $atts, $html = NULL ) {
 		if( empty($rssicon_show) ) { $rssicon_show = get_option('gallerylink_document_rssicon_show'); }
 		if( empty($credit_show) ) { $credit_show = get_option('gallerylink_document_credit_show'); }
 	}
-	if ( empty($exclude_file) && ($set === 'album' || $set === 'movie' || $set === 'music' || $set === 'slideshow' || $set === 'document') ) {
+	if ( empty($exclude_file) ) {
 		$exclude_file = get_option('gallerylink_exclude_file');
 	}
-	if ( empty($exclude_dir) && ($set === 'album' || $set === 'movie' || $set === 'music' || $set === 'slideshow' || $set === 'document') ) {
+	if ( empty($exclude_dir) ) {
 		$exclude_dir = get_option('gallerylink_exclude_dir');
 	}
 	if ( empty($exclude_cat) ) {
@@ -399,10 +399,14 @@ function gallerylink_func( $atts, $html = NULL ) {
 			$dparam = mb_convert_encoding($dparam, "sjis-win", "auto");
 			$search = mb_convert_encoding($search, "sjis-win", "auto");
 			$document_root = mb_convert_encoding($document_root, "sjis-win", "auto");
+			$exclude_file = mb_convert_encoding($exclude_file, "sjis-win", "auto");
+			$exclude_dir = mb_convert_encoding($exclude_dir, "sjis-win", "auto");
 		} else {
 			$dparam = mb_convert_encoding($dparam, "UTF-8", "auto");
 			$search = mb_convert_encoding($search, "UTF-8", "auto");
 			$document_root = mb_convert_encoding($document_root, "UTF-8", "auto");
+			$exclude_file = mb_convert_encoding($exclude_file, "UTF-8", "auto");
+			$exclude_dir = mb_convert_encoding($exclude_dir, "UTF-8", "auto");
 		}
 		if (empty($dparam)){
 			$dir = $document_root;
