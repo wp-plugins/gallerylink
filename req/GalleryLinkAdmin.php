@@ -1756,20 +1756,20 @@ class GalleryLinkAdmin {
 				<tr>
 					<td align="center" valign="middle"><?php _e('for Pc or Tablet', 'gallerylink'); ?></td>
 					<td align="center" valign="middle">
-						<input type="text" id="gallerylink_useragent_tb" name="gallerylink_useragent_tb" value="<?php echo get_option('gallerylink_useragent_tb') ?>" size="150" />
+						<textarea id="gallerylink_useragent_tb" name="gallerylink_useragent_tb" rows="4" cols="120"><?php echo get_option('gallerylink_useragent_tb') ?></textarea>
 					</td>
 					<td align="left" valign="middle" rowspan="3"><?php _e('| Specify separated by. Regular expression is possible.', 'gallerylink'); ?></td>
 				</tr>
 				<tr>
 					<td align="center" valign="middle"><?php _e('for Smartphone', 'gallerylink'); ?></td>
 					<td align="center" valign="middle">
-						<input type="text" id="gallerylink_useragent_sp" name="gallerylink_useragent_sp" value="<?php echo get_option('gallerylink_useragent_sp') ?>" size="150" />
+						<textarea id="gallerylink_useragent_sp" name="gallerylink_useragent_sp" rows="4" cols="120"><?php echo get_option('gallerylink_useragent_sp') ?></textarea>
 					</td>
 				</tr>
 				<tr>
 					<td align="center" valign="middle"><?php _e('for Japanese mobile phone', 'gallerylink'); ?></td>
 					<td align="center" valign="middle">
-						<input type="text" id="gallerylink_useragent_mb" name="gallerylink_useragent_mb" value="<?php echo get_option('gallerylink_useragent_mb') ?>" size="150" />
+						<textarea id="gallerylink_useragent_mb" name="gallerylink_useragent_mb" rows="4" cols="120"><?php echo get_option('gallerylink_useragent_mb') ?></textarea>
 					</td>
 				</tr>
 			</tbody>
