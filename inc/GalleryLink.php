@@ -28,6 +28,8 @@ class GalleryLink {
 	public $rssname;
 	public $rssmax;
 	public $sort;
+	public $filesize_show;
+	public $stamptime_show;
 
 	/* ==================================================
 	* @param	none
@@ -357,6 +359,19 @@ class GalleryLink {
 		$ext2type = wp_ext2type($ext);
 		$suffix = '.'.$ext;
 
+		$fileinfo = NULL;
+		if ( $this->filesize_show === 'Show' || $this->stamptime_show === 'Show' ) {
+			if ( $this->filesize_show === 'Show' ) {
+				$filesize = ' '.round( filesize($this->document_root.$file) / 1024 ).'KB';
+			}
+			if ( $this->stamptime_show === 'Show' ) {
+				$filestat = stat($this->document_root.$file);
+				date_default_timezone_set(timezone_name_from_abbr(get_the_date(T)));
+				$stamptime = ' '.date("Y-m-d H:i:s",  $filestat['mtime']);
+			}
+			$fileinfo = ' ['.$stamptime.$filesize.' ]';
+		}
+
 		if ( $this->type === 'dir' ) {
 			$dparam = $this->dparam;
 		} else if ( $this->type === 'media' ) {
@@ -374,12 +389,11 @@ class GalleryLink {
 			$dparam = mb_convert_encoding($this->dparam, "UTF-8", "auto");
 			$dparam = str_replace("%2F","/",urlencode($dparam));
 		}
+		$titlename = mb_convert_encoding($title, "UTF-8", "auto").$fileinfo;
 		if ( $this->type === 'dir' ) {
-			$titlename = mb_convert_encoding($title, "UTF-8", "auto");
 			$filetitle = str_replace($suffix, "", $fileparam);
-			$filetitle = mb_convert_encoding($filetitle, "UTF-8", "auto");
+			$filetitle = mb_convert_encoding($filetitle, "UTF-8", "auto").$fileinfo;
 		} else if ( $this->type === 'media' ) {
-			$titlename = mb_convert_encoding($title, "UTF-8", "auto");
 			$filetitle = $titlename;
 		}
 

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Gallerylink\n"
 "POT-Creation-Date: 2013-05-27 21:10+0900\n"
-"PO-Revision-Date: 2014-03-14 22:37+0900\n"
+"PO-Revision-Date: 2014-03-20 02:27+0900\n"
 "Last-Translator: Katsushi Kawamori <dodesyoswift312@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -220,6 +220,9 @@ msgid ""
 "required to the directory containing the data file by the environment."
 msgstr ""
 
+msgid "All data (Podcast)"
+msgstr ""
+
 msgid "Album (RSS)"
 msgstr ""
 
@@ -329,4 +332,10 @@ msgid "for Japanese mobile phone"
 msgstr ""
 
 msgid "| Specify separated by. Regular expression is possible."
+msgstr ""
+
+msgid "File size"
+msgstr ""
+
+msgid "Date Time"
 msgstr ""
