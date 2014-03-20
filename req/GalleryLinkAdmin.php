@@ -737,7 +737,6 @@ class GalleryLinkAdmin {
 					<td align="center" valign="middle">
 					<?php $target_all_effect_sp = get_option('gallerylink_all_effect_sp'); ?>
 					<select id="gallerylink_all_effect_sp" name="gallerylink_all_effect_sp">
-						<option <?php if ('photoswipe' == $target_all_effect_sp)echo 'selected="selected"'; ?>>photoswipe</option>
 						<option <?php if ('swipebox' == $target_all_effect_sp)echo 'selected="selected"'; ?>>swipebox</option>
 					</select>
 					</td>

@@ -367,9 +367,9 @@ class GalleryLink {
 			if ( $this->stamptime_show === 'Show' ) {
 				$filestat = stat($this->document_root.$file);
 				date_default_timezone_set(timezone_name_from_abbr(get_the_date(T)));
-				$stamptime = ' '.date("Y-m-d H:i:s",  $filestat['mtime']);
+				$stamptime = date("Y-m-d H:i:s",  $filestat['mtime']);
 			}
-			$fileinfo = ' ['.$stamptime.$filesize.' ]';
+			$fileinfo = '['.$stamptime.$filesize.']';
 		}
 
 		if ( $this->type === 'dir' ) {
@@ -389,10 +389,10 @@ class GalleryLink {
 			$dparam = mb_convert_encoding($this->dparam, "UTF-8", "auto");
 			$dparam = str_replace("%2F","/",urlencode($dparam));
 		}
-		$titlename = mb_convert_encoding($title, "UTF-8", "auto").$fileinfo;
+		$titlename = mb_convert_encoding($title, "UTF-8", "auto");
 		if ( $this->type === 'dir' ) {
 			$filetitle = str_replace($suffix, "", $fileparam);
-			$filetitle = mb_convert_encoding($filetitle, "UTF-8", "auto").$fileinfo;
+			$filetitle = mb_convert_encoding($filetitle, "UTF-8", "auto");
 		} else if ( $this->type === 'media' ) {
 			$filetitle = $titlename;
 		}
@@ -416,9 +416,9 @@ class GalleryLink {
 		$linkfile = NULL;
 		if ( $this->mode === 'mb' ){	//keitai
 			if ( $ext2type === 'image' && $this->set <> 'all' ) {
-				$linkfile = '<div><a href="'.$imgshowlink.'"><img src="'.$thumblink.'" align="middle" vspace="5">'.$titlename.'</a></div>';
+				$linkfile = '<div><a href="'.$imgshowlink.'"><img src="'.$thumblink.'" align="left" vspace="5">'.$titlename.'</a><br>'.$fileinfo.'</div><br clear="all">';
 			}else{
-				$linkfile = '<div><a href="'.$imgshowlink.'" '.$mimetype.'>'.$titlename.'</a></div>';
+				$linkfile = '<div><a href="'.$imgshowlink.'" '.$mimetype.'>'.$titlename.'</a>'.$fileinfo.'</div>';
 			}
 		}else{	//PC or SmartPhone
 			if ( $ext2type === 'image' ) {
@@ -427,30 +427,24 @@ class GalleryLink {
 						$thumblink = '<img src="'.$thumblink.'" alt="'.$titlename.'" title="'.$titlename.'">';
 					}
 					if ($this->effect === 'colorbox' && $this->mode === 'pc'){ // for colorbox
-						$linkfile = '<li><a class=gallerylink href="'.$imgshowlink.'" title="'.$titlename.'">'.$thumblink.$titlename.'</a></li>';
-					} else if ($this->effect === 'photoswipe' && $this->mode === 'sp'){ // for Photoswipe
-						$linkfile = '<li><a rel="external" href="'.$imgshowlink.'" title="'.$titlename.'">'.$thumblink.'</a></li>';
+						$linkfile = '<li><a class=gallerylink href="'.$imgshowlink.'" title="'.$titlename.$fileinfo.'">'.$thumblink.$titlename.'<div style="font-size: small;">'.$fileinfo.'</div></a></li>';
 					} else if ($this->effect === 'swipebox' && $this->mode === 'sp'){ // for Swipebox
-						$linkfile = '<li><a rel="gallery" href="'.$imgshowlink.'" class="swipebox" title="'.$titlename.'">'.$thumblink.$titlename.'</a></li>';
+						$linkfile = '<li><a rel="gallery" href="'.$imgshowlink.'" class="swipebox" title="'.$titlename.$fileinfo.'">'.$thumblink.$titlename.'<div style="font-size: small;">'.$fileinfo.'</div></a></li>';
 					} else if ($this->effect === 'Lightbox' && $this->mode === 'pc'){ // for Lightbox
-						$linkfile = '<li><a href="'.$imgshowlink.'" rel="lightbox[gallerylink]" title="'.$titlename.'">'.$thumblink.$titlename.'</a></li>';
-					} else {
-						$linkfile = '<li><a href="'.$imgshowlink.'" title="'.$titlename.'">'.$thumblink.$titlename.'</a></li>';
+						$linkfile = '<li><a href="'.$imgshowlink.'" rel="lightbox[gallerylink]" title="'.$titlename.$fileinfo.'">'.$thumblink.$titlename.'<div style="font-size: small;">'.$fileinfo.'</div></a></li>';
 					}
 				} else {
-					$thumblink = '<img src="'.$thumblink.'" alt="'.$titlename.'" title="'.$titlename.'">';
+					$thumblink = '<img src="'.$thumblink.'" alt="'.$titlename.$fileinfo.'" title="'.$titlename.$fileinfo.'">';
 					if ($this->effect === 'nivoslider'){ // for nivoslider
-						$linkfile = '<img src="'.$imgshowlink.'" alt="'.$titlename.'" title="'.$titlename.'">';
+						$linkfile = '<img src="'.$imgshowlink.'" alt="'.$titlename.'" title="'.$titlename.$fileinfo.'">';
 					} else if ($this->effect === 'colorbox' && $this->mode === 'pc'){ // for colorbox
-						$linkfile = '<a class=gallerylink href="'.$imgshowlink.'" title="'.$titlename.'">'.$thumblink.'</a>';
+						$linkfile = '<a class=gallerylink href="'.$imgshowlink.'" title="'.$titlename.$fileinfo.'">'.$thumblink.'</a>';
 					} else if ($this->effect === 'photoswipe' && $this->mode === 'sp'){ // for Photoswipe
-						$linkfile = '<li><a rel="external" href="'.$imgshowlink.'" title="'.$titlename.'">'.$thumblink.'</a></li>';
+						$linkfile = '<li><a rel="external" href="'.$imgshowlink.'" title="'.$titlename.$fileinfo.'">'.$thumblink.'</a></li>';
 					} else if ($this->effect === 'swipebox' && $this->mode === 'sp'){ // for Swipebox
-						$linkfile = '<li><a rel="gallery" href="'.$imgshowlink.'" class="swipebox" title="'.$titlename.'">'.$thumblink.'</a></li>';
+						$linkfile = '<li><a rel="gallery" href="'.$imgshowlink.'" class="swipebox" title="'.$titlename.$fileinfo.'">'.$thumblink.'</a></li>';
 					} else if ($this->effect === 'Lightbox' && $this->mode === 'pc'){ // for Lightbox
-						$linkfile = '<a href="'.$imgshowlink.'" rel="lightbox[gallerylink]" title="'.$titlename.'">'.$thumblink.'</a>';
-					} else {
-						$linkfile = '<li><a href="'.$imgshowlink.'" title="'.$titlename.'">'.$thumblink.'</a></li>';
+						$linkfile = '<a href="'.$imgshowlink.'" rel="lightbox[gallerylink]" title="'.$titlename.$fileinfo.'">'.$thumblink.'</a>';
 					}
 				}
 			}else{
@@ -458,7 +452,7 @@ class GalleryLink {
 					$thumblink = '';
 				}
 				if ( $this->mode === 'sp' || $ext2type === 'document' || $ext2type === 'spreadsheet' || $ext2type === 'interactive' || $ext2type === 'text' || $ext2type === 'archive' || $ext2type === 'code' ) {
-					$linkfile = '<li>'.$thumblink.'<a href="'.$imgshowlink.'" '.$mimetype.'>'.$titlename.'</a></li>';
+					$linkfile = '<li>'.$thumblink.'<a href="'.$imgshowlink.'" '.$mimetype.'>'.$titlename.'<div style="font-size: small;">'.$fileinfo.'</div></a></li>';
 				}else{ //PC
 					$page =NULL;
 					if (!empty($_GET['glp'])){
@@ -483,7 +477,7 @@ class GalleryLink {
 						$permlinkstr = $queryhead.'&'.$permcategoryfolder.'=';
 					}
 
-					$linkfile = '<li>'.$thumblink.'<a href="'.$scriptname.$permlinkstr.$categoryfolder.'&glp='.$page.'&f='.$fileparam.'&sort='.$_GET['sort'].'">'.$filetitle.'</a></li>';
+					$linkfile = '<li>'.$thumblink.'<a href="'.$scriptname.$permlinkstr.$categoryfolder.'&glp='.$page.'&f='.$fileparam.'&sort='.$_GET['sort'].'">'.$filetitle.'<div style="font-size: small;">'.$fileinfo.'</div></a></li>';
 				}
 			}
 		}
