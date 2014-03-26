@@ -2,7 +2,7 @@
 /*
 Plugin Name: GalleryLink
 Plugin URI: http://wordpress.org/plugins/gallerylink/
-Version: 5.7
+Version: 5.8
 Description: Output as a gallery by find the file extension and directory specified.
 Author: Katsushi Kawamori
 Author URI: http://gallerylink.nyanko.org/
@@ -840,7 +840,6 @@ FLASHMUSICPLAYER;
 				// for COLORBOX
 				wp_enqueue_style( 'colorbox',  $pluginurl.'/gallerylink/colorbox/colorbox.css' );
 				wp_enqueue_script( 'colorbox', $pluginurl.'/gallerylink/colorbox/jquery.colorbox-min.js', null, '1.4.37');
-				wp_enqueue_script( 'colorbox-in', $pluginurl.'/gallerylink/js/colorbox-in.js' );
 			}
 			wp_enqueue_script( 'jQuery SWFObject', $pluginurl.'/gallerylink/jqueryswf/jquery.swfobject.1-1-1.min.js', null, '1.1.1' );
 			$html .= '<h2>'.$selectedfilename.'</h2>';
@@ -853,12 +852,11 @@ FLASHMUSICPLAYER;
 				wp_enqueue_style( 'nivoslider-theme-bar',  $pluginurl.'/gallerylink/nivo-slider/themes/bar/bar.css' );
 				wp_enqueue_style( 'nivoslider',  $pluginurl.'/gallerylink/nivo-slider/nivo-slider.css' );
 				wp_enqueue_script( 'nivoslider', $pluginurl.'/gallerylink/nivo-slider/jquery.nivo.slider.pack.js', null, '3.2');
-				wp_enqueue_script( 'nivoslider-in', $pluginurl.'/gallerylink/js/nivoslider-in.js' );
+				add_action('wp_footer', array($gallerylinkaddjs, 'add_js'));
 			} else if ($effect === 'colorbox'){
 				// for COLORBOX
 				wp_enqueue_style( 'colorbox',  $pluginurl.'/gallerylink/colorbox/colorbox.css' );
 				wp_enqueue_script( 'colorbox', $pluginurl.'/gallerylink/colorbox/jquery.colorbox-min.js', null, '1.4.37');
-				wp_enqueue_script( 'colorbox-in', $pluginurl.'/gallerylink/js/colorbox-in.js' );
 			}
 		} else {
 			if ( $set === 'music' ){
@@ -870,18 +868,10 @@ FLASHMUSICPLAYER;
 		}
 	} else if ( $mode === 'sp') {
 		if ( $set === 'all' ){
-			if ($effect === 'photoswipe'){
-				// for PhotoSwipe
-				wp_enqueue_style( 'photoswipe-style',  $pluginurl.'/gallerylink/photoswipe/examples/styles.css' );
-				wp_enqueue_style( 'photoswipe',  $pluginurl.'/gallerylink/photoswipe/photoswipe.css' );
-				wp_enqueue_script( 'klass' , $pluginurl.'/gallerylink/photoswipe/lib/klass.min.js', null, '1.0' );
-				wp_enqueue_script( 'photoswipe' , $pluginurl.'/gallerylink/photoswipe/code.photoswipe.jquery-3.0.4.min.js', null, '3.0.4' );
-				wp_enqueue_script( 'photoswipe-in', $pluginurl.'/gallerylink/js/photoswipe-in.js' );
-			} else if ($effect === 'swipebox'){
+			if ($effect === 'swipebox'){
 				// for Swipebox
 				wp_enqueue_style( 'swipebox-style',  $pluginurl.'/gallerylink/swipebox/source/swipebox.css' );
 				wp_enqueue_script( 'swipebox' , $pluginurl.'/gallerylink/swipebox/source/jquery.swipebox.min.js', null, '1.2.1' );
-				wp_enqueue_script( 'swipebox-in', $pluginurl.'/gallerylink/js/swipebox-in.js' );
 			}
 		} else if ( $set === 'album' || $set === 'slideshow' ){
 			if ($effect === 'nivoslider'){
@@ -892,24 +882,24 @@ FLASHMUSICPLAYER;
 				wp_enqueue_style( 'nivoslider-theme-bar',  $pluginurl.'/gallerylink/nivo-slider/themes/bar/bar.css' );
 				wp_enqueue_style( 'nivoslider',  $pluginurl.'/gallerylink/nivo-slider/nivo-slider.css' );
 				wp_enqueue_script( 'nivoslider', $pluginurl.'/gallerylink/nivo-slider/jquery.nivo.slider.pack.js', null, '3.2');
-				wp_enqueue_script( 'nivoslider-in', $pluginurl.'/gallerylink/js/nivoslider-in.js' );
 			} else if ($effect === 'photoswipe'){
 				// for PhotoSwipe
-				wp_enqueue_style( 'photoswipe-style',  $pluginurl.'/gallerylink/photoswipe/examples/styles.css' );
 				wp_enqueue_style( 'photoswipe',  $pluginurl.'/gallerylink/photoswipe/photoswipe.css' );
-				wp_enqueue_script( 'klass' , $pluginurl.'/gallerylink/photoswipe/lib/klass.min.js', null, '1.0' );
-				wp_enqueue_script( 'photoswipe' , $pluginurl.'/gallerylink/photoswipe/code.photoswipe.jquery-3.0.4.min.js', null, '3.0.4' );
-				wp_enqueue_script( 'photoswipe-in', $pluginurl.'/gallerylink/js/photoswipe-in.js' );
+				wp_enqueue_script( 'sji' , $pluginurl.'/gallerylink/photoswipe/lib/simple-inheritance.min.js', null );
+				wp_enqueue_script( 'photoswipe' , $pluginurl.'/gallerylink/photoswipe/code-photoswipe-1.0.11.min.js', null, '1.0.11' );
 			} else if ($effect === 'swipebox'){
 				// for Swipebox
 				wp_enqueue_style( 'swipebox-style',  $pluginurl.'/gallerylink/swipebox/source/swipebox.css' );
 				wp_enqueue_script( 'swipebox' , $pluginurl.'/gallerylink/swipebox/source/jquery.swipebox.min.js', null, '1.2.1' );
-				wp_enqueue_script( 'swipebox-in', $pluginurl.'/gallerylink/js/swipebox-in.js' );
 			}
 		}
 		// for smartphone
 		wp_enqueue_style( 'smartphone for gallerylink',  $pluginurl.'/gallerylink/css/gallerylink_sp.css' );
 	}
+	include_once dirname(__FILE__).'/inc/GalleryLinkAddJs.php';
+	$gallerylinkaddjs = new GalleryLinkAddJs();
+	$gallerylinkaddjs->effect = $effect;
+	add_action('wp_footer', array($gallerylinkaddjs, 'add_js'));
 
 	if ( !empty($fparam) ) {
 		if ( $mode === 'pc' && wp_ext2type(end(explode('.', $fparam))) === 'video' ) {
@@ -946,11 +936,11 @@ FLASHMUSICPLAYER;
 			$linkfiles_end = '</ul><br clear=all>';
 		} else if ($effect === 'photoswipe' && $mode === 'sp'){
 			// for PhotoSwipe
-			$linkfiles_begin = '<div id="Gallery" class="gallery">';
+			$linkfiles_begin = '<div id="Gallery" class="gallerylinkthumb">';
 			$linkfiles_end = '</div>';
 		} else if ($effect === 'swipebox' && $mode === 'sp'){
 			// for Swipebox
-			$linkfiles_begin = '<div id="Gallery" class="gallery">';
+			$linkfiles_begin = '<div id="Gallery" class="gallerylinkthumb">';
 			$linkfiles_end = '</div>';
 		} else if ($effect === 'Lightbox' && $mode === 'pc'){
 			// for Lightbox
@@ -961,7 +951,7 @@ FLASHMUSICPLAYER;
 				$linkfiles_begin = '<div class = "gallerylink">';
 				$linkfiles_end = '</div><br clear=all>';
 			} else if ($mode === 'sp'){
-				$linkfiles_begin = '<div class="gallery">';
+				$linkfiles_begin = '<div class="gallerylinkthumb">';
 				$linkfiles_end = '</div>';
 			}
 		}

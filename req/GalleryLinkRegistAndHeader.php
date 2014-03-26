@@ -189,7 +189,7 @@ class GalleryLinkRegistAndHeader {
 		add_option('gallerylink_all_effect_pc', 'colorbox');
 		add_option('gallerylink_all_effect_sp', 'swipebox');
 		add_option('gallerylink_album_effect_pc', 'colorbox');
-		add_option('gallerylink_album_effect_sp', 'swipebox');
+		add_option('gallerylink_album_effect_sp', 'photoswipe');
 		add_option('gallerylink_slideshow_effect_pc', 'nivoslider');
 		add_option('gallerylink_slideshow_effect_sp', 'nivoslider');
 		add_option('gallerylink_all_topurl', '');
@@ -344,6 +344,8 @@ class GalleryLinkRegistAndHeader {
 		$documentrootname = $_SERVER['DOCUMENT_ROOT'];
 		$servername = 'http://'.$_SERVER['HTTP_HOST'];
 
+		$xml_all_file = get_option('gallerylink_all_topurl').'/'.get_option('gallerylink_all_rssname').'.xml';
+		$xml_all_media = $wp_uploads_path.'/'.get_option('gallerylink_all_rssname').'.xml';
 		$xml_album_file = get_option('gallerylink_album_topurl').'/'.get_option('gallerylink_album_rssname').'.xml';
 		$xml_album_media = $wp_uploads_path.'/'.get_option('gallerylink_album_rssname').'.xml';
 		$xml_movie_file = get_option('gallerylink_movie_topurl').'/'.get_option('gallerylink_movie_rssname').'.xml';
@@ -362,6 +364,14 @@ class GalleryLinkRegistAndHeader {
 
 		if ( $mode === "pc" || $mode === "sp" ) {
 			echo '<!-- Start Gallerylink feed -->'."\n";
+			if (file_exists($documentrootname.$xml_all_file)) {
+				$xml_all_file_data = simplexml_load_file($servername.$xml_all_file);
+				echo '<link rel="alternate" type="application/rss+xml" href="'.$servername.$xml_all_file.'" title="'.$xml_all_file_data->channel->title.'" />'."\n";
+			}
+			if (file_exists($documentrootname.$xml_all_media)) {
+				$xml_all_media_data = simplexml_load_file($servername.$xml_all_media);
+				echo '<link rel="alternate" type="application/rss+xml" href="'.$servername.$xml_all_media.'" title="'.$xml_all_media_data->channel->title.'" />'."\n";
+			}
 			if (file_exists($documentrootname.$xml_album_file)) {
 				$xml_album_file_data = simplexml_load_file($servername.$xml_album_file);
 				echo '<link rel="alternate" type="application/rss+xml" href="'.$servername.$xml_album_file.'" title="'.$xml_album_file_data->channel->title.'" />'."\n";

@@ -4,7 +4,7 @@ Donate link: http://gallerylink.nyanko.org/
 Tags: audio,feed,feeds,flash,gallery,html5,image,images,list,music,photo,photos,picture,pictures,rss,shortcode,video,xml
 Requires at least: 3.0.1
 Tested up to: 3.4
-Stable tag: 5.7
+Stable tag: 5.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -64,6 +64,11 @@ none
 none
 
 == Changelog ==
+
+= 5.8 =
+Update PhotoSwipe.
+Fixed the problem of RSS feed to the header.
+Javascript placement in the footer.
 
 = 5.7 =
 Fixed the problem of the display of filesize & datetime.
@@ -362,6 +367,7 @@ Delete screenshot
 
 == Upgrade Notice ==
 
+= 5.8 =
 = 5.7 =
 = 5.6 =
 = 5.5 =
