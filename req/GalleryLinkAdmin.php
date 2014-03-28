@@ -43,14 +43,17 @@ class GalleryLinkAdmin {
 		?>
 
 		<div class="wrap">
-		<div id="icon-options-general" class="icon32"><br /></div><h2>GalleryLink</h2>
+		<h2>GalleryLink</h2>
 
 	<div id="tabs">
 	  <ul>
 	    <li><a href="#tabs-1"><?php _e('How to use', 'gallerylink'); ?></a></li>
-	    <li><a href="#tabs-2"><?php _e('Settings'); ?></a></li>
+	    <li><a href="#tabs-2"><?php _e('Settings'); ?>1</a></li>
+		<li><a href="#tabs-3"><?php _e('Settings'); ?>2</a></li>
+		<li><a href="#tabs-4"><?php _e('Settings'); ?>3</a></li>
+		<li><a href="#tabs-5"><?php _e('Caution:'); ?></a></li>
 	<!--
-		<li><a href="#tabs-3">FAQ</a></li>
+		<li><a href="#tabs-6">FAQ</a></li>
 	 -->
 	  </ul>
 	  <div id="tabs-1">
@@ -541,11 +544,15 @@ class GalleryLinkAdmin {
 		</table>
 		</div>
 
+	<form method="post" action="options.php">
 	  <div id="tabs-2">
 		<div class="wrap">
 
-		<form method="post" action="options.php">
 			<?php settings_fields('gallerylink-settings-group'); ?>
+
+			<p class="submit">
+			  <input type="submit" name="Submit" value="<?php _e('Save Changes') ?>" />
+			</p>
 
 			<h2><?php _e('The default value for current language.', 'gallerylink') ?></h2>	
 			<table border="1" bgcolor="#dddddd">
@@ -743,7 +750,6 @@ class GalleryLinkAdmin {
 					<td align="center" valign="middle">
 					<?php $target_album_effect_sp = get_option('gallerylink_album_effect_sp'); ?>
 					<select id="gallerylink_album_effect_sp" name="gallerylink_album_effect_sp">
-						<option <?php if ('nivoslider' == $target_album_effect_sp)echo 'selected="selected"'; ?>>nivoslider</option>
 						<option <?php if ('photoswipe' == $target_album_effect_sp)echo 'selected="selected"'; ?>>photoswipe</option>
 						<option <?php if ('swipebox' == $target_album_effect_sp)echo 'selected="selected"'; ?>>swipebox</option>
 					</select>
@@ -1838,8 +1844,20 @@ class GalleryLinkAdmin {
 				</tr>
 			</tbody>
 			</table>
+			<p class="submit">
+			  <input type="submit" name="Submit" value="<?php _e('Save Changes') ?>" />
+			</p>
+		</div>
+	  </div>
 
-			<h2><?php _e('The default value for other.', 'gallerylink') ?></h2>	
+	  <div id="tabs-3">
+		<div class="wrap">
+
+			<p class="submit">
+			  <input type="submit" name="Submit" value="<?php _e('Save Changes') ?>" />
+			</p>
+
+			<h2><?php _e('The default value for the display size and display color.', 'gallerylink') ?></h2>	
 			<table border="1" bgcolor="#dddddd">
 			<tbody>
 				<tr>
@@ -2006,8 +2024,540 @@ class GalleryLinkAdmin {
 			<p class="submit">
 			  <input type="submit" name="Submit" value="<?php _e('Save Changes') ?>" />
 			</p>
-		</form>
+		</div>
+	  </div>
 
+	  <div id="tabs-4">
+		<div class="wrap">
+
+			<p class="submit">
+			  <input type="submit" name="Submit" value="<?php _e('Save Changes') ?>" />
+			</p>
+
+			<h2><?php _e('The default value for effects.', 'gallerylink') ?></h2>	
+			<table border="1" bgcolor="#dddddd">
+			<tbody>
+				<tr>
+					<td align="center" valign="middle" colspan="2">colorbox(<a href="http://www.jacklmoore.com/colorbox/" target="_blank"><font color="red"><?php _e('Description'); ?></font></a>)</td>
+					<td align="center" valign="middle" colspan="2">nivoslider(<a href="http://docs.dev7studios.com/jquery-plugins/nivo-slider" target="_blank"><font color="red"><?php _e('Description'); ?></font></a>)</td>
+					<td align="center" valign="middle" colspan="2">photoswipe(<a href="https://github.com/dimsemenov/PhotoSwipe/blob/master/README.md" target="_blank"><font color="red"><?php _e('Description'); ?></font></a>)</td>
+					<td align="center" valign="middle" colspan="2">swipebox(<a href="http://brutaldesign.github.io/swipebox/" target="_blank"><font color="red"><?php _e('Description'); ?></font></a>)</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">transition</td>
+					<td align="center" valign="middle">
+					<?php $target_colorbox_transition = get_option('gallerylink_colorbox_transition'); ?>
+					<select id="gallerylink_colorbox_transition" name="gallerylink_colorbox_transition">
+						<option <?php if ('elastic' == $target_colorbox_transition)echo 'selected="selected"'; ?>>elastic</option>
+						<option <?php if ('fade' == $target_colorbox_transition)echo 'selected="selected"'; ?>>fade</option>
+						<option <?php if ('none' == $target_colorbox_transition)echo 'selected="selected"'; ?>>none</option>
+					</select>
+					</td>
+					<td align="center" valign="middle">effect</td>
+					<td align="center" valign="middle">
+					<?php $target_nivoslider_effect = get_option('gallerylink_nivoslider_effect'); ?>
+					<select id="gallerylink_nivoslider_effect" name="gallerylink_nivoslider_effect">
+						<option <?php if ('random' == $target_nivoslider_effect)echo 'selected="selected"'; ?>>random</option>
+						<option <?php if ('fold' == $target_nivoslider_effect)echo 'selected="selected"'; ?>>fold</option>
+						<option <?php if ('fade' == $target_nivoslider_effect)echo 'selected="selected"'; ?>>fade</option>
+						<option <?php if ('sliceDown' == $target_nivoslider_effect)echo 'selected="selected"'; ?>>sliceDown</option>
+					</select>
+					</td>
+					<td align="center" valign="middle">fadeInSpeed</td>
+					<td align="center" valign="middle">
+						<input type="text" id="gallerylink_photoswipe_fadeInSpeed" name="gallerylink_photoswipe_fadeInSpeed" value="<?php echo get_option('gallerylink_photoswipe_fadeInSpeed') ?>" size="10" />
+					</td>
+					<td align="center" valign="middle">hideBarsDelay</td>
+					<td align="center" valign="middle">
+						<input type="text" id="gallerylink_swipebox_hideBarsDelay" name="gallerylink_swipebox_hideBarsDelay" value="<?php echo get_option('gallerylink_swipebox_hideBarsDelay') ?>" size="10" />
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">speed</td>
+					<td align="center" valign="middle">
+						<input type="text" id="gallerylink_colorbox_speed" name="gallerylink_colorbox_speed" value="<?php echo get_option('gallerylink_colorbox_speed') ?>" size="10" />
+					</td>
+					<td align="center" valign="middle">slices</td>
+					<td align="center" valign="middle">
+						<input type="text" id="gallerylink_nivoslider_slices" name="gallerylink_nivoslider_slices" value="<?php echo get_option('gallerylink_nivoslider_slices') ?>" size="10" />
+					</td>
+					<td align="center" valign="middle">fadeOutSpeed</td>
+					<td align="center" valign="middle">
+						<input type="text" id="gallerylink_photoswipe_fadeOutSpeed" name="gallerylink_photoswipe_fadeOutSpeed" value="<?php echo get_option('gallerylink_photoswipe_fadeOutSpeed') ?>" size="10" />
+					</td>
+					<td colspan="2" rowspan="40"></td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">title</td>
+					<td align="center" valign="middle">
+						<input type="text" id="gallerylink_colorbox_title" name="gallerylink_colorbox_title" value="<?php echo get_option('gallerylink_colorbox_title') ?>" size="10" />
+					</td>
+					<td align="center" valign="middle">boxCols</td>
+					<td align="center" valign="middle">
+						<input type="text" id="gallerylink_nivoslider_boxCols" name="gallerylink_nivoslider_boxCols" value="<?php echo get_option('gallerylink_nivoslider_boxCols') ?>" size="10" />
+					</td>
+					<td align="center" valign="middle">slideSpeed</td>
+					<td align="center" valign="middle">
+						<input type="text" id="gallerylink_photoswipe_slideSpeed" name="gallerylink_photoswipe_slideSpeed" value="<?php echo get_option('gallerylink_photoswipe_slideSpeed') ?>" size="10" />
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">scalePhotos</td>
+					<td align="center" valign="middle">
+					<?php $target_colorbox_scalePhotos = get_option('gallerylink_colorbox_scalePhotos'); ?>
+					<select id="gallerylink_colorbox_scalePhotos" name="gallerylink_colorbox_scalePhotos">
+						<option <?php if ('true' == $target_colorbox_scalePhotos)echo 'selected="selected"'; ?>>true</option>
+						<option <?php if ('false' == $target_colorbox_scalePhotos)echo 'selected="selected"'; ?>>false</option>
+					</select>
+					</td>
+					<td align="center" valign="middle">boxRows</td>
+					<td align="center" valign="middle">
+						<input type="text" id="gallerylink_nivoslider_boxRows" name="gallerylink_nivoslider_boxRows" value="<?php echo get_option('gallerylink_nivoslider_boxRows') ?>" size="10" />
+					</td>
+					<td align="center" valign="middle">swipeThreshold</td>
+					<td align="center" valign="middle">
+						<input type="text" id="gallerylink_photoswipe_swipeThreshold" name="gallerylink_photoswipe_swipeThreshold" value="<?php echo get_option('gallerylink_photoswipe_swipeThreshold') ?>" size="10" />
+					</td>
+				<tr>
+					<td align="center" valign="middle">scrolling</td>
+					<td align="center" valign="middle">
+					<?php $target_colorbox_scrolling = get_option('gallerylink_colorbox_scrolling'); ?>
+					<select id="gallerylink_colorbox_scrolling" name="gallerylink_colorbox_scrolling">
+						<option <?php if ('true' == $target_colorbox_scrolling)echo 'selected="selected"'; ?>>true</option>
+						<option <?php if ('false' == $target_colorbox_scrolling)echo 'selected="selected"'; ?>>false</option>
+					</select>
+					</td>
+					<td align="center" valign="middle">animSpeed</td>
+					<td align="center" valign="middle">
+						<input type="text" id="gallerylink_nivoslider_animSpeed" name="gallerylink_nivoslider_animSpeed" value="<?php echo get_option('gallerylink_nivoslider_animSpeed') ?>" size="10" />
+					</td>
+					<td align="center" valign="middle">swipeTimeThreshold</td>
+					<td align="center" valign="middle">
+						<input type="text" id="gallerylink_photoswipe_swipeTimeThreshold" name="gallerylink_photoswipe_swipeTimeThreshold" value="<?php echo get_option('gallerylink_photoswipe_swipeTimeThreshold') ?>" size="10" />
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">opacity</td>
+					<td align="center" valign="middle">
+						<input type="text" id="gallerylink_colorbox_opacity" name="gallerylink_colorbox_opacity" value="<?php echo get_option('gallerylink_colorbox_opacity') ?>" size="10" />
+					</td>
+					<td align="center" valign="middle">pauseTime</td>
+					<td align="center" valign="middle">
+						<input type="text" id="gallerylink_nivoslider_pauseTime" name="gallerylink_nivoslider_pauseTime" value="<?php echo get_option('gallerylink_nivoslider_pauseTime') ?>" size="10" />
+					</td>
+					<td align="center" valign="middle">loop</td>
+					<td align="center" valign="middle">
+					<?php $target_photoswipe_loop = get_option('gallerylink_photoswipe_loop'); ?>
+					<select id="gallerylink_photoswipe_loop" name="gallerylink_photoswipe_loop">
+						<option <?php if ('true' == $target_photoswipe_loop)echo 'selected="selected"'; ?>>true</option>
+						<option <?php if ('false' == $target_photoswipe_loop)echo 'selected="selected"'; ?>>false</option>
+					</select>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">open</td>
+					<td align="center" valign="middle">
+					<?php $target_colorbox_open = get_option('gallerylink_colorbox_open'); ?>
+					<select id="gallerylink_colorbox_open" name="gallerylink_colorbox_open">
+						<option <?php if ('true' == $target_colorbox_open)echo 'selected="selected"'; ?>>true</option>
+						<option <?php if ('false' == $target_colorbox_open)echo 'selected="selected"'; ?>>false</option>
+					</select>
+					</td>
+					<td align="center" valign="middle">startSlide</td>
+					<td align="center" valign="middle">
+						<input type="text" id="gallerylink_nivoslider_startSlide" name="gallerylink_nivoslider_startSlide" value="<?php echo get_option('gallerylink_nivoslider_startSlide') ?>" size="10" />
+					</td>
+					<td align="center" valign="middle">slideshowDelay</td>
+					<td align="center" valign="middle">
+						<input type="text" id="gallerylink_photoswipe_slideshowDelay" name="gallerylink_photoswipe_slideshowDelay" value="<?php echo get_option('gallerylink_photoswipe_slideshowDelay') ?>" size="10" />
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">returnFocus</td>
+					<td align="center" valign="middle">
+					<?php $target_colorbox_returnFocus = get_option('gallerylink_colorbox_returnFocus'); ?>
+					<select id="gallerylink_colorbox_returnFocus" name="gallerylink_colorbox_returnFocus">
+						<option <?php if ('true' == $target_colorbox_returnFocus)echo 'selected="selected"'; ?>>true</option>
+						<option <?php if ('false' == $target_colorbox_returnFocus)echo 'selected="selected"'; ?>>false</option>
+					</select>
+					</td>
+					<td align="center" valign="middle">directionNav</td>
+					<td align="center" valign="middle">
+					<?php $target_nivoslider_directionNav = get_option('gallerylink_nivoslider_directionNav'); ?>
+					<select id="gallerylink_nivoslider_directionNav" name="gallerylink_nivoslider_directionNav">
+						<option <?php if ('true' == $target_nivoslider_directionNav)echo 'selected="selected"'; ?>>true</option>
+						<option <?php if ('false' == $target_nivoslider_directionNav)echo 'selected="selected"'; ?>>false</option>
+					</select>
+					</td>
+					<td align="center" valign="middle">imageScaleMethod</td>
+					<td align="center" valign="middle">
+					<?php $target_photoswipe_imageScaleMethod = get_option('gallerylink_photoswipe_imageScaleMethod'); ?>
+					<select id="gallerylink_photoswipe_imageScaleMethod" name="gallerylink_photoswipe_imageScaleMethod">
+						<option <?php if ('fit' == $target_photoswipe_imageScaleMethod)echo 'selected="selected"'; ?>>fit</option>
+						<option <?php if ('fitNoUpscale' == $target_photoswipe_imageScaleMethod)echo 'selected="selected"'; ?>>fitNoUpscale</option>
+						<option <?php if ('zoom' == $target_photoswipe_imageScaleMethod)echo 'selected="selected"'; ?>>zoom</option>
+					</select>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">trapFocus</td>
+					<td align="center" valign="middle">
+					<?php $target_colorbox_trapFocus = get_option('gallerylink_colorbox_trapFocus'); ?>
+					<select id="gallerylink_colorbox_trapFocus" name="gallerylink_colorbox_trapFocus">
+						<option <?php if ('true' == $target_colorbox_trapFocus)echo 'selected="selected"'; ?>>true</option>
+						<option <?php if ('false' == $target_colorbox_trapFocus)echo 'selected="selected"'; ?>>false</option>
+					</select>
+					</td>
+					<td align="center" valign="middle">directionNavHide</td>
+					<td align="center" valign="middle">
+					<?php $target_nivoslider_directionNavHide = get_option('gallerylink_nivoslider_directionNavHide'); ?>
+					<select id="gallerylink_nivoslider_directionNavHide" name="gallerylink_nivoslider_directionNavHide">
+						<option <?php if ('true' == $target_nivoslider_directionNavHide)echo 'selected="selected"'; ?>>true</option>
+						<option <?php if ('false' == $target_nivoslider_directionNavHide)echo 'selected="selected"'; ?>>false</option>
+					</select>
+					</td>
+					<td align="center" valign="middle">preventHide</td>
+					<td align="center" valign="middle">
+					<?php $target_photoswipe_preventHide = get_option('gallerylink_photoswipe_preventHide'); ?>
+					<select id="gallerylink_photoswipe_preventHide" name="gallerylink_photoswipe_preventHide">
+						<option <?php if ('true' == $target_photoswipe_preventHide)echo 'selected="selected"'; ?>>true</option>
+						<option <?php if ('false' == $target_photoswipe_preventHide)echo 'selected="selected"'; ?>>false</option>
+					</select>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">fastIframe</td>
+					<td align="center" valign="middle">
+					<?php $target_colorbox_fastIframe = get_option('gallerylink_colorbox_fastIframe'); ?>
+					<select id="gallerylink_colorbox_fastIframe" name="gallerylink_colorbox_fastIframe">
+						<option <?php if ('true' == $target_colorbox_fastIframe)echo 'selected="selected"'; ?>>true</option>
+						<option <?php if ('false' == $target_colorbox_fastIframe)echo 'selected="selected"'; ?>>false</option>
+					</select>
+					</td>
+					<td align="center" valign="middle">pauseOnHover</td>
+					<td align="center" valign="middle">
+					<?php $target_nivoslider_pauseOnHover = get_option('gallerylink_nivoslider_pauseOnHover'); ?>
+					<select id="gallerylink_nivoslider_pauseOnHover" name="gallerylink_nivoslider_pauseOnHover">
+						<option <?php if ('true' == $target_nivoslider_pauseOnHover)echo 'selected="selected"'; ?>>true</option>
+						<option <?php if ('false' == $target_nivoslider_pauseOnHover)echo 'selected="selected"'; ?>>false</option>
+					</select>
+					</td>
+					<td align="center" valign="middle">backButtonHideEnabled</td>
+					<td align="center" valign="middle">
+					<?php $target_photoswipe_backButtonHideEnabled = get_option('gallerylink_photoswipe_backButtonHideEnabled'); ?>
+					<select id="gallerylink_photoswipe_backButtonHideEnabled" name="gallerylink_photoswipe_backButtonHideEnabled">
+						<option <?php if ('true' == $target_photoswipe_backButtonHideEnabled)echo 'selected="selected"'; ?>>true</option>
+						<option <?php if ('false' == $target_photoswipe_backButtonHideEnabled)echo 'selected="selected"'; ?>>false</option>
+					</select>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">preloading</td>
+					<td align="center" valign="middle">
+					<?php $target_colorbox_preloading = get_option('gallerylink_colorbox_preloading'); ?>
+					<select id="gallerylink_colorbox_preloading" name="gallerylink_colorbox_preloading">
+						<option <?php if ('true' == $target_colorbox_preloading)echo 'selected="selected"'; ?>>true</option>
+						<option <?php if ('false' == $target_colorbox_preloading)echo 'selected="selected"'; ?>>false</option>
+					</select>
+					</td>
+					<td align="center" valign="middle">manualAdvance</td>
+					<td align="center" valign="middle">
+					<?php $target_nivoslider_manualAdvance = get_option('gallerylink_nivoslider_manualAdvance'); ?>
+					<select id="gallerylink_nivoslider_manualAdvance" name="gallerylink_nivoslider_manualAdvance">
+						<option <?php if ('true' == $target_nivoslider_manualAdvance)echo 'selected="selected"'; ?>>true</option>
+						<option <?php if ('false' == $target_nivoslider_manualAdvance)echo 'selected="selected"'; ?>>false</option>
+					</select>
+					</td>
+					<td align="center" valign="middle">captionAndToolbarHide</td>
+					<td align="center" valign="middle">
+					<?php $target_photoswipe_captionAndToolbarHide = get_option('gallerylink_photoswipe_captionAndToolbarHide'); ?>
+					<select id="gallerylink_photoswipe_captionAndToolbarHide" name="gallerylink_photoswipe_captionAndToolbarHide">
+						<option <?php if ('true' == $target_photoswipe_captionAndToolbarHide)echo 'selected="selected"'; ?>>true</option>
+						<option <?php if ('false' == $target_photoswipe_captionAndToolbarHide)echo 'selected="selected"'; ?>>false</option>
+					</select>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">overlayClose</td>
+					<td align="center" valign="middle">
+					<?php $target_colorbox_overlayClose = get_option('gallerylink_colorbox_overlayClose'); ?>
+					<select id="gallerylink_colorbox_overlayClose" name="gallerylink_colorbox_overlayClose">
+						<option <?php if ('true' == $target_colorbox_overlayClose)echo 'selected="selected"'; ?>>true</option>
+						<option <?php if ('false' == $target_colorbox_overlayClose)echo 'selected="selected"'; ?>>false</option>
+					</select>
+					</td>
+					<td align="center" valign="middle">prevText</td>
+					<td align="center" valign="middle">
+						<input type="text" id="gallerylink_nivoslider_prevText" name="gallerylink_nivoslider_prevText" value="<?php echo get_option('gallerylink_nivoslider_prevText') ?>" size="10" />
+					</td>
+					<td align="center" valign="middle">captionAndToolbarHideOnSwipe</td>
+					<td align="center" valign="middle">
+					<?php $target_photoswipe_captionAndToolbarHideOnSwipe = get_option('gallerylink_photoswipe_captionAndToolbarHideOnSwipe'); ?>
+					<select id="gallerylink_photoswipe_captionAndToolbarHideOnSwipe" name="gallerylink_photoswipe_captionAndToolbarHideOnSwipe">
+						<option <?php if ('true' == $target_photoswipe_captionAndToolbarHideOnSwipe)echo 'selected="selected"'; ?>>true</option>
+						<option <?php if ('false' == $target_photoswipe_captionAndToolbarHideOnSwipe)echo 'selected="selected"'; ?>>false</option>
+					</select>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">escKey</td>
+					<td align="center" valign="middle">
+					<?php $target_colorbox_escKey = get_option('gallerylink_colorbox_escKey'); ?>
+					<select id="gallerylink_colorbox_escKey" name="gallerylink_colorbox_escKey">
+						<option <?php if ('true' == $target_colorbox_escKey)echo 'selected="selected"'; ?>>true</option>
+						<option <?php if ('false' == $target_colorbox_escKey)echo 'selected="selected"'; ?>>false</option>
+					</select>
+					</td>
+					<td align="center" valign="middle">nextText</td>
+					<td align="center" valign="middle">
+						<input type="text" id="gallerylink_nivoslider_nextText" name="gallerylink_nivoslider_nextText" value="<?php echo get_option('gallerylink_nivoslider_nextText') ?>" size="10" />
+					</td>
+					<td align="center" valign="middle">captionAndToolbarFlipPosition</td>
+					<td align="center" valign="middle">
+					<?php $target_photoswipe_captionAndToolbarFlipPosition = get_option('gallerylink_photoswipe_captionAndToolbarFlipPosition'); ?>
+					<select id="gallerylink_photoswipe_captionAndToolbarFlipPosition" name="gallerylink_photoswipe_captionAndToolbarFlipPosition">
+						<option <?php if ('true' == $target_photoswipe_captionAndToolbarFlipPosition)echo 'selected="selected"'; ?>>true</option>
+						<option <?php if ('false' == $target_photoswipe_captionAndToolbarFlipPosition)echo 'selected="selected"'; ?>>false</option>
+					</select>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">arrowKey</td>
+					<td align="center" valign="middle">
+					<?php $target_colorbox_arrowKey = get_option('gallerylink_colorbox_arrowKey'); ?>
+					<select id="gallerylink_colorbox_arrowKey" name="gallerylink_colorbox_arrowKey">
+						<option <?php if ('true' == $target_colorbox_arrowKey)echo 'selected="selected"'; ?>>true</option>
+						<option <?php if ('false' == $target_colorbox_arrowKey)echo 'selected="selected"'; ?>>false</option>
+					</select>
+					</td>
+					<td align="center" valign="middle">randomStart</td>
+					<td align="center" valign="middle">
+					<?php $target_nivoslider_randomStart = get_option('gallerylink_nivoslider_randomStart'); ?>
+					<select id="gallerylink_nivoslider_randomStart" name="gallerylink_nivoslider_randomStart">
+						<option <?php if ('true' == $target_nivoslider_randomStart)echo 'selected="selected"'; ?>>true</option>
+						<option <?php if ('false' == $target_nivoslider_randomStart)echo 'selected="selected"'; ?>>false</option>
+					</select>
+					</td>
+					<td align="center" valign="middle">captionAndToolbarAutoHideDelay</td>
+					<td align="center" valign="middle">
+						<input type="text" id="gallerylink_photoswipe_captionAndToolbarAutoHideDelay" name="gallerylink_photoswipe_captionAndToolbarAutoHideDelay" value="<?php echo get_option('gallerylink_photoswipe_captionAndToolbarAutoHideDelay') ?>" size="10" />
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">loop</td>
+					<td align="center" valign="middle">
+					<?php $target_colorbox_loop = get_option('gallerylink_colorbox_loop'); ?>
+					<select id="gallerylink_colorbox_loop" name="gallerylink_colorbox_loop">
+						<option <?php if ('true' == $target_colorbox_loop)echo 'selected="selected"'; ?>>true</option>
+						<option <?php if ('false' == $target_colorbox_loop)echo 'selected="selected"'; ?>>false</option>
+					</select>
+					</td>
+					<td colspan="2" rowspan="27"></td>
+					<td align="center" valign="middle">captionAndToolbarOpacity</td>
+					<td align="center" valign="middle">
+						<input type="text" id="gallerylink_photoswipe_captionAndToolbarOpacity" name="gallerylink_photoswipe_captionAndToolbarOpacity" value="<?php echo get_option('gallerylink_photoswipe_captionAndToolbarOpacity') ?>" size="10" />
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">fadeOut</td>
+					<td align="center" valign="middle">
+						<input type="text" id="gallerylink_colorbox_fadeOut" name="gallerylink_colorbox_fadeOut" value="<?php echo get_option('gallerylink_colorbox_fadeOut') ?>" size="10" />
+					</td>
+					<td align="center" valign="middle">captionAndToolbarShowEmptyCaptions</td>
+					<td align="center" valign="middle">
+					<?php $target_photoswipe_captionAndToolbarShowEmptyCaptions = get_option('gallerylink_photoswipe_captionAndToolbarShowEmptyCaptions'); ?>
+					<select id="gallerylink_photoswipe_captionAndToolbarShowEmptyCaptions" name="gallerylink_photoswipe_captionAndToolbarShowEmptyCaptions">
+						<option <?php if ('true' == $target_photoswipe_captionAndToolbarShowEmptyCaptions)echo 'selected="selected"'; ?>>true</option>
+						<option <?php if ('false' == $target_photoswipe_captionAndToolbarShowEmptyCaptions)echo 'selected="selected"'; ?>>false</option>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">closeButton</td>
+					<td align="center" valign="middle">
+					<?php $target_colorbox_closeButton = get_option('gallerylink_colorbox_closeButton'); ?>
+					<select id="gallerylink_colorbox_closeButton" name="gallerylink_colorbox_closeButton">
+						<option <?php if ('true' == $target_colorbox_closeButton)echo 'selected="selected"'; ?>>true</option>
+						<option <?php if ('false' == $target_colorbox_closeButton)echo 'selected="selected"'; ?>>false</option>
+					</select>
+					</td>
+					<td colspan="2" rowspan="25"></td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">current</td>
+					<td align="center" valign="middle">
+						<input type="text" id="gallerylink_colorbox_current" name="gallerylink_colorbox_current" value="<?php echo get_option('gallerylink_colorbox_current') ?>" size="30" />
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">previous</td>
+					<td align="center" valign="middle">
+						<input type="text" id="gallerylink_colorbox_previous" name="gallerylink_colorbox_previous" value="<?php echo get_option('gallerylink_colorbox_previous') ?>" size="10" />
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">next</td>
+					<td align="center" valign="middle">
+						<input type="text" id="gallerylink_colorbox_next" name="gallerylink_colorbox_next" value="<?php echo get_option('gallerylink_colorbox_next') ?>" size="10" />
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">close</td>
+					<td align="center" valign="middle">
+						<input type="text" id="gallerylink_colorbox_close" name="gallerylink_colorbox_close" value="<?php echo get_option('gallerylink_colorbox_close') ?>" size="10" />
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">width</td>
+					<td align="center" valign="middle">
+						<input type="text" id="gallerylink_colorbox_width" name="gallerylink_colorbox_width" value="<?php echo get_option('gallerylink_colorbox_width') ?>" size="10" />
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">height</td>
+					<td align="center" valign="middle">
+						<input type="text" id="gallerylink_colorbox_height" name="gallerylink_colorbox_height" value="<?php echo get_option('gallerylink_colorbox_height') ?>" size="10" />
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">innerWidth</td>
+					<td align="center" valign="middle">
+						<input type="text" id="gallerylink_colorbox_innerWidth" name="gallerylink_colorbox_innerWidth" value="<?php echo get_option('gallerylink_colorbox_innerWidth') ?>" size="10" />
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">innerHeight</td>
+					<td align="center" valign="middle">
+						<input type="text" id="gallerylink_colorbox_innerHeight" name="gallerylink_colorbox_innerHeight" value="<?php echo get_option('gallerylink_colorbox_innerHeight') ?>" size="10" />
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">initialWidth</td>
+					<td align="center" valign="middle">
+						<input type="text" id="gallerylink_colorbox_initialWidth" name="gallerylink_colorbox_initialWidth" value="<?php echo get_option('gallerylink_colorbox_initialWidth') ?>" size="10" />
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">initialHeight</td>
+					<td align="center" valign="middle">
+						<input type="text" id="gallerylink_colorbox_initialHeight" name="gallerylink_colorbox_initialHeight" value="<?php echo get_option('gallerylink_colorbox_initialHeight') ?>" size="10" />
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">maxWidth</td>
+					<td align="center" valign="middle">
+						<input type="text" id="gallerylink_colorbox_maxWidth" name="gallerylink_colorbox_maxWidth" value="<?php echo get_option('gallerylink_colorbox_maxWidth') ?>" size="10" />
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">maxHeight</td>
+					<td align="center" valign="middle">
+						<input type="text" id="gallerylink_colorbox_maxHeight" name="gallerylink_colorbox_maxHeight" value="<?php echo get_option('gallerylink_colorbox_maxHeight') ?>" size="10" />
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">slideshow</td>
+					<td align="center" valign="middle">
+					<?php $target_colorbox_slideshow = get_option('gallerylink_colorbox_slideshow'); ?>
+					<select id="gallerylink_colorbox_slideshow" name="gallerylink_colorbox_slideshow">
+						<option <?php if ('true' == $target_colorbox_slideshow)echo 'selected="selected"'; ?>>true</option>
+						<option <?php if ('false' == $target_colorbox_slideshow)echo 'selected="selected"'; ?>>false</option>
+					</select>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">slideshowSpeed</td>
+					<td align="center" valign="middle">
+						<input type="text" id="gallerylink_colorbox_slideshowSpeed" name="gallerylink_colorbox_slideshowSpeed" value="<?php echo get_option('gallerylink_colorbox_slideshowSpeed') ?>" size="10" />
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">slideshowAuto</td>
+					<td align="center" valign="middle">
+					<?php $target_colorbox_slideshowAuto = get_option('gallerylink_colorbox_slideshowAuto'); ?>
+					<select id="gallerylink_colorbox_slideshowAuto" name="gallerylink_colorbox_slideshowAuto">
+						<option <?php if ('true' == $target_colorbox_slideshowAuto)echo 'selected="selected"'; ?>>true</option>
+						<option <?php if ('false' == $target_colorbox_slideshowAuto)echo 'selected="selected"'; ?>>false</option>
+					</select>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">slideshowStart</td>
+					<td align="center" valign="middle">
+						<input type="text" id="gallerylink_colorbox_slideshowStart" name="gallerylink_colorbox_slideshowStart" value="<?php echo get_option('gallerylink_colorbox_slideshowStart') ?>" size="20" />
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">slideshowStop</td>
+					<td align="center" valign="middle">
+						<input type="text" id="gallerylink_colorbox_slideshowStop" name="gallerylink_colorbox_slideshowStop" value="<?php echo get_option('gallerylink_colorbox_slideshowStop') ?>" size="20" />
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">fixed</td>
+					<td align="center" valign="middle">
+					<?php $target_colorbox_fixed = get_option('gallerylink_colorbox_fixed'); ?>
+					<select id="gallerylink_colorbox_fixed" name="gallerylink_colorbox_fixed">
+						<option <?php if ('true' == $target_colorbox_fixed)echo 'selected="selected"'; ?>>true</option>
+						<option <?php if ('false' == $target_colorbox_fixed)echo 'selected="selected"'; ?>>false</option>
+					</select>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">top</td>
+					<td align="center" valign="middle">
+						<input type="text" id="gallerylink_colorbox_top" name="gallerylink_colorbox_top" value="<?php echo get_option('gallerylink_colorbox_top') ?>" size="10" />
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">bottom</td>
+					<td align="center" valign="middle">
+						<input type="text" id="gallerylink_colorbox_bottom" name="gallerylink_colorbox_bottom" value="<?php echo get_option('gallerylink_colorbox_bottom') ?>" size="10" />
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">left</td>
+					<td align="center" valign="middle">
+						<input type="text" id="gallerylink_colorbox_left" name="gallerylink_colorbox_left" value="<?php echo get_option('gallerylink_colorbox_left') ?>" size="10" />
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">right</td>
+					<td align="center" valign="middle">
+						<input type="text" id="gallerylink_colorbox_right" name="gallerylink_colorbox_right" value="<?php echo get_option('gallerylink_colorbox_right') ?>" size="10" />
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">reposition</td>
+					<td align="center" valign="middle">
+					<?php $target_colorbox_reposition = get_option('gallerylink_colorbox_reposition'); ?>
+					<select id="gallerylink_colorbox_reposition" name="gallerylink_colorbox_reposition">
+						<option <?php if ('true' == $target_colorbox_reposition)echo 'selected="selected"'; ?>>true</option>
+						<option <?php if ('false' == $target_colorbox_reposition)echo 'selected="selected"'; ?>>false</option>
+					</select>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">retinaImage</td>
+					<td align="center" valign="middle">
+					<?php $target_colorbox_retinaImage = get_option('gallerylink_colorbox_retinaImage'); ?>
+					<select id="gallerylink_colorbox_retinaImage" name="gallerylink_colorbox_retinaImage">
+						<option <?php if ('true' == $target_colorbox_retinaImage)echo 'selected="selected"'; ?>>true</option>
+						<option <?php if ('false' == $target_colorbox_retinaImage)echo 'selected="selected"'; ?>>false</option>
+					</select>
+					</td>
+				</tr>
+			</tbody>
+			</table>
+
+			<p class="submit">
+			  <input type="submit" name="Submit" value="<?php _e('Save Changes') ?>" />
+			</p>
+
+		</div>
+	  </div>
+
+	  <div id="tabs-5">
+		<div class="wrap">
 	<h3><?php _e('The to playback of video and music, that such as the next, .htaccess may be required to the directory containing the data file by the environment.', 'gallerylink') ?></h3>
 	<textarea rows="25" cols="100">
 AddType video/mp4 mp4 m4v
@@ -2040,7 +2590,7 @@ AddType application/vnd.ms-powerpoint.slide.macroEnabled.12 sldm
 	  </div>
 
 	<!--
-	  <div id="tabs-3">
+	  <div id="tabs-6">
 		<div class="wrap">
 		<h2>FAQ</h2>
 
@@ -2048,6 +2598,7 @@ AddType application/vnd.ms-powerpoint.slide.macroEnabled.12 sldm
 	  </div>
 	-->
 
+	</form>
 	</div>
 
 		</div>

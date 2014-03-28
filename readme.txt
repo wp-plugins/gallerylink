@@ -4,7 +4,7 @@ Donate link: http://gallerylink.nyanko.org/
 Tags: audio,feed,feeds,flash,gallery,html5,image,images,list,music,photo,photos,picture,pictures,rss,shortcode,video,xml
 Requires at least: 3.0.1
 Tested up to: 3.4
-Stable tag: 5.8
+Stable tag: 6.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -61,9 +61,16 @@ none
 
 == Screenshots ==
 
-none
+1. `/assets/screenshot-1.png`
+2. `/assets/screenshot-2.png`
+3. `/assets/screenshot-3.png`
 
 == Changelog ==
+
+= 6.0 =
+Be able to settings to effects.
+Easy to see the management screen.
+Change /languages.
 
 = 5.8 =
 Update PhotoSwipe.
@@ -367,6 +374,7 @@ Delete screenshot
 
 == Upgrade Notice ==
 
+= 6.0 =
 = 5.8 =
 = 5.7 =
 = 5.6 =

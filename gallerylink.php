@@ -2,7 +2,7 @@
 /*
 Plugin Name: GalleryLink
 Plugin URI: http://wordpress.org/plugins/gallerylink/
-Version: 5.8
+Version: 6.0
 Description: Output as a gallery by find the file extension and directory specified.
 Author: Katsushi Kawamori
 Author URI: http://gallerylink.nyanko.org/
@@ -925,7 +925,7 @@ FLASHMUSICPLAYER;
 	$searchform_begin = NULL;
 	$searchform_end = NULL;
 	$rssfeeds_icon = NULL;
-	if ( $set === 'album' || $set === 'slideshow' ){
+	if (  $set === 'album' || $set === 'slideshow' ){
 		if ($effect === 'nivoslider' && $mode <> 'mb'){
 			// for Nivo Slider
 			$linkfiles_begin = '<div class="slider-wrapper theme-default"><div class="slider-wrapper"><div id="slidernivo" class="nivoSlider">';
