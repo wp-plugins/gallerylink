@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Gallerylink\n"
 "POT-Creation-Date: 2013-05-27 21:10+0900\n"
-"PO-Revision-Date: 2014-03-27 22:51+0900\n"
+"PO-Revision-Date: 2014-03-29 14:43+0900\n"
 "Last-Translator: Katsushi Kawamori <dodesyoswift312@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -341,4 +341,16 @@ msgid "Date Time"
 msgstr ""
 
 msgid "The default value for effects."
+msgstr ""
+
+msgid "AllData"
+msgstr ""
+
+msgid "Slideshow"
+msgstr ""
+
+msgid "Music"
+msgstr ""
+
+msgid "Document"
 msgstr ""

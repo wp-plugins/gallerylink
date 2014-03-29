@@ -2,7 +2,7 @@
 /*
 Plugin Name: GalleryLink
 Plugin URI: http://wordpress.org/plugins/gallerylink/
-Version: 6.0
+Version: 6.1
 Description: Output as a gallery by find the file extension and directory specified.
 Author: Katsushi Kawamori
 Author URI: http://gallerylink.nyanko.org/
@@ -48,6 +48,11 @@ Domain Path: /languages
 
 	require_once( dirname( __FILE__ ) . '/req/GalleryLinkWidgetItem.php' );
 	add_action('widgets_init', create_function('', 'return register_widget("GalleryLinkWidgetItem");'));
+
+	require_once( dirname( __FILE__ ) . '/req/GalleryLinkQuickTag.php' );
+	$gallerylinkquicktag = new GalleryLinkQuickTag();
+	add_action('admin_print_footer_scripts', array($gallerylinkquicktag, 'add_quicktag'));
+	unset($gallerylinkquicktag);
 
 /* ==================================================
  * Main
