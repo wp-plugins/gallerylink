@@ -92,7 +92,7 @@ class GalleryLink {
    		$list = $tmp = array();
 	   	foreach(glob($dir . '/*', GLOB_ONLYDIR) as $child_dir) {
     	   	if ($tmp = $this->scan_file($child_dir)) {
-        	   	$list = array_merge($list, $tmp);
+       	   		$list = array_merge($list, $tmp);
 	       	}
    		}
 
@@ -106,18 +106,18 @@ class GalleryLink {
 			$search = $this->search;
 		}
 
-		$pattern = $dir.'/*'.'{'.$this->suffix_pattern.'}';
-
-		foreach(glob($pattern, GLOB_BRACE) as $file) {
-			if (!preg_match("/".$this->thumbnail."/", $file) || empty($this->thumbnail)) {
-				if (!preg_match("/".$exclude_file."/", $file) || empty($exclude_file)) {
-					if (!preg_match("/".$exclude_dir."/", $file) || empty($exclude_dir)) {
-						if ( !is_dir( $file ) ) {
-							if (empty($this->search)) {
-								$list[] = $file;
-							}else{
-								if(preg_match("/".$search."/", $file)) {
-								$list[] = $file;
+		foreach(glob($dir.'/*', GLOB_BRACE) as $file) {
+			if (preg_match("/".$this->suffix_pattern."/", end(explode('.', $file)))) {
+				if (!preg_match("/".$this->thumbnail."/", $file) || empty($this->thumbnail)) {
+					if (!preg_match("/".$exclude_file."/", $file) || empty($exclude_file)) {
+						if (!preg_match("/".$exclude_dir."/", $file) || empty($exclude_dir)) {
+							if ( !is_dir( $file ) ) {
+								if (empty($this->search)) {
+									$list[] = $file;
+								}else{
+									if(preg_match("/".$search."/", $file)) {
+									$list[] = $file;
+									}
 								}
 							}
 						}
@@ -624,7 +624,11 @@ class GalleryLink {
 			} else {
 				$link_url = 'http://'.$servername.$topurl_urlencode.$file.$suffix;
 			}
-			$img_url = '<a href="'.$link_url.'"><img src = "'.$thumblink.'"></a>';
+			if ( $this->type === 'media' && $this->set === 'all' ) {
+				$img_url = '<a href="'.$link_url.'">'.$thumblink.'"</a>';
+			} else {
+				$img_url = '<a href="'.$link_url.'"><img src = "'.$thumblink.'"></a>';
+			}
 		}else{
 			if ( $ext2type === 'document' || $ext2type === 'spreadsheet' || $ext2type === 'interactive' || $ext2type === 'text' || $ext2type === 'archive' || $ext2type === 'code' ){
 				$link_url = 'http://'.$servername.$topurl_urlencode.$file.$suffix;
@@ -782,6 +786,51 @@ XMLEND;
 		}
 
 		return $queryhead;
+
+	}
+
+	/* ==================================================
+	 * @param	none
+	 * @return	string	$extpattern
+	 * @since	6.2
+	 */
+	function extpattern(){
+
+		if ( $this->set === 'all' ) {
+			$searchtype = 'image|document|spreadsheet|interactive|text|archive|code';
+		} else if( $this->set === 'album' || $this->set === 'slideshow') {
+			$searchtype = 'image';
+		} else if ( $this->set === 'document' ) {
+			$searchtype = 'document|spreadsheet|interactive|text|archive|code';
+		}
+
+		$mimes = wp_get_mime_types();
+
+		foreach ($mimes as $ext => $mime) {
+			if( strpos( $ext, '|' ) ){
+				$exts = explode('|',$ext);
+				foreach ( $exts as $ext2 ) {
+					if( preg_match( "/".$searchtype."/", wp_ext2type($ext2) ) ) {
+						if ( $this->type === 'dir' ) {
+							$extpattern .= $ext2.'|'.strtoupper($ext2).'|';
+						} else if ( $this->type === 'media' ) {
+							$extpattern .= $ext2.','.strtoupper($ext2).',';
+						}
+					}
+				}
+			} else {
+				if( preg_match("/".$searchtype."/", wp_ext2type($ext) ) ) {
+					if ( $this->type === 'dir' ) {
+						$extpattern .= $ext.'|'.strtoupper($ext).'|';
+					} else if ( $this->type === 'media' ) {
+						$extpattern .= $ext.','.strtoupper($ext).',';
+					}
+				}
+			}
+		}
+		$extpattern = substr($extpattern, 0, -1);
+
+		return $extpattern;
 
 	}
 

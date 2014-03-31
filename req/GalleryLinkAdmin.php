@@ -225,7 +225,7 @@ class GalleryLinkAdmin {
 
 		<tr>
 		<td align="center" valign="middle"><b>suffix_pc</b></td>
-		<td align="center" valign="middle"><?php echo get_option('gallerylink_album_suffix_pc').','.get_option('gallerylink_movie_suffix_pc').','.get_option('gallerylink_music_suffix_pc').','.get_option('gallerylink_document_suffix_pc') ?></td>
+		<td align="left" valign="top" rowspan="5" width="180"><?php _e("Audio's suffix and Video's suffix is following to the setting(set='music',set='movie'). Other than that, read all the data.", 'gallerylink'); ?></td>
 		<td align="center" valign="middle"><?php echo get_option('gallerylink_album_suffix_pc') ?></td>
 		<td align="center" valign="middle"><?php echo get_option('gallerylink_movie_suffix_pc') ?></td>
 		<td align="center" valign="middle"><?php echo get_option('gallerylink_music_suffix_pc') ?></td>
@@ -238,7 +238,6 @@ class GalleryLinkAdmin {
 
 		<tr>
 		<td align="center" valign="middle"><b>suffix_pc2</b></td>
-		<td align="center" valign="middle"><?php echo get_option('gallerylink_movie_suffix_pc2').','.get_option('gallerylink_music_suffix_pc2') ?></td>
 		<td align="center" valign="middle" bgcolor="#dddddd"></td>
 		<td align="center" valign="middle"><?php echo get_option('gallerylink_movie_suffix_pc2') ?></td>
 		<td align="center" valign="middle"><?php echo get_option('gallerylink_music_suffix_pc2') ?></td>
@@ -250,7 +249,6 @@ class GalleryLinkAdmin {
 
 		<tr>
 		<td align="center" valign="middle"><b>suffix_flash</b></td>
-		<td align="center" valign="middle"><?php echo get_option('gallerylink_movie_suffix_flash').','.get_option('gallerylink_music_suffix_flash') ?></td>
 		<td align="center" valign="middle" bgcolor="#dddddd"></td>
 		<td align="center" valign="middle"><?php echo get_option('gallerylink_movie_suffix_flash') ?></td>
 		<td align="center" valign="middle"><?php echo get_option('gallerylink_music_suffix_flash') ?></td>
@@ -262,7 +260,6 @@ class GalleryLinkAdmin {
 
 		<tr>
 		<td align="center" valign="middle"><b>suffix_sp</b></td>
-		<td align="center" valign="middle"><?php echo get_option('gallerylink_album_suffix_sp').','.get_option('gallerylink_movie_suffix_sp').','.get_option('gallerylink_music_suffix_sp').','.get_option('gallerylink_document_suffix_sp') ?></td>
 		<td align="center" valign="middle"><?php echo get_option('gallerylink_album_suffix_sp') ?></td>
 		<td align="center" valign="middle"><?php echo get_option('gallerylink_movie_suffix_sp') ?></td>
 		<td align="center" valign="middle"><?php echo get_option('gallerylink_music_suffix_sp') ?></td>
@@ -275,7 +272,6 @@ class GalleryLinkAdmin {
 
 		<tr>
 		<td align="center" valign="middle"><b>suffix_keitai</b></td>
-		<td align="center" valign="middle"><?php echo get_option('gallerylink_album_suffix_keitai').','.get_option('gallerylink_movie_suffix_keitai').','.get_option('gallerylink_music_suffix_keitai').','.get_option('gallerylink_document_suffix_keitai') ?></td>
 		<td align="center" valign="middle"><?php echo get_option('gallerylink_album_suffix_keitai') ?></td>
 		<?php if ( get_option('gallerylink_movie_type') === 'dir' ) { ?>
 		<td align="center" valign="middle"><?php echo get_option('gallerylink_movie_suffix_keitai') ?></td>
@@ -814,7 +810,7 @@ class GalleryLinkAdmin {
 
 				<tr>
 					<td align="center" valign="middle"><b>suffix_pc</b></td>
-					<td align="center" valign="middle"><?php echo get_option('gallerylink_album_suffix_pc').','.get_option('gallerylink_movie_suffix_pc').','.get_option('gallerylink_music_suffix_pc').','.get_option('gallerylink_document_suffix_pc') ?></td>
+					<td align="left" valign="top" rowspan="5" width="180"><?php _e("Audio's suffix and Video's suffix is following to the setting(set='music',set='movie'). Other than that, read all the data.", 'gallerylink'); ?></td>
 					<td align="center" valign="middle">
 					<?php $target_album_suffix_pc = get_option('gallerylink_album_suffix_pc'); ?>
 					<select id="gallerylink_album_suffix_pc" name="gallerylink_album_suffix_pc">
@@ -826,6 +822,7 @@ class GalleryLinkAdmin {
 								<?php
 							}
 						?>
+						<option <?php if ('all' == $target_album_suffix_pc)echo 'selected="selected"'; ?>>all</option>
 					</select>
 					</td>
 					<td align="center" valign="middle">
@@ -865,6 +862,7 @@ class GalleryLinkAdmin {
 								<?php
 							}
 						?>
+						<option <?php if ('all' == $target_slideshow_suffix_pc)echo 'selected="selected"'; ?>>all</option>
 					</select>
 
 					</select>
@@ -910,6 +908,7 @@ class GalleryLinkAdmin {
 								<?php
 							}
 						?>
+						<option <?php if ('all' == $target_document_suffix_pc)echo 'selected="selected"'; ?>>all</option>
 					</select>
 					</td>
 					<td align="left" valign="middle">
@@ -918,7 +917,6 @@ class GalleryLinkAdmin {
 				</tr>
 				<tr>
 					<td align="center" valign="middle"><b>suffix_pc2</b></td>
-					<td align="center" valign="middle"><?php echo get_option('gallerylink_movie_suffix_pc2').','.get_option('gallerylink_music_suffix_pc2') ?></td>
 					<td></td>
 					<td align="center" valign="middle">
 					<?php $target_movie_suffix_pc2 = get_option('gallerylink_movie_suffix_pc2'); ?>
@@ -953,7 +951,6 @@ class GalleryLinkAdmin {
 				</tr>
 				<tr>
 					<td align="center" valign="middle"><b>suffix_flash</b></td>
-					<td align="center" valign="middle"><?php echo get_option('gallerylink_movie_suffix_flash').','.get_option('gallerylink_music_suffix_flash') ?></td>
 					<td></td>
 					<td align="center" valign="middle">
 					<?php $target_movie_suffix_flash = get_option('gallerylink_movie_suffix_flash'); ?>
@@ -975,7 +972,6 @@ class GalleryLinkAdmin {
 				</tr>
 				<tr>
 					<td align="center" valign="middle"><b>suffix_sp</b></td>
-					<td align="center" valign="middle"><?php echo get_option('gallerylink_album_suffix_sp').','.get_option('gallerylink_movie_suffix_sp').','.get_option('gallerylink_music_suffix_sp').','.get_option('gallerylink_document_suffix_sp') ?></td>
 					<td align="center" valign="middle">
 					<?php $target_album_suffix_sp = get_option('gallerylink_album_suffix_sp'); ?>
 					<select id="gallerylink_album_suffix_sp" name="gallerylink_album_suffix_sp">
@@ -987,6 +983,7 @@ class GalleryLinkAdmin {
 								<?php
 							}
 						?>
+						<option <?php if ('all' == $target_album_suffix_sp)echo 'selected="selected"'; ?>>all</option>
 					</select>
 					</td>
 					<td align="center" valign="middle">
@@ -1026,6 +1023,7 @@ class GalleryLinkAdmin {
 								<?php
 							}
 						?>
+						<option <?php if ('all' == $target_slideshow_suffix_sp)echo 'selected="selected"'; ?>>all</option>
 					</select>
 					</td>
 					<td align="center" valign="middle">
@@ -1069,6 +1067,7 @@ class GalleryLinkAdmin {
 								<?php
 							}
 						?>
+						<option <?php if ('all' == $target_document_suffix_sp)echo 'selected="selected"'; ?>>all</option>
 					</select>
 					</td>
 					<td align="left" valign="middle">
@@ -1077,7 +1076,6 @@ class GalleryLinkAdmin {
 				</tr>
 				<tr>
 					<td align="center" valign="middle"><b>suffix_keitai</b></td>
-					<td align="center" valign="middle"><?php echo get_option('gallerylink_album_suffix_keitai').','.get_option('gallerylink_movie_suffix_keitai').','.get_option('gallerylink_music_suffix_keitai').','.get_option('gallerylink_document_suffix_keitai') ?></td>
 					<td align="center" valign="middle">
 					<?php $target_album_suffix_keitai = get_option('gallerylink_album_suffix_keitai'); ?>
 					<select id="gallerylink_album_suffix_keitai" name="gallerylink_album_suffix_keitai">
@@ -1089,6 +1087,7 @@ class GalleryLinkAdmin {
 								<?php
 							}
 						?>
+						<option <?php if ('all' == $target_album_suffix_keitai)echo 'selected="selected"'; ?>>all</option>
 					</select>
 					</td>
 					<?php if ( get_option('gallerylink_movie_type') === 'dir' ) { ?>
@@ -1125,40 +1124,41 @@ class GalleryLinkAdmin {
 							$exts = $this->exts('document');
 							foreach ( $exts as $ext ) {
 								?>
-								<option <?php if ($ext == $target_document_suffix_sp)echo 'selected="selected"'; ?>><?php echo $ext ?></option>
+								<option <?php if ($ext == $target_document_suffix_keitai)echo 'selected="selected"'; ?>><?php echo $ext ?></option>
 								<?php
 							}
 							$exts = $this->exts('spreadsheet');
 							foreach ( $exts as $ext ) {
 								?>
-								<option <?php if ($ext == $target_document_suffix_sp)echo 'selected="selected"'; ?>><?php echo $ext ?></option>
+								<option <?php if ($ext == $target_document_suffix_keitai)echo 'selected="selected"'; ?>><?php echo $ext ?></option>
 								<?php
 							}
 							$exts = $this->exts('interactive');
 							foreach ( $exts as $ext ) {
 								?>
-								<option <?php if ($ext == $target_document_suffix_sp)echo 'selected="selected"'; ?>><?php echo $ext ?></option>
+								<option <?php if ($ext == $target_document_suffix_keitai)echo 'selected="selected"'; ?>><?php echo $ext ?></option>
 								<?php
 							}
 							$exts = $this->exts('text');
 							foreach ( $exts as $ext ) {
 								?>
-								<option <?php if ($ext == $target_document_suffix_sp)echo 'selected="selected"'; ?>><?php echo $ext ?></option>
+								<option <?php if ($ext == $target_document_suffix_keitai)echo 'selected="selected"'; ?>><?php echo $ext ?></option>
 								<?php
 							}
 							$exts = $this->exts('archive');
 							foreach ( $exts as $ext ) {
 								?>
-								<option <?php if ($ext == $target_document_suffix_sp)echo 'selected="selected"'; ?>><?php echo $ext ?></option>
+								<option <?php if ($ext == $target_document_suffix_keitai)echo 'selected="selected"'; ?>><?php echo $ext ?></option>
 								<?php
 							}
 							$exts = $this->exts('code');
 							foreach ( $exts as $ext ) {
 								?>
-								<option <?php if ($ext == $target_document_suffix_sp)echo 'selected="selected"'; ?>><?php echo $ext ?></option>
+								<option <?php if ($ext == $target_document_suffix_keitai)echo 'selected="selected"'; ?>><?php echo $ext ?></option>
 								<?php
 							}
 						?>
+						<option <?php if ('all' == $target_document_suffix_keitai)echo 'selected="selected"'; ?>>all</option>
 					</select>
 					</td>
 					<td align="left" valign="middle">
