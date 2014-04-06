@@ -59,13 +59,13 @@ class GalleryLink {
 
 		$user_agent = $_SERVER['HTTP_USER_AGENT'];
 
-		if(preg_match("{".get_option('gallerylink_useragent_tb')."}",$user_agent)){
+		if(preg_match("{".get_option('gallerylink_useragent')[tb]."}",$user_agent)){
 			//Tablet
 			$mode = "pc"; 
-		}else if(preg_match("{".get_option('gallerylink_useragent_sp')."}",$user_agent)){
+		}else if(preg_match("{".get_option('gallerylink_useragent')[sp]."}",$user_agent)){
 			//Smartphone
 			$mode = "sp";
-		}else if(preg_match("{".get_option('gallerylink_useragent_mb')."}",$user_agent)){
+		}else if(preg_match("{".get_option('gallerylink_useragent')[mb]."}",$user_agent)){
 			//Japanese mobile phone
 			$mode = "mb";
 		}else{
@@ -306,12 +306,12 @@ class GalleryLink {
 					$mediumlink = NULL;
 					$largelink = NULL;
 					$largemediumlink = NULL;
-					if ( $this->set === 'album'  || $this->set === 'slideshow' ){
+					$medium_src = wp_get_attachment_image_src($attachment->ID, 'medium');
+					$large_src = wp_get_attachment_image_src($attachment->ID, 'large');
+					$thumblink = $thumb_src[0];
+					$mediumlink = $medium_src[0];
+					if ( $this->set === 'album' || $this->set === 'slideshow' ){
 						$thumb_src = wp_get_attachment_image_src($attachment->ID);
-						$medium_src = wp_get_attachment_image_src($attachment->ID, 'medium');
-						$large_src = wp_get_attachment_image_src($attachment->ID, 'large');
-						$thumblink = $thumb_src[0];
-						$mediumlink = $medium_src[0];
 						$largelink = $large_src[0];
 					} else {
 						$thumblink = wp_get_attachment_image( $attachment->ID, 'thumbnail', TRUE );

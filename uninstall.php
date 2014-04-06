@@ -1,235 +1,49 @@
 <?php
 
-	if( !defined('WP_UNINSTALL_PLUGIN') )
-    	exit();
+	//if uninstall not called from WordPress exit
+	if ( !defined( 'WP_UNINSTALL_PLUGIN' ) ) 
+	    exit();
 
-	delete_option('gallerylink_mb_language');
-	delete_option('gallerylink_all_type');
-	delete_option('gallerylink_album_type');
-	delete_option('gallerylink_movie_type');
-	delete_option('gallerylink_music_type');
-	delete_option('gallerylink_slideshow_type');
-	delete_option('gallerylink_document_type');
-	delete_option('gallerylink_all_sort');
-	delete_option('gallerylink_album_sort');
-	delete_option('gallerylink_movie_sort');
-	delete_option('gallerylink_music_sort');
-	delete_option('gallerylink_slideshow_sort');
-	delete_option('gallerylink_document_sort');
-	delete_option('gallerylink_all_effect_pc');
-	delete_option('gallerylink_all_effect_sp');
-	delete_option('gallerylink_album_effect_pc');
-	delete_option('gallerylink_album_effect_sp');
-	delete_option('gallerylink_slideshow_effect_pc');
-	delete_option('gallerylink_slideshow_effect_sp');
-	delete_option('gallerylink_all_topurl');
-	delete_option('gallerylink_album_topurl');
-	delete_option('gallerylink_movie_topurl');
-	delete_option('gallerylink_music_topurl');
-	delete_option('gallerylink_document_topurl');
-	delete_option('gallerylink_slideshow_topurl');
-	delete_option('gallerylink_album_suffix_pc');
-	delete_option('gallerylink_album_suffix_sp');
-	delete_option('gallerylink_album_suffix_keitai');
-	delete_option('gallerylink_movie_suffix_pc');
-	delete_option('gallerylink_movie_suffix_pc2');
-	delete_option('gallerylink_movie_suffix_sp');
-	delete_option('gallerylink_movie_suffix_keitai');
-	delete_option('gallerylink_music_suffix_pc');
-	delete_option('gallerylink_music_suffix_pc2');
-	delete_option('gallerylink_music_suffix_sp');
-	delete_option('gallerylink_music_suffix_keitai');
-	delete_option('gallerylink_slideshow_suffix_pc');
-	delete_option('gallerylink_slideshow_suffix_sp');
-	delete_option('gallerylink_document_suffix_pc');
-	delete_option('gallerylink_document_suffix_sp');
-	delete_option('gallerylink_document_suffix_keitai');
-	delete_option('gallerylink_all_display_pc'); 	
-	delete_option('gallerylink_all_display_sp');
-	delete_option('gallerylink_all_display_keitai');
-	delete_option('gallerylink_album_display_pc');
-	delete_option('gallerylink_album_display_sp');
-	delete_option('gallerylink_album_display_keitai');
-	delete_option('gallerylink_movie_display_pc');
-	delete_option('gallerylink_movie_display_sp');
-	delete_option('gallerylink_movie_display_keitai');
-	delete_option('gallerylink_music_display_pc');
-	delete_option('gallerylink_music_display_sp');
-	delete_option('gallerylink_music_display_keitai');
-	delete_option('gallerylink_slideshow_display_pc');
-	delete_option('gallerylink_slideshow_display_sp');
-	delete_option('gallerylink_document_display_pc');
-	delete_option('gallerylink_document_display_sp');
-	delete_option('gallerylink_document_display_keitai');
-	delete_option('gallerylink_all_image_show_size');
-	delete_option('gallerylink_album_image_show_size');
-	delete_option('gallerylink_slideshow_image_show_size');
-	delete_option('gallerylink_all_suffix_thumbnail');
-	delete_option('gallerylink_album_suffix_thumbnail');
-	delete_option('gallerylink_movie_suffix_thumbnail');
-	delete_option('gallerylink_music_suffix_thumbnail');
-	delete_option('gallerylink_slideshow_suffix_thumbnail');
-	delete_option('gallerylink_document_suffix_thumbnail');
-	delete_option('gallerylink_exclude_file');
-	delete_option('gallerylink_exclude_dir');
-	delete_option('gallerylink_all_include_cat');
-	delete_option('gallerylink_album_include_cat');
-	delete_option('gallerylink_movie_include_cat');
-	delete_option('gallerylink_music_include_cat');
-	delete_option('gallerylink_slideshow_include_cat');
-	delete_option('gallerylink_document_include_cat');
-	delete_option('gallerylink_exclude_cat');
-	delete_option('gallerylink_all_generate_rssfeed');
-	delete_option('gallerylink_album_generate_rssfeed');
-	delete_option('gallerylink_movie_generate_rssfeed');
-	delete_option('gallerylink_music_generate_rssfeed');
-	delete_option('gallerylink_slideshow_generate_rssfeed');
-	delete_option('gallerylink_document_generate_rssfeed');
-	delete_option('gallerylink_all_rssname');
-	delete_option('gallerylink_album_rssname');
-	delete_option('gallerylink_movie_rssname');
-	delete_option('gallerylink_music_rssname');
-	delete_option('gallerylink_slideshow_rssname');
-	delete_option('gallerylink_document_rssname');
-	delete_option('gallerylink_all_rssmax');
-	delete_option('gallerylink_album_rssmax');
-	delete_option('gallerylink_movie_rssmax');
-	delete_option('gallerylink_music_rssmax');
-	delete_option('gallerylink_slideshow_rssmax');
-	delete_option('gallerylink_document_rssmax');
-	delete_option('gallerylink_movie_container');
-	delete_option('gallerylink_css_pc_listwidth');
-	delete_option('gallerylink_css_pc_listthumbsize');
-	delete_option('gallerylink_css_pc_linkstrcolor');
-	delete_option('gallerylink_css_pc_linkbackcolor');
-	delete_option('gallerylink_css_sp_navstrcolor');
-	delete_option('gallerylink_css_sp_navbackcolor');
-	delete_option('gallerylink_css_sp_navpartitionlinecolor');
-	delete_option('gallerylink_css_sp_listbackcolor');
-	delete_option('gallerylink_css_sp_listarrowcolor');
-	delete_option('gallerylink_css_sp_listpartitionlinecolor');
-	delete_option('gallerylink_all_filesize_show');
-	delete_option('gallerylink_all_stamptime_show');
-	delete_option('gallerylink_all_selectbox_show');
-	delete_option('gallerylink_all_pagelinks_show');
-	delete_option('gallerylink_all_sortlinks_show');
-	delete_option('gallerylink_all_searchbox_show');
-	delete_option('gallerylink_all_rssicon_show');
-	delete_option('gallerylink_all_credit_show');
-	delete_option('gallerylink_album_filesize_show');
-	delete_option('gallerylink_album_stamptime_show');
-	delete_option('gallerylink_album_selectbox_show');
-	delete_option('gallerylink_album_pagelinks_show');
-	delete_option('gallerylink_album_sortlinks_show');
-	delete_option('gallerylink_album_searchbox_show');
-	delete_option('gallerylink_album_rssicon_show');
-	delete_option('gallerylink_album_credit_show');
-	delete_option('gallerylink_movie_filesize_show');
-	delete_option('gallerylink_movie_stamptime_show');
-	delete_option('gallerylink_movie_selectbox_show');
-	delete_option('gallerylink_movie_pagelinks_show');
-	delete_option('gallerylink_movie_sortlinks_show');
-	delete_option('gallerylink_movie_searchbox_show');
-	delete_option('gallerylink_movie_rssicon_show');
-	delete_option('gallerylink_movie_credit_show');
-	delete_option('gallerylink_music_filesize_show');
-	delete_option('gallerylink_music_stamptime_show');
-	delete_option('gallerylink_music_selectbox_show');
-	delete_option('gallerylink_music_pagelinks_show');
-	delete_option('gallerylink_music_sortlinks_show');
-	delete_option('gallerylink_music_searchbox_show');
-	delete_option('gallerylink_music_rssicon_show');
-	delete_option('gallerylink_music_credit_show');
-	delete_option('gallerylink_slideshow_filesize_show');
-	delete_option('gallerylink_slideshow_stamptime_show');
-	delete_option('gallerylink_slideshow_selectbox_show');
-	delete_option('gallerylink_slideshow_pagelinks_show');
-	delete_option('gallerylink_slideshow_sortlinks_show');
-	delete_option('gallerylink_slideshow_searchbox_show');
-	delete_option('gallerylink_slideshow_rssicon_show');
-	delete_option('gallerylink_slideshow_credit_show');
-	delete_option('gallerylink_document_filesize_show');
-	delete_option('gallerylink_document_stamptime_show');
-	delete_option('gallerylink_document_selectbox_show');
-	delete_option('gallerylink_document_pagelinks_show');
-	delete_option('gallerylink_document_sortlinks_show');
-	delete_option('gallerylink_document_searchbox_show');
-	delete_option('gallerylink_document_rssicon_show');
-	delete_option('gallerylink_document_credit_show');
-	delete_option('gallerylink_useragent_tb');
-	delete_option('gallerylink_useragent_sp');
-	delete_option('gallerylink_useragent_mb');
-	delete_option('gallerylink_colorbox_transition');
-	delete_option('gallerylink_colorbox_speed');
-	delete_option('gallerylink_colorbox_title');
-	delete_option('gallerylink_colorbox_scalePhotos');
-	delete_option('gallerylink_colorbox_scrolling');
-	delete_option('gallerylink_colorbox_opacity');
-	delete_option('gallerylink_colorbox_open');
-	delete_option('gallerylink_colorbox_returnFocus');
-	delete_option('gallerylink_colorbox_trapFocus');
-	delete_option('gallerylink_colorbox_fastIframe');
-	delete_option('gallerylink_colorbox_preloading');
-	delete_option('gallerylink_colorbox_overlayClose');
-	delete_option('gallerylink_colorbox_escKey');
-	delete_option('gallerylink_colorbox_arrowKey');
-	delete_option('gallerylink_colorbox_loop');
-	delete_option('gallerylink_colorbox_fadeOut');
-	delete_option('gallerylink_colorbox_closeButton');
-	delete_option('gallerylink_colorbox_current');
-	delete_option('gallerylink_colorbox_previous');
-	delete_option('gallerylink_colorbox_next');
-	delete_option('gallerylink_colorbox_close');
-	delete_option('gallerylink_colorbox_width');
-	delete_option('gallerylink_colorbox_height');
-	delete_option('gallerylink_colorbox_innerWidth');
-	delete_option('gallerylink_colorbox_innerHeight');
-	delete_option('gallerylink_colorbox_initialWidth');
-	delete_option('gallerylink_colorbox_initialHeight');
-	delete_option('gallerylink_colorbox_maxWidth');
-	delete_option('gallerylink_colorbox_maxHeight');
-	delete_option('gallerylink_colorbox_slideshow');
-	delete_option('gallerylink_colorbox_slideshowSpeed');
-	delete_option('gallerylink_colorbox_slideshowAuto');
-	delete_option('gallerylink_colorbox_slideshowStart');
-	delete_option('gallerylink_colorbox_slideshowStop');
-	delete_option('gallerylink_colorbox_fixed');
-	delete_option('gallerylink_colorbox_top');
-	delete_option('gallerylink_colorbox_bottom');
-	delete_option('gallerylink_colorbox_left');
-	delete_option('gallerylink_colorbox_right');
-	delete_option('gallerylink_colorbox_reposition');
-	delete_option('gallerylink_colorbox_retinaImage');
-	delete_option('gallerylink_nivoslider_effect');
-	delete_option('gallerylink_nivoslider_slices');
-	delete_option('gallerylink_nivoslider_boxCols');
-	delete_option('gallerylink_nivoslider_boxRows');
-	delete_option('gallerylink_nivoslider_animSpeed');
-	delete_option('gallerylink_nivoslider_pauseTime');
-	delete_option('gallerylink_nivoslider_startSlide');
-	delete_option('gallerylink_nivoslider_directionNav');
-	delete_option('gallerylink_nivoslider_directionNavHide');
-	delete_option('gallerylink_nivoslider_pauseOnHover');
-	delete_option('gallerylink_nivoslider_manualAdvance');
-	delete_option('gallerylink_nivoslider_prevText');
-	delete_option('gallerylink_nivoslider_nextText');
-	delete_option('gallerylink_nivoslider_randomStart');
-	delete_option('gallerylink_photoswipe_fadeInSpeed');
-	delete_option('gallerylink_photoswipe_fadeOutSpeed');
-	delete_option('gallerylink_photoswipe_slideSpeed');
-	delete_option('gallerylink_photoswipe_swipeThreshold');
-	delete_option('gallerylink_photoswipe_swipeTimeThreshold');
-	delete_option('gallerylink_photoswipe_loop');
-	delete_option('gallerylink_photoswipe_slideshowDelay');
-	delete_option('gallerylink_photoswipe_imageScaleMethod');
-	delete_option('gallerylink_photoswipe_preventHide');
-	delete_option('gallerylink_photoswipe_backButtonHideEnabled');
-	delete_option('gallerylink_photoswipe_captionAndToolbarHide');
-	delete_option('gallerylink_photoswipe_captionAndToolbarHideOnSwipe');
-	delete_option('gallerylink_photoswipe_captionAndToolbarFlipPosition');
-	delete_option('gallerylink_photoswipe_captionAndToolbarAutoHideDelay');
-	delete_option('gallerylink_photoswipe_captionAndToolbarOpacity');
-	delete_option('gallerylink_photoswipe_captionAndToolbarShowEmptyCaptions');
-	delete_option('gallerylink_swipebox_hideBarsDelay');
+	$option_names = array(
+						'gallerylink_album',
+						'gallerylink_all',
+						'gallerylink_colorbox',
+						'gallerylink_css',
+						'gallerylink_document',
+						'gallerylink_exclude',
+						'gallerylink_mb_language',
+						'gallerylink_movie',
+						'gallerylink_music',
+						'gallerylink_nivoslider',
+						'gallerylink_photoswipe',
+						'gallerylink_slideshow',
+						'gallerylink_swipebox',
+						'gallerylink_useragent'
+					);
+
+	// For Single site
+	if ( !is_multisite() ) {
+		foreach( $option_names as $option_name ) {
+		    delete_option( $option_name );
+		}
+	} else {
+	// For Multisite
+	    // For regular options.
+	    global $wpdb;
+	    $blog_ids = $wpdb->get_col( "SELECT blog_id FROM $wpdb->blogs" );
+	    $original_blog_id = get_current_blog_id();
+	    foreach ( $blog_ids as $blog_id ) {
+	        switch_to_blog( $blog_id );
+			foreach( $option_names as $option_name ) {
+			    delete_option( $option_name );
+			}
+	    }
+	    switch_to_blog( $original_blog_id );
+
+	    // For site options.
+		foreach( $option_names as $option_name ) {
+		    delete_site_option( $option_name );  
+		}
+	}
 
 ?>
