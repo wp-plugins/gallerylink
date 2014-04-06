@@ -56,21 +56,28 @@ class GalleryLinkWidgetItem extends WP_Widget {
 			$chrcode = 'UTF-8';
 		}
 
+		$gallerylink_album = get_option('gallerylink_album');
+		$gallerylink_all = get_option('gallerylink_all');
+		$gallerylink_document = get_option('gallerylink_document');
+		$gallerylink_movie = get_option('gallerylink_movie');
+		$gallerylink_music = get_option('gallerylink_music');
+		$gallerylink_slideshow = get_option('gallerylink_slideshow');
+
 		$documentrootname = $_SERVER['DOCUMENT_ROOT'];
 		$servername = 'http://'.$_SERVER['HTTP_HOST'];
 		$xmlurl2 = get_bloginfo('comments_rss2_url');
-		$xml3 = mb_convert_encoding(get_option('gallerylink_all')[topurl], $chrcode, "auto").'/'.get_option('gallerylink_all')[rssname].'.xml';
-		$xml4 = mb_convert_encoding(get_option('gallerylink_album')[topurl], $chrcode, "auto").'/'.get_option('gallerylink_album')[rssname].'.xml';
-		$xml5 = mb_convert_encoding(get_option('gallerylink_movie')[topurl], $chrcode, "auto").'/'.get_option('gallerylink_movie')[rssname].'.xml';
-		$xml6 = mb_convert_encoding(get_option('gallerylink_music')[topurl], $chrcode, "auto").'/'.get_option('gallerylink_music')[rssname].'.xml';
-		$xml7 = mb_convert_encoding(get_option('gallerylink_slideshow')[topurl], $chrcode, "auto").'/'.get_option('gallerylink_slideshow')[rssname].'.xml';
-		$xml8 = mb_convert_encoding(get_option('gallerylink_document')[topurl], $chrcode, "auto").'/'.get_option('gallerylink_document')[rssname].'.xml';
-		$xml9 = $wp_uploads_path.'/'.get_option('gallerylink_all')[rssname].'.xml';
-		$xml10 = $wp_uploads_path.'/'.get_option('gallerylink_album')[rssname].'.xml';
-		$xml11 = $wp_uploads_path.'/'.get_option('gallerylink_movie')[rssname].'.xml';
-		$xml12 = $wp_uploads_path.'/'.get_option('gallerylink_music')[rssname].'.xml';
-		$xml13 = $wp_uploads_path.'/'.get_option('gallerylink_slideshow')[rssname].'.xml';
-		$xml14 = $wp_uploads_path.'/'.get_option('gallerylink_document')[rssname].'.xml';
+		$xml3 = mb_convert_encoding($gallerylink_all[topurl], $chrcode, "auto").'/'.$gallerylink_all[rssname].'.xml';
+		$xml4 = mb_convert_encoding($gallerylink_album[topurl], $chrcode, "auto").'/'.$gallerylink_album[rssname].'.xml';
+		$xml5 = mb_convert_encoding($gallerylink_movie[topurl], $chrcode, "auto").'/'.$gallerylink_movie[rssname].'.xml';
+		$xml6 = mb_convert_encoding($gallerylink_music[topurl], $chrcode, "auto").'/'.$gallerylink_music[rssname].'.xml';
+		$xml7 = mb_convert_encoding($gallerylink_slideshow[topurl], $chrcode, "auto").'/'.$gallerylink_slideshow[rssname].'.xml';
+		$xml8 = mb_convert_encoding($gallerylink_document[topurl], $chrcode, "auto").'/'.$gallerylink_document[rssname].'.xml';
+		$xml9 = $wp_uploads_path.'/'.$gallerylink_all[rssname].'.xml';
+		$xml10 = $wp_uploads_path.'/'.$gallerylink_album[rssname].'.xml';
+		$xml11 = $wp_uploads_path.'/'.$gallerylink_movie[rssname].'.xml';
+		$xml12 = $wp_uploads_path.'/'.$gallerylink_music[rssname].'.xml';
+		$xml13 = $wp_uploads_path.'/'.$gallerylink_slideshow[rssname].'.xml';
+		$xml14 = $wp_uploads_path.'/'.$gallerylink_document[rssname].'.xml';
 
 		if ($title) {
 			echo $before_widget;
@@ -102,7 +109,7 @@ class GalleryLinkWidgetItem extends WP_Widget {
 				$xmldata3 = simplexml_load_file($servername.mb_convert_encoding($xml3, "UTF-8", "auto"));
 				?>
 				<tr>
-				<td align="center" valign="middle"><a href="<?php echo get_option('gallerylink_all')[topurl] ?>/<?php echo get_option('gallerylink_all')[rssname] ?>.xml">
+				<td align="center" valign="middle"><a href="<?php echo $gallerylink_all[topurl] ?>/<?php echo $gallerylink_all[rssname] ?>.xml">
 				<img src="<?php echo $pluginurl ?>/gallerylink/icon/podcast.png"></a></td>
 				<td align="left" valign="middle"><?php echo $xmldata3->channel->title; ?></td>
 				</tr>
@@ -112,7 +119,7 @@ class GalleryLinkWidgetItem extends WP_Widget {
 				$xmldata4 = simplexml_load_file($servername.mb_convert_encoding($xml4, "UTF-8", "auto"));
 				?>
 				<tr>
-				<td align="center" valign="middle"><a href="<?php echo get_option('gallerylink_album')[topurl] ?>/<?php echo get_option('gallerylink_album')[rssname] ?>.xml">
+				<td align="center" valign="middle"><a href="<?php echo $gallerylink_album[topurl] ?>/<?php echo $gallerylink_album[rssname] ?>.xml">
 				<img src="<?php echo $pluginurl ?>/gallerylink/icon/rssfeeds.png"></a></td>
 				<td align="left" valign="middle"><?php echo $xmldata4->channel->title; ?></td>
 				</tr>
@@ -122,7 +129,7 @@ class GalleryLinkWidgetItem extends WP_Widget {
 				$xmldata5 = simplexml_load_file($servername.mb_convert_encoding($xml5, "UTF-8", "auto"));
 				?>
 				<tr>
-				<td align="center" valign="middle"><a href="<?php echo get_option('gallerylink_movie')[topurl] ?>/<?php echo get_option('gallerylink_movie')[rssname] ?>.xml">
+				<td align="center" valign="middle"><a href="<?php echo $gallerylink_movie[topurl] ?>/<?php echo $gallerylink_movie[rssname] ?>.xml">
 				<img src="<?php echo $pluginurl ?>/gallerylink/icon/podcast.png"></a></td>
 				<td align="left" valign="middle"><?php echo $xmldata5->channel->title; ?></td>
 				</tr>
@@ -132,7 +139,7 @@ class GalleryLinkWidgetItem extends WP_Widget {
 				$xmldata6 = simplexml_load_file($servername.mb_convert_encoding($xml6, "UTF-8", "auto"));
 				?>
 				<tr>
-				<td align="center" valign="middle"><a href="<?php echo get_option('gallerylink_music')[topurl] ?>/<?php echo get_option('gallerylink_music')[rssname] ?>.xml">
+				<td align="center" valign="middle"><a href="<?php echo $gallerylink_music[topurl] ?>/<?php echo $gallerylink_music[rssname] ?>.xml">
 				<img src="<?php echo $pluginurl ?>/gallerylink/icon/podcast.png"></a></td>
 				<td align="left" valign="middle"><?php echo $xmldata6->channel->title; ?></td>
 				</tr>
@@ -142,7 +149,7 @@ class GalleryLinkWidgetItem extends WP_Widget {
 				$xmldata7 = simplexml_load_file($servername.mb_convert_encoding($xml7, "UTF-8", "auto"));
 				?>
 				<tr>
-				<td align="center" valign="middle"><a href="<?php echo get_option('gallerylink_slideshow')[topurl] ?>/<?php echo get_option('gallerylink_slideshow')[rssname] ?>.xml">
+				<td align="center" valign="middle"><a href="<?php echo $gallerylink_slideshow[topurl] ?>/<?php echo $gallerylink_slideshow[rssname] ?>.xml">
 				<img src="<?php echo $pluginurl ?>/gallerylink/icon/rssfeeds.png"></a></td>
 				<td align="left" valign="middle"><?php echo $xmldata7->channel->title; ?></td>
 				</tr>
@@ -152,7 +159,7 @@ class GalleryLinkWidgetItem extends WP_Widget {
 				$xmldata8 = simplexml_load_file($servername.mb_convert_encoding($xml8, "UTF-8", "auto"));
 				?>
 				<tr>
-				<td align="center" valign="middle"><a href="<?php echo get_option('gallerylink_document')[topurl] ?>/<?php echo get_option('gallerylink_document')[rssname] ?>.xml">
+				<td align="center" valign="middle"><a href="<?php echo $gallerylink_document[topurl] ?>/<?php echo $gallerylink_document[rssname] ?>.xml">
 				<img src="<?php echo $pluginurl ?>/gallerylink/icon/rssfeeds.png"></a></td>
 				<td align="left" valign="middle"><?php echo $xmldata8->channel->title; ?></td>
 				</tr>

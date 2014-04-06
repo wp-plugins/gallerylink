@@ -59,13 +59,15 @@ class GalleryLink {
 
 		$user_agent = $_SERVER['HTTP_USER_AGENT'];
 
-		if(preg_match("{".get_option('gallerylink_useragent')[tb]."}",$user_agent)){
+		$gallerylink_useragent = get_option('gallerylink_useragent');
+
+		if(preg_match("{".$gallerylink_useragent[tb]."}",$user_agent)){
 			//Tablet
 			$mode = "pc"; 
-		}else if(preg_match("{".get_option('gallerylink_useragent')[sp]."}",$user_agent)){
+		}else if(preg_match("{".$gallerylink_useragent[sp]."}",$user_agent)){
 			//Smartphone
 			$mode = "sp";
-		}else if(preg_match("{".get_option('gallerylink_useragent')[mb]."}",$user_agent)){
+		}else if(preg_match("{".$gallerylink_useragent[mb]."}",$user_agent)){
 			//Japanese mobile phone
 			$mode = "mb";
 		}else{
