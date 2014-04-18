@@ -95,46 +95,47 @@ class GalleryLinkAdmin {
 	  <div id="tabs-1">
 		<h2><?php _e('How to use', 'gallerylink'); ?></h2>
 		<h3><?php _e('Please set the default value in the setting page.', 'gallerylink'); ?></h3>
-		<p><div><b><?php _e('In the case of read data from the directory.', 'gallerylink'); ?></b></div>
+		<p><div><?php _e('In the case of read data from the directory.', 'gallerylink'); ?></div>
 		<div style="margin: 10px"><?php _e('Please upload the data to the data directory (topurl) by the FTP software. At the same time upload thumbnail.', 'gallerylink'); ?></div></p>
-		<p><div><b><?php _e('In the case of read data from the Media Library.', 'gallerylink'); ?></b></div>
+		<p><div><?php _e('In the case of read data from the Media Library.', 'gallerylink'); ?></div>
 		<div style="margin: 10px"><?php _e('Please upload the data to the Media Library.', 'gallerylink'); ?></div></p>
-		<p><b><?php _e('Please add new Page. Please write a short code in the text field of the Page. Please go in Text mode this task.', 'gallerylink'); ?></b></p>
-		<b><?php _e('In the case of all data', 'gallerylink'); ?></b>
-		<p>&#91;gallerylink set='all'&#93</p>
+		<p><?php _e('Please add new Page. Please write a short code in the text field of the Page. Please go in Text mode this task.', 'gallerylink'); ?></p>
+		<div><?php _e('In the case of all data', 'gallerylink'); ?>
+		<code>&#91;gallerylink set='all'&#93</code></div>
 
-		<b><?php _e('In the case of image', 'gallerylink'); ?></b>
-		<p>&#91;gallerylink set='album'&#93</p>
+		<div><?php _e('In the case of image', 'gallerylink'); ?>
+		<code>&#91;gallerylink set='album'&#93</code></div>
 
-		<b><?php _e('In the case of slideshow', 'gallerylink'); ?></b>
-		<p>&#91;gallerylink set='slideshow'&#93</p>
+		<div><?php _e('In the case of slideshow', 'gallerylink'); ?>
+		<code>&#91;gallerylink set='slideshow'&#93</code></div>
 
-		<b><?php _e('In the case of video', 'gallerylink'); ?></b>
-		<p>&#91;gallerylink set='movie'&#93</p>
+		<div><?php _e('In the case of video', 'gallerylink'); ?>
+		<code>&#91;gallerylink set='movie'&#93</code></div>
 
-		<b><?php _e('In the case of music', 'gallerylink'); ?></b>
-		<p>&#91;gallerylink set='music'&#93</p>
+		<div><?php _e('In the case of music', 'gallerylink'); ?>
+		<code>&#91;gallerylink set='music'&#93</code></div>
 
-		<b><?php _e('In the case of document', 'gallerylink'); ?></b>
-		<p>&#91;gallerylink set='document'&#93</p>
-		<p><div><b><?php _e('In the case of read data from the directory.', 'gallerylink'); ?></b></div>
+		<div><?php _e('In the case of document', 'gallerylink'); ?>
+		<code>&#91;gallerylink set='document'&#93</code></div>
+
+		<p><div><?php _e('In the case of read data from the directory.', 'gallerylink'); ?></div>
 		<div style="margin: 10px"><?php _e('If you want to use MULTI-BYTE CHARACTER SETS to the display of the directory name and the file name. In this case, please upload the file after UTF-8 character code setting of the FTP software.', 'gallerylink'); ?></div></p>
-		<p><div><strong><?php _e('Customization', 'gallerylink'); ?></strong></div></p>
+		<p><div><?php _e('Customization', 'gallerylink'); ?></div></p>
 		<div><?php _e('GalleryLink can be used to specify the attributes of the table below to short code. It will override the default settings.', 'gallerylink'); ?></div>
-		<p><div><?php _e('All data Example', 'gallerylink'); ?></div>
-		<div>&#91;gallerylink set='all'&#93</div>
-		<div><?php _e('Image Example', 'gallerylink'); ?></div>
-		<div>&#91;gallerylink set='album' type='dir' topurl='/wordpress/wp-content/uploads' thumbnail='-80x80' exclude_file='(.ktai.)|(-[0-9]*x[0-9]*.)' exclude_dir='ps_auto_sitemap|backwpup.*|wpcf7_captcha' rssname='album'&#93</div>
-		<div>&#91;gallerylink set='album' type='media' image_show_size='Medium' exclude_cat='test|test2' rssname='album2'&#93</div>
-		<div><?php _e('Video Example', 'gallerylink'); ?></div>
-		<div>&#91;gallerylink set='movie' type='dir' topurl='/gallery/video' rssmax=5&#93</div>
-		<div>&#91;gallerylink set='movie' type='media' include_cat='test3'&#93</div>
-		<div><?php _e('Music Example', 'gallerylink'); ?></div>
-		<div>&#91;gallerylink set='music' type='dir' topurl='/gallery/music'&#93</div>
-		<div>&#91;gallerylink set='music' type='media' credit_show='Hide'&#93</div>
-		<div><?php _e('Document Example', 'gallerylink'); ?></div>
-		<div>&#91;gallerylink set='document' type='dir' topurl='/gallery/document' suffix_pc='doc'&#93</div>
-		<div>&#91;gallerylink set='document' type='media' suffix_pc='pdf'&#93</div></p>
+		<p><div><?php _e('All data Example', 'gallerylink'); ?>
+		<code>&#91;gallerylink set='all'&#93</code></div>
+		<div><?php _e('Image Example', 'gallerylink'); ?>
+		<code>&#91;gallerylink set='album' type='dir' topurl='/wordpress/wp-content/uploads' thumbnail='-80x80' exclude_file='(.ktai.)|(-[0-9]*x[0-9]*.)' exclude_dir='ps_auto_sitemap|backwpup.*|wpcf7_captcha' rssname='album'&#93</code></div>
+		<code>&#91;gallerylink set='album' type='media' image_show_size='Medium' exclude_cat='test|test2' rssname='album2'&#93</code>
+		<div><?php _e('Video Example', 'gallerylink'); ?>
+		<code>&#91;gallerylink set='movie' type='dir' topurl='/gallery/video' rssmax=5&#93</code>
+		<code>&#91;gallerylink set='movie' type='media' include_cat='test3'&#93</code></div>
+		<div><?php _e('Music Example', 'gallerylink'); ?>
+		<code>&#91;gallerylink set='music' type='dir' topurl='/gallery/music'&#93</code>
+		<code>&#91;gallerylink set='music' type='media' credit_show='Hide'&#93</code></div>
+		<div><?php _e('Document Example', 'gallerylink'); ?>
+		<code>&#91;gallerylink set='document' type='dir' topurl='/gallery/document' suffix_pc='doc'&#93</code>
+		<code>&#91;gallerylink set='document' type='media' suffix_pc='pdf'&#93</code></div>
 		<p><div><?php _e('* Please set to 777 or 757 the attributes of topurl directory. Because GalleryLink create an RSS feed in the directory.', 'gallerylink'); ?><b>*<?php _e('In the case of read data from the directory.', 'gallerylink'); ?></b></div>
 		<div><?php _e('* (WordPress > Settings > General Timezone) Please specify your area other than UTC. For accurate time display of RSS feed.', 'gallerylink'); ?></div>
 		<div><?php _e('* When you move to (WordPress > Appearance > Widgets), there is a widget GalleryLinkRssFeed. If you place you can set this to display the sidebar link the RSS feed.', 'gallerylink'); ?></div></p>
@@ -200,9 +201,9 @@ class GalleryLinkAdmin {
 		<td align="center" valign="middle"><b>effect_pc</b></td>
 		<td align="center" valign="middle"><?php echo $gallerylink_all[effect_pc] ?></td>
 		<td align="center" valign="middle"><?php echo $gallerylink_album[effect_pc] ?></td>
-		<td colspan="2" align="center" valign="middle" bgcolor="#dddddd"></td>
+		<td colspan="2" align="center" valign="middle"></td>
 		<td align="center" valign="middle"><?php echo $gallerylink_slideshow[effect_pc] ?></td>
-		<td bgcolor="#dddddd"></td>
+		<td></td>
 		<td align="left" valign="middle">
 		<?php _e('Effects of PC. If you want to use the Lightbox, please install a plugin that is compatible to the Lightbox. I would recommend some plugins below.', 'gallerylink'); ?>
 		<div>
@@ -218,9 +219,9 @@ class GalleryLinkAdmin {
 		<td align="center" valign="middle"><b>effect_sp</b></td>
 		<td align="center" valign="middle"><?php echo $gallerylink_all[effect_sp] ?></td>
 		<td align="center" valign="middle"><?php echo $gallerylink_album[effect_sp] ?></td>
-		<td colspan="2" align="center" valign="middle" bgcolor="#dddddd"></td>
+		<td colspan="2" align="center" valign="middle"></td>
 		<td align="center" valign="middle"><?php echo $gallerylink_slideshow[effect_sp] ?></td>
-		<td bgcolor="#dddddd"></td>
+		<td></td>
 		<td align="left" valign="middle">
 		<?php _e('Effects of Smartphone', 'gallerylink'); ?>
 		</td>
@@ -255,10 +256,10 @@ class GalleryLinkAdmin {
 
 		<tr>
 		<td align="center" valign="middle"><b>suffix_pc2</b></td>
-		<td align="center" valign="middle" bgcolor="#dddddd"></td>
+		<td align="center" valign="middle"></td>
 		<td align="center" valign="middle"><?php echo $gallerylink_movie[suffix_pc2] ?></td>
 		<td align="center" valign="middle"><?php echo $gallerylink_music[suffix_pc2] ?></td>
-		<td colspan="2" bgcolor="#dddddd"></td>
+		<td colspan="2"></td>
 		<td align="left" valign="middle">
 		<?php _e('second extension on the PC. Second candidate when working with html5', 'gallerylink'); ?>
 		</td>
@@ -266,10 +267,10 @@ class GalleryLinkAdmin {
 
 		<tr>
 		<td align="center" valign="middle"><b>suffix_flash</b></td>
-		<td align="center" valign="middle" bgcolor="#dddddd"></td>
+		<td align="center" valign="middle"></td>
 		<td align="center" valign="middle"><?php echo $gallerylink_movie[suffix_flash] ?></td>
 		<td align="center" valign="middle"><?php echo $gallerylink_music[suffix_flash] ?></td>
-		<td colspan="2" bgcolor="#dddddd"></td>
+		<td colspan="2"></td>
 		<td align="left" valign="middle">
 		<?php _e('Flash extension on the PC. Flash Player to be used when a HTML5 player does not work.', 'gallerylink'); ?>
 		</td>
@@ -293,14 +294,14 @@ class GalleryLinkAdmin {
 		<?php if ( $gallerylink_movie[type] === 'dir' ) { ?>
 		<td align="center" valign="middle"><?php echo $gallerylink_movie[suffix_keitai] ?></td>
 		<?php } else { ?>
-			<td bgcolor="#dddddd"></td>
+			<td></td>
 		<?php } ?>
 		<?php if ( $gallerylink_music[type] === 'dir' ) { ?>
 		<td align="center" valign="middle"><?php echo $gallerylink_music[suffix_keitai] ?></td>
 		<?php } else { ?>
-			<td bgcolor="#dddddd"></td>
+			<td></td>
 		<?php } ?>
-		<td align="center" valign="middle" bgcolor="#dddddd"></td>
+		<td align="center" valign="middle"></td>
 		<td align="center" valign="middle"><?php echo $gallerylink_document[suffix_keitai] ?></td>
 		<td align="left" valign="middle">
 		<?php _e('extension of Japanese mobile phone', 'gallerylink'); ?>
@@ -340,14 +341,14 @@ class GalleryLinkAdmin {
 		<?php if ( $gallerylink_movie[type] === 'dir' ) { ?>
 		<td align="center" valign="middle"><?php echo intval($gallerylink_movie[display_keitai]) ?></td>
 		<?php } else { ?>
-			<td bgcolor="#dddddd"></td>
+			<td></td>
 		<?php } ?>
 		<?php if ( $gallerylink_music[type] === 'dir' ) { ?>
 		<td align="center" valign="middle"><?php echo intval($gallerylink_music[display_keitai]) ?></td>
 		<?php } else { ?>
-			<td bgcolor="#dddddd"></td>
+			<td></td>
 		<?php } ?>
-		<td align="center" valign="middle" bgcolor="#dddddd"></td>
+		<td align="center" valign="middle"></td>
 		<td align="center" valign="middle"><?php echo intval($gallerylink_document[display_keitai]) ?></td>
 		<td align="left" valign="middle">
 		<?php _e('File Display per page(Japanese mobile phone)', 'gallerylink'); ?>
@@ -358,9 +359,9 @@ class GalleryLinkAdmin {
 		<td align="center" valign="middle"><b>image_show_size</b></td>
 		<td align="center" valign="middle"><?php echo $gallerylink_all[image_show_size] ?></td>
 		<td align="center" valign="middle"><?php echo $gallerylink_album[image_show_size] ?></td>
-		<td colspan="2" bgcolor="#dddddd"></td>
+		<td colspan="2"></td>
 		<td align="center" valign="middle"><?php echo $gallerylink_slideshow[image_show_size] ?></td>
-		<td bgcolor="#dddddd"></td>
+		<td></td>
 		<td align="left" valign="middle">
 		<div><b><font color="red"><?php _e('Use only', 'gallerylink'); ?> type=&#39;media&#39;</font></b></div>
 		<?php _e('Size of the image display. (Media Settings > Image Size)', 'gallerylink'); ?>
@@ -585,7 +586,7 @@ class GalleryLinkAdmin {
 			</p>
 
 			<h2><?php _e('The default value for current language.', 'gallerylink') ?></h2>	
-			<table border="1" bgcolor="#dddddd">
+			<table border="1">
 				<tr>
 					<td align="center" valign="middle">
 					<?php $target_mb_language = get_option('gallerylink_mb_language'); ?>
@@ -603,7 +604,7 @@ class GalleryLinkAdmin {
 			</table>
 
 			<h2><?php _e('The default value for the short code attribute', 'gallerylink') ?></h2>	
-			<table border="1" bgcolor="#dddddd">
+			<table border="1">
 			<tbody>
 				<tr>
 					<td align="center" valign="middle"><?php _e('Attribute', 'gallerylink'); ?></td>
@@ -1892,7 +1893,7 @@ class GalleryLinkAdmin {
 			</p>
 
 			<h2><?php _e('The default value for the display size and display color.', 'gallerylink') ?></h2>	
-			<table border="1" bgcolor="#dddddd">
+			<table border="1">
 			<tbody>
 				<tr>
 					<td align="center" valign="middle" colspan="4"><b>PC</b></td>
@@ -2026,7 +2027,7 @@ class GalleryLinkAdmin {
 			</table>
 
 			<h2><?php _e('The default value for User Agent.', 'gallerylink') ?></h2>	
-			<table border="1" bgcolor="#dddddd">
+			<table border="1">
 			<tbody>
 				<tr>
 					<td align="center" valign="middle"><?php _e('Generate html', 'gallerylink'); ?></td>
@@ -2069,7 +2070,7 @@ class GalleryLinkAdmin {
 			</p>
 
 			<h2><?php _e('The default value for effects.', 'gallerylink') ?></h2>	
-			<table border="1" bgcolor="#dddddd">
+			<table border="1">
 			<tbody>
 				<tr>
 					<td align="center" valign="middle" colspan="2">colorbox(<a href="http://www.jacklmoore.com/colorbox/" target="_blank"><font color="red"><?php _e('Description'); ?></font></a>)</td>

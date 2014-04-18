@@ -310,11 +310,11 @@ class GalleryLink {
 					$largemediumlink = NULL;
 					$medium_src = wp_get_attachment_image_src($attachment->ID, 'medium');
 					$large_src = wp_get_attachment_image_src($attachment->ID, 'large');
-					$thumblink = $thumb_src[0];
 					$mediumlink = $medium_src[0];
+					$largelink = $large_src[0];
 					if ( $this->set === 'album' || $this->set === 'slideshow' ){
 						$thumb_src = wp_get_attachment_image_src($attachment->ID);
-						$largelink = $large_src[0];
+						$thumblink = $thumb_src[0];
 					} else {
 						$thumblink = wp_get_attachment_image( $attachment->ID, 'thumbnail', TRUE );
 					}
