@@ -25,26 +25,47 @@
  */
 class GalleryLinkQuickTag {
 
-	function add_quicktag() {
+	function add_quicktag_select(){
 
-		$all = 'GalleryLink'.__('AllData', 'gallerylink');
-		$image = 'GalleryLink'.__('Image');
-		$slideshow = 'GalleryLink'.__('Slideshow', 'gallerylink');
-		$video = 'GalleryLink'.__('Video');
-		$music = 'GalleryLink'.__('Music', 'gallerylink');
-		$documents = 'GalleryLink'.__('Document', 'gallerylink');
+		$all = __('AllData', 'gallerylink');
+		$image = __('Image');
+		$slideshow = __('Slideshow', 'gallerylink');
+		$video = __('Video');
+		$music = __('Music', 'gallerylink');
+		$documents = __('Document', 'gallerylink');
+
+$quicktag_add_select = <<<QUICKTAGADDSELECT
+<select id="gallerylink_select">
+	<option value="">GalleryLink</option>
+	<option value="[gallerylink set='all']">{$all}</option>
+	<option value="[gallerylink set='album']">{$image}</option>
+	<option value="[gallerylink set='slideshow']">{$slideshow}</option>
+	<option value="[gallerylink set='movie']">{$video}</option>
+	<option value="[gallerylink set='music']">{$music}</option>
+	<option value="[gallerylink set='document']">{$documents}</option>
+</select>
+QUICKTAGADDSELECT;
+		echo $quicktag_add_select;
+
+	}
+
+	function add_quicktag_button_js() {
 
 $quicktag_add_js = <<<QUICKTAGADDJS
+
+<!-- BEGIN: GalleryLink -->
 <script type="text/javascript">
-	QTags.addButton("gallerylink_all", "{$all}", "[gallerylink set='all']");
-	QTags.addButton("gallerylink_album", "{$image}", "[gallerylink set='album']");
-	QTags.addButton("gallerylink_slideshow", "{$slideshow}", "[gallerylink set='slideshow']");
-	QTags.addButton("gallerylink_movie", "{$video}", "[gallerylink set='movie']");
-	QTags.addButton("gallerylink_music", "{$music}", "[gallerylink set='music']");
-	QTags.addButton("gallerylink_document", "{$documents}", "[gallerylink set='document']");
+	jQuery(document).ready(function(){
+		jQuery("#gallerylink_select").change(function() {
+			send_to_editor(jQuery("#gallerylink_select :selected").val());
+			return false;
+		});
+	});
 </script>
+<!-- END: GalleryLink -->
+
 QUICKTAGADDJS;
-	echo $quicktag_add_js;
+		echo $quicktag_add_js;
 
 	}
 

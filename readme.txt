@@ -4,7 +4,7 @@ Donate link: http://gallerylink.nyanko.org/
 Tags: audio,feed,feeds,flash,gallery,html5,image,images,list,music,photo,photos,picture,pictures,rss,shortcode,video,xml
 Requires at least: 3.0.1
 Tested up to: 3.4
-Stable tag: 6.5
+Stable tag: 6.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -66,6 +66,9 @@ none
 3. `/assets/screenshot-3.png`
 
 == Changelog ==
+
+= 6.6 =
+Change quicktag.
 
 = 6.5 =
 Fixed the problem of the display for images.('type=media')
@@ -393,6 +396,7 @@ Delete screenshot
 
 == Upgrade Notice ==
 
+= 6.6 =
 = 6.5 =
 = 6.4 =
 = 6.2 =
