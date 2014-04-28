@@ -1,10 +1,10 @@
-ul{
+.gallerylink ul{
 	text-align: left;
 	margin-left: 1em;
 	padding-left: 0.5em;
 }
 
-p{
+.gallerylink p{
 	text-align: left;
 	margin: 10px;	
 }
@@ -14,7 +14,7 @@ p{
         margin: 5px 5px 5px 5px;
 }
 
-li{ float: left; display: block;}
+.gallerylink li{ float: left; display: block;}
 
 #PlayerContainer-gallerylink{
 	float:left;
