@@ -10,11 +10,9 @@
 }
 
 .gallerylink img{
-        float:left;
-        margin: 5px 5px 5px 5px;
+	float:left;
+	margin: 5px 5px 5px 5px;
 }
-
-.gallerylink li{ float: left; display: block;}
 
 #PlayerContainer-gallerylink{
 	float:left;
@@ -27,6 +25,8 @@
 }
 
 #playlists-gallerylink li {
+	float: left;
+	display: block;
 	width: 100%;
 	border-width: 1px 0;
 	margin: 5px 5px 5px 5px;
