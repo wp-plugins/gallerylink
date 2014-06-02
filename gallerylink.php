@@ -2,7 +2,7 @@
 /*
 Plugin Name: GalleryLink
 Plugin URI: http://wordpress.org/plugins/gallerylink/
-Version: 6.8
+Version: 7.0
 Description: Output as a gallery by find the file extension and directory specified.
 Author: Katsushi Kawamori
 Author URI: http://gallerylink.nyanko.org/
@@ -70,8 +70,6 @@ function gallerylink_func( $atts, $html = NULL ) {
         'set' => '',
         'type' => '',
         'sort' => '',
-        'effect_pc' => '',
-        'effect_sp' => '',
         'topurl' => '',
         'suffix_pc' => '',
         'suffix_pc2' => '',
@@ -123,8 +121,6 @@ function gallerylink_func( $atts, $html = NULL ) {
 		$gallerylink->type = $type;
 		if( empty($sort) ) { $sort = $gallerylink_all[sort]; }
 		if( empty($topurl) ) { $topurl = $gallerylink_all[topurl]; }
-		if( empty($effect_pc) ) { $effect_pc = $gallerylink_all[effect_pc]; }
-		if( empty($effect_sp) ) { $effect_sp = $gallerylink_all[effect_sp]; }
 		$suffix_pattern_pc = $gallerylink->extpattern();
 		$suffix_pattern_sp = $gallerylink->extpattern();
 		$suffix_pattern_keitai = $gallerylink->extpattern();
@@ -167,8 +163,6 @@ function gallerylink_func( $atts, $html = NULL ) {
 		if( empty($type) ) { $type = $gallerylink_album[type]; }
 		$gallerylink->type = $type;
 		if( empty($sort) ) { $sort = $gallerylink_album[sort]; }
-		if( empty($effect_pc) ) { $effect_pc = $gallerylink_album[effect_pc]; }
-		if( empty($effect_sp) ) { $effect_sp = $gallerylink_album[effect_sp]; }
 		if( empty($topurl) ) { $topurl = $gallerylink_album[topurl]; }
 		if( empty($suffix_pc) ) {
 			if( $type === 'dir') {
@@ -330,8 +324,6 @@ function gallerylink_func( $atts, $html = NULL ) {
 		if( empty($type) ) { $type = $gallerylink_slideshow[type]; }
 		$gallerylink->type = $type;
 		if( empty($sort) ) { $sort = $gallerylink_slideshow[sort]; }
-		if( empty($effect_pc) ) { $effect_pc = $gallerylink_slideshow[effect_pc]; }
-		if( empty($effect_sp) ) { $effect_sp = $gallerylink_slideshow[effect_sp]; }
 		if( empty($topurl) ) { $topurl = $gallerylink_slideshow[topurl]; }
 		if( empty($suffix_pc) ) {
 			if( $type === 'dir') {
@@ -473,14 +465,12 @@ function gallerylink_func( $atts, $html = NULL ) {
 	$display = NULL;
 	$mode = $gallerylink->agent_check();
 	if ( $mode === 'pc' ) {
-		$effect = $effect_pc;
 		$suffix_pattern = $suffix_pattern_pc;
 		$display = $display_pc;
 	} else if ( $mode === 'mb' ) {
 		$suffix_pattern = $suffix_pattern_keitai;
 		$display = $display_keitai;
 	} else {
-		$effect = $effect_sp;
 		$suffix_pattern = $suffix_pattern_sp;
 		$display = $display_sp;
 	}
@@ -575,7 +565,6 @@ function gallerylink_func( $atts, $html = NULL ) {
 	$gallerylink->document_root = $document_root;
 	$gallerylink->set = $set;
 	$gallerylink->mode = $mode;
-	$gallerylink->effect = $effect;
 	$gallerylink->rssname = $rssname;
 	$gallerylink->rssmax = $rssmax;
 	$gallerylink->sort = $sort;
@@ -943,27 +932,8 @@ FLASHMUSICPLAYER;
 	if ( $mode === 'pc' ) {
 		wp_enqueue_style( 'pc for gallerylink',  $pluginurl.'/gallerylink/css/gallerylink.css' );
 		if ( $set === 'all' ){
-			if ($effect === 'colorbox'){
-				// for COLORBOX
-				wp_enqueue_style( 'colorbox',  $pluginurl.'/gallerylink/colorbox/colorbox.css' );
-				wp_enqueue_script( 'colorbox', $pluginurl.'/gallerylink/colorbox/jquery.colorbox-min.js', null, '1.4.37');
-			}
 			wp_enqueue_script( 'jQuery SWFObject', $pluginurl.'/gallerylink/jqueryswf/jquery.swfobject.1-1-1.min.js', null, '1.1.1' );
 			if( !empty($selectedfilename) ) { $html .= '<h2>'.$selectedfilename.'</h2>'; }
-		} else if ( $set === 'album' || $set === 'slideshow' ){
-			if ($effect === 'nivoslider'){
-				// for Nivo Slider
-				wp_enqueue_style( 'nivoslider-theme-def',  $pluginurl.'/gallerylink/nivo-slider/themes/default/default.css' );
-				wp_enqueue_style( 'nivoslider-theme-light',  $pluginurl.'/gallerylink/nivo-slider/themes/light/light.css' );
-				wp_enqueue_style( 'nivoslider-theme-dark',  $pluginurl.'/gallerylink/nivo-slider/themes/dark/dark.css' );
-				wp_enqueue_style( 'nivoslider-theme-bar',  $pluginurl.'/gallerylink/nivo-slider/themes/bar/bar.css' );
-				wp_enqueue_style( 'nivoslider',  $pluginurl.'/gallerylink/nivo-slider/nivo-slider.css' );
-				wp_enqueue_script( 'nivoslider', $pluginurl.'/gallerylink/nivo-slider/jquery.nivo.slider.pack.js', null, '3.2');
-			} else if ($effect === 'colorbox'){
-				// for COLORBOX
-				wp_enqueue_style( 'colorbox',  $pluginurl.'/gallerylink/colorbox/colorbox.css' );
-				wp_enqueue_script( 'colorbox', $pluginurl.'/gallerylink/colorbox/jquery.colorbox-min.js', null, '1.4.37');
-			}
 		} else {
 			if ( $set === 'music' ){
 				wp_enqueue_script( 'jQuery SWFObject', $pluginurl.'/gallerylink/jqueryswf/jquery.swfobject.1-1-1.min.js', null, '1.1.1' );
@@ -973,39 +943,9 @@ FLASHMUSICPLAYER;
 			}
 		}
 	} else if ( $mode === 'sp') {
-		if ( $set === 'all' ){
-			if ($effect === 'swipebox'){
-				// for Swipebox
-				wp_enqueue_style( 'swipebox-style',  $pluginurl.'/gallerylink/swipebox/source/swipebox.css' );
-				wp_enqueue_script( 'swipebox' , $pluginurl.'/gallerylink/swipebox/source/jquery.swipebox.min.js', null, '1.2.1' );
-			}
-		} else if ( $set === 'album' || $set === 'slideshow' ){
-			if ($effect === 'nivoslider'){
-				// for Nivo Slider
-				wp_enqueue_style( 'nivoslider-theme-def',  $pluginurl.'/gallerylink/nivo-slider/themes/default/default.css' );
-				wp_enqueue_style( 'nivoslider-theme-light',  $pluginurl.'/gallerylink/nivo-slider/themes/light/light.css' );
-				wp_enqueue_style( 'nivoslider-theme-dark',  $pluginurl.'/gallerylink/nivo-slider/themes/dark/dark.css' );
-				wp_enqueue_style( 'nivoslider-theme-bar',  $pluginurl.'/gallerylink/nivo-slider/themes/bar/bar.css' );
-				wp_enqueue_style( 'nivoslider',  $pluginurl.'/gallerylink/nivo-slider/nivo-slider.css' );
-				wp_enqueue_script( 'nivoslider', $pluginurl.'/gallerylink/nivo-slider/jquery.nivo.slider.pack.js', null, '3.2');
-			} else if ($effect === 'photoswipe'){
-				// for PhotoSwipe
-				wp_enqueue_style( 'photoswipe',  $pluginurl.'/gallerylink/photoswipe/photoswipe.css' );
-				wp_enqueue_script( 'sji' , $pluginurl.'/gallerylink/photoswipe/lib/simple-inheritance.min.js', null );
-				wp_enqueue_script( 'photoswipe' , $pluginurl.'/gallerylink/photoswipe/code-photoswipe-1.0.11.min.js', null, '1.0.11' );
-			} else if ($effect === 'swipebox'){
-				// for Swipebox
-				wp_enqueue_style( 'swipebox-style',  $pluginurl.'/gallerylink/swipebox/source/swipebox.css' );
-				wp_enqueue_script( 'swipebox' , $pluginurl.'/gallerylink/swipebox/source/jquery.swipebox.min.js', null, '1.2.1' );
-			}
-		}
 		// for smartphone
 		wp_enqueue_style( 'smartphone for gallerylink',  $pluginurl.'/gallerylink/css/gallerylink_sp.css' );
 	}
-	include_once dirname(__FILE__).'/inc/GalleryLinkAddJs.php';
-	$gallerylinkaddjs = new GalleryLinkAddJs();
-	$gallerylinkaddjs->effect = $effect;
-	add_action('wp_footer', array($gallerylinkaddjs, 'add_js'));
 
 	if ( !empty($fparam) ) {
 		if ( $mode === 'pc' && wp_ext2type(end(explode('.', $fparam))) === 'video' ) {
@@ -1032,34 +972,12 @@ FLASHMUSICPLAYER;
 	$searchform_end = NULL;
 	$rssfeeds_icon = NULL;
 	if (  $set === 'album' || $set === 'slideshow' ){
-		if ($effect === 'nivoslider' && $mode <> 'mb'){
-			// for Nivo Slider
-			$linkfiles_begin = '<div class="slider-wrapper theme-default"><div class="slider-wrapper"><div id="slidernivo" class="nivoSlider">';
-			$linkfiles_end = '</div></div></div><br clear=all>';
-		} else if ($effect === 'colorbox' && $mode ==='pc'){
-			// for COLORBOX
-			$linkfiles_begin = '<ul class = "gallerylink">';
-			$linkfiles_end = '</ul><br clear=all>';
-		} else if ($effect === 'photoswipe' && $mode === 'sp'){
-			// for PhotoSwipe
-			$linkfiles_begin = '<div id="Gallery" class="gallerylinkthumb">';
-			$linkfiles_end = '</div>';
-		} else if ($effect === 'swipebox' && $mode === 'sp'){
-			// for Swipebox
-			$linkfiles_begin = '<div id="Gallery" class="gallerylinkthumb">';
-			$linkfiles_end = '</div>';
-		} else if ($effect === 'Lightbox' && $mode === 'pc'){
-			// for Lightbox
+		if ($mode === 'pc'){
 			$linkfiles_begin = '<div class = "gallerylink">';
 			$linkfiles_end = '</div><br clear=all>';
-		} else {
-			if ($mode === 'pc'){
-				$linkfiles_begin = '<div class = "gallerylink">';
-				$linkfiles_end = '</div><br clear=all>';
-			} else if ($mode === 'sp'){
-				$linkfiles_begin = '<div class="gallerylinkthumb">';
-				$linkfiles_end = '</div>';
-			}
+		} else if ($mode === 'sp'){
+			$linkfiles_begin = '<div class="gallerylinkthumb">';
+			$linkfiles_end = '</div>';
 		}
 		if ( $mode === 'pc' ) {
 			$selectbox_begin = '<div align="right">';
@@ -1177,6 +1095,8 @@ FLASHMUSICPLAYER;
 	if ( $credit_show === 'Show' ) {
 		$html .= '<div align = "right"><a href="http://wordpress.org/plugins/gallerylink/"><span style="font-size : xx-small">by GalleryLink</span></a></div>';
 	}
+
+	$html = apply_filters( 'post_gallerylink', $html );
 
 	return $html;
 

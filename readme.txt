@@ -4,7 +4,7 @@ Donate link: http://gallerylink.nyanko.org/
 Tags: audio,feed,feeds,flash,gallery,html5,image,images,list,music,photo,photos,picture,pictures,rss,shortcode,video,xml
 Requires at least: 3.0.1
 Tested up to: 3.4
-Stable tag: 6.8
+Stable tag: 7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -31,8 +31,9 @@ Bundled software and function
 *   HTML5 player (video, music)
 *   FlashPlugin: jQuery SWFObject
 *   Flash player (video, music): Flowplayer Flash, MP3Player (for previous versions of IE8)
-*   Image: Nivo Slider, ColorBox, PhotoSwipe, Swipebox
 *   Create RSS feeds of data (XML). It support to the podcast.
+*   Can be cooperation with [Boxers and Swipers](http://wordpress.org/plugins/boxers-and-swipers/).
+*   Can be cooperation with [Simple NivoSlider](http://wordpress.org/plugins/simple-nivoslider/).
 
     It support to the japanese mobile phone. Plug-in Ktai Style is required.
 
@@ -61,11 +62,14 @@ none
 
 == Screenshots ==
 
-1. `/assets/screenshot-1.png`
-2. `/assets/screenshot-2.png`
-3. `/assets/screenshot-3.png`
+1. Settings 1
+2. Settings 2
 
 == Changelog ==
+
+= 7.0 =
+Can be cooperation with Boxers and Swipers.
+Can be cooperation with Simple NivoSlider.
 
 = 6.8 =
 Fixed css.
@@ -402,6 +406,7 @@ Delete screenshot
 
 == Upgrade Notice ==
 
+= 7.0 =
 = 6.8 =
 = 6.7 =
 = 6.6 =
@@ -506,7 +511,7 @@ In the case of read data from the directory.
 
 In the case of read data from the Media Library.
 
-* Please upload the data to the Media Library.
+* Please upload the data to the Media Library. Support the classification of the category. Use the caption of the media library, and are classified.
 
 Please add new Page. Please write a short code in the text field of the Page. Please go in Text mode this task.
 
@@ -593,18 +598,6 @@ sort
 * Value -> new old des asc
 
 * Description -> Type of Sort.
-
-effect_pc
-
-* Value -> colorbox nivoslider Lightbox
-
-* Description -> Effects of PC.
-
-effect_sp
-
-* Value -> photoswipe nivoslider swipebox
-
-* Description -> Effects of Smartphone
 
 topurl
 

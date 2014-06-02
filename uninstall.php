@@ -7,17 +7,13 @@
 	$option_names = array(
 						'gallerylink_album',
 						'gallerylink_all',
-						'gallerylink_colorbox',
 						'gallerylink_css',
 						'gallerylink_document',
 						'gallerylink_exclude',
 						'gallerylink_mb_language',
 						'gallerylink_movie',
 						'gallerylink_music',
-						'gallerylink_nivoslider',
-						'gallerylink_photoswipe',
 						'gallerylink_slideshow',
-						'gallerylink_swipebox',
 						'gallerylink_useragent'
 					);
 

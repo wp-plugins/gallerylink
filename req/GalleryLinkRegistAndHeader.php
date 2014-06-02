@@ -42,8 +42,6 @@ class GalleryLinkRegistAndHeader {
 			$all_tbl = array(
 							'type' => 'dir',
 							'sort' => 'new',
-							'effect_pc' => 'colorbox',
-							'effect_sp' => 'swipebox',
 							'topurl' => '',
 							'display_pc' => 8, 	
 							'display_sp' => 6,
@@ -70,8 +68,6 @@ class GalleryLinkRegistAndHeader {
 			$album_tbl = array(
 							'type' => 'dir',
 							'sort' => 'new',
-							'effect_pc' => 'colorbox',
-							'effect_sp' => 'photoswipe',
 							'topurl' => '',
 							'suffix_pc' => 'jpg',
 							'suffix_sp' => 'jpg',
@@ -162,8 +158,6 @@ class GalleryLinkRegistAndHeader {
 			$slideshow_tbl = array(
 								'type' => 'dir',
 								'sort' => 'new',
-								'effect_pc' => 'nivoslider',
-								'effect_sp' => 'nivoslider',
 								'topurl' => '',
 								'suffix_pc' => 'jpg',
 								'suffix_sp' => 'jpg',
@@ -246,103 +240,6 @@ class GalleryLinkRegistAndHeader {
 								'mb' => 'DoCoMo\/|KDDI-|UP\.Browser|SoftBank|Vodafone|J-PHONE|MOT-|WILLCOM|DDIPOCKET|PDXGW|emobile|ASTEL|L-mode'
 							);
 			update_option( 'gallerylink_useragent', $useragent_tbl );
-		}
-
-		if ( !get_option('gallerylink_colorbox') ) {
-			$colorbox_tbl = array(
-								'transition' => 'elastic',
-								'speed' => 350,
-								'title' => 'false',
-								'rel' => 'grouped',
-								'scalePhotos' => 'true',
-								'scrolling' => 'true',
-								'opacity' => 0.85,
-								'open' => 'false',
-								'returnFocus' => 'true',
-								'trapFocus' => 'true',
-								'fastIframe' => 'true',
-								'preloading' => 'true',
-								'overlayClose' => 'true',
-								'escKey' => 'true',
-								'arrowKey' => 'true',
-								'loop' => 'true',
-								'fadeOut' => 300,
-								'closeButton' => 'true',
-								'current' => 'image {current} of {total}',
-								'previous' => 'previous',
-								'next' => 'next',
-								'close' => 'close',
-								'width' => 'false',
-								'height' => 'false',
-								'innerWidth' => 'false',
-								'innerHeight' => 'false',
-								'initialWidth' => 300,
-								'initialHeight' => 100,
-								'maxWidth' => 'false',
-								'maxHeight' => 'false',
-								'slideshow' => 'true',
-								'slideshowSpeed' => 2500,
-								'slideshowAuto' => 'false',
-								'slideshowStart' => 'start slideshow',
-								'slideshowStop' => 'stop slideshow',
-								'fixed' => 'false',
-								'top' => 'false',
-								'bottom' => 'false',
-								'left' => 'false',
-								'right' => 'false',
-								'reposition' => 'true',
-								'retinaImage' => 'false'
-							);
-			update_option( 'gallerylink_colorbox', $colorbox_tbl );
-		}
-
-		if ( !get_option('gallerylink_nivoslider') ) {
-			$nivoslider_tbl = array(
-								'effect' => 'random',
-								'slices' => 15,
-								'boxCols' => 8,
-								'boxRows' => 4,
-								'animSpeed' => 500,
-								'pauseTime' => 3000,
-								'startSlide' => 0,
-								'directionNav' => 'true',
-								'directionNavHide' => 'true',
-								'pauseOnHover' => 'true',
-								'manualAdvance' => 'false',
-								'prevText' => 'Prev',
-								'nextText' => 'Next',
-								'randomStart' => 'false'
-							);
-			update_option( 'gallerylink_nivoslider', $nivoslider_tbl );
-		}
-
-		if ( !get_option('gallerylink_photoswipe') ) {
-			$photoswipe_tbl = array(
-								'fadeInSpeed' => 250,
-								'fadeOutSpeed' => 500,
-								'slideSpeed' => 250,
-								'swipeThreshold' => 50,
-								'swipeTimeThreshold' => 250,
-								'loop' => 'true',
-								'slideshowDelay' => 3000,
-								'imageScaleMethod' => 'fit',
-								'preventHide' => 'false',
-								'backButtonHideEnabled' => 'true',
-								'captionAndToolbarHide' => 'false',
-								'captionAndToolbarHideOnSwipe' => 'true',
-								'captionAndToolbarFlipPosition' => 'false',
-								'captionAndToolbarAutoHideDelay' => 5000,
-								'captionAndToolbarOpacity' => 0.8,
-								'captionAndToolbarShowEmptyCaptions' => 'false'
-							);
-			update_option( 'gallerylink_photoswipe', $photoswipe_tbl );
-		}
-
-		if ( !get_option('gallerylink_swipebox') ) {
-			$swipebox_tbl = array(
-								'hideBarsDelay' => 3000
-							);
-			update_option( 'gallerylink_swipebox', $swipebox_tbl );
 		}
 
 	}
@@ -524,8 +421,11 @@ GALLERYLINKADDMETAIEEMULATION;
 	 */
 	function delete_old_versions_wp_options(){
 
-		if ( get_option('gallerylink_album_sort') ) {
+		if ( get_option('gallerylink_album_sort') || get_option('gallerylink_colorbox') ) {
+			$delete_old_options = TRUE;
+		}
 
+		if ( get_option('gallerylink_album_sort') ) {
 			$option_names = array(
 							'gallerylink_mb_language',
 							'gallerylink_all_type',
@@ -760,7 +660,16 @@ GALLERYLINKADDMETAIEEMULATION;
 							'gallerylink_photoswipe_captionAndToolbarShowEmptyCaptions',
 							'gallerylink_swipebox_hideBarsDelay'
 						);
+		} else if ( get_option('gallerylink_colorbox') ) {
+			$option_names = array(
+							'gallerylink_colorbox',
+							'gallerylink_nivoslider',
+							'gallerylink_photoswipe',
+							'gallerylink_swipebox'
+						);
+		}
 
+		if ( $delete_old_options ) {
 			// For Single site
 			if ( !is_multisite() ) {
 				foreach( $option_names as $option_name ) {
@@ -785,7 +694,6 @@ GALLERYLINKADDMETAIEEMULATION;
 				    delete_site_option( $option_name );  
 				}
 			}
-
 		}
 
 	}
