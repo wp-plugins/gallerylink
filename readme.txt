@@ -4,7 +4,7 @@ Donate link: http://gallerylink.nyanko.org/
 Tags: audio,feed,feeds,flash,gallery,html5,image,images,list,music,photo,photos,picture,pictures,rss,shortcode,video,xml
 Requires at least: 3.0.1
 Tested up to: 3.4
-Stable tag: 7.0
+Stable tag: 7.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -66,6 +66,9 @@ none
 2. Settings 2
 
 == Changelog ==
+
+= 7.1 =
+Fixed of problem of error in debug mode.
 
 = 7.0 =
 Can be cooperation with Boxers and Swipers.
@@ -406,6 +409,7 @@ Delete screenshot
 
 == Upgrade Notice ==
 
+= 7.1 =
 = 7.0 =
 = 6.8 =
 = 6.7 =

@@ -60,13 +60,13 @@ class GalleryLink {
 
 		$gallerylink_useragent = get_option('gallerylink_useragent');
 
-		if(preg_match("{".$gallerylink_useragent[tb]."}",$user_agent)){
+		if(preg_match("{".$gallerylink_useragent['tb']."}",$user_agent)){
 			//Tablet
 			$mode = "pc"; 
-		}else if(preg_match("{".$gallerylink_useragent[sp]."}",$user_agent)){
+		}else if(preg_match("{".$gallerylink_useragent['sp']."}",$user_agent)){
 			//Smartphone
 			$mode = "sp";
-		}else if(preg_match("{".$gallerylink_useragent[mb]."}",$user_agent)){
+		}else if(preg_match("{".$gallerylink_useragent['mb']."}",$user_agent)){
 			//Japanese mobile phone
 			$mode = "mb";
 		}else{
@@ -108,7 +108,9 @@ class GalleryLink {
 		}
 
 		foreach(glob($dir.'/*', GLOB_BRACE) as $file) {
-			if (preg_match("/".$this->suffix_pattern."/", end(explode('.', $file)))) {
+			$exts = explode('.', $file);
+			$ext = end($exts);
+			if (preg_match("/".$this->suffix_pattern."/", $ext)) {
 				if (!preg_match("/".$this->thumbnail."/", $file) || empty($this->thumbnail)) {
 					if (!preg_match("/".$exclude_file."/", $file) || empty($exclude_file)) {
 						if (!preg_match("/".$exclude_dir."/", $file) || empty($exclude_dir)) {
@@ -186,7 +188,8 @@ class GalleryLink {
 
 		foreach ( $files as $file ){
 
-			$ext = end(explode('.', $file));
+			$exts = explode('.', $file);
+			$ext = end($exts);
 			$ext2type = wp_ext2type($ext);
 			$suffix = '.'.$ext;
 
@@ -286,7 +289,8 @@ class GalleryLink {
 			foreach ( $attachments as $attachment ) {
 				$title = $attachment->post_title;
 				$caption = $attachment->post_excerpt;
-				$ext = end(explode('.', $attachment->guid));
+				$exts = explode('.', $attachment->guid);
+				$ext = end($exts);
 				$ext2type = wp_ext2type($ext);
 				$suffix = '.'.$ext;
 				if( empty($this->exclude_cat) ) { 
@@ -374,7 +378,8 @@ class GalleryLink {
 	 */
 	function print_file($file,$title,$thumblink,$largemediumlink) {
 
-		$ext = end(explode('.', $file));
+		$exts = explode('.', $file);
+		$ext = end($exts);
 		$ext2type = wp_ext2type($ext);
 		$suffix = '.'.$ext;
 
@@ -385,7 +390,7 @@ class GalleryLink {
 			}
 			if ( $this->stamptime_show === 'Show' ) {
 				$filestat = stat($this->document_root.$file);
-				date_default_timezone_set(timezone_name_from_abbr(get_the_date(T)));
+				date_default_timezone_set(timezone_name_from_abbr(get_the_date('T')));
 				$stamptime = date("Y-m-d H:i:s",  $filestat['mtime']);
 			}
 			$fileinfo = '['.$stamptime.$filesize.']';
@@ -484,7 +489,12 @@ class GalleryLink {
 						$permlinkstr = $queryhead.'&'.$permcategoryfolder.'=';
 					}
 
-					$linkfile = '<li>'.$thumblink.'<a href="'.$scriptname.$permlinkstr.$categoryfolder.'&glp='.$page.'&f='.$fileparam.'&sort='.$_GET['sort'].'">'.$filetitle.'<div style="font-size: small;">'.$fileinfo.'</div></a></li>';
+					if ( isset($_GET['sort']) ) {
+						$sortparam = $_GET['sort'];
+					} else {
+						$sortparam = NULL;
+					}
+					$linkfile = '<li>'.$thumblink.'<a href="'.$scriptname.$permlinkstr.$categoryfolder.'&glp='.$page.'&f='.$fileparam.'&sort='.$sortparam.'">'.$filetitle.'<div style="font-size: small;">'.$fileinfo.'</div></a></li>';
 				}
 			}
 		}
@@ -570,7 +580,8 @@ class GalleryLink {
 	 */
 	function xmlitem_read($file, $title, $thumblink, $largemediumlink) {
 
-		$ext = end(explode('.', $file));
+		$exts = explode('.', $file);
+		$ext = end($exts);
 		$ext2type = wp_ext2type($ext);
 		$suffix = '.'.$ext;
 
@@ -579,7 +590,7 @@ class GalleryLink {
 		$filesize = filesize($file);
 		$filestat = stat($file);
 
-		date_default_timezone_set(timezone_name_from_abbr(get_the_date(T)));
+		date_default_timezone_set(timezone_name_from_abbr(get_the_date('T')));
 		$stamptime = date(DATE_RSS,  $filestat['mtime']);
 
 		$fparam = mb_convert_encoding(str_replace($this->document_root.'/', "", $file), "UTF8", "auto");
@@ -797,6 +808,7 @@ XMLEND;
 
 		$mimes = wp_get_mime_types();
 
+		$extpattern = NULL;
 		foreach ($mimes as $ext => $mime) {
 			if( strpos( $ext, '|' ) ){
 				$exts = explode('|',$ext);

@@ -66,18 +66,18 @@ class GalleryLinkWidgetItem extends WP_Widget {
 		$documentrootname = $_SERVER['DOCUMENT_ROOT'];
 		$servername = 'http://'.$_SERVER['HTTP_HOST'];
 		$xmlurl2 = get_bloginfo('comments_rss2_url');
-		$xml3 = mb_convert_encoding($gallerylink_all[topurl], $chrcode, "auto").'/'.$gallerylink_all[rssname].'.xml';
-		$xml4 = mb_convert_encoding($gallerylink_album[topurl], $chrcode, "auto").'/'.$gallerylink_album[rssname].'.xml';
-		$xml5 = mb_convert_encoding($gallerylink_movie[topurl], $chrcode, "auto").'/'.$gallerylink_movie[rssname].'.xml';
-		$xml6 = mb_convert_encoding($gallerylink_music[topurl], $chrcode, "auto").'/'.$gallerylink_music[rssname].'.xml';
-		$xml7 = mb_convert_encoding($gallerylink_slideshow[topurl], $chrcode, "auto").'/'.$gallerylink_slideshow[rssname].'.xml';
-		$xml8 = mb_convert_encoding($gallerylink_document[topurl], $chrcode, "auto").'/'.$gallerylink_document[rssname].'.xml';
-		$xml9 = $wp_uploads_path.'/'.$gallerylink_all[rssname].'.xml';
-		$xml10 = $wp_uploads_path.'/'.$gallerylink_album[rssname].'.xml';
-		$xml11 = $wp_uploads_path.'/'.$gallerylink_movie[rssname].'.xml';
-		$xml12 = $wp_uploads_path.'/'.$gallerylink_music[rssname].'.xml';
-		$xml13 = $wp_uploads_path.'/'.$gallerylink_slideshow[rssname].'.xml';
-		$xml14 = $wp_uploads_path.'/'.$gallerylink_document[rssname].'.xml';
+		$xml3 = mb_convert_encoding($gallerylink_all['topurl'], $chrcode, "auto").'/'.$gallerylink_all['rssname'].'.xml';
+		$xml4 = mb_convert_encoding($gallerylink_album['topurl'], $chrcode, "auto").'/'.$gallerylink_album['rssname'].'.xml';
+		$xml5 = mb_convert_encoding($gallerylink_movie['topurl'], $chrcode, "auto").'/'.$gallerylink_movie['rssname'].'.xml';
+		$xml6 = mb_convert_encoding($gallerylink_music['topurl'], $chrcode, "auto").'/'.$gallerylink_music['rssname'].'.xml';
+		$xml7 = mb_convert_encoding($gallerylink_slideshow['topurl'], $chrcode, "auto").'/'.$gallerylink_slideshow['rssname'].'.xml';
+		$xml8 = mb_convert_encoding($gallerylink_document['topurl'], $chrcode, "auto").'/'.$gallerylink_document['rssname'].'.xml';
+		$xml9 = $wp_uploads_path.'/'.$gallerylink_all['rssname'].'.xml';
+		$xml10 = $wp_uploads_path.'/'.$gallerylink_album['rssname'].'.xml';
+		$xml11 = $wp_uploads_path.'/'.$gallerylink_movie['rssname'].'.xml';
+		$xml12 = $wp_uploads_path.'/'.$gallerylink_music['rssname'].'.xml';
+		$xml13 = $wp_uploads_path.'/'.$gallerylink_slideshow['rssname'].'.xml';
+		$xml14 = $wp_uploads_path.'/'.$gallerylink_document['rssname'].'.xml';
 
 		if ($title) {
 			echo $before_widget;
@@ -85,144 +85,143 @@ class GalleryLinkWidgetItem extends WP_Widget {
 			echo '<table>';
 			if ($checkbox1) {
 				?>
-				<tr>
-				<td align="center" valign="middle">
+				<div>
 				<a href="<?php echo bloginfo('rss2_url'); ?>">
-				<img src="<?php echo $pluginurl ?>/gallerylink/icon/rssfeeds.png"></a>
-				</td>
-				<td align="left" valign="middle"><?php echo bloginfo('name'); ?></td>
-				</tr>
+				<img src="<?php echo $pluginurl ?>/gallerylink/icon/rssfeeds.png">
+				<?php echo bloginfo('name'); ?></a>
+				</div>
 				<?php
 			}
 			if ($checkbox2) {
-				$xmldata2 = simplexml_load_file($xmlurl2);
-				?>
-				<tr>
-				<td align="center" valign="middle"><a href="<?php echo bloginfo('comments_rss2_url'); ?>">
-				<img src="<?php echo $pluginurl ?>/gallerylink/icon/rssfeeds.png"></a>
-				</td>
-				<td align="left" valign="middle"><?php echo $xmldata2->channel->title; ?></td>
-				</tr>
-				<?php
+				$xmldata2 = @simplexml_load_file($xmlurl2);
+				if ( !empty($xmldata2) ) {
+					?>
+					<div>
+					<a href="<?php echo bloginfo('comments_rss2_url'); ?>">
+					<img src="<?php echo $pluginurl ?>/gallerylink/icon/rssfeeds.png">
+					<?php echo $xmldata2->channel->title; ?></a>
+					</div>
+					<?php
+				}
 			}	
 			if ($checkbox3 && file_exists($documentrootname.$xml3)) {
 				$xmldata3 = simplexml_load_file($servername.mb_convert_encoding($xml3, "UTF-8", "auto"));
 				?>
-				<tr>
-				<td align="center" valign="middle"><a href="<?php echo $gallerylink_all[topurl] ?>/<?php echo $gallerylink_all[rssname] ?>.xml">
-				<img src="<?php echo $pluginurl ?>/gallerylink/icon/podcast.png"></a></td>
-				<td align="left" valign="middle"><?php echo $xmldata3->channel->title; ?></td>
-				</tr>
+				<div>
+				<a href="<?php echo $gallerylink_all['topurl'] ?>/<?php echo $gallerylink_all['rssname'] ?>.xml">
+				<img src="<?php echo $pluginurl ?>/gallerylink/icon/podcast.png">
+				<?php echo $xmldata3->channel->title; ?></a>
+				</div>
 				<?php
 			}
 			if ($checkbox4 && file_exists($documentrootname.$xml4)) {
 				$xmldata4 = simplexml_load_file($servername.mb_convert_encoding($xml4, "UTF-8", "auto"));
 				?>
-				<tr>
-				<td align="center" valign="middle"><a href="<?php echo $gallerylink_album[topurl] ?>/<?php echo $gallerylink_album[rssname] ?>.xml">
-				<img src="<?php echo $pluginurl ?>/gallerylink/icon/rssfeeds.png"></a></td>
-				<td align="left" valign="middle"><?php echo $xmldata4->channel->title; ?></td>
-				</tr>
+				<div>
+				<a href="<?php echo $gallerylink_album['topurl'] ?>/<?php echo $gallerylink_album['rssname'] ?>.xml">
+				<img src="<?php echo $pluginurl ?>/gallerylink/icon/rssfeeds.png">
+				<?php echo $xmldata4->channel->title; ?></a>
+				</div>
 				<?php
 			}
 			if ($checkbox5 && file_exists($documentrootname.$xml5)) {
 				$xmldata5 = simplexml_load_file($servername.mb_convert_encoding($xml5, "UTF-8", "auto"));
 				?>
-				<tr>
-				<td align="center" valign="middle"><a href="<?php echo $gallerylink_movie[topurl] ?>/<?php echo $gallerylink_movie[rssname] ?>.xml">
-				<img src="<?php echo $pluginurl ?>/gallerylink/icon/podcast.png"></a></td>
-				<td align="left" valign="middle"><?php echo $xmldata5->channel->title; ?></td>
-				</tr>
+				<div>
+				<a href="<?php echo $gallerylink_movie['topurl'] ?>/<?php echo $gallerylink_movie['rssname'] ?>.xml">
+				<img src="<?php echo $pluginurl ?>/gallerylink/icon/podcast.png">
+				<?php echo $xmldata5->channel->title; ?></a>
+				</div>
 				<?php
 			}
 			if ($checkbox6 && file_exists($documentrootname.$xml6)) {
 				$xmldata6 = simplexml_load_file($servername.mb_convert_encoding($xml6, "UTF-8", "auto"));
 				?>
-				<tr>
-				<td align="center" valign="middle"><a href="<?php echo $gallerylink_music[topurl] ?>/<?php echo $gallerylink_music[rssname] ?>.xml">
-				<img src="<?php echo $pluginurl ?>/gallerylink/icon/podcast.png"></a></td>
-				<td align="left" valign="middle"><?php echo $xmldata6->channel->title; ?></td>
-				</tr>
+				<div>
+				<a href="<?php echo $gallerylink_music['topurl'] ?>/<?php echo $gallerylink_music['rssname'] ?>.xml">
+				<img src="<?php echo $pluginurl ?>/gallerylink/icon/podcast.png">
+				<?php echo $xmldata6->channel->title; ?></a>
+				</div>
 				<?php
 			}
 			if ($checkbox7 && file_exists($documentrootname.$xml7)) {
 				$xmldata7 = simplexml_load_file($servername.mb_convert_encoding($xml7, "UTF-8", "auto"));
 				?>
-				<tr>
-				<td align="center" valign="middle"><a href="<?php echo $gallerylink_slideshow[topurl] ?>/<?php echo $gallerylink_slideshow[rssname] ?>.xml">
-				<img src="<?php echo $pluginurl ?>/gallerylink/icon/rssfeeds.png"></a></td>
-				<td align="left" valign="middle"><?php echo $xmldata7->channel->title; ?></td>
-				</tr>
+				<div>
+				<a href="<?php echo $gallerylink_slideshow['topurl'] ?>/<?php echo $gallerylink_slideshow['rssname'] ?>.xml">
+				<img src="<?php echo $pluginurl ?>/gallerylink/icon/rssfeeds.png">
+				<?php echo $xmldata7->channel->title; ?></a>
+				</div>
 				<?php
 			}
 			if ($checkbox8 && file_exists($documentrootname.$xml8)) {
 				$xmldata8 = simplexml_load_file($servername.mb_convert_encoding($xml8, "UTF-8", "auto"));
 				?>
-				<tr>
-				<td align="center" valign="middle"><a href="<?php echo $gallerylink_document[topurl] ?>/<?php echo $gallerylink_document[rssname] ?>.xml">
-				<img src="<?php echo $pluginurl ?>/gallerylink/icon/rssfeeds.png"></a></td>
-				<td align="left" valign="middle"><?php echo $xmldata8->channel->title; ?></td>
-				</tr>
+				<div>
+				<a href="<?php echo $gallerylink_document['topurl'] ?>/<?php echo $gallerylink_document['rssname'] ?>.xml">
+				<img src="<?php echo $pluginurl ?>/gallerylink/icon/rssfeeds.png">
+				<?php echo $xmldata8->channel->title; ?></a>
+				</div>
 				<?php
 			}
 			if ($checkbox9 && file_exists($documentrootname.$xml9)) {
 				$xmldata9 = simplexml_load_file($servername.$xml9);
 				?>
-				<tr>
-				<td align="center" valign="middle"><a href="<?php echo $servername.$xml9; ?>">
-				<img src="<?php echo $pluginurl ?>/gallerylink/icon/podcast.png"></a></td>
-				<td align="left" valign="middle"><?php echo $xmldata9->channel->title; ?></td>
-				</tr>
+				<div>
+				<a href="<?php echo $servername.$xml9; ?>">
+				<img src="<?php echo $pluginurl ?>/gallerylink/icon/podcast.png">
+				<?php echo $xmldata9->channel->title; ?></a>
+				</div>
 				<?php
 			}
 			if ($checkbox10 && file_exists($documentrootname.$xml10)) {
 				$xmldata10 = simplexml_load_file($servername.$xml10);
 				?>
-				<tr>
-				<td align="center" valign="middle"><a href="<?php echo $servername.$xml10; ?>">
-				<img src="<?php echo $pluginurl ?>/gallerylink/icon/rssfeeds.png"></a></td>
-				<td align="left" valign="middle"><?php echo $xmldata10->channel->title; ?></td>
-				</tr>
+				<div>
+				<a href="<?php echo $servername.$xml10; ?>">
+				<img src="<?php echo $pluginurl ?>/gallerylink/icon/rssfeeds.png">
+				<?php echo $xmldata10->channel->title; ?></a>
+				</div>
 				<?php
 			}
 			if ($checkbox11 && file_exists($documentrootname.$xml11)) {
 				$xmldata11 = simplexml_load_file($servername.$xml11);
 				?>
-				<tr>
-				<td align="center" valign="middle"><a href="<?php echo $servername.$xml11; ?>">
-				<img src="<?php echo $pluginurl ?>/gallerylink/icon/podcast.png"></a></td>
-				<td align="left" valign="middle"><?php echo $xmldata11->channel->title; ?></td>
-				</tr>
+				<div>
+				<a href="<?php echo $servername.$xml11; ?>">
+				<img src="<?php echo $pluginurl ?>/gallerylink/icon/podcast.png">
+				<?php echo $xmldata11->channel->title; ?></a>
+				</div>
 				<?php
 			}
 			if ($checkbox12 && file_exists($documentrootname.$xml12)) {
 				$xmldata12 = simplexml_load_file($servername.$xml12);
 				?>
-				<tr>
-				<td align="center" valign="middle"><a href="<?php echo $servername.$xml12; ?>">
-				<img src="<?php echo $pluginurl ?>/gallerylink/icon/podcast.png"></a></td>
-				<td align="left" valign="middle"><?php echo $xmldata12->channel->title; ?></td>
-				</tr>
+				<div>
+				<a href="<?php echo $servername.$xml12; ?>">
+				<img src="<?php echo $pluginurl ?>/gallerylink/icon/podcast.png">
+				<?php echo $xmldata12->channel->title; ?></a>
+				</div>
 				<?php
 			}
 			if ($checkbox13 && file_exists($documentrootname.$xml13)) {
 				$xmldata13 = simplexml_load_file($servername.$xml13);
 				?>
-				<tr>
-				<td align="center" valign="middle"><a href="<?php echo $servername.$xml13; ?>">
-				<img src="<?php echo $pluginurl ?>/gallerylink/icon/rssfeeds.png"></a></td>
-				<td align="left" valign="middle"><?php echo $xmldata13->channel->title; ?></td>
-				</tr>
+				<div>
+				<a href="<?php echo $servername.$xml13; ?>">
+				<img src="<?php echo $pluginurl ?>/gallerylink/icon/rssfeeds.png">
+				<?php echo $xmldata13->channel->title; ?></a>
+				</div>
 				<?php
 			}
 			if ($checkbox14 && file_exists($documentrootname.$xml14)) {
 				$xmldata14 = simplexml_load_file($servername.$xml14);
 				?>
-				<tr>
-				<td align="center" valign="middle"><a href="<?php echo $servername.$xml14; ?>">
-				<img src="<?php echo $pluginurl ?>/gallerylink/icon/rssfeeds.png"></a></td>
-				<td align="left" valign="middle"><?php echo $xmldata14->channel->title; ?></td>
-				</tr>
+				<div>
+				<a href="<?php echo $servername.$xml14; ?>">
+				<img src="<?php echo $pluginurl ?>/gallerylink/icon/rssfeeds.png">
+				<?php echo $xmldata14->channel->title; ?></a>
+				</div>
 				<?php
 			}
 			echo '</table>';
@@ -251,21 +250,81 @@ class GalleryLinkWidgetItem extends WP_Widget {
 	}
 	
 	function form($instance) {
-		$title = esc_attr($instance['title']);
-		$checkbox1 = esc_attr($instance['checkbox1']);
-		$checkbox2 = esc_attr($instance['checkbox2']);
-		$checkbox3 = esc_attr($instance['checkbox3']);
-		$checkbox4 = esc_attr($instance['checkbox4']);
-		$checkbox5 = esc_attr($instance['checkbox5']);
-		$checkbox6 = esc_attr($instance['checkbox6']);
-		$checkbox7 = esc_attr($instance['checkbox7']);
-		$checkbox8 = esc_attr($instance['checkbox8']);
-		$checkbox9 = esc_attr($instance['checkbox9']);
-		$checkbox10 = esc_attr($instance['checkbox10']);
-		$checkbox11 = esc_attr($instance['checkbox11']);
-		$checkbox12 = esc_attr($instance['checkbox12']);
-		$checkbox13 = esc_attr($instance['checkbox13']);
-		$checkbox14 = esc_attr($instance['checkbox14']);
+		if (isset($instance['title'])) {
+			$title = esc_attr($instance['title']);
+		} else {
+			$title = NULL;
+		}
+		if (isset($instance['checkbox1'])) {
+			$checkbox1 = esc_attr($instance['checkbox1']);
+		} else {
+			$checkbox1 = NULL;
+		}
+		if (isset($instance['checkbox2'])) {
+			$checkbox2 = esc_attr($instance['checkbox2']);
+		} else {
+			$checkbox2 = NULL;
+		}
+		if (isset($instance['checkbox3'])) {
+			$checkbox3 = esc_attr($instance['checkbox3']);
+		} else {
+			$checkbox3 = NULL;
+		}
+		if (isset($instance['checkbox4'])) {
+			$checkbox4 = esc_attr($instance['checkbox4']);
+		} else {
+			$checkbox4 = NULL;
+		}
+		if (isset($instance['checkbox5'])) {
+			$checkbox5 = esc_attr($instance['checkbox5']);
+		} else {
+			$checkbox5 = NULL;
+		}
+		if (isset($instance['checkbox6'])) {
+			$checkbox6 = esc_attr($instance['checkbox6']);
+		} else {
+			$checkbox6 = NULL;
+		}
+		if (isset($instance['checkbox7'])) {
+			$checkbox7 = esc_attr($instance['checkbox7']);
+		} else {
+			$checkbox7 = NULL;
+		}
+		if (isset($instance['checkbox8'])) {
+			$checkbox8 = esc_attr($instance['checkbox8']);
+		} else {
+			$checkbox8 = NULL;
+		}
+		if (isset($instance['checkbox9'])) {
+			$checkbox9 = esc_attr($instance['checkbox9']);
+		} else {
+			$checkbox9 = NULL;
+		}
+		if (isset($instance['checkbox10'])) {
+			$checkbox10 = esc_attr($instance['checkbox10']);
+		} else {
+			$checkbox10 = NULL;
+		}
+		if (isset($instance['checkbox11'])) {
+			$checkbox11 = esc_attr($instance['checkbox11']);
+		} else {
+			$checkbox11 = NULL;
+		}
+		if (isset($instance['checkbox12'])) {
+			$checkbox12 = esc_attr($instance['checkbox12']);
+		} else {
+			$checkbox12 = NULL;
+		}
+		if (isset($instance['checkbox13'])) {
+			$checkbox13 = esc_attr($instance['checkbox13']);
+		} else {
+			$checkbox13 = NULL;
+		}
+		if (isset($instance['checkbox14'])) {
+			$checkbox14 = esc_attr($instance['checkbox14']);
+		} else {
+			$checkbox14 = NULL;
+		}
 
 		?>
 		<p>

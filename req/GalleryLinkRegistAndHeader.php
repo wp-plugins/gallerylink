@@ -263,18 +263,18 @@ class GalleryLinkRegistAndHeader {
 		$documentrootname = $_SERVER['DOCUMENT_ROOT'];
 		$servername = 'http://'.$_SERVER['HTTP_HOST'];
 
-		$xml_all_file = $gallerylink_all[topurl].'/'.$gallerylink_all[rssname].'.xml';
-		$xml_all_media = $wp_uploads_path.'/'.$gallerylink_all[rssname].'.xml';
-		$xml_album_file = $gallerylink_album[topurl].'/'.$gallerylink_album[rssname].'.xml';
-		$xml_album_media = $wp_uploads_path.'/'.$gallerylink_album[rssname].'.xml';
-		$xml_movie_file = $gallerylink_movie[topurl].'/'.$gallerylink_movie[rssname].'.xml';
-		$xml_movie_media = $wp_uploads_path.'/'.$gallerylink_movie[rssname].'.xml';
-		$xml_music_file = $gallerylink_music[topurl].'/'.$gallerylink_music[rssname].'.xml';
-		$xml_music_media = $wp_uploads_path.'/'.$gallerylink_music[rssname].'.xml';
-		$xml_slideshow_file = $gallerylink_slideshow[topurl].'/'.$gallerylink_slideshow[rssname].'.xml';
-		$xml_slideshow_media = $wp_uploads_path.'/'.$gallerylink_slideshow[rssname].'.xml';
-		$xml_document_file = $gallerylink_document[topurl].'/'.$gallerylink_document[rssname].'.xml';
-		$xml_document_media = $wp_uploads_path.'/'.$gallerylink_document[rssname].'.xml';
+		$xml_all_file = $gallerylink_all['topurl'].'/'.$gallerylink_all['rssname'].'.xml';
+		$xml_all_media = $wp_uploads_path.'/'.$gallerylink_all['rssname'].'.xml';
+		$xml_album_file = $gallerylink_album['topurl'].'/'.$gallerylink_album['rssname'].'.xml';
+		$xml_album_media = $wp_uploads_path.'/'.$gallerylink_album['rssname'].'.xml';
+		$xml_movie_file = $gallerylink_movie['topurl'].'/'.$gallerylink_movie['rssname'].'.xml';
+		$xml_movie_media = $wp_uploads_path.'/'.$gallerylink_movie['rssname'].'.xml';
+		$xml_music_file = $gallerylink_music['topurl'].'/'.$gallerylink_music['rssname'].'.xml';
+		$xml_music_media = $wp_uploads_path.'/'.$gallerylink_music['rssname'].'.xml';
+		$xml_slideshow_file = $gallerylink_slideshow['topurl'].'/'.$gallerylink_slideshow['rssname'].'.xml';
+		$xml_slideshow_media = $wp_uploads_path.'/'.$gallerylink_slideshow['rssname'].'.xml';
+		$xml_document_file = $gallerylink_document['topurl'].'/'.$gallerylink_document['rssname'].'.xml';
+		$xml_document_media = $wp_uploads_path.'/'.$gallerylink_document['rssname'].'.xml';
 
 		include_once dirname(__FILE__).'/../inc/GalleryLink.php';
 		$gallerylink = new GalleryLink();
@@ -343,16 +343,15 @@ class GalleryLinkRegistAndHeader {
 
 		$gallerylink_css = get_option('gallerylink_css');
 
-		$pc_listwidth = $gallerylink_css[pc_listwidth];
-		list($listthumbsize_w, $listthumbsize_h) = explode('x', $gallerylink_css[pc_listthumbsize]);
-		$pc_linkstrcolor = $gallerylink_css[pc_linkstrcolor];
-		$pc_linkbackcolor = $gallerylink_css[pc_linkbackcolor];
-		$sp_navstrcolor = $gallerylink_css[sp_navstrcolor];
-		$sp_navbackcolor = $gallerylink_css[sp_navbackcolor];
-		$sp_navpartitionlinecolor = $gallerylink_css[sp_navpartitionlinecolor];
-		$sp_listbackcolor = $gallerylink_css[sp_listbackcolor];
-		$sp_listarrowcolor = $gallerylink_css[sp_listarrowcolor];
-		$sp_listpartitionlinecolor = $gallerylink_css[sp_listpartitionlinecolor];
+		list($listthumbsize_w, $listthumbsize_h) = explode('x', $gallerylink_css['pc_listthumbsize']);
+		$pc_linkstrcolor = $gallerylink_css['pc_linkstrcolor'];
+		$pc_linkbackcolor = $gallerylink_css['pc_linkbackcolor'];
+		$sp_navstrcolor = $gallerylink_css['sp_navstrcolor'];
+		$sp_navbackcolor = $gallerylink_css['sp_navbackcolor'];
+		$sp_navpartitionlinecolor = $gallerylink_css['sp_navpartitionlinecolor'];
+		$sp_listbackcolor = $gallerylink_css['sp_listbackcolor'];
+		$sp_listarrowcolor = $gallerylink_css['sp_listarrowcolor'];
+		$sp_listpartitionlinecolor = $gallerylink_css['sp_listpartitionlinecolor'];
 
 // CSS PC
 $gallerylink_add_css_pc = <<<GALLERYLINKADDCSSPC
@@ -421,6 +420,7 @@ GALLERYLINKADDMETAIEEMULATION;
 	 */
 	function delete_old_versions_wp_options(){
 
+		$delete_old_options = FALSE;
 		if ( get_option('gallerylink_album_sort') || get_option('gallerylink_colorbox') ) {
 			$delete_old_options = TRUE;
 		}
