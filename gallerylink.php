@@ -2,7 +2,7 @@
 /*
 Plugin Name: GalleryLink
 Plugin URI: http://wordpress.org/plugins/gallerylink/
-Version: 7.1
+Version: 7.2
 Description: Output as a gallery by find the file extension and directory specified.
 Author: Katsushi Kawamori
 Author URI: http://gallerylink.nyanko.org/
@@ -586,7 +586,7 @@ function gallerylink_func( $atts, $html = NULL ) {
 		}
 		// time
 		foreach ( $files as $file ){
-			$time_list[] = filemtime($file);
+			$time_list[] = @filemtime($file);
 		}
 		// sort for newer
 		if (!empty($files)){

@@ -386,10 +386,10 @@ class GalleryLink {
 		$fileinfo = NULL;
 		if ( $this->filesize_show === 'Show' || $this->stamptime_show === 'Show' ) {
 			if ( $this->filesize_show === 'Show' ) {
-				$filesize = ' '.round( filesize($this->document_root.$file) / 1024 ).'KB';
+				$filesize = ' '.round( @filesize($this->document_root.$file) / 1024 ).'KB';
 			}
 			if ( $this->stamptime_show === 'Show' ) {
-				$filestat = stat($this->document_root.$file);
+				$filestat = @stat($this->document_root.$file);
 				date_default_timezone_set(timezone_name_from_abbr(get_the_date('T')));
 				$stamptime = date("Y-m-d H:i:s",  $filestat['mtime']);
 			}
@@ -587,8 +587,8 @@ class GalleryLink {
 
 		$file = $this->document_root.$file;
 
-		$filesize = filesize($file);
-		$filestat = stat($file);
+		$filesize = @filesize($file);
+		$filestat = @stat($file);
 
 		date_default_timezone_set(timezone_name_from_abbr(get_the_date('T')));
 		$stamptime = date(DATE_RSS,  $filestat['mtime']);
@@ -696,6 +696,7 @@ XMLEND;
 
 		$xmlfile = $this->document_root.'/'.$this->rssname.'.xml';
 		if(count($rssfiles) < $this->rssmax){$this->rssmax = count($rssfiles);}
+		$xmlitem = NULL;
 		if ( file_exists($xmlfile)){
 			if (empty($paramcategoryfolder) && ($this->mode === "pc" || $this->mode === "sp")) {
 				$pubdate = NULL;
@@ -710,7 +711,6 @@ XMLEND;
 					$new_rss_pubdate = $reg[1];
 				}
 				if ($exist_rss_pubdate <> $new_rss_pubdate || $exist_rssfile_count != $this->rssmax){
-					$xmlitem = NULL;
 					for ( $i = 0; $i <= $this->rssmax-1; $i++ ) {
 						$xmlitem .= $this->xmlitem_read($rssfiles[$i], $rsstitles[$i], $rssthumblinks[$i], $rsslargemediumlinks[$i]);
 					}
