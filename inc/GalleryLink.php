@@ -91,11 +91,14 @@ class GalleryLink {
 	function scan_file($dir) {
 
    		$list = $tmp = array();
-	   	foreach(glob($dir . '/*', GLOB_ONLYDIR) as $child_dir) {
-    	   	if ($tmp = $this->scan_file($child_dir)) {
-       	   		$list = array_merge($list, $tmp);
-	       	}
-   		}
+		$searchdir = glob($dir . '/*', GLOB_ONLYDIR);
+		if ( is_array($searchdir) ) {
+		   	foreach( $searchdir as $child_dir) {
+	    	   	if ($tmp = $this->scan_file($child_dir)) {
+	       	   		$list = array_merge($list, $tmp);
+		       	}
+	   		}
+		}
 
 		if (DIRECTORY_SEPARATOR === '\\') {
 			$exclude_file = preg_quote($this->exclude_file,"/");
@@ -107,19 +110,22 @@ class GalleryLink {
 			$search = $this->search;
 		}
 
-		foreach(glob($dir.'/*', GLOB_BRACE) as $file) {
-			$exts = explode('.', $file);
-			$ext = end($exts);
-			if (preg_match("/".$this->suffix_pattern."/", $ext)) {
-				if (!preg_match("/".$this->thumbnail."/", $file) || empty($this->thumbnail)) {
-					if (!preg_match("/".$exclude_file."/", $file) || empty($exclude_file)) {
-						if (!preg_match("/".$exclude_dir."/", $file) || empty($exclude_dir)) {
-							if ( !is_dir( $file ) ) {
-								if (empty($this->search)) {
-									$list[] = $file;
-								}else{
-									if(preg_match("/".$search."/", $file)) {
-									$list[] = $file;
+		$searchfile = glob($dir . '/*', GLOB_BRACE);
+		if ( is_array($searchfile) ) {
+		   	foreach($searchfile as $file) {
+				$exts = explode('.', $file);
+				$ext = end($exts);
+				if (preg_match("/".$this->suffix_pattern."/", $ext)) {
+					if (!preg_match("/".$this->thumbnail."/", $file) || empty($this->thumbnail)) {
+						if (!preg_match("/".$exclude_file."/", $file) || empty($exclude_file)) {
+							if (!preg_match("/".$exclude_dir."/", $file) || empty($exclude_dir)) {
+								if ( !is_dir( $file ) ) {
+									if (empty($this->search)) {
+										$list[] = $file;
+									}else{
+										if(preg_match("/".$search."/", $file)) {
+											$list[] = $file;
+										}
 									}
 								}
 							}
@@ -142,23 +148,26 @@ class GalleryLink {
 	function scan_dir($dir) {
 
    		$dirlist = $tmp = array();
-	    foreach(glob($dir . '/*', GLOB_ONLYDIR) as $child_dir) {
-   		    if ($tmp = $this->scan_dir($child_dir)) {
-       		    $dirlist = array_merge($dirlist, $tmp);
-	       	}
-   		}
+		$searchdir = glob($dir . '/*', GLOB_ONLYDIR);
+		if ( is_array($searchdir) ) {
+		    foreach($searchdir as $child_dir) {
+	   		    if ($tmp = $this->scan_dir($child_dir)) {
+	       		    $dirlist = array_merge($dirlist, $tmp);
+		       	}
+	   		}
 
-		if (DIRECTORY_SEPARATOR === '\\') {
-			$exclude_dir = preg_quote($this->exclude_dir,"/");
-		} else {
-			$exclude_dir = $this->exclude_dir;
-		}
-
-	    foreach(glob($dir . '/*', GLOB_ONLYDIR) as $child_dir) {
-			if (!preg_match("/".$exclude_dir."/", $child_dir) || empty($exclude_dir)) {
-				$dirlist[] = $child_dir;
+			if (DIRECTORY_SEPARATOR === '\\') {
+				$exclude_dir = preg_quote($this->exclude_dir,"/");
+			} else {
+				$exclude_dir = $this->exclude_dir;
 			}
-   		}
+
+		    foreach($searchdir as $child_dir) {
+				if (!preg_match("/".$exclude_dir."/", $child_dir) || empty($exclude_dir)) {
+					$dirlist[] = $child_dir;
+				}
+	   		}
+		}
 
 		arsort($dirlist);
    		return $dirlist;
