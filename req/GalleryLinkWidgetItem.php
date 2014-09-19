@@ -39,15 +39,7 @@ class GalleryLinkWidgetItem extends WP_Widget {
 		$checkbox6 = apply_filters('widget_checkbox', $instance['checkbox6']);
 		$checkbox7 = apply_filters('widget_checkbox', $instance['checkbox7']);
 		$checkbox8 = apply_filters('widget_checkbox', $instance['checkbox8']);
-		$checkbox9 = apply_filters('widget_checkbox', $instance['checkbox9']);
-		$checkbox10 = apply_filters('widget_checkbox', $instance['checkbox10']);
-		$checkbox11 = apply_filters('widget_checkbox', $instance['checkbox11']);
-		$checkbox12 = apply_filters('widget_checkbox', $instance['checkbox12']);
-		$checkbox13 = apply_filters('widget_checkbox', $instance['checkbox13']);
-		$checkbox14 = apply_filters('widget_checkbox', $instance['checkbox14']);
 
-		$wp_uploads = wp_upload_dir();
-		$wp_uploads_path = str_replace('http://'.$_SERVER["SERVER_NAME"], '', $wp_uploads['baseurl']);
 		$pluginurl = plugins_url($path='',$scheme=null);
 
 		if (DIRECTORY_SEPARATOR === '\\' && mb_language() === 'Japanese') {
@@ -72,12 +64,6 @@ class GalleryLinkWidgetItem extends WP_Widget {
 		$xml6 = mb_convert_encoding($gallerylink_music['topurl'], $chrcode, "auto").'/'.$gallerylink_music['rssname'].'.xml';
 		$xml7 = mb_convert_encoding($gallerylink_slideshow['topurl'], $chrcode, "auto").'/'.$gallerylink_slideshow['rssname'].'.xml';
 		$xml8 = mb_convert_encoding($gallerylink_document['topurl'], $chrcode, "auto").'/'.$gallerylink_document['rssname'].'.xml';
-		$xml9 = $wp_uploads_path.'/'.$gallerylink_all['rssname'].'.xml';
-		$xml10 = $wp_uploads_path.'/'.$gallerylink_album['rssname'].'.xml';
-		$xml11 = $wp_uploads_path.'/'.$gallerylink_movie['rssname'].'.xml';
-		$xml12 = $wp_uploads_path.'/'.$gallerylink_music['rssname'].'.xml';
-		$xml13 = $wp_uploads_path.'/'.$gallerylink_slideshow['rssname'].'.xml';
-		$xml14 = $wp_uploads_path.'/'.$gallerylink_document['rssname'].'.xml';
 
 		if ($title) {
 			echo $before_widget;
@@ -163,66 +149,6 @@ class GalleryLinkWidgetItem extends WP_Widget {
 				</div>
 				<?php
 			}
-			if ($checkbox9 && file_exists($documentrootname.$xml9)) {
-				$xmldata9 = simplexml_load_file($servername.$xml9);
-				?>
-				<div>
-				<a href="<?php echo $servername.$xml9; ?>">
-				<img src="<?php echo $pluginurl ?>/gallerylink/icon/podcast.png">
-				<?php echo $xmldata9->channel->title; ?></a>
-				</div>
-				<?php
-			}
-			if ($checkbox10 && file_exists($documentrootname.$xml10)) {
-				$xmldata10 = simplexml_load_file($servername.$xml10);
-				?>
-				<div>
-				<a href="<?php echo $servername.$xml10; ?>">
-				<img src="<?php echo $pluginurl ?>/gallerylink/icon/rssfeeds.png">
-				<?php echo $xmldata10->channel->title; ?></a>
-				</div>
-				<?php
-			}
-			if ($checkbox11 && file_exists($documentrootname.$xml11)) {
-				$xmldata11 = simplexml_load_file($servername.$xml11);
-				?>
-				<div>
-				<a href="<?php echo $servername.$xml11; ?>">
-				<img src="<?php echo $pluginurl ?>/gallerylink/icon/podcast.png">
-				<?php echo $xmldata11->channel->title; ?></a>
-				</div>
-				<?php
-			}
-			if ($checkbox12 && file_exists($documentrootname.$xml12)) {
-				$xmldata12 = simplexml_load_file($servername.$xml12);
-				?>
-				<div>
-				<a href="<?php echo $servername.$xml12; ?>">
-				<img src="<?php echo $pluginurl ?>/gallerylink/icon/podcast.png">
-				<?php echo $xmldata12->channel->title; ?></a>
-				</div>
-				<?php
-			}
-			if ($checkbox13 && file_exists($documentrootname.$xml13)) {
-				$xmldata13 = simplexml_load_file($servername.$xml13);
-				?>
-				<div>
-				<a href="<?php echo $servername.$xml13; ?>">
-				<img src="<?php echo $pluginurl ?>/gallerylink/icon/rssfeeds.png">
-				<?php echo $xmldata13->channel->title; ?></a>
-				</div>
-				<?php
-			}
-			if ($checkbox14 && file_exists($documentrootname.$xml14)) {
-				$xmldata14 = simplexml_load_file($servername.$xml14);
-				?>
-				<div>
-				<a href="<?php echo $servername.$xml14; ?>">
-				<img src="<?php echo $pluginurl ?>/gallerylink/icon/rssfeeds.png">
-				<?php echo $xmldata14->channel->title; ?></a>
-				</div>
-				<?php
-			}
 			echo $after_widget;
 		}
 	}
@@ -238,12 +164,6 @@ class GalleryLinkWidgetItem extends WP_Widget {
 		$instance['checkbox6'] = strip_tags($new_instance['checkbox6']);
 		$instance['checkbox7'] = strip_tags($new_instance['checkbox7']);
 		$instance['checkbox8'] = strip_tags($new_instance['checkbox8']);
-		$instance['checkbox9'] = strip_tags($new_instance['checkbox9']);
-		$instance['checkbox10'] = strip_tags($new_instance['checkbox10']);
-		$instance['checkbox11'] = strip_tags($new_instance['checkbox11']);
-		$instance['checkbox12'] = strip_tags($new_instance['checkbox12']);
-		$instance['checkbox13'] = strip_tags($new_instance['checkbox13']);
-		$instance['checkbox14'] = strip_tags($new_instance['checkbox14']);
 		return $instance;
 	}
 	
@@ -293,36 +213,6 @@ class GalleryLinkWidgetItem extends WP_Widget {
 		} else {
 			$checkbox8 = NULL;
 		}
-		if (isset($instance['checkbox9'])) {
-			$checkbox9 = esc_attr($instance['checkbox9']);
-		} else {
-			$checkbox9 = NULL;
-		}
-		if (isset($instance['checkbox10'])) {
-			$checkbox10 = esc_attr($instance['checkbox10']);
-		} else {
-			$checkbox10 = NULL;
-		}
-		if (isset($instance['checkbox11'])) {
-			$checkbox11 = esc_attr($instance['checkbox11']);
-		} else {
-			$checkbox11 = NULL;
-		}
-		if (isset($instance['checkbox12'])) {
-			$checkbox12 = esc_attr($instance['checkbox12']);
-		} else {
-			$checkbox12 = NULL;
-		}
-		if (isset($instance['checkbox13'])) {
-			$checkbox13 = esc_attr($instance['checkbox13']);
-		} else {
-			$checkbox13 = NULL;
-		}
-		if (isset($instance['checkbox14'])) {
-			$checkbox14 = esc_attr($instance['checkbox14']);
-		} else {
-			$checkbox14 = NULL;
-		}
 
 		?>
 		<p>
@@ -346,7 +236,7 @@ class GalleryLinkWidgetItem extends WP_Widget {
 		</td>
 		</tr>
 		</table>
-		<div>GalleryLink: type='dir'</div>
+		<div>GalleryLink</div>
 		<table>
 		<tr>
 		<td align="left" valign="middle" nowrap>
@@ -387,51 +277,6 @@ class GalleryLinkWidgetItem extends WP_Widget {
 		<td align="left" valign="middle" nowrap>
 			<label for="<?php echo $this->get_field_id('checkbox8'); ?> ">
 			<input class="widefat" id="<?php echo $this->get_field_id('checkbox8'); ?>" name="<?php echo $this->get_field_name('checkbox8'); ?>" type="checkbox"<?php checked('Document', $checkbox8); ?> value="Document" />
-			<?php _e('Document (RSS)', 'gallerylink'); ?></label>
-		</td>
-		</tr>
-		</table>
-		<div>GalleryLink: type='media'</div>
-		<table>
-		<tr>
-		<td align="left" valign="middle" nowrap>
-			<label for="<?php echo $this->get_field_id('checkbox9'); ?> ">
-			<input class="widefat" id="<?php echo $this->get_field_id('checkbox9'); ?>" name="<?php echo $this->get_field_name('checkbox9'); ?>" type="checkbox"<?php checked('All data', $checkbox9); ?> value="All data" />
-			<?php _e('All data (Podcast)', 'gallerylink'); ?></label>
-		</td>
-		</tr>
-		<tr>
-		<td align="left" valign="middle" nowrap>
-			<label for="<?php echo $this->get_field_id('checkbox10'); ?> ">
-			<input class="widefat" id="<?php echo $this->get_field_id('checkbox10'); ?>" name="<?php echo $this->get_field_name('checkbox10'); ?>" type="checkbox"<?php checked('Album', $checkbox10); ?> value="Album" />
-			<?php _e('Album (RSS)', 'gallerylink'); ?></label>
-		</td>
-		</tr>
-		<tr>
-		<td align="left" valign="middle" nowrap>
-			<label for="<?php echo $this->get_field_id('checkbox11'); ?> ">
-			<input class="widefat" id="<?php echo $this->get_field_id('checkbox11'); ?>" name="<?php echo $this->get_field_name('checkbox11'); ?>" type="checkbox"<?php checked('Movie', $checkbox11); ?> value="Movie" />
-			<?php _e('Video (Podcast)', 'gallerylink'); ?></label>
-		</td>
-		</tr>
-		<tr>
-		<td align="left" valign="middle" nowrap>
-			<label for="<?php echo $this->get_field_id('checkbox12'); ?> ">
-			<input class="widefat" id="<?php echo $this->get_field_id('checkbox12'); ?>" name="<?php echo $this->get_field_name('checkbox12'); ?>" type="checkbox"<?php checked('Music', $checkbox12); ?> value="Music" />
-			<?php _e('Music (Podcast)', 'gallerylink'); ?></label>
-		</td>
-		</tr>
-		<tr>
-		<td align="left" valign="middle" nowrap>
-			<label for="<?php echo $this->get_field_id('checkbox13'); ?> ">
-			<input class="widefat" id="<?php echo $this->get_field_id('checkbox13'); ?>" name="<?php echo $this->get_field_name('checkbox13'); ?>" type="checkbox"<?php checked('Slideshow', $checkbox13); ?> value="Slideshow" />
-			<?php _e('Slideshow (RSS)', 'gallerylink'); ?></label>
-		</td>
-		</tr>
-		<tr>
-		<td align="left" valign="middle" nowrap>
-			<label for="<?php echo $this->get_field_id('checkbox14'); ?> ">
-			<input class="widefat" id="<?php echo $this->get_field_id('checkbox14'); ?>" name="<?php echo $this->get_field_name('checkbox14'); ?>" type="checkbox"<?php checked('Document', $checkbox14); ?> value="Document" />
 			<?php _e('Document (RSS)', 'gallerylink'); ?></label>
 		</td>
 		</tr>

@@ -2,15 +2,21 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Gallerylink\n"
 "POT-Creation-Date: 2013-05-27 21:10+0900\n"
-"PO-Revision-Date: 2014-06-03 00:05+0900\n"
+"PO-Revision-Date: 2014-09-20 00:50+0900\n"
 "Last-Translator: Katsushi Kawamori <dodesyoswift312@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.6.4\n"
+"X-Generator: Poedit 1.6.7\n"
 "X-Poedit-KeywordsList: __;_e;gettext;gettext_noop\n"
 "X-Poedit-Basepath: .\n"
+
+msgid "first page"
+msgstr ""
+
+msgid "previous page"
+msgstr ""
 
 msgid "prev"
 msgstr ""
@@ -42,13 +48,7 @@ msgstr ""
 msgid "How to use"
 msgstr ""
 
-msgid "Default settings"
-msgstr ""
-
-msgid "The default value for the short code attribute"
-msgstr ""
-
-msgid "Please set the default value in the setting page."
+msgid "Default all settings"
 msgstr ""
 
 msgid ""
@@ -83,9 +83,9 @@ msgid "Customization"
 msgstr ""
 
 msgid ""
-"If you want to use MULTI-BYTE CHARACTER SETS to the display of the directory "
-"name and the file name. In this case, please upload the file after UTF-8 "
-"character code setting of the FTP software."
+"* If you want to use MULTI-BYTE CHARACTER SETS to the display of the "
+"directory name and the file name. In this case, please upload the file after "
+"UTF-8 character code setting of the FTP software."
 msgstr ""
 
 msgid ""
@@ -132,22 +132,16 @@ msgid ""
 "uploads."
 msgstr ""
 
-msgid "extension of PC"
+msgid "extension"
 msgstr ""
 
-msgid "second extension on the PC. Second candidate when working with html5"
-msgstr ""
-
-msgid "extension of Smartphone"
+msgid "second extension. Second candidate when working with html5"
 msgstr ""
 
 msgid "extension of Japanese mobile phone"
 msgstr ""
 
-msgid "File Display per page(PC)"
-msgstr ""
-
-msgid "File Display per page(Smartphone)"
+msgid "File Display per page"
 msgstr ""
 
 msgid "File Display per page(Japanese mobile phone)"
@@ -159,10 +153,13 @@ msgid ""
 "specify anything."
 msgstr ""
 
-msgid "File you want to exclude. More than one, specified separated by |."
+msgid "File you want to exclude."
 msgstr ""
 
-msgid "Directory you want to exclude. More than one, specified separated by |."
+msgid "Directory you want to exclude."
+msgstr ""
+
+msgid "Regular expression is possible."
 msgstr ""
 
 msgid "The name of the RSS feed file (Use to widget)"
@@ -171,40 +168,16 @@ msgstr ""
 msgid "Syndication feeds show the most recent (Use to widget)"
 msgstr ""
 
-msgid "The default value for the display size and display color."
+msgid "Size and color"
 msgstr ""
 
-msgid "Size of the movie container."
-msgstr ""
-
-msgid "Size of the thumbnail and icon."
+msgid "Size of the thumbnail size for Video and Music"
 msgstr ""
 
 msgid "Background color"
 msgstr ""
 
 msgid "Text color"
-msgstr ""
-
-msgid "Width of the list"
-msgstr ""
-
-msgid "Color of the arrow"
-msgstr ""
-
-msgid "Background color of the list"
-msgstr ""
-
-msgid "Background color of the partition line in the list"
-msgstr ""
-
-msgid "Background color of the navigation"
-msgstr ""
-
-msgid "Background color of the partition line in the navigation"
-msgstr ""
-
-msgid "Text color navigation"
 msgstr ""
 
 msgid ""
@@ -236,12 +209,7 @@ msgid ""
 "link the RSS feed."
 msgstr ""
 
-msgid ""
-"Flash extension on the PC. Flash Player to be used when a HTML5 player does "
-"not work."
-msgstr ""
-
-msgid "Selectbox of directories or categories."
+msgid "Selectbox of directories."
 msgstr ""
 
 msgid "Navigation of page."
@@ -267,65 +235,28 @@ msgstr ""
 msgid "Generation of RSS feed."
 msgstr ""
 
-msgid "Read from the directory data.(dir)"
-msgstr ""
-
-msgid "Read from the media library data.(media)"
-msgstr ""
-
-msgid "Size of the image display. (Media Settings > Image Size)"
-msgstr ""
-
-msgid "Category you want to include. Only one."
-msgstr ""
-
-msgid "Category you want to exclude. More than one, specified separated by |."
-msgstr ""
-
-msgid "Use only"
-msgstr ""
-
-msgid "In the case of read data from the directory."
-msgstr ""
-
-msgid "In the case of read data from the Media Library."
-msgstr ""
-
-msgid ""
-"Please upload the data to the Media Library. Support the classification of "
-"the category. Use the caption of the media library, and are classified."
-msgstr ""
-
-msgid "Alias read extension : "
-msgstr ""
-
 msgid "Type of Sort"
 msgstr ""
 
-msgid "The default value for current language."
+msgid "The default value for current language"
 msgstr ""
 
-msgid ""
-"Configuration language of directory and file names, case of reading data "
-"from the directory."
+msgid "Configuration language of directory and file names."
 msgstr ""
 
-msgid "The default value for User Agent."
+msgid "User Agent"
+msgstr ""
+
+msgid "Exclude"
+msgstr ""
+
+msgid "Other"
 msgstr ""
 
 msgid "Generate html"
 msgstr ""
 
-msgid "for Pc or Tablet"
-msgstr ""
-
-msgid "for Smartphone"
-msgstr ""
-
 msgid "for Japanese mobile phone"
-msgstr ""
-
-msgid "| Specify separated by. Regular expression is possible."
 msgstr ""
 
 msgid "File size"

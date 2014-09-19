@@ -45,22 +45,41 @@ class GalleryLinkAdmin {
 	}
 
 	/* ==================================================
+	 * Add Css and Script
+	 * @since	2.0
+	 */
+	function load_custom_wp_admin_style() {
+		wp_enqueue_style( 'jquery-responsiveTabs', GALLERYLINK_PLUGIN_URL.'/css/responsive-tabs.css' );
+		wp_enqueue_style( 'jquery-responsiveTabs-style', GALLERYLINK_PLUGIN_URL.'/css/style.css' );
+		wp_enqueue_script('jquery');
+		wp_enqueue_script( 'jquery-responsiveTabs', GALLERYLINK_PLUGIN_URL.'/js/jquery.responsiveTabs.min.js' );
+	}
+
+	/* ==================================================
+	 * Add Script on footer
+	 * @since	2.0
+	 */
+	function load_custom_wp_admin_style2() {
+		echo $this->add_jscss();
+	}
+
+
+	/* ==================================================
 	 * Settings page
 	 * @since	1.0.6
 	 */
 	function plugin_options() {
+
 		if ( !current_user_can( 'manage_options' ) )  {
 			wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
 		}
 
 		$pluginurl = plugins_url($path='',$scheme=null);
 
-		wp_enqueue_style( 'jquery-ui-tabs', $pluginurl.'/gallerylink/css/jquery-ui.css' );
-		wp_enqueue_script( 'jquery' );
-		wp_enqueue_script( 'jquery-ui-tabs' );
-		wp_enqueue_script( 'jquery-ui-tabs-in', $pluginurl.'/gallerylink/js/jquery-ui-tabs-in.js' );
+		if( !empty($_POST) ) {
+			$this->options_updated(intval($_POST['gallerylink_admin_tabs']));
+		}
 
-		if( !empty($_POST) ) { $this->options_updated(); }
 		$scriptname = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH).'?page=GalleryLink';
 
 		$gallerylink_album = get_option('gallerylink_album');
@@ -71,10 +90,7 @@ class GalleryLinkAdmin {
 		$gallerylink_exclude = get_option('gallerylink_exclude');
 		$gallerylink_movie = get_option('gallerylink_movie');
 		$gallerylink_music = get_option('gallerylink_music');
-		$gallerylink_nivoslider = get_option('gallerylink_nivoslider');
-		$gallerylink_photoswipe = get_option('gallerylink_photoswipe');
 		$gallerylink_slideshow = get_option('gallerylink_slideshow');
-		$gallerylink_swipebox = get_option('gallerylink_swipebox');
 		$gallerylink_useragent = get_option('gallerylink_useragent');
 
 		?>
@@ -82,570 +98,102 @@ class GalleryLinkAdmin {
 		<div class="wrap">
 		<h2>GalleryLink</h2>
 
-	<div id="tabs">
+	<div id="gallerylink-admin-tabs">
 	  <ul>
-	    <li><a href="#tabs-1"><?php _e('How to use', 'gallerylink'); ?></a></li>
-	    <li><a href="#tabs-2"><?php _e('Settings'); ?>1</a></li>
-		<li><a href="#tabs-3"><?php _e('Settings'); ?>2</a></li>
-		<li><a href="#tabs-4"><?php _e('Effect of Images', 'gallerylink'); ?></a></li>
-		<li><a href="#tabs-5"><?php _e('Caution:'); ?></a></li>
+	    <li><a href="#gallerylink-admin-tabs-1"><?php _e('How to use', 'gallerylink'); ?></a></li>
+	    <li><a href="#gallerylink-admin-tabs-2"><?php _e('Settings'); ?> <?php _e('AllData', 'gallerylink'); ?></a></li>
+	    <li><a href="#gallerylink-admin-tabs-3"><?php _e('Settings'); ?> <?php _e('Album', 'gallerylink'); ?></a></li>
+	    <li><a href="#gallerylink-admin-tabs-4"><?php _e('Settings'); ?> <?php _e('Video', 'gallerylink'); ?></a></li>
+	    <li><a href="#gallerylink-admin-tabs-5"><?php _e('Settings'); ?> <?php _e('Music', 'gallerylink'); ?></a></li>
+	    <li><a href="#gallerylink-admin-tabs-6"><?php _e('Settings'); ?> <?php _e('Slideshow', 'gallerylink'); ?></a></li>
+	    <li><a href="#gallerylink-admin-tabs-7"><?php _e('Settings'); ?> <?php _e('Document', 'gallerylink'); ?></a></li>
+		<li><a href="#gallerylink-admin-tabs-8"><?php _e('Settings'); ?> <?php _e('Other', 'gallerylink'); ?></a></li>
+		<li><a href="#gallerylink-admin-tabs-9"><?php _e('Effect of Images', 'gallerylink'); ?></a></li>
+		<li><a href="#gallerylink-admin-tabs-10"><?php _e('Caution:'); ?></a></li>
 	<!--
-		<li><a href="#tabs-6">FAQ</a></li>
+		<li><a href="#gallerylink-admin-tabs-11">FAQ</a></li>
 	 -->
 	  </ul>
-	  <div id="tabs-1">
+	  <div id="gallerylink-admin-tabs-1">
 		<h2><?php _e('How to use', 'gallerylink'); ?></h2>
-		<h3><?php _e('Please set the default value in the setting page.', 'gallerylink'); ?></h3>
-		<p><div><?php _e('In the case of read data from the directory.', 'gallerylink'); ?></div>
-		<div style="margin: 10px"><?php _e('Please upload the data to the data directory (topurl) by the FTP software. At the same time upload thumbnail.', 'gallerylink'); ?></div></p>
-		<p><div><?php _e('In the case of read data from the Media Library.', 'gallerylink'); ?></div>
-		<div style="margin: 10px"><?php _e('Please upload the data to the Media Library. Support the classification of the category. Use the caption of the media library, and are classified.', 'gallerylink'); ?></div></p>
-		<p><?php _e('Please add new Page. Please write a short code in the text field of the Page. Please go in Text mode this task.', 'gallerylink'); ?></p>
+		<div style="padding:10px;"><?php _e('Please upload the data to the data directory (topurl) by the FTP software. At the same time upload thumbnail.', 'gallerylink'); ?></div>
+
+		<div style="padding:10px;"><?php _e('Please add new Page. Please write a short code in the text field of the Page. Please go in Text mode this task.', 'gallerylink'); ?></div>
+		<div style="padding:10px;">
 		<div><?php _e('In the case of all data', 'gallerylink'); ?>
 		<code>&#91;gallerylink set='all'&#93;</code></div>
-
 		<div><?php _e('In the case of image', 'gallerylink'); ?>
 		<code>&#91;gallerylink set='album'&#93;</code></div>
-
 		<div><?php _e('In the case of slideshow', 'gallerylink'); ?>
 		<code>&#91;gallerylink set='slideshow'&#93;</code></div>
-
 		<div><?php _e('In the case of video', 'gallerylink'); ?>
 		<code>&#91;gallerylink set='movie'&#93;</code></div>
-
 		<div><?php _e('In the case of music', 'gallerylink'); ?>
 		<code>&#91;gallerylink set='music'&#93;</code></div>
-
 		<div><?php _e('In the case of document', 'gallerylink'); ?>
 		<code>&#91;gallerylink set='document'&#93;</code></div>
-
-		<p><div><?php _e('In the case of read data from the directory.', 'gallerylink'); ?></div>
-		<div style="margin: 10px"><?php _e('If you want to use MULTI-BYTE CHARACTER SETS to the display of the directory name and the file name. In this case, please upload the file after UTF-8 character code setting of the FTP software.', 'gallerylink'); ?></div></p>
-		<p><div><?php _e('Customization', 'gallerylink'); ?></div></p>
+		</div>
+		<div style="padding:10px;">
+		<div><?php _e('Customization', 'gallerylink'); ?></div>
+		</div>
+		<div style="padding:10px;">
 		<div><?php _e('GalleryLink can be used to specify the attributes of the table below to short code. It will override the default settings.', 'gallerylink'); ?></div>
-		<p><div><?php _e('All data Example', 'gallerylink'); ?>
+		</div>
+		<div style="padding:10px;">
+		<div><?php _e('All data Example', 'gallerylink'); ?>
 		<code>&#91;gallerylink set='all'&#93;</code></div>
 		<div><?php _e('Image Example', 'gallerylink'); ?>
-		<code>&#91;gallerylink set='album' type='dir' topurl='/wordpress/wp-content/uploads' thumbnail='-80x80' exclude_file='(.ktai.)|(-[0-9]*x[0-9]*.)' exclude_dir='ps_auto_sitemap|backwpup.*|wpcf7_captcha' rssname='album'&#93;</code></div>
-		<code>&#91;gallerylink set='album' type='media' image_show_size='Medium' exclude_cat='test|test2' rssname='album2'&#93;</code>
+		<code>&#91;gallerylink set='album' topurl='/wordpress/wp-content/uploads' thumbnail='-80x80' exclude_file='(.ktai.)|(-[0-9]*x[0-9]*.)' exclude_dir='ps_auto_sitemap|backwpup.*|wpcf7_captcha' rssname='album'&#93;</code></div>
 		<div><?php _e('Video Example', 'gallerylink'); ?>
-		<code>&#91;gallerylink set='movie' type='dir' topurl='/gallery/video' rssmax=5&#93;</code>
-		<code>&#91;gallerylink set='movie' type='media' include_cat='test3'&#93;</code></div>
+		<code>&#91;gallerylink set='movie' topurl='/gallery/video' rssmax=5&#93;</code></div>
 		<div><?php _e('Music Example', 'gallerylink'); ?>
-		<code>&#91;gallerylink set='music' type='dir' topurl='/gallery/music'&#93;</code>
-		<code>&#91;gallerylink set='music' type='media' credit_show='Hide'&#93;</code></div>
+		<code>&#91;gallerylink set='music' topurl='/gallery/music'&#93;</code></div>
 		<div><?php _e('Document Example', 'gallerylink'); ?>
-		<code>&#91;gallerylink set='document' type='dir' topurl='/gallery/document' suffix_pc='doc'&#93;</code>
-		<code>&#91;gallerylink set='document' type='media' suffix_pc='pdf'&#93;</code></div>
-		<p><div><?php _e('* Please set to 777 or 757 the attributes of topurl directory. Because GalleryLink create an RSS feed in the directory.', 'gallerylink'); ?><b>*<?php _e('In the case of read data from the directory.', 'gallerylink'); ?></b></div>
+		<code>&#91;gallerylink set='document' topurl='/gallery/document' suffix='doc'&#93;</code></div>
+		</div>
+		<div style="padding:10px;">
+		<div><?php _e('* If you want to use MULTI-BYTE CHARACTER SETS to the display of the directory name and the file name. In this case, please upload the file after UTF-8 character code setting of the FTP software.', 'gallerylink'); ?></div>
+		<div><?php _e('* Please set to 777 or 757 the attributes of topurl directory. Because GalleryLink create an RSS feed in the directory.', 'gallerylink'); ?></div>
 		<div><?php _e('* (WordPress > Settings > General Timezone) Please specify your area other than UTC. For accurate time display of RSS feed.', 'gallerylink'); ?></div>
-		<div><?php _e('* When you move to (WordPress > Appearance > Widgets), there is a widget GalleryLinkRssFeed. If you place you can set this to display the sidebar link the RSS feed.', 'gallerylink'); ?></div></p>
-
-		<strong><?php _e('The default value for the short code attribute', 'gallerylink'); ?></strong>
-		<table border="1" class="wp-list-table widefat fixed">
-		<tbody>
-
-		<tr>
-		<td align="center" valign="middle">
-		<?php _e('Attribute', 'gallerylink'); ?>
-		</td>
-		<td colspan="6" align="center" valign="middle">
-		<?php _e('Default'); ?>
-		</td>
-		<td align="center" valign="middle">
-		<?php _e('Description'); ?>
-		</td>
-		</tr>
-
-		<tr>
-		<td align="center" valign="middle"><b>set</b></td>
-		<td align="center" valign="middle">all</td>
-		<td align="center" valign="middle">album</td>
-		<td align="center" valign="middle">movie</td>
-		<td align="center" valign="middle">music</td>
-		<td align="center" valign="middle">slideshow</td>
-		<td align="center" valign="middle">document</td>
-		<td align="left" valign="middle">
-		<?php _e('Next only six. all(all data), album(image), movie(video), music(music), slideshow(image), document(document)', 'gallerylink'); ?>
-		</td>
-		</tr>
-
-		<tr>
-		<td align="center" valign="middle"><b>type</b></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_all['type'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_album['type'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_movie['type'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_music['type'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_slideshow['type'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_document['type'] ?></td>
-		<td align="left" valign="middle">
-		<div><?php _e('Read from the directory data.(dir)', 'gallerylink'); ?></div>
-		<div><?php _e('Read from the media library data.(media)', 'gallerylink'); ?></div>
-		</td>
-		</tr>
-
-		<tr>
-		<td align="center" valign="middle"><b>sort</b></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_all['sort'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_album['sort'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_movie['sort'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_music['sort'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_slideshow['sort'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_document['sort'] ?></td>
-		<td align="left" valign="middle">
-		<?php _e('Type of Sort', 'gallerylink'); ?>
-		</td>
-		</tr>
-
-		<tr>
-		<td align="center" valign="middle"><b>topurl</b></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_all['topurl'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_album['topurl'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_movie['topurl'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_music['topurl'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_slideshow['topurl'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_document['topurl'] ?></td>
-		<td align="left" valign="middle">
-		<div><b><font color="red"><?php _e('Use only', 'gallerylink'); ?> type=&#39;dir&#39;</font></b></div>
-		<?php _e('Full path to the top directory containing the data. Example:In the case of http://www.mysite.xxx/wordpress/wp-content/uploads is /wordpress/wp-content/uploads.', 'gallerylink'); ?>
-		</td>
-		</tr>
-
-		<tr>
-		<td align="center" valign="middle"><b>suffix_pc</b></td>
-		<td align="left" valign="top" rowspan="5" width="180"><?php _e("Audio's suffix and Video's suffix is following to the setting(set='music',set='movie'). Other than that, read all the data.", 'gallerylink'); ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_album['suffix_pc'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_movie['suffix_pc'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_music['suffix_pc'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_slideshow['suffix_pc'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_document['suffix_pc'] ?></td>
-		<td align="left" valign="middle">
-		<?php _e('extension of PC', 'gallerylink'); ?>
-		</td>
-		</tr>
-
-		<tr>
-		<td align="center" valign="middle"><b>suffix_pc2</b></td>
-		<td align="center" valign="middle"></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_movie['suffix_pc2'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_music['suffix_pc2'] ?></td>
-		<td colspan="2"></td>
-		<td align="left" valign="middle">
-		<?php _e('second extension on the PC. Second candidate when working with html5', 'gallerylink'); ?>
-		</td>
-		</tr>
-
-		<tr>
-		<td align="center" valign="middle"><b>suffix_flash</b></td>
-		<td align="center" valign="middle"></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_movie['suffix_flash'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_music['suffix_flash'] ?></td>
-		<td colspan="2"></td>
-		<td align="left" valign="middle">
-		<?php _e('Flash extension on the PC. Flash Player to be used when a HTML5 player does not work.', 'gallerylink'); ?>
-		</td>
-		</tr>
-
-		<tr>
-		<td align="center" valign="middle"><b>suffix_sp</b></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_album['suffix_sp'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_movie['suffix_sp'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_music['suffix_sp'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_slideshow['suffix_sp'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_document['suffix_sp'] ?></td>
-		<td align="left" valign="middle">
-		<?php _e('extension of Smartphone', 'gallerylink'); ?>
-		</td>
-		</tr>
-
-		<tr>
-		<td align="center" valign="middle"><b>suffix_keitai</b></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_album['suffix_keitai'] ?></td>
-		<?php if ( $gallerylink_movie['type'] === 'dir' ) { ?>
-		<td align="center" valign="middle"><?php echo $gallerylink_movie['suffix_keitai'] ?></td>
-		<?php } else { ?>
-			<td></td>
-		<?php } ?>
-		<?php if ( $gallerylink_music['type'] === 'dir' ) { ?>
-		<td align="center" valign="middle"><?php echo $gallerylink_music['suffix_keitai'] ?></td>
-		<?php } else { ?>
-			<td></td>
-		<?php } ?>
-		<td align="center" valign="middle"></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_document['suffix_keitai'] ?></td>
-		<td align="left" valign="middle">
-		<?php _e('extension of Japanese mobile phone', 'gallerylink'); ?>
-		</td>
-		</tr>
-
-		<tr>
-		<td align="center" valign="middle"><b>display_pc</b></td>
-		<td align="center" valign="middle"><?php echo intval($gallerylink_all['display_pc']) ?></td>
-		<td align="center" valign="middle"><?php echo intval($gallerylink_album['display_pc']) ?></td>
-		<td align="center" valign="middle"><?php echo intval($gallerylink_movie['display_pc']) ?></td>
-		<td align="center" valign="middle"><?php echo intval($gallerylink_music['display_pc']) ?></td>
-		<td align="center" valign="middle"><?php echo intval($gallerylink_slideshow['display_pc']) ?></td>
-		<td align="center" valign="middle"><?php echo intval($gallerylink_document['display_pc']) ?></td>
-		<td align="left" valign="middle">
-		<?php _e('File Display per page(PC)', 'gallerylink'); ?>
-		</td>
-		</tr>
-
-		<tr>
-		<td align="center" valign="middle"><b>display_sp</b></td>
-		<td align="center" valign="middle"><?php echo intval($gallerylink_all['display_sp']) ?></td>
-		<td align="center" valign="middle"><?php echo intval($gallerylink_album['display_sp']) ?></td>
-		<td align="center" valign="middle"><?php echo intval($gallerylink_movie['display_sp']) ?></td>
-		<td align="center" valign="middle"><?php echo intval($gallerylink_music['display_sp']) ?></td>
-		<td align="center" valign="middle"><?php echo intval($gallerylink_slideshow['display_sp']) ?></td>
-		<td align="center" valign="middle"><?php echo intval($gallerylink_document['display_sp']) ?></td>
-		<td align="left" valign="middle">
-		<?php _e('File Display per page(Smartphone)', 'gallerylink'); ?>
-		</td>
-		</tr>
-
-		<tr>
-		<td align="center" valign="middle"><b>display_keitai</b></td>
-		<td align="center" valign="middle"><?php echo intval($gallerylink_all['display_keitai']) ?></td>
-		<td align="center" valign="middle"><?php echo intval($gallerylink_album['display_keitai']) ?></td>
-		<?php if ( $gallerylink_movie['type'] === 'dir' ) { ?>
-		<td align="center" valign="middle"><?php echo intval($gallerylink_movie['display_keitai']) ?></td>
-		<?php } else { ?>
-			<td></td>
-		<?php } ?>
-		<?php if ( $gallerylink_music['type'] === 'dir' ) { ?>
-		<td align="center" valign="middle"><?php echo intval($gallerylink_music['display_keitai']) ?></td>
-		<?php } else { ?>
-			<td></td>
-		<?php } ?>
-		<td align="center" valign="middle"></td>
-		<td align="center" valign="middle"><?php echo intval($gallerylink_document['display_keitai']) ?></td>
-		<td align="left" valign="middle">
-		<?php _e('File Display per page(Japanese mobile phone)', 'gallerylink'); ?>
-		</td>
-		</tr>
-
-		<tr>
-		<td align="center" valign="middle"><b>image_show_size</b></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_all['image_show_size'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_album['image_show_size'] ?></td>
-		<td colspan="2"></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_slideshow['image_show_size'] ?></td>
-		<td></td>
-		<td align="left" valign="middle">
-		<div><b><font color="red"><?php _e('Use only', 'gallerylink'); ?> type=&#39;media&#39;</font></b></div>
-		<?php _e('Size of the image display. (Media Settings > Image Size)', 'gallerylink'); ?>
-		</td>
-		</tr>
-
-		<tr>
-		<td align="center" valign="middle"><b>thumbnail</b></td>
-		<td align="center" valign="middle"><div>dir:<?php echo $gallerylink_album['thumbnail'] ?></div><div>media:-<?php echo get_option('thumbnail_size_w') ?>x<?php echo get_option('thumbnail_size_h') ?></div></td>
-		<td align="center" valign="middle"><div>dir:<?php echo $gallerylink_album['thumbnail'] ?></div><div>media:-<?php echo get_option('thumbnail_size_w') ?>x<?php echo get_option('thumbnail_size_h') ?></div></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_movie['thumbnail'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_music['thumbnail'] ?></td>
-		<td align="center" valign="middle"><div>dir:<?php echo $gallerylink_slideshow['thumbnail'] ?></div><div>media:-<?php echo get_option('thumbnail_size_w') ?>x<?php echo get_option('thumbnail_size_h') ?></div></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_document['thumbnail'] ?></td>
-		<td align="left" valign="middle">
-		<?php _e('(album, slideshow) thumbnail suffix name. (movie, music, document) The icon is displayed if you specify icon. The thumbnail no display if you do not specify anything.', 'gallerylink'); ?>
-		</td>
-		</tr>
-
-		<tr>
-		<td align="center" valign="middle"><b>include_cat</b></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_all['include_cat'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_album['include_cat'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_movie['include_cat'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_music['include_cat'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_slideshow['include_cat'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_document['include_cat'] ?></td>
-		<td align="left" valign="middle">
-		<div><b><font color="red"><?php _e('Use only', 'gallerylink'); ?> type=&#39;media&#39;</font></b></div>
-		<?php _e('Category you want to include. Only one.', 'gallerylink'); ?>
-		</td>
-		</tr>
-
-		<tr>
-		<td align="center" valign="middle"><b>exclude_cat</b></td>
-		<td colspan="6" align="center" valign="middle"><?php echo $gallerylink_exclude['cat'] ?></td>
-		<td align="left" valign="middle">
-		<div><b><font color="red"><?php _e('Use only', 'gallerylink'); ?> type=&#39;media&#39;</font></b></div>
-		<?php _e('Category you want to exclude. More than one, specified separated by |.', 'gallerylink'); ?>
-		</td>
-		</tr>
-
-		<tr>
-		<td align="center" valign="middle"><b>exclude_file</b></td>
-		<td colspan="6" align="center" valign="middle"><?php echo $gallerylink_exclude['file'] ?></td>
-		<td align="left" valign="middle">
-		<div><b><font color="red"><?php _e('Use only', 'gallerylink'); ?> type=&#39;dir&#39;</font></b></div>
-		<?php _e('File you want to exclude. More than one, specified separated by |.', 'gallerylink'); ?>
-		</td>
-		</tr>
-
-		<tr>
-		<td align="center" valign="middle"><b>exclude_dir</b></td>
-		<td colspan="6" align="center" valign="middle"><?php echo $gallerylink_exclude['dir'] ?></td>
-		<td align="left" valign="middle">
-		<div><b><font color="red"><?php _e('Use only', 'gallerylink'); ?> type=&#39;dir&#39;</font></b></div>
-		<?php _e('Directory you want to exclude. More than one, specified separated by |.', 'gallerylink'); ?>
-		</td>
-		</tr>
-
-		<tr>
-		<td align="center" valign="middle"><b>generate_rssfeed</b></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_all['generate_rssfeed'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_album['generate_rssfeed'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_movie['generate_rssfeed'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_music['generate_rssfeed'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_slideshow['generate_rssfeed'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_document['generate_rssfeed'] ?></td>
-		<td align="left" valign="middle">
-		<?php _e('Generation of RSS feed.', 'gallerylink'); ?>
-		</td>
-		</tr>
-
-		<tr>
-		<td align="center" valign="middle"><b>rssname</b></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_all['rssname'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_album['rssname'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_movie['rssname'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_music['rssname'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_slideshow['rssname'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_document['rssname'] ?></td>
-		<td align="left" valign="middle">
-		<?php _e('The name of the RSS feed file (Use to widget)', 'gallerylink'); ?>
-		</td>
-		</tr>
-
-		<tr>
-		<td align="center" valign="middle"><b>rssmax</b></td>
-		<td align="center" valign="middle"><?php echo intval($gallerylink_all['rssmax']) ?></td>
-		<td align="center" valign="middle"><?php echo intval($gallerylink_album['rssmax']) ?></td>
-		<td align="center" valign="middle"><?php echo intval($gallerylink_movie['rssmax']) ?></td>
-		<td align="center" valign="middle"><?php echo intval($gallerylink_music['rssmax']) ?></td>
-		<td align="center" valign="middle"><?php echo intval($gallerylink_slideshow['rssmax']) ?></td>
-		<td align="center" valign="middle"><?php echo intval($gallerylink_document['rssmax']) ?></td>
-		<td align="left" valign="middle">
-		<?php _e('Syndication feeds show the most recent (Use to widget)', 'gallerylink'); ?>
-		</td>
-		</tr>
-
-		<tr>
-		<td align="center" valign="middle"><b>filesize_show</b></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_all['filesize_show'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_album['filesize_show'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_movie['filesize_show'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_music['filesize_show'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_slideshow['filesize_show'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_document['filesize_show'] ?></td>
-		<td align="left" valign="middle">
-		<?php _e('File size', 'gallerylink'); ?>
-		</td>
-		</tr>
-
-		<tr>
-		<td align="center" valign="middle"><b>stamptime_show</b></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_all['stamptime_show'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_album['stamptime_show'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_movie['stamptime_show'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_music['stamptime_show'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_slideshow['stamptime_show'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_document['stamptime_show'] ?></td>
-		<td align="left" valign="middle">
-		<?php _e('Date Time', 'gallerylink'); ?>
-		</td>
-		</tr>
-
-		<tr>
-		<td align="center" valign="middle"><b>selectbox_show</b></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_all['selectbox_show'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_album['selectbox_show'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_movie['selectbox_show'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_music['selectbox_show'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_slideshow['selectbox_show'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_document['selectbox_show'] ?></td>
-		<td align="left" valign="middle">
-		<?php _e('Selectbox of directories or categories.', 'gallerylink'); ?>
-		</td>
-		</tr>
-
-		<tr>
-		<td align="center" valign="middle"><b>pagelinks_show</b></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_all['pagelinks_show'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_album['pagelinks_show'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_movie['pagelinks_show'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_music['pagelinks_show'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_slideshow['pagelinks_show'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_document['pagelinks_show'] ?></td>
-		<td align="left" valign="middle">
-		<?php _e('Navigation of page.', 'gallerylink'); ?>
-		</td>
-		</tr>
-
-		<tr>
-		<td align="center" valign="middle"><b>sortlinks_show</b></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_all['sortlinks_show'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_album['sortlinks_show'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_movie['sortlinks_show'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_music['sortlinks_show'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_slideshow['sortlinks_show'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_document['sortlinks_show'] ?></td>
-		<td align="left" valign="middle">
-		<?php _e('Navigation of sort.', 'gallerylink'); ?>
-		</td>
-		</tr>
-
-		<tr>
-		<td align="center" valign="middle"><b>searchbox_show</b></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_all['searchbox_show'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_album['searchbox_show'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_movie['searchbox_show'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_music['searchbox_show'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_slideshow['searchbox_show'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_document['searchbox_show'] ?></td>
-		<td align="left" valign="middle">
-		<?php _e('Search box', 'gallerylink'); ?>
-		</td>
-		</tr>
-
-		<tr>
-		<td align="center" valign="middle"><b>rssicon_show</b></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_all['rssicon_show'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_album['rssicon_show'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_movie['rssicon_show'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_music['rssicon_show'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_slideshow['rssicon_show'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_document['rssicon_show'] ?></td>
-		<td align="left" valign="middle">
-		<?php _e('RSS Icon', 'gallerylink'); ?>
-		</td>
-		</tr>
-
-		<tr>
-		<td align="center" valign="middle"><b>credit_show</b></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_all['credit_show'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_album['credit_show'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_movie['credit_show'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_music['credit_show'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_slideshow['credit_show'] ?></td>
-		<td align="center" valign="middle"><?php echo $gallerylink_document['credit_show'] ?></td>
-		<td align="left" valign="middle">
-		<?php _e('Credit', 'gallerylink'); ?>
-		</td>
-		</tr>
-
-		<tr>
-		<td align="center" valign="middle" colspan="8">
-		<b><?php _e('Alias read extension : ', 'gallerylink'); ?></b>
-		jpg=(jpg|jpeg|jpe) mp4=(mp4|m4v) mp3=(mp3|m4a|m4b) ogg=(ogg|oga) xls=(xla|xlt|xlw) ppt=(pot|pps)
-		<div><b><font color="red"><?php _e('Use only', 'gallerylink'); ?> type=&#39;media&#39;</font></b></div>
-		</td>
-		</tr>
-
-		</tbody>
-		</table>
+		<div><?php _e('* When you move to (WordPress > Appearance > Widgets), there is a widget GalleryLinkRssFeed. If you place you can set this to display the sidebar link the RSS feed.', 'gallerylink'); ?></div>
 		</div>
 
-	<form method="post" action="<?php echo $scriptname; ?>">
-	  <div id="tabs-2">
+		<form method="post" action="<?php echo $scriptname; ?>">
+			<input type="hidden" name="gallerylink_admin_tabs" value="1" />
+			<p class="submit">
+				<input type="submit" name="Default" value="<?php _e('Default all settings', 'gallerylink') ?>" />
+			</p>
+		</form>
+
+	  </div>
+
+	  <div id="gallerylink-admin-tabs-2">
 		<div class="wrap">
+
+			<form method="post" action="<?php echo $scriptname.'#gallerylink-admin-tabs-2'; ?>">
 
 			<p class="submit">
 			  <input type="submit" name="Submit" value="<?php _e('Save Changes') ?>" />
+			  <input type="submit" name="Default" value="<?php _e('Default') ?>" />
 			</p>
 
-			<h2><?php _e('The default value for current language.', 'gallerylink') ?></h2>	
-			<table border="1" class="wp-list-table widefat fixed">
-				<tr>
-					<td align="center" valign="middle">
-					<?php $target_mb_language = get_option('gallerylink_mb_language'); ?>
-					<select id="gallerylink_mb_language" name="gallerylink_mb_language">
-						<option <?php if ('Japanese' == $target_mb_language)echo 'selected="selected"'; ?>>Japanese</option>
-						<option <?php if ('English' == $target_mb_language)echo 'selected="selected"'; ?>>English</option>
-						<option <?php if ('uni' == $target_mb_language)echo 'selected="selected"'; ?>>uni</option>
-					</select>
-					</td>
-					<td align="center" valign="middle"><?php _e('Configuration language of directory and file names, case of reading data from the directory.', 'gallerylink'); ?> <font color="red"><?php _e('Use only', 'gallerylink'); ?> type=&#39;dir&#39;</font></td>
-				</tr>
-			<tbody>
-
-			</tbody>
-			</table>
-
-			<h2><?php _e('The default value for the short code attribute', 'gallerylink') ?></h2>	
+			<h2><?php _e('Settings'); ?> <?php _e('AllData', 'gallerylink'); ?></h2>
 			<table border="1" class="wp-list-table widefat fixed">
 			<tbody>
 				<tr>
 					<td align="center" valign="middle"><?php _e('Attribute', 'gallerylink'); ?></td>
-					<td align="center" valign="middle" colspan=6><?php _e('Default'); ?></td>
+					<td align="center" valign="middle"><?php _e('Value'); ?></td>
 					<td align="center" valign="middle"><?php _e('Description'); ?></td>
 				</tr>
 				<tr>
-					<td align="center" valign="middle"><b>set</b></td>
+					<td align="center" valign="middle">set</td>
 					<td align="center" valign="middle">all</td>
-					<td align="center" valign="middle">album</td>
-					<td align="center" valign="middle">movie</td>
-					<td align="center" valign="middle">music</td>
-					<td align="center" valign="middle">slideshow</td>
-					<td align="center" valign="middle">document</td>
 					<td align="left" valign="middle">
 					<?php _e('Next only six. all(all data), album(image), movie(video), music(music), slideshow(image), document(document)', 'gallerylink'); ?>
 					</td>
 				</tr>
-
 				<tr>
-					<td align="center" valign="middle"><b>type</b></td>
-					<td align="center" valign="middle">
-					<?php $target_all_type = $gallerylink_all['type']; ?>
-					<select id="gallerylink_all_type" name="gallerylink_all_type">
-						<option <?php if ('dir' == $target_all_type)echo 'selected="selected"'; ?>>dir</option>
-						<option <?php if ('media' == $target_all_type)echo 'selected="selected"'; ?>>media</option>
-					</select>
-					</td>
-					<td align="center" valign="middle">
-					<?php $target_album_type = $gallerylink_album['type']; ?>
-					<select id="gallerylink_album_type" name="gallerylink_album_type">
-						<option <?php if ('dir' == $target_album_type)echo 'selected="selected"'; ?>>dir</option>
-						<option <?php if ('media' == $target_album_type)echo 'selected="selected"'; ?>>media</option>
-					</select>
-					</td>
-					<td align="center" valign="middle">
-					<?php $target_movie_type = $gallerylink_movie['type']; ?>
-					<select id="gallerylink_movie_type" name="gallerylink_movie_type">
-						<option <?php if ('dir' == $target_movie_type)echo 'selected="selected"'; ?>>dir</option>
-						<option <?php if ('media' == $target_movie_type)echo 'selected="selected"'; ?>>media</option>
-					</select>
-					</td>
-					<td align="center" valign="middle">
-					<?php $target_music_type = $gallerylink_music['type']; ?>
-					<select id="gallerylink_music_type" name="gallerylink_music_type">
-						<option <?php if ('dir' == $target_music_type)echo 'selected="selected"'; ?>>dir</option>
-						<option <?php if ('media' == $target_music_type)echo 'selected="selected"'; ?>>media</option>
-					</select>
-					</td>
-					<td align="center" valign="middle">
-					<?php $target_slideshow_type = $gallerylink_slideshow['type']; ?>
-					<select id="gallerylink_slideshow_type" name="gallerylink_slideshow_type">
-						<option <?php if ('dir' == $target_slideshow_type)echo 'selected="selected"'; ?>>dir</option>
-						<option <?php if ('media' == $target_slideshow_type)echo 'selected="selected"'; ?>>media</option>
-					</select>
-					</td>
-					<td align="center" valign="middle">
-					<?php $target_document_type = $gallerylink_document['type']; ?>
-					<select id="gallerylink_document_type" name="gallerylink_document_type">
-						<option <?php if ('dir' == $target_document_type)echo 'selected="selected"'; ?>>dir</option>
-						<option <?php if ('media' == $target_document_type)echo 'selected="selected"'; ?>>media</option>
-					</select>
-					</td>
-					<td align="left" valign="middle">
-						<div><?php _e('Read from the directory data.(dir)', 'gallerylink'); ?></div>
-						<div><?php _e('Read from the media library data.(media)', 'gallerylink'); ?></div>
-					</td>
-				</tr>
-
-				<tr>
-					<td align="center" valign="middle"><b>sort</b></td>
+					<td align="center" valign="middle">sort</td>
 					<td align="center" valign="middle">
 					<?php $target_all_sort = $gallerylink_all['sort']; ?>
 					<select id="gallerylink_all_sort" name="gallerylink_all_sort">
@@ -655,6 +203,234 @@ class GalleryLinkAdmin {
 						<option <?php if ('asc' == $target_all_sort)echo 'selected="selected"'; ?>>asc</option>
 					</select>
 					</td>
+					<td align="left" valign="middle">
+						<?php _e('Type of Sort', 'gallerylink'); ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">topurl</td>
+					<td align="center" valign="middle">
+						<input type="text" id="gallerylink_all_topurl" name="gallerylink_all_topurl" value="<?php echo $gallerylink_all['topurl'] ?>" style="width: 100%;" />
+					</td>
+					<td align="left" valign="middle">
+						<?php _e('Full path to the top directory containing the data. Example:In the case of http://www.mysite.xxx/wordpress/wp-content/uploads is /wordpress/wp-content/uploads.', 'gallerylink'); ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">suffix</td>
+					<td align="left" valign="top" rowspan="2"><?php _e("Audio's suffix and Video's suffix is following to the setting(set='music',set='movie'). Other than that, read all the data.", 'gallerylink'); ?></td>
+					<td align="left" valign="middle">
+						<?php _e('extension', 'gallerylink'); ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">suffix_2</td>
+					<td align="left" valign="middle">
+						<?php _e('second extension. Second candidate when working with html5', 'gallerylink'); ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">display</td>
+					<td align="center" valign="middle">
+						<input type="text" style="width: 100%;" id="gallerylink_all_display" name="gallerylink_all_display" value="<?php echo intval($gallerylink_all['display']) ?>" />
+					</td>
+					<td align="left" valign="middle">
+						<?php _e('File Display per page', 'gallerylink') ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">display_keitai</td>
+					<td align="center" valign="middle">
+						<input type="text" id="gallerylink_all_display_keitai" name="gallerylink_all_display_keitai" value="<?php echo intval($gallerylink_all['display_keitai']) ?>" style="width: 100%;" />
+					</td>
+					<td align="left" valign="middle">
+						<?php _e('File Display per page(Japanese mobile phone)', 'gallerylink') ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">thumbnail</td>
+					<td align="center" valign="middle">
+						<input type="text" id="gallerylink_all_thumbnail" name="gallerylink_all_thumbnail" value="<?php echo $gallerylink_all['thumbnail'] ?>" style="width: 100%;" />
+					</td>
+					<td align="left" valign="middle">
+						<?php _e('(album, slideshow) thumbnail suffix name. (movie, music, document) The icon is displayed if you specify icon. The thumbnail no display if you do not specify anything.', 'gallerylink'); ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">generate_rssfeed</td>
+					<td align="center" valign="middle">
+					<?php $target_all_generate_rssfeed = $gallerylink_all['generate_rssfeed']; ?>
+					<select id="gallerylink_all_generate_rssfeed" name="gallerylink_all_generate_rssfeed">
+						<option <?php if ('on' == $target_all_generate_rssfeed)echo 'selected="selected"'; ?>>on</option>
+						<option <?php if ('off' == $target_all_generate_rssfeed)echo 'selected="selected"'; ?>>off</option>
+					</select>
+					</td>
+					<td align="left" valign="middle">
+					<?php _e('Generation of RSS feed.', 'gallerylink') ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">rssname</td>
+					<td align="center" valign="middle">
+						<input type="text" style="width: 100%;" id="gallerylink_all_rssname" name="gallerylink_all_rssname" value="<?php echo $gallerylink_all['rssname'] ?>" />
+					</td>
+					<td align="left" valign="middle">
+						<?php _e('The name of the RSS feed file (Use to widget)', 'gallerylink'); ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">rssmax</td>
+					<td align="center" valign="middle">
+						<input type="text" style="width: 100%;" id="gallerylink_all_rssmax" name="gallerylink_all_rssmax" value="<?php echo intval($gallerylink_all['rssmax']) ?>" />
+					</td>
+					<td align="left" valign="middle">
+						<?php _e('Syndication feeds show the most recent (Use to widget)', 'gallerylink') ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">filesize_show</td>
+					<td align="center" valign="middle">
+					<?php $target_all_filesize_show = $gallerylink_all['filesize_show']; ?>
+					<select id="gallerylink_all_filesize_show" name="gallerylink_all_filesize_show">
+						<option <?php if ('Show' == $target_all_filesize_show)echo 'selected="selected"'; ?>>Show</option>
+						<option <?php if ('Hide' == $target_all_filesize_show)echo 'selected="selected"'; ?>>Hide</option>
+					</select>
+					</td>
+					<td align="left" valign="middle">
+					<?php _e('File size', 'gallerylink') ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">stamptime_show</td>
+					<td align="center" valign="middle">
+					<?php $target_all_stamptime_show = $gallerylink_all['stamptime_show']; ?>
+					<select id="gallerylink_all_stamptime_show" name="gallerylink_all_stamptime_show">
+						<option <?php if ('Show' == $target_all_stamptime_show)echo 'selected="selected"'; ?>>Show</option>
+						<option <?php if ('Hide' == $target_all_stamptime_show)echo 'selected="selected"'; ?>>Hide</option>
+					</select>
+					</td>
+					<td align="left" valign="middle">
+					<?php _e('Date Time', 'gallerylink') ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">selectbox_show</td>
+					<td align="center" valign="middle">
+					<?php $target_all_selectbox_show = $gallerylink_all['selectbox_show']; ?>
+					<select id="gallerylink_all_selectbox_show" name="gallerylink_all_selectbox_show">
+						<option <?php if ('Show' == $target_all_selectbox_show)echo 'selected="selected"'; ?>>Show</option>
+						<option <?php if ('Hide' == $target_all_selectbox_show)echo 'selected="selected"'; ?>>Hide</option>
+					</select>
+					</td>
+					<td align="left" valign="middle">
+					<?php _e('Selectbox of directories.', 'gallerylink') ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">pagelinks_show</td>
+					<td align="center" valign="middle">
+					<?php $target_all_pagelinks_show = $gallerylink_all['pagelinks_show']; ?>
+					<select id="gallerylink_all_pagelinks_show" name="gallerylink_all_pagelinks_show">
+						<option <?php if ('Show' == $target_all_pagelinks_show)echo 'selected="selected"'; ?>>Show</option>
+						<option <?php if ('Hide' == $target_all_pagelinks_show)echo 'selected="selected"'; ?>>Hide</option>
+					</select>
+					</td>
+					<td align="left" valign="middle">
+					<?php _e('Navigation of page.', 'gallerylink') ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">sortlinks_show</td>
+					<td align="center" valign="middle">
+					<?php $target_all_sortlinks_show = $gallerylink_all['sortlinks_show']; ?>
+					<select id="gallerylink_all_sortlinks_show" name="gallerylink_all_sortlinks_show">
+						<option <?php if ('Show' == $target_all_sortlinks_show)echo 'selected="selected"'; ?>>Show</option>
+						<option <?php if ('Hide' == $target_all_sortlinks_show)echo 'selected="selected"'; ?>>Hide</option>
+					</select>
+					</td>
+					<td align="left" valign="middle">
+					<?php _e('Navigation of sort.', 'gallerylink') ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">searchbox_show</td>
+					<td align="center" valign="middle">
+					<?php $target_all_searchbox_show = $gallerylink_all['searchbox_show']; ?>
+					<select id="gallerylink_all_searchbox_show" name="gallerylink_all_searchbox_show">
+						<option <?php if ('Show' == $target_all_searchbox_show)echo 'selected="selected"'; ?>>Show</option>
+						<option <?php if ('Hide' == $target_all_searchbox_show)echo 'selected="selected"'; ?>>Hide</option>
+					</select>
+					</td>
+					<td align="left" valign="middle">
+					<?php _e('Search box', 'gallerylink') ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">rssicon_show</td>
+					<td align="center" valign="middle">
+					<?php $target_all_rssicon_show = $gallerylink_all['rssicon_show']; ?>
+					<select id="gallerylink_all_rssicon_show" name="gallerylink_all_rssicon_show">
+						<option <?php if ('Show' == $target_all_rssicon_show)echo 'selected="selected"'; ?>>Show</option>
+						<option <?php if ('Hide' == $target_all_rssicon_show)echo 'selected="selected"'; ?>>Hide</option>
+					</select>
+					</td>
+					<td align="left" valign="middle">
+					<?php _e('RSS Icon', 'gallerylink') ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">credit_show</td>
+					<td align="center" valign="middle">
+					<?php $target_all_credit_show = $gallerylink_all['credit_show']; ?>
+					<select id="gallerylink_all_credit_show" name="gallerylink_all_credit_show">
+						<option <?php if ('Show' == $target_all_credit_show)echo 'selected="selected"'; ?>>Show</option>
+						<option <?php if ('Hide' == $target_all_credit_show)echo 'selected="selected"'; ?>>Hide</option>
+					</select>
+					</td>
+					<td align="left" valign="middle">
+					<?php _e('Credit', 'gallerylink') ?>
+					</td>
+				</tr>
+			</tbody>
+			</table>
+
+			<input type="hidden" name="gallerylink_admin_tabs" value="2" />
+			<p class="submit">
+			  <input type="submit" name="Submit" value="<?php _e('Save Changes') ?>" />
+			</p>
+
+			</form>
+
+		</div>
+	  </div>
+
+	  <div id="gallerylink-admin-tabs-3">
+		<div class="wrap">
+
+			<form method="post" action="<?php echo $scriptname.'#gallerylink-admin-tabs-3'; ?>">
+
+			<p class="submit">
+			  <input type="submit" name="Submit" value="<?php _e('Save Changes') ?>" />
+			  <input type="submit" name="Default" value="<?php _e('Default') ?>" />
+			</p>
+
+			<h2><?php _e('Settings'); ?> <?php _e('Album', 'gallerylink'); ?></h2>	
+			<table border="1" class="wp-list-table widefat fixed">
+			<tbody>
+				<tr>
+					<td align="center" valign="middle"><?php _e('Attribute', 'gallerylink'); ?></td>
+					<td align="center" valign="middle"><?php _e('Value'); ?></td>
+					<td align="center" valign="middle"><?php _e('Description'); ?></td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">set</td>
+					<td align="center" valign="middle">album</td>
+					<td align="left" valign="middle">
+					<?php _e('Next only six. all(all data), album(image), movie(video), music(music), slideshow(image), document(document)', 'gallerylink'); ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">sort</td>
 					<td align="center" valign="middle">
 					<?php $target_album_sort = $gallerylink_album['sort']; ?>
 					<select id="gallerylink_album_sort" name="gallerylink_album_sort">
@@ -664,339 +440,41 @@ class GalleryLinkAdmin {
 						<option <?php if ('asc' == $target_album_sort)echo 'selected="selected"'; ?>>asc</option>
 					</select>
 					</td>
-					<td align="center" valign="middle">
-					<?php $target_movie_sort = $gallerylink_movie['sort']; ?>
-					<select id="gallerylink_movie_sort" name="gallerylink_movie_sort">
-						<option <?php if ('new' == $target_movie_sort)echo 'selected="selected"'; ?>>new</option>
-						<option <?php if ('old' == $target_movie_sort)echo 'selected="selected"'; ?>>old</option>
-						<option <?php if ('des' == $target_movie_sort)echo 'selected="selected"'; ?>>des</option>
-						<option <?php if ('asc' == $target_movie_sort)echo 'selected="selected"'; ?>>asc</option>
-					</select>
-					</td>
-					<td align="center" valign="middle">
-					<?php $target_music_sort = $gallerylink_music['sort']; ?>
-					<select id="gallerylink_music_sort" name="gallerylink_music_sort">
-						<option <?php if ('new' == $target_music_sort)echo 'selected="selected"'; ?>>new</option>
-						<option <?php if ('old' == $target_music_sort)echo 'selected="selected"'; ?>>old</option>
-						<option <?php if ('des' == $target_music_sort)echo 'selected="selected"'; ?>>des</option>
-						<option <?php if ('asc' == $target_music_sort)echo 'selected="selected"'; ?>>asc</option>
-					</select>
-					</td>
-					<td align="center" valign="middle">
-					<?php $target_slideshow_sort = $gallerylink_slideshow['sort']; ?>
-					<select id="gallerylink_slideshow_sort" name="gallerylink_slideshow_sort">
-						<option <?php if ('new' == $target_slideshow_sort)echo 'selected="selected"'; ?>>new</option>
-						<option <?php if ('old' == $target_slideshow_sort)echo 'selected="selected"'; ?>>old</option>
-						<option <?php if ('des' == $target_slideshow_sort)echo 'selected="selected"'; ?>>des</option>
-						<option <?php if ('asc' == $target_slideshow_sort)echo 'selected="selected"'; ?>>asc</option>
-					</select>
-					</td>
-					<td align="center" valign="middle">
-					<?php $target_document_sort = $gallerylink_document['sort']; ?>
-					<select id="gallerylink_document_sort" name="gallerylink_document_sort">
-						<option <?php if ('new' == $target_document_sort)echo 'selected="selected"'; ?>>new</option>
-						<option <?php if ('old' == $target_document_sort)echo 'selected="selected"'; ?>>old</option>
-						<option <?php if ('des' == $target_document_sort)echo 'selected="selected"'; ?>>des</option>
-						<option <?php if ('asc' == $target_document_sort)echo 'selected="selected"'; ?>>asc</option>
-					</select>
-					</td>
 					<td align="left" valign="middle">
 						<?php _e('Type of Sort', 'gallerylink'); ?>
 					</td>
 				</tr>
-
 				<tr>
-					<td align="center" valign="middle"><b>topurl</b></td>
+					<td align="center" valign="middle">topurl</td>
 					<td align="center" valign="middle">
-						<input type="text" id="gallerylink_all_topurl" name="gallerylink_all_topurl" value="<?php echo $gallerylink_all['topurl'] ?>" size="15" />
-					</td>
-					<td align="center" valign="middle">
-						<input type="text" id="gallerylink_album_topurl" name="gallerylink_album_topurl" value="<?php echo $gallerylink_album['topurl'] ?>" size="15" />
-					</td>
-					<td align="center" valign="middle">
-						<input type="text" id="gallerylink_movie_topurl" name="gallerylink_movie_topurl" value="<?php echo $gallerylink_movie['topurl'] ?>" size="15" />
-					</td>
-					<td align="center" valign="middle">
-						<input type="text" id="gallerylink_music_topurl" name="gallerylink_music_topurl" value="<?php echo $gallerylink_music['topurl'] ?>" size="15" />
-					</td>
-					<td align="center" valign="middle">
-						<input type="text" id="gallerylink_slideshow_topurl" name="gallerylink_slideshow_topurl" value="<?php echo $gallerylink_slideshow['topurl'] ?>" size="15" />
-					</td>
-					<td align="center" valign="middle">
-						<input type="text" id="gallerylink_document_topurl" name="gallerylink_document_topurl" value="<?php echo $gallerylink_document['topurl'] ?>" size="15" />
+						<input type="text" id="gallerylink_album_topurl" name="gallerylink_album_topurl" value="<?php echo $gallerylink_album['topurl'] ?>" style="width: 100%;" />
 					</td>
 					<td align="left" valign="middle">
-						<div><b><font color="red"><?php _e('Use only', 'gallerylink'); ?> type=&#39;dir&#39;</font></b></div>
 						<?php _e('Full path to the top directory containing the data. Example:In the case of http://www.mysite.xxx/wordpress/wp-content/uploads is /wordpress/wp-content/uploads.', 'gallerylink'); ?>
 					</td>
 				</tr>
-
 				<tr>
-					<td align="center" valign="middle"><b>suffix_pc</b></td>
-					<td align="left" valign="top" rowspan="5" width="180"><?php _e("Audio's suffix and Video's suffix is following to the setting(set='music',set='movie'). Other than that, read all the data.", 'gallerylink'); ?></td>
+					<td align="center" valign="middle">suffix</td>
 					<td align="center" valign="middle">
-					<?php $target_album_suffix_pc = $gallerylink_album['suffix_pc']; ?>
-					<select id="gallerylink_album_suffix_pc" name="gallerylink_album_suffix_pc">
-						<option <?php if ('all' == $target_album_suffix_pc)echo 'selected="selected"'; ?>>all</option>
+					<?php $target_album_suffix = $gallerylink_album['suffix']; ?>
+					<select id="gallerylink_album_suffix" name="gallerylink_album_suffix">
+						<option <?php if ('all' == $target_album_suffix)echo 'selected="selected"'; ?>>all</option>
 						<?php
 							$exts = $this->exts('image');
 							foreach ( $exts as $ext ) {
 								?>
-								<option <?php if ($ext == $target_album_suffix_pc)echo 'selected="selected"'; ?>><?php echo $ext ?></option>
-								<?php
-							}
-						?>
-					</select>
-					</td>
-					<td align="center" valign="middle">
-					<?php $target_movie_suffix_pc = $gallerylink_movie['suffix_pc']; ?>
-					<select id="gallerylink_movie_suffix_pc" name="gallerylink_movie_suffix_pc">
-						<?php
-							$exts = $this->exts('video');
-							foreach ( $exts as $ext ) {
-								?>
-								<option <?php if ($ext == $target_movie_suffix_pc)echo 'selected="selected"'; ?>><?php echo $ext ?></option>
-								<?php
-							}
-						?>
-					</select>
-					</td>
-					<td align="center" valign="middle">
-					<?php $target_music_suffix_pc = $gallerylink_music['suffix_pc']; ?>
-					<select id="gallerylink_music_suffix_pc" name="gallerylink_music_suffix_pc">
-						<?php
-							$exts = $this->exts('audio');
-							foreach ( $exts as $ext ) {
-								?>
-								<option <?php if ($ext == $target_music_suffix_pc)echo 'selected="selected"'; ?>><?php echo $ext ?></option>
-								<?php
-							}
-						?>
-					</select>
-					</td>
-					<td align="center" valign="middle">
-					<?php $target_slideshow_suffix_pc = $gallerylink_slideshow['suffix_pc']; ?>
-					<select id="gallerylink_slideshow_suffix_pc" name="gallerylink_slideshow_suffix_pc">
-						<option <?php if ('all' == $target_slideshow_suffix_pc)echo 'selected="selected"'; ?>>all</option>
-						<?php
-							$exts = $this->exts('image');
-							foreach ( $exts as $ext ) {
-								?>
-								<option <?php if ($ext == $target_slideshow_suffix_pc)echo 'selected="selected"'; ?>><?php echo $ext ?></option>
-								<?php
-							}
-						?>
-					</select>
-					</td>
-					<td align="center" valign="middle">
-					<?php $target_document_suffix_pc = $gallerylink_document['suffix_pc']; ?>
-					<select id="gallerylink_document_suffix_pc" name="gallerylink_document_suffix_pc">
-						<option <?php if ('all' == $target_document_suffix_pc)echo 'selected="selected"'; ?>>all</option>
-						<?php
-							$exts = $this->exts('document');
-							foreach ( $exts as $ext ) {
-								?>
-								<option <?php if ($ext == $target_document_suffix_pc)echo 'selected="selected"'; ?>><?php echo $ext ?></option>
-								<?php
-							}
-							$exts = $this->exts('spreadsheet');
-							foreach ( $exts as $ext ) {
-								?>
-								<option <?php if ($ext == $target_document_suffix_pc)echo 'selected="selected"'; ?>><?php echo $ext ?></option>
-								<?php
-							}
-							$exts = $this->exts('interactive');
-							foreach ( $exts as $ext ) {
-								?>
-								<option <?php if ($ext == $target_document_suffix_pc)echo 'selected="selected"'; ?>><?php echo $ext ?></option>
-								<?php
-							}
-							$exts = $this->exts('text');
-							foreach ( $exts as $ext ) {
-								?>
-								<option <?php if ($ext == $target_document_suffix_pc)echo 'selected="selected"'; ?>><?php echo $ext ?></option>
-								<?php
-							}
-							$exts = $this->exts('archive');
-							foreach ( $exts as $ext ) {
-								?>
-								<option <?php if ($ext == $target_document_suffix_pc)echo 'selected="selected"'; ?>><?php echo $ext ?></option>
-								<?php
-							}
-							$exts = $this->exts('code');
-							foreach ( $exts as $ext ) {
-								?>
-								<option <?php if ($ext == $target_document_suffix_pc)echo 'selected="selected"'; ?>><?php echo $ext ?></option>
+								<option <?php if ($ext == $target_album_suffix)echo 'selected="selected"'; ?>><?php echo $ext ?></option>
 								<?php
 							}
 						?>
 					</select>
 					</td>
 					<td align="left" valign="middle">
-						<?php _e('extension of PC', 'gallerylink'); ?>
+						<?php _e('extension', 'gallerylink'); ?>
 					</td>
 				</tr>
 				<tr>
-					<td align="center" valign="middle"><b>suffix_pc2</b></td>
-					<td></td>
-					<td align="center" valign="middle">
-					<?php $target_movie_suffix_pc2 = $gallerylink_movie['suffix_pc2']; ?>
-					<select id="gallerylink_movie_suffix_pc2" name="gallerylink_movie_suffix_pc2">
-						<?php
-							$exts = $this->exts('video');
-							foreach ( $exts as $ext ) {
-								?>
-								<option <?php if ($ext == $target_movie_suffix_pc2)echo 'selected="selected"'; ?>><?php echo $ext ?></option>
-								<?php
-							}
-						?>
-					</select>
-					</td>
-					<td align="center" valign="middle">
-					<?php $target_music_suffix_pc2 = $gallerylink_music['suffix_pc2']; ?>
-					<select id="gallerylink_music_suffix_pc2" name="gallerylink_music_suffix_pc2">
-						<?php
-							$exts = $this->exts('audio');
-							foreach ( $exts as $ext ) {
-								?>
-								<option <?php if ($ext == $target_music_suffix_pc2)echo 'selected="selected"'; ?>><?php echo $ext ?></option>
-								<?php
-							}
-						?>
-					</select>
-					</td>
-					<td colspan="2"></td>
-					<td align="left" valign="middle">
-						<?php _e('second extension on the PC. Second candidate when working with html5', 'gallerylink'); ?>
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle"><b>suffix_flash</b></td>
-					<td></td>
-					<td align="center" valign="middle">
-					<?php $target_movie_suffix_flash = $gallerylink_movie['suffix_flash']; ?>
-					<select id="gallerylink_movie_suffix_flash" name="gallerylink_movie_suffix_flash">
-						<option <?php if ('mp4' == $target_movie_suffix_flash)echo 'selected="selected"'; ?>>mp4</option>
-						<option <?php if ('flv' == $target_movie_suffix_flash)echo 'selected="selected"'; ?>>flv</option>
-					</select>
-					</td>
-					<td align="center" valign="middle">
-					<?php $target_music_suffix_flash = $gallerylink_music['suffix_flash']; ?>
-					<select id="gallerylink_music_suffix_flash" name="gallerylink_music_suffix_flash">
-						<option <?php if ('mp3' == $target_music_suffix_flash)echo 'selected="selected"'; ?>>mp3</option>
-					</select>
-					</td>
-					<td colspan="2"></td>
-					<td align="left" valign="middle">
-						<?php _e('Flash extension on the PC. Flash Player to be used when a HTML5 player does not work.', 'gallerylink'); ?>
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle"><b>suffix_sp</b></td>
-					<td align="center" valign="middle">
-					<?php $target_album_suffix_sp = $gallerylink_album['suffix_sp']; ?>
-					<select id="gallerylink_album_suffix_sp" name="gallerylink_album_suffix_sp">
-						<option <?php if ('all' == $target_album_suffix_sp)echo 'selected="selected"'; ?>>all</option>
-						<?php
-							$exts = $this->exts('image');
-							foreach ( $exts as $ext ) {
-								?>
-								<option <?php if ($ext == $target_album_suffix_sp)echo 'selected="selected"'; ?>><?php echo $ext ?></option>
-								<?php
-							}
-						?>
-					</select>
-					</td>
-					<td align="center" valign="middle">
-					<?php $target_movie_suffix_sp = $gallerylink_movie['suffix_sp']; ?>
-					<select id="gallerylink_movie_suffix_sp" name="gallerylink_movie_suffix_sp">
-						<?php
-							$exts = $this->exts('video');
-							foreach ( $exts as $ext ) {
-								?>
-								<option <?php if ($ext == $target_movie_suffix_sp)echo 'selected="selected"'; ?>><?php echo $ext ?></option>
-								<?php
-							}
-						?>
-					</select>
-					</td>
-					<td align="center" valign="middle">
-					<?php $target_music_suffix_sp = $gallerylink_music['suffix_sp']; ?>
-					<select id="gallerylink_music_suffix_sp" name="gallerylink_music_suffix_sp">
-						<?php
-							$exts = $this->exts('audio');
-							foreach ( $exts as $ext ) {
-								?>
-								<option <?php if ($ext == $target_music_suffix_sp)echo 'selected="selected"'; ?>><?php echo $ext ?></option>
-								<?php
-							}
-						?>
-					</select>
-					</td>
-					<td align="center" valign="middle">
-					<?php $target_slideshow_suffix_sp = $gallerylink_slideshow['suffix_sp']; ?>
-					<select id="gallerylink_slideshow_suffix_sp" name="gallerylink_slideshow_suffix_sp">
-						<option <?php if ('all' == $target_slideshow_suffix_sp)echo 'selected="selected"'; ?>>all</option>
-						<?php
-							$exts = $this->exts('image');
-							foreach ( $exts as $ext ) {
-								?>
-								<option <?php if ($ext == $target_slideshow_suffix_sp)echo 'selected="selected"'; ?>><?php echo $ext ?></option>
-								<?php
-							}
-						?>
-					</select>
-					</td>
-					<td align="center" valign="middle">
-					<?php $target_document_suffix_sp = $gallerylink_document['suffix_sp']; ?>
-					<select id="gallerylink_document_suffix_sp" name="gallerylink_document_suffix_sp">
-						<option <?php if ('all' == $target_document_suffix_sp)echo 'selected="selected"'; ?>>all</option>
-						<?php
-							$exts = $this->exts('document');
-							foreach ( $exts as $ext ) {
-								?>
-								<option <?php if ($ext == $target_document_suffix_sp)echo 'selected="selected"'; ?>><?php echo $ext ?></option>
-								<?php
-							}
-							$exts = $this->exts('spreadsheet');
-							foreach ( $exts as $ext ) {
-								?>
-								<option <?php if ($ext == $target_document_suffix_sp)echo 'selected="selected"'; ?>><?php echo $ext ?></option>
-								<?php
-							}
-							$exts = $this->exts('interactive');
-							foreach ( $exts as $ext ) {
-								?>
-								<option <?php if ($ext == $target_document_suffix_sp)echo 'selected="selected"'; ?>><?php echo $ext ?></option>
-								<?php
-							}
-							$exts = $this->exts('text');
-							foreach ( $exts as $ext ) {
-								?>
-								<option <?php if ($ext == $target_document_suffix_sp)echo 'selected="selected"'; ?>><?php echo $ext ?></option>
-								<?php
-							}
-							$exts = $this->exts('archive');
-							foreach ( $exts as $ext ) {
-								?>
-								<option <?php if ($ext == $target_document_suffix_sp)echo 'selected="selected"'; ?>><?php echo $ext ?></option>
-								<?php
-							}
-							$exts = $this->exts('code');
-							foreach ( $exts as $ext ) {
-								?>
-								<option <?php if ($ext == $target_document_suffix_sp)echo 'selected="selected"'; ?>><?php echo $ext ?></option>
-								<?php
-							}
-						?>
-					</select>
-					</td>
-					<td align="left" valign="middle">
-						<?php _e('extension of Smartphone', 'gallerylink'); ?>
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle"><b>suffix_keitai</b></td>
+					<td align="center" valign="middle">suffix_keitai</td>
 					<td align="center" valign="middle">
 					<?php $target_album_suffix_keitai = $gallerylink_album['suffix_keitai']; ?>
 					<select id="gallerylink_album_suffix_keitai" name="gallerylink_album_suffix_keitai">
@@ -1011,7 +489,274 @@ class GalleryLinkAdmin {
 						?>
 					</select>
 					</td>
-					<?php if ( $gallerylink_movie['type'] === 'dir' ) { ?>
+					<td align="left" valign="middle">
+						<?php _e('extension of Japanese mobile phone', 'gallerylink'); ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">display</td>
+					<td align="center" valign="middle">
+						<input type="text" style="width: 100%;" id="gallerylink_album_display" name="gallerylink_album_display" value="<?php echo intval($gallerylink_album['display']) ?>" />
+					</td>
+					<td align="left" valign="middle">
+						<?php _e('File Display per page', 'gallerylink') ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">display_keitai</td>
+					<td align="center" valign="middle">
+						<input type="text" id="gallerylink_album_display_keitai" name="gallerylink_album_display_keitai" value="<?php echo intval($gallerylink_album['display_keitai']) ?>" style="width: 100%;" />
+					</td>
+					<td align="left" valign="middle">
+						<?php _e('File Display per page(Japanese mobile phone)', 'gallerylink') ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">thumbnail</td>
+					<td align="center" valign="middle">
+						<input type="text" id="gallerylink_album_thumbnail" name="gallerylink_album_thumbnail" value="<?php echo $gallerylink_album['thumbnail'] ?>" style="width: 100%;" />
+					</td>
+					<td align="left" valign="middle">
+						<?php _e('(album, slideshow) thumbnail suffix name. (movie, music, document) The icon is displayed if you specify icon. The thumbnail no display if you do not specify anything.', 'gallerylink'); ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">generate_rssfeed</td>
+					<td align="center" valign="middle">
+					<?php $target_album_generate_rssfeed = $gallerylink_album['generate_rssfeed']; ?>
+					<select id="gallerylink_album_generate_rssfeed" name="gallerylink_album_generate_rssfeed">
+						<option <?php if ('on' == $target_album_generate_rssfeed)echo 'selected="selected"'; ?>>on</option>
+						<option <?php if ('off' == $target_album_generate_rssfeed)echo 'selected="selected"'; ?>>off</option>
+					</select>
+					</td>
+					<td align="left" valign="middle">
+					<?php _e('Generation of RSS feed.', 'gallerylink') ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">rssname</td>
+					<td align="center" valign="middle">
+						<input type="text" style="width: 100%;" style="width: 100%;" id="gallerylink_album_rssname" name="gallerylink_album_rssname" value="<?php echo $gallerylink_album['rssname'] ?>" />
+					</td>
+					<td align="left" valign="middle">
+						<?php _e('The name of the RSS feed file (Use to widget)', 'gallerylink'); ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">rssmax</td>
+					<td align="center" valign="middle">
+						<input type="text" style="width: 100%;" id="gallerylink_album_rssmax" name="gallerylink_album_rssmax" value="<?php echo intval($gallerylink_album['rssmax']) ?>" />
+					</td>
+					<td align="left" valign="middle">
+						<?php _e('Syndication feeds show the most recent (Use to widget)', 'gallerylink') ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">filesize_show</td>
+					<td align="center" valign="middle">
+					<?php $target_album_filesize_show = $gallerylink_album['filesize_show']; ?>
+					<select id="gallerylink_album_filesize_show" name="gallerylink_album_filesize_show">
+						<option <?php if ('Show' == $target_album_filesize_show)echo 'selected="selected"'; ?>>Show</option>
+						<option <?php if ('Hide' == $target_album_filesize_show)echo 'selected="selected"'; ?>>Hide</option>
+					</select>
+					</td>
+					<td align="left" valign="middle">
+					<?php _e('File size', 'gallerylink') ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">stamptime_show</td>
+					<td align="center" valign="middle">
+					<?php $target_album_stamptime_show = $gallerylink_album['stamptime_show']; ?>
+					<select id="gallerylink_album_stamptime_show" name="gallerylink_album_stamptime_show">
+						<option <?php if ('Show' == $target_album_stamptime_show)echo 'selected="selected"'; ?>>Show</option>
+						<option <?php if ('Hide' == $target_album_stamptime_show)echo 'selected="selected"'; ?>>Hide</option>
+					</select>
+					</td>
+					<td align="left" valign="middle">
+					<?php _e('Date Time', 'gallerylink') ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">selectbox_show</td>
+					<td align="center" valign="middle">
+					<?php $target_album_selectbox_show = $gallerylink_album['selectbox_show']; ?>
+					<select id="gallerylink_album_selectbox_show" name="gallerylink_album_selectbox_show">
+						<option <?php if ('Show' == $target_album_selectbox_show)echo 'selected="selected"'; ?>>Show</option>
+						<option <?php if ('Hide' == $target_album_selectbox_show)echo 'selected="selected"'; ?>>Hide</option>
+					</select>
+					</td>
+					<td align="left" valign="middle">
+					<?php _e('Selectbox of directories.', 'gallerylink') ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">pagelinks_show</td>
+					<td align="center" valign="middle">
+					<?php $target_album_pagelinks_show = $gallerylink_album['pagelinks_show']; ?>
+					<select id="gallerylink_album_pagelinks_show" name="gallerylink_album_pagelinks_show">
+						<option <?php if ('Show' == $target_album_pagelinks_show)echo 'selected="selected"'; ?>>Show</option>
+						<option <?php if ('Hide' == $target_album_pagelinks_show)echo 'selected="selected"'; ?>>Hide</option>
+					</select>
+					</td>
+					<td align="left" valign="middle">
+					<?php _e('Navigation of page.', 'gallerylink') ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">sortlinks_show</td>
+					<td align="center" valign="middle">
+					<?php $target_album_sortlinks_show = $gallerylink_album['sortlinks_show']; ?>
+					<select id="gallerylink_album_sortlinks_show" name="gallerylink_album_sortlinks_show">
+						<option <?php if ('Show' == $target_album_sortlinks_show)echo 'selected="selected"'; ?>>Show</option>
+						<option <?php if ('Hide' == $target_album_sortlinks_show)echo 'selected="selected"'; ?>>Hide</option>
+					</select>
+					</td>
+					<td align="left" valign="middle">
+					<?php _e('Navigation of sort.', 'gallerylink') ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">searchbox_show</td>
+					<td align="center" valign="middle">
+					<?php $target_album_searchbox_show = $gallerylink_album['searchbox_show']; ?>
+					<select id="gallerylink_album_searchbox_show" name="gallerylink_album_searchbox_show">
+						<option <?php if ('Show' == $target_album_searchbox_show)echo 'selected="selected"'; ?>>Show</option>
+						<option <?php if ('Hide' == $target_album_searchbox_show)echo 'selected="selected"'; ?>>Hide</option>
+					</select>
+					</td>
+					<td align="left" valign="middle">
+					<?php _e('Search box', 'gallerylink') ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">rssicon_show</td>
+					<td align="center" valign="middle">
+					<?php $target_album_rssicon_show = $gallerylink_album['rssicon_show']; ?>
+					<select id="gallerylink_album_rssicon_show" name="gallerylink_album_rssicon_show">
+						<option <?php if ('Show' == $target_album_rssicon_show)echo 'selected="selected"'; ?>>Show</option>
+						<option <?php if ('Hide' == $target_album_rssicon_show)echo 'selected="selected"'; ?>>Hide</option>
+					</select>
+					</td>
+					<td align="left" valign="middle">
+					<?php _e('RSS Icon', 'gallerylink') ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">credit_show</td>
+					<td align="center" valign="middle">
+					<?php $target_album_credit_show = $gallerylink_album['credit_show']; ?>
+					<select id="gallerylink_album_credit_show" name="gallerylink_album_credit_show">
+						<option <?php if ('Show' == $target_album_credit_show)echo 'selected="selected"'; ?>>Show</option>
+						<option <?php if ('Hide' == $target_album_credit_show)echo 'selected="selected"'; ?>>Hide</option>
+					</select>
+					</td>
+					<td align="left" valign="middle">
+					<?php _e('Credit', 'gallerylink') ?>
+					</td>
+				</tr>
+			</tbody>
+			</table>
+
+			<input type="hidden" name="gallerylink_admin_tabs" value="3" />
+			<p class="submit">
+			  <input type="submit" name="Submit" value="<?php _e('Save Changes') ?>" />
+			</p>
+
+			</form>
+
+		</div>
+	  </div>
+
+	  <div id="gallerylink-admin-tabs-4">
+		<div class="wrap">
+
+			<form method="post" action="<?php echo $scriptname.'#gallerylink-admin-tabs-4'; ?>">
+
+			<p class="submit">
+			  <input type="submit" name="Submit" value="<?php _e('Save Changes') ?>" />
+			  <input type="submit" name="Default" value="<?php _e('Default') ?>" />
+			</p>
+
+			<h2><?php _e('Settings'); ?> <?php _e('Video', 'gallerylink'); ?></h2>	
+			<table border="1" class="wp-list-table widefat fixed">
+			<tbody>
+				<tr>
+					<td align="center" valign="middle"><?php _e('Attribute', 'gallerylink'); ?></td>
+					<td align="center" valign="middle"><?php _e('Value'); ?></td>
+					<td align="center" valign="middle"><?php _e('Description'); ?></td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">set</td>
+					<td align="center" valign="middle">movie</td>
+					<td align="left" valign="middle">
+					<?php _e('Next only six. all(all data), album(image), movie(video), music(music), slideshow(image), document(document)', 'gallerylink'); ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">sort</td>
+					<td align="center" valign="middle">
+					<?php $target_movie_sort = $gallerylink_movie['sort']; ?>
+					<select id="gallerylink_movie_sort" name="gallerylink_movie_sort">
+						<option <?php if ('new' == $target_movie_sort)echo 'selected="selected"'; ?>>new</option>
+						<option <?php if ('old' == $target_movie_sort)echo 'selected="selected"'; ?>>old</option>
+						<option <?php if ('des' == $target_movie_sort)echo 'selected="selected"'; ?>>des</option>
+						<option <?php if ('asc' == $target_movie_sort)echo 'selected="selected"'; ?>>asc</option>
+					</select>
+					</td>
+					<td align="left" valign="middle">
+						<?php _e('Type of Sort', 'gallerylink'); ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">topurl</td>
+					<td align="center" valign="middle">
+						<input type="text" id="gallerylink_movie_topurl" name="gallerylink_movie_topurl" value="<?php echo $gallerylink_movie['topurl'] ?>" style="width: 100%;" />
+					</td>
+					<td align="left" valign="middle">
+						<?php _e('Full path to the top directory containing the data. Example:In the case of http://www.mysite.xxx/wordpress/wp-content/uploads is /wordpress/wp-content/uploads.', 'gallerylink'); ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">suffix</td>
+					<td align="center" valign="middle">
+					<?php $target_movie_suffix = $gallerylink_movie['suffix']; ?>
+					<select id="gallerylink_movie_suffix" name="gallerylink_movie_suffix">
+						<?php
+							$exts = $this->exts('video');
+							foreach ( $exts as $ext ) {
+								?>
+								<option <?php if ($ext == $target_movie_suffix)echo 'selected="selected"'; ?>><?php echo $ext ?></option>
+								<?php
+							}
+						?>
+					</select>
+					</td>
+					<td align="left" valign="middle">
+						<?php _e('extension', 'gallerylink'); ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">suffix_2</td>
+					<td align="center" valign="middle">
+					<?php $target_movie_suffix_2 = $gallerylink_movie['suffix_2']; ?>
+					<select id="gallerylink_movie_suffix_2" name="gallerylink_movie_suffix_2">
+						<?php
+							$exts = $this->exts('video');
+							foreach ( $exts as $ext ) {
+								?>
+								<option <?php if ($ext == $target_movie_suffix_2)echo 'selected="selected"'; ?>><?php echo $ext ?></option>
+								<?php
+							}
+						?>
+					</select>
+					</td>
+					<td align="left" valign="middle">
+						<?php _e('second extension. Second candidate when working with html5', 'gallerylink'); ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">suffix_keitai</td>
 					<td align="center" valign="middle">
 					<?php $target_movie_suffix_keitai = $gallerylink_movie['suffix_keitai']; ?>
 					<select id="gallerylink_movie_suffix_keitai" name="gallerylink_movie_suffix_keitai">
@@ -1019,12 +764,279 @@ class GalleryLinkAdmin {
 						<option <?php if ('3g2' == $target_movie_suffix_keitai)echo 'selected="selected"'; ?>>3g2</option>
 					</select>
 					</td>
-					<?php } else { ?>
-					<td>
-						<input type="hidden" id="gallerylink_movie_suffix_keitai" name="gallerylink_movie_suffix_keitai" value="<?php echo $gallerylink_movie['suffix_keitai'] ?>" />
+					<td align="left" valign="middle">
+						<?php _e('extension of Japanese mobile phone', 'gallerylink'); ?>
 					</td>
-					<?php } ?>
-					<?php if ( $gallerylink_music['type'] === 'dir' ) { ?>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">display</td>
+					<td align="center" valign="middle">
+						<input type="text" style="width: 100%;" id="gallerylink_movie_display" name="gallerylink_movie_display" value="<?php echo intval($gallerylink_movie['display']) ?>" />
+					</td>
+					<td align="left" valign="middle">
+						<?php _e('File Display per page', 'gallerylink') ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">display_keitai</td>
+					<td align="center" valign="middle">
+						<input type="text" id="gallerylink_movie_display_keitai" name="gallerylink_movie_display_keitai" value="<?php echo intval($gallerylink_movie['display_keitai']) ?>" style="width: 100%;" />
+					</td>
+					<td align="left" valign="middle">
+						<?php _e('File Display per page(Japanese mobile phone)', 'gallerylink') ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">thumbnail</td>
+					<td align="center" valign="middle">
+					<?php $target_movie_thumbnail = $gallerylink_movie['thumbnail']; ?>
+					<select id="gallerylink_movie_thumbnail" name="gallerylink_movie_thumbnail">
+						<option <?php if ('' == $target_movie_thumbnail)echo 'selected="selected"'; ?>></option>
+						<option <?php if ('icon' == $target_movie_thumbnail)echo 'selected="selected"'; ?>>icon</option>
+					</select>
+					</td>
+					<td align="left" valign="middle">
+						<?php _e('(album, slideshow) thumbnail suffix name. (movie, music, document) The icon is displayed if you specify icon. The thumbnail no display if you do not specify anything.', 'gallerylink'); ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">generate_rssfeed</td>
+					<td align="center" valign="middle">
+					<?php $target_movie_generate_rssfeed = $gallerylink_movie['generate_rssfeed']; ?>
+					<select id="gallerylink_movie_generate_rssfeed" name="gallerylink_movie_generate_rssfeed">
+						<option <?php if ('on' == $target_movie_generate_rssfeed)echo 'selected="selected"'; ?>>on</option>
+						<option <?php if ('off' == $target_movie_generate_rssfeed)echo 'selected="selected"'; ?>>off</option>
+					</select>
+					</td>
+					<td align="left" valign="middle">
+					<?php _e('Generation of RSS feed.', 'gallerylink') ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">rssname</td>
+					<td align="center" valign="middle">
+						<input type="text" style="width: 100%;" id="gallerylink_movie_rssname" name="gallerylink_movie_rssname" value="<?php echo $gallerylink_movie['rssname'] ?>" />
+					</td>
+					<td align="left" valign="middle">
+						<?php _e('The name of the RSS feed file (Use to widget)', 'gallerylink'); ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">rssmax</td>
+					<td align="center" valign="middle">
+						<input type="text" style="width: 100%;" id="gallerylink_movie_rssmax" name="gallerylink_movie_rssmax" value="<?php echo intval($gallerylink_movie['rssmax']) ?>" />
+					</td>
+					<td align="left" valign="middle">
+						<?php _e('Syndication feeds show the most recent (Use to widget)', 'gallerylink') ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">filesize_show</td>
+					<td align="center" valign="middle">
+					<?php $target_movie_filesize_show = $gallerylink_movie['filesize_show']; ?>
+					<select id="gallerylink_movie_filesize_show" name="gallerylink_movie_filesize_show">
+						<option <?php if ('Show' == $target_movie_filesize_show)echo 'selected="selected"'; ?>>Show</option>
+						<option <?php if ('Hide' == $target_movie_filesize_show)echo 'selected="selected"'; ?>>Hide</option>
+					</select>
+					</td>
+					<td align="left" valign="middle">
+					<?php _e('File size', 'gallerylink') ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">stamptime_show</td>
+					<td align="center" valign="middle">
+					<?php $target_movie_stamptime_show = $gallerylink_movie['stamptime_show']; ?>
+					<select id="gallerylink_movie_stamptime_show" name="gallerylink_movie_stamptime_show">
+						<option <?php if ('Show' == $target_movie_stamptime_show)echo 'selected="selected"'; ?>>Show</option>
+						<option <?php if ('Hide' == $target_movie_stamptime_show)echo 'selected="selected"'; ?>>Hide</option>
+					</select>
+					</td>
+					<td align="left" valign="middle">
+					<?php _e('Date Time', 'gallerylink') ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">selectbox_show</td>
+					<td align="center" valign="middle">
+					<?php $target_movie_selectbox_show = $gallerylink_movie['selectbox_show']; ?>
+					<select id="gallerylink_movie_selectbox_show" name="gallerylink_movie_selectbox_show">
+						<option <?php if ('Show' == $target_movie_selectbox_show)echo 'selected="selected"'; ?>>Show</option>
+						<option <?php if ('Hide' == $target_movie_selectbox_show)echo 'selected="selected"'; ?>>Hide</option>
+					</select>
+					</td>
+					</td>
+					<td align="left" valign="middle">
+					<?php _e('Selectbox of directories.', 'gallerylink') ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">pagelinks_show</td>
+					<td align="center" valign="middle">
+					<?php $target_movie_pagelinks_show = $gallerylink_movie['pagelinks_show']; ?>
+					<select id="gallerylink_movie_pagelinks_show" name="gallerylink_movie_pagelinks_show">
+						<option <?php if ('Show' == $target_movie_pagelinks_show)echo 'selected="selected"'; ?>>Show</option>
+						<option <?php if ('Hide' == $target_movie_pagelinks_show)echo 'selected="selected"'; ?>>Hide</option>
+					</select>
+					</td>
+					<td align="left" valign="middle">
+					<?php _e('Navigation of page.', 'gallerylink') ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">sortlinks_show</td>
+					<td align="center" valign="middle">
+					<?php $target_movie_sortlinks_show = $gallerylink_movie['sortlinks_show']; ?>
+					<select id="gallerylink_movie_sortlinks_show" name="gallerylink_movie_sortlinks_show">
+						<option <?php if ('Show' == $target_movie_sortlinks_show)echo 'selected="selected"'; ?>>Show</option>
+						<option <?php if ('Hide' == $target_movie_sortlinks_show)echo 'selected="selected"'; ?>>Hide</option>
+					</select>
+					</td>
+					<td align="left" valign="middle">
+					<?php _e('Navigation of sort.', 'gallerylink') ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">searchbox_show</td>
+					<td align="center" valign="middle">
+					<?php $target_movie_searchbox_show = $gallerylink_movie['searchbox_show']; ?>
+					<select id="gallerylink_movie_searchbox_show" name="gallerylink_movie_searchbox_show">
+						<option <?php if ('Show' == $target_movie_searchbox_show)echo 'selected="selected"'; ?>>Show</option>
+						<option <?php if ('Hide' == $target_movie_searchbox_show)echo 'selected="selected"'; ?>>Hide</option>
+					</select>
+					</td>
+					<td align="left" valign="middle">
+					<?php _e('Search box', 'gallerylink') ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">rssicon_show</td>
+					<td align="center" valign="middle">
+					<?php $target_movie_rssicon_show = $gallerylink_movie['rssicon_show']; ?>
+					<select id="gallerylink_movie_rssicon_show" name="gallerylink_movie_rssicon_show">
+						<option <?php if ('Show' == $target_movie_rssicon_show)echo 'selected="selected"'; ?>>Show</option>
+						<option <?php if ('Hide' == $target_movie_rssicon_show)echo 'selected="selected"'; ?>>Hide</option>
+					</select>
+					</td>
+					<td align="left" valign="middle">
+					<?php _e('RSS Icon', 'gallerylink') ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">credit_show</td>
+					<td align="center" valign="middle">
+					<?php $target_movie_credit_show = $gallerylink_movie['credit_show']; ?>
+					<select id="gallerylink_movie_credit_show" name="gallerylink_movie_credit_show">
+						<option <?php if ('Show' == $target_movie_credit_show)echo 'selected="selected"'; ?>>Show</option>
+						<option <?php if ('Hide' == $target_movie_credit_show)echo 'selected="selected"'; ?>>Hide</option>
+					</select>
+					</td>
+					<td align="left" valign="middle">
+					<?php _e('Credit', 'gallerylink') ?>
+					</td>
+				</tr>
+			</tbody>
+			</table>
+
+			<input type="hidden" name="gallerylink_admin_tabs" value="4" />
+			<p class="submit">
+			  <input type="submit" name="Submit" value="<?php _e('Save Changes') ?>" />
+			</p>
+
+			</form>
+
+		</div>
+	  </div>
+
+	  <div id="gallerylink-admin-tabs-5">
+		<div class="wrap">
+
+			<form method="post" action="<?php echo $scriptname.'#gallerylink-admin-tabs-5'; ?>">
+
+			<p class="submit">
+			  <input type="submit" name="Submit" value="<?php _e('Save Changes') ?>" />
+			  <input type="submit" name="Default" value="<?php _e('Default') ?>" />
+			</p>
+
+			<h2><?php _e('Settings'); ?> <?php _e('Music', 'gallerylink'); ?></h2>	
+			<table border="1" class="wp-list-table widefat fixed">
+			<tbody>
+				<tr>
+					<td align="center" valign="middle"><?php _e('Attribute', 'gallerylink'); ?></td>
+					<td align="center" valign="middle"><?php _e('Value'); ?></td>
+					<td align="center" valign="middle"><?php _e('Description'); ?></td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">set</td>
+					<td align="center" valign="middle">music</td>
+					<td align="left" valign="middle">
+					<?php _e('Next only six. all(all data), album(image), movie(video), music(music), slideshow(image), document(document)', 'gallerylink'); ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">sort</td>
+					<td align="center" valign="middle">
+					<?php $target_music_sort = $gallerylink_music['sort']; ?>
+					<select id="gallerylink_music_sort" name="gallerylink_music_sort">
+						<option <?php if ('new' == $target_music_sort)echo 'selected="selected"'; ?>>new</option>
+						<option <?php if ('old' == $target_music_sort)echo 'selected="selected"'; ?>>old</option>
+						<option <?php if ('des' == $target_music_sort)echo 'selected="selected"'; ?>>des</option>
+						<option <?php if ('asc' == $target_music_sort)echo 'selected="selected"'; ?>>asc</option>
+					</select>
+					</td>
+					<td align="left" valign="middle">
+						<?php _e('Type of Sort', 'gallerylink'); ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">topurl</td>
+					<td align="center" valign="middle">
+						<input type="text" id="gallerylink_music_topurl" name="gallerylink_music_topurl" value="<?php echo $gallerylink_music['topurl'] ?>" style="width: 100%;" />
+					</td>
+					<td align="left" valign="middle">
+						<?php _e('Full path to the top directory containing the data. Example:In the case of http://www.mysite.xxx/wordpress/wp-content/uploads is /wordpress/wp-content/uploads.', 'gallerylink'); ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">suffix</td>
+					<td align="center" valign="middle">
+					<?php $target_music_suffix = $gallerylink_music['suffix']; ?>
+					<select id="gallerylink_music_suffix" name="gallerylink_music_suffix">
+						<?php
+							$exts = $this->exts('audio');
+							foreach ( $exts as $ext ) {
+								?>
+								<option <?php if ($ext == $target_music_suffix)echo 'selected="selected"'; ?>><?php echo $ext ?></option>
+								<?php
+							}
+						?>
+					</select>
+					</td>
+					<td align="left" valign="middle">
+						<?php _e('extension', 'gallerylink'); ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">suffix_2</td>
+					<td align="center" valign="middle">
+					<?php $target_music_suffix_2 = $gallerylink_music['suffix_2']; ?>
+					<select id="gallerylink_music_suffix_2" name="gallerylink_music_suffix_2">
+						<?php
+							$exts = $this->exts('audio');
+							foreach ( $exts as $ext ) {
+								?>
+								<option <?php if ($ext == $target_music_suffix_2)echo 'selected="selected"'; ?>><?php echo $ext ?></option>
+								<?php
+							}
+						?>
+					</select>
+					</td>
+					<td align="left" valign="middle">
+						<?php _e('second extension. Second candidate when working with html5', 'gallerylink'); ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">suffix_keitai</td>
 					<td align="center" valign="middle">
 					<?php $target_music_suffix_keitai = $gallerylink_music['suffix_keitai']; ?>
 					<select id="gallerylink_music_suffix_keitai" name="gallerylink_music_suffix_keitai">
@@ -1032,12 +1044,525 @@ class GalleryLinkAdmin {
 						<option <?php if ('3g2' == $target_music_suffix_keitai)echo 'selected="selected"'; ?>>3g2</option>
 					</select>
 					</td>
-					<?php } else { ?>
-					<td>
-						<input type="hidden" id="gallerylink_music_suffix_keitai" name="gallerylink_music_suffix_keitai" value="<?php echo $gallerylink_music['suffix_keitai'] ?>" />
+					<td align="left" valign="middle">
+						<?php _e('extension of Japanese mobile phone', 'gallerylink'); ?>
 					</td>
-					<?php } ?>
-					<td></td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">display</td>
+					<td align="center" valign="middle">
+						<input type="text" style="width: 100%;" id="gallerylink_music_display" name="gallerylink_music_display" value="<?php echo intval($gallerylink_music['display']) ?>" />
+					</td>
+					<td align="left" valign="middle">
+						<?php _e('File Display per page', 'gallerylink') ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">display_keitai</td>
+					<td align="center" valign="middle">
+						<input type="text" id="gallerylink_music_display_keitai" name="gallerylink_music_display_keitai" value="<?php echo intval($gallerylink_music['display_keitai']) ?>" style="width: 100%;" />
+					</td>
+					<td align="left" valign="middle">
+						<?php _e('File Display per page(Japanese mobile phone)', 'gallerylink') ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">thumbnail</td>
+					<td align="center" valign="middle">
+					<?php $target_music_thumbnail = $gallerylink_music['thumbnail']; ?>
+					<select id="gallerylink_music_thumbnail" name="gallerylink_music_thumbnail">
+						<option <?php if ('' == $target_music_thumbnail)echo 'selected="selected"'; ?>></option>
+						<option <?php if ('icon' == $target_music_thumbnail)echo 'selected="selected"'; ?>>icon</option>
+					</select>
+					</td>
+					<td align="left" valign="middle">
+						<?php _e('(album, slideshow) thumbnail suffix name. (movie, music, document) The icon is displayed if you specify icon. The thumbnail no display if you do not specify anything.', 'gallerylink'); ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">generate_rssfeed</td>
+					<td align="center" valign="middle">
+					<?php $target_music_generate_rssfeed = $gallerylink_music['generate_rssfeed']; ?>
+					<select id="gallerylink_music_generate_rssfeed" name="gallerylink_music_generate_rssfeed">
+						<option <?php if ('on' == $target_music_generate_rssfeed)echo 'selected="selected"'; ?>>on</option>
+						<option <?php if ('off' == $target_music_generate_rssfeed)echo 'selected="selected"'; ?>>off</option>
+					</select>
+					</td>
+					<td align="left" valign="middle">
+					<?php _e('Generation of RSS feed.', 'gallerylink') ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">rssname</td>
+					<td align="center" valign="middle">
+						<input type="text" style="width: 100%;" id="gallerylink_music_rssname" name="gallerylink_music_rssname" value="<?php echo $gallerylink_music['rssname'] ?>" />
+					</td>
+					<td align="left" valign="middle">
+						<?php _e('The name of the RSS feed file (Use to widget)', 'gallerylink'); ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">rssmax</td>
+					<td align="center" valign="middle">
+						<input type="text" style="width: 100%;" id="gallerylink_music_rssmax" name="gallerylink_music_rssmax" value="<?php echo intval($gallerylink_music['rssmax']) ?>" />
+					</td>
+					<td align="left" valign="middle">
+						<?php _e('Syndication feeds show the most recent (Use to widget)', 'gallerylink') ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">filesize_show</td>
+					<td align="center" valign="middle">
+					<?php $target_music_filesize_show = $gallerylink_music['filesize_show']; ?>
+					<select id="gallerylink_music_filesize_show" name="gallerylink_music_filesize_show">
+						<option <?php if ('Show' == $target_music_filesize_show)echo 'selected="selected"'; ?>>Show</option>
+						<option <?php if ('Hide' == $target_music_filesize_show)echo 'selected="selected"'; ?>>Hide</option>
+					</select>
+					</td>
+					<td align="left" valign="middle">
+					<?php _e('File size', 'gallerylink') ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">stamptime_show</td>
+					<td align="center" valign="middle">
+					<?php $target_music_stamptime_show = $gallerylink_music['stamptime_show']; ?>
+					<select id="gallerylink_music_stamptime_show" name="gallerylink_music_stamptime_show">
+						<option <?php if ('Show' == $target_music_stamptime_show)echo 'selected="selected"'; ?>>Show</option>
+						<option <?php if ('Hide' == $target_music_stamptime_show)echo 'selected="selected"'; ?>>Hide</option>
+					</select>
+					</td>
+					<td align="left" valign="middle">
+					<?php _e('Date Time', 'gallerylink') ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">selectbox_show</td>
+					<td align="center" valign="middle">
+					<?php $target_music_selectbox_show = $gallerylink_music['selectbox_show']; ?>
+					<select id="gallerylink_music_selectbox_show" name="gallerylink_music_selectbox_show">
+						<option <?php if ('Show' == $target_music_selectbox_show)echo 'selected="selected"'; ?>>Show</option>
+						<option <?php if ('Hide' == $target_music_selectbox_show)echo 'selected="selected"'; ?>>Hide</option>
+					</select>
+					</td>
+					<td align="left" valign="middle">
+					<?php _e('Selectbox of directories.', 'gallerylink') ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">pagelinks_show</td>
+					<td align="center" valign="middle">
+					<?php $target_music_pagelinks_show = $gallerylink_music['pagelinks_show']; ?>
+					<select id="gallerylink_music_pagelinks_show" name="gallerylink_music_pagelinks_show">
+						<option <?php if ('Show' == $target_music_pagelinks_show)echo 'selected="selected"'; ?>>Show</option>
+						<option <?php if ('Hide' == $target_music_pagelinks_show)echo 'selected="selected"'; ?>>Hide</option>
+					</select>
+					</td>
+					<td align="left" valign="middle">
+					<?php _e('Navigation of page.', 'gallerylink') ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">sortlinks_show</td>
+					<td align="center" valign="middle">
+					<?php $target_music_sortlinks_show = $gallerylink_music['sortlinks_show']; ?>
+					<select id="gallerylink_music_sortlinks_show" name="gallerylink_music_sortlinks_show">
+						<option <?php if ('Show' == $target_music_sortlinks_show)echo 'selected="selected"'; ?>>Show</option>
+						<option <?php if ('Hide' == $target_music_sortlinks_show)echo 'selected="selected"'; ?>>Hide</option>
+					</select>
+					</td>
+					<td align="left" valign="middle">
+					<?php _e('Navigation of sort.', 'gallerylink') ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">searchbox_show</td>
+					<td align="center" valign="middle">
+					<?php $target_music_searchbox_show = $gallerylink_music['searchbox_show']; ?>
+					<select id="gallerylink_music_searchbox_show" name="gallerylink_music_searchbox_show">
+						<option <?php if ('Show' == $target_music_searchbox_show)echo 'selected="selected"'; ?>>Show</option>
+						<option <?php if ('Hide' == $target_music_searchbox_show)echo 'selected="selected"'; ?>>Hide</option>
+					</select>
+					</td>
+					<td align="left" valign="middle">
+					<?php _e('Search box', 'gallerylink') ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">rssicon_show</td>
+					<td align="center" valign="middle">
+					<?php $target_music_rssicon_show = $gallerylink_music['rssicon_show']; ?>
+					<select id="gallerylink_music_rssicon_show" name="gallerylink_music_rssicon_show">
+						<option <?php if ('Show' == $target_music_rssicon_show)echo 'selected="selected"'; ?>>Show</option>
+						<option <?php if ('Hide' == $target_music_rssicon_show)echo 'selected="selected"'; ?>>Hide</option>
+					</select>
+					</td>
+					<td align="left" valign="middle">
+					<?php _e('RSS Icon', 'gallerylink') ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">credit_show</td>
+					<td align="center" valign="middle">
+					<?php $target_music_credit_show = $gallerylink_music['credit_show']; ?>
+					<select id="gallerylink_music_credit_show" name="gallerylink_music_credit_show">
+						<option <?php if ('Show' == $target_music_credit_show)echo 'selected="selected"'; ?>>Show</option>
+						<option <?php if ('Hide' == $target_music_credit_show)echo 'selected="selected"'; ?>>Hide</option>
+					</select>
+					</td>
+					<td align="left" valign="middle">
+					<?php _e('Credit', 'gallerylink') ?>
+					</td>
+				</tr>
+			</tbody>
+			</table>
+
+			<input type="hidden" name="gallerylink_admin_tabs" value="5" />
+			<p class="submit">
+			  <input type="submit" name="Submit" value="<?php _e('Save Changes') ?>" />
+			</p>
+
+			</form>
+
+		</div>
+	  </div>
+
+	  <div id="gallerylink-admin-tabs-6">
+		<div class="wrap">
+
+			<form method="post" action="<?php echo $scriptname.'#gallerylink-admin-tabs-6'; ?>">
+
+			<p class="submit">
+			  <input type="submit" name="Submit" value="<?php _e('Save Changes') ?>" />
+			  <input type="submit" name="Default" value="<?php _e('Default') ?>" />
+			</p>
+
+			<h2><?php _e('Settings'); ?> <?php _e('Slideshow', 'gallerylink'); ?></h2>	
+			<table border="1" class="wp-list-table widefat fixed">
+			<tbody>
+				<tr>
+					<td align="center" valign="middle"><?php _e('Attribute', 'gallerylink'); ?></td>
+					<td align="center" valign="middle"><?php _e('Value'); ?></td>
+					<td align="center" valign="middle"><?php _e('Description'); ?></td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">set</td>
+					<td align="center" valign="middle">slideshow</td>
+					<td align="left" valign="middle">
+					<?php _e('Next only six. all(all data), album(image), movie(video), music(music), slideshow(image), document(document)', 'gallerylink'); ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">sort</td>
+					<td align="center" valign="middle">
+					<?php $target_slideshow_sort = $gallerylink_slideshow['sort']; ?>
+					<select id="gallerylink_slideshow_sort" name="gallerylink_slideshow_sort">
+						<option <?php if ('new' == $target_slideshow_sort)echo 'selected="selected"'; ?>>new</option>
+						<option <?php if ('old' == $target_slideshow_sort)echo 'selected="selected"'; ?>>old</option>
+						<option <?php if ('des' == $target_slideshow_sort)echo 'selected="selected"'; ?>>des</option>
+						<option <?php if ('asc' == $target_slideshow_sort)echo 'selected="selected"'; ?>>asc</option>
+					</select>
+					</td>
+					<td align="left" valign="middle">
+						<?php _e('Type of Sort', 'gallerylink'); ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">topurl</td>
+					<td align="center" valign="middle">
+						<input type="text" id="gallerylink_slideshow_topurl" name="gallerylink_slideshow_topurl" value="<?php echo $gallerylink_slideshow['topurl'] ?>" style="width: 100%;" />
+					</td>
+					<td align="left" valign="middle">
+						<?php _e('Full path to the top directory containing the data. Example:In the case of http://www.mysite.xxx/wordpress/wp-content/uploads is /wordpress/wp-content/uploads.', 'gallerylink'); ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">suffix</td>
+					<td align="center" valign="middle">
+					<?php $target_slideshow_suffix = $gallerylink_slideshow['suffix']; ?>
+					<select id="gallerylink_slideshow_suffix" name="gallerylink_slideshow_suffix">
+						<option <?php if ('all' == $target_slideshow_suffix)echo 'selected="selected"'; ?>>all</option>
+						<?php
+							$exts = $this->exts('image');
+							foreach ( $exts as $ext ) {
+								?>
+								<option <?php if ($ext == $target_slideshow_suffix)echo 'selected="selected"'; ?>><?php echo $ext ?></option>
+								<?php
+							}
+						?>
+					</select>
+					</td>
+					<td align="left" valign="middle">
+						<?php _e('extension', 'gallerylink'); ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">display</td>
+					<td align="center" valign="middle">
+						<input type="text" style="width: 100%;" id="gallerylink_slideshow_display" name="gallerylink_slideshow_display" value="<?php echo intval($gallerylink_slideshow['display']) ?>" />
+					</td>
+					<td align="left" valign="middle">
+						<?php _e('File Display per page', 'gallerylink') ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">thumbnail</td>
+					<td align="center" valign="middle">
+						<input type="text" id="gallerylink_slideshow_thumbnail" name="gallerylink_slideshow_thumbnail" value="<?php echo $gallerylink_slideshow['thumbnail'] ?>" style="width: 100%;" />
+					</td>
+					<td align="left" valign="middle">
+						<?php _e('(album, slideshow) thumbnail suffix name. (movie, music, document) The icon is displayed if you specify icon. The thumbnail no display if you do not specify anything.', 'gallerylink'); ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">generate_rssfeed</td>
+					<td align="center" valign="middle">
+					<?php $target_slideshow_generate_rssfeed = $gallerylink_slideshow['generate_rssfeed']; ?>
+					<select id="gallerylink_slideshow_generate_rssfeed" name="gallerylink_slideshow_generate_rssfeed">
+						<option <?php if ('on' == $target_slideshow_generate_rssfeed)echo 'selected="selected"'; ?>>on</option>
+						<option <?php if ('off' == $target_slideshow_generate_rssfeed)echo 'selected="selected"'; ?>>off</option>
+					</select>
+					</td>
+					<td align="left" valign="middle">
+					<?php _e('Generation of RSS feed.', 'gallerylink') ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">rssname</td>
+					<td align="center" valign="middle">
+						<input type="text" style="width: 100%;" id="gallerylink_slideshow_rssname" name="gallerylink_slideshow_rssname" value="<?php echo $gallerylink_slideshow['rssname'] ?>" />
+					</td>
+					<td align="left" valign="middle">
+						<?php _e('The name of the RSS feed file (Use to widget)', 'gallerylink'); ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">rssmax</td>
+					<td align="center" valign="middle">
+						<input type="text" style="width: 100%;" id="gallerylink_slideshow_rssmax" name="gallerylink_slideshow_rssmax" value="<?php echo intval($gallerylink_slideshow['rssmax']) ?>" />
+					</td>
+					<td align="left" valign="middle">
+						<?php _e('Syndication feeds show the most recent (Use to widget)', 'gallerylink') ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">filesize_show</td>
+					<td align="center" valign="middle">
+					<?php $target_slideshow_filesize_show = $gallerylink_slideshow['filesize_show']; ?>
+					<select id="gallerylink_slideshow_filesize_show" name="gallerylink_slideshow_filesize_show">
+						<option <?php if ('Show' == $target_slideshow_filesize_show)echo 'selected="selected"'; ?>>Show</option>
+						<option <?php if ('Hide' == $target_slideshow_filesize_show)echo 'selected="selected"'; ?>>Hide</option>
+					</select>
+					</td>
+					<td align="left" valign="middle">
+					<?php _e('File size', 'gallerylink') ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">stamptime_show</td>
+					<td align="center" valign="middle">
+					<?php $target_slideshow_stamptime_show = $gallerylink_slideshow['stamptime_show']; ?>
+					<select id="gallerylink_slideshow_stamptime_show" name="gallerylink_slideshow_stamptime_show">
+						<option <?php if ('Show' == $target_slideshow_stamptime_show)echo 'selected="selected"'; ?>>Show</option>
+						<option <?php if ('Hide' == $target_slideshow_stamptime_show)echo 'selected="selected"'; ?>>Hide</option>
+					</select>
+					</td>
+					<td align="left" valign="middle">
+					<?php _e('Date Time', 'gallerylink') ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">selectbox_show</td>
+					<td align="center" valign="middle">
+					<?php $target_slideshow_selectbox_show = $gallerylink_slideshow['selectbox_show']; ?>
+					<select id="gallerylink_slideshow_selectbox_show" name="gallerylink_slideshow_selectbox_show">
+						<option <?php if ('Show' == $target_slideshow_selectbox_show)echo 'selected="selected"'; ?>>Show</option>
+						<option <?php if ('Hide' == $target_slideshow_selectbox_show)echo 'selected="selected"'; ?>>Hide</option>
+					</select>
+					</td>
+					<td align="left" valign="middle">
+					<?php _e('Selectbox of directories.', 'gallerylink') ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">pagelinks_show</td>
+					<td align="center" valign="middle">
+					<?php $target_slideshow_pagelinks_show = $gallerylink_slideshow['pagelinks_show']; ?>
+					<select id="gallerylink_slideshow_pagelinks_show" name="gallerylink_slideshow_pagelinks_show">
+						<option <?php if ('Show' == $target_slideshow_pagelinks_show)echo 'selected="selected"'; ?>>Show</option>
+						<option <?php if ('Hide' == $target_slideshow_pagelinks_show)echo 'selected="selected"'; ?>>Hide</option>
+					</select>
+					</td>
+					<td align="left" valign="middle">
+					<?php _e('Navigation of page.', 'gallerylink') ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">sortlinks_show</td>
+					<td align="center" valign="middle">
+					<?php $target_slideshow_sortlinks_show = $gallerylink_slideshow['sortlinks_show']; ?>
+					<select id="gallerylink_slideshow_sortlinks_show" name="gallerylink_slideshow_sortlinks_show">
+						<option <?php if ('Show' == $target_slideshow_sortlinks_show)echo 'selected="selected"'; ?>>Show</option>
+						<option <?php if ('Hide' == $target_slideshow_sortlinks_show)echo 'selected="selected"'; ?>>Hide</option>
+					</select>
+					</td>
+					<td align="left" valign="middle">
+					<?php _e('Navigation of sort.', 'gallerylink') ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">searchbox_show</td>
+					<td align="center" valign="middle">
+					<?php $target_slideshow_searchbox_show = $gallerylink_slideshow['searchbox_show']; ?>
+					<select id="gallerylink_slideshow_searchbox_show" name="gallerylink_slideshow_searchbox_show">
+						<option <?php if ('Show' == $target_slideshow_searchbox_show)echo 'selected="selected"'; ?>>Show</option>
+						<option <?php if ('Hide' == $target_slideshow_searchbox_show)echo 'selected="selected"'; ?>>Hide</option>
+					</select>
+					</td>
+					<td align="left" valign="middle">
+					<?php _e('Search box', 'gallerylink') ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">rssicon_show</td>
+					<td align="center" valign="middle">
+					<?php $target_slideshow_rssicon_show = $gallerylink_slideshow['rssicon_show']; ?>
+					<select id="gallerylink_slideshow_rssicon_show" name="gallerylink_slideshow_rssicon_show">
+						<option <?php if ('Show' == $target_slideshow_rssicon_show)echo 'selected="selected"'; ?>>Show</option>
+						<option <?php if ('Hide' == $target_slideshow_rssicon_show)echo 'selected="selected"'; ?>>Hide</option>
+					</select>
+					</td>
+					<td align="left" valign="middle">
+					<?php _e('RSS Icon', 'gallerylink') ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">credit_show</td>
+					<td align="center" valign="middle">
+					<?php $target_slideshow_credit_show = $gallerylink_slideshow['credit_show']; ?>
+					<select id="gallerylink_slideshow_credit_show" name="gallerylink_slideshow_credit_show">
+						<option <?php if ('Show' == $target_slideshow_credit_show)echo 'selected="selected"'; ?>>Show</option>
+						<option <?php if ('Hide' == $target_slideshow_credit_show)echo 'selected="selected"'; ?>>Hide</option>
+					</select>
+					</td>
+					<td align="left" valign="middle">
+					<?php _e('Credit', 'gallerylink') ?>
+					</td>
+				</tr>
+			</tbody>
+			</table>
+
+			<input type="hidden" name="gallerylink_admin_tabs" value="6" />
+			<p class="submit">
+			  <input type="submit" name="Submit" value="<?php _e('Save Changes') ?>" />
+			</p>
+
+			</form>
+
+		</div>
+	  </div>
+
+	  <div id="gallerylink-admin-tabs-7">
+		<div class="wrap">
+
+			<form method="post" action="<?php echo $scriptname.'#gallerylink-admin-tabs-7'; ?>">
+
+			<p class="submit">
+			  <input type="submit" name="Submit" value="<?php _e('Save Changes') ?>" />
+			  <input type="submit" name="Default" value="<?php _e('Default') ?>" />
+			</p>
+
+			<h2><?php _e('Settings'); ?> <?php _e('Document', 'gallerylink'); ?></h2>	
+			<table border="1" class="wp-list-table widefat fixed">
+			<tbody>
+				<tr>
+					<td align="center" valign="middle"><?php _e('Attribute', 'gallerylink'); ?></td>
+					<td align="center" valign="middle"><?php _e('Value'); ?></td>
+					<td align="center" valign="middle"><?php _e('Description'); ?></td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">set</td>
+					<td align="center" valign="middle">document</td>
+					<td align="left" valign="middle">
+					<?php _e('Next only six. all(all data), album(image), movie(video), music(music), slideshow(image), document(document)', 'gallerylink'); ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">sort</td>
+					<td align="center" valign="middle">
+					<?php $target_document_sort = $gallerylink_document['sort']; ?>
+					<select id="gallerylink_document_sort" name="gallerylink_document_sort">
+						<option <?php if ('new' == $target_document_sort)echo 'selected="selected"'; ?>>new</option>
+						<option <?php if ('old' == $target_document_sort)echo 'selected="selected"'; ?>>old</option>
+						<option <?php if ('des' == $target_document_sort)echo 'selected="selected"'; ?>>des</option>
+						<option <?php if ('asc' == $target_document_sort)echo 'selected="selected"'; ?>>asc</option>
+					</select>
+					</td>
+					<td align="left" valign="middle">
+						<?php _e('Type of Sort', 'gallerylink'); ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">topurl</td>
+					<td align="center" valign="middle">
+						<input type="text" id="gallerylink_document_topurl" name="gallerylink_document_topurl" value="<?php echo $gallerylink_document['topurl'] ?>" style="width: 100%;" />
+					</td>
+					<td align="left" valign="middle">
+						<?php _e('Full path to the top directory containing the data. Example:In the case of http://www.mysite.xxx/wordpress/wp-content/uploads is /wordpress/wp-content/uploads.', 'gallerylink'); ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">suffix</td>
+					<td align="center" valign="middle">
+					<?php $target_document_suffix = $gallerylink_document['suffix']; ?>
+					<select id="gallerylink_document_suffix" name="gallerylink_document_suffix">
+						<option <?php if ('all' == $target_document_suffix)echo 'selected="selected"'; ?>>all</option>
+						<?php
+							$exts = $this->exts('document');
+							foreach ( $exts as $ext ) {
+								?>
+								<option <?php if ($ext == $target_document_suffix)echo 'selected="selected"'; ?>><?php echo $ext ?></option>
+								<?php
+							}
+							$exts = $this->exts('spreadsheet');
+							foreach ( $exts as $ext ) {
+								?>
+								<option <?php if ($ext == $target_document_suffix)echo 'selected="selected"'; ?>><?php echo $ext ?></option>
+								<?php
+							}
+							$exts = $this->exts('interactive');
+							foreach ( $exts as $ext ) {
+								?>
+								<option <?php if ($ext == $target_document_suffix)echo 'selected="selected"'; ?>><?php echo $ext ?></option>
+								<?php
+							}
+							$exts = $this->exts('text');
+							foreach ( $exts as $ext ) {
+								?>
+								<option <?php if ($ext == $target_document_suffix)echo 'selected="selected"'; ?>><?php echo $ext ?></option>
+								<?php
+							}
+							$exts = $this->exts('archive');
+							foreach ( $exts as $ext ) {
+								?>
+								<option <?php if ($ext == $target_document_suffix)echo 'selected="selected"'; ?>><?php echo $ext ?></option>
+								<?php
+							}
+							$exts = $this->exts('code');
+							foreach ( $exts as $ext ) {
+								?>
+								<option <?php if ($ext == $target_document_suffix)echo 'selected="selected"'; ?>><?php echo $ext ?></option>
+								<?php
+							}
+						?>
+					</select>
+					</td>
+					<td align="left" valign="middle">
+						<?php _e('extension', 'gallerylink'); ?>
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">suffix_keitai</td>
 					<td align="center" valign="middle">
 					<?php $target_document_suffix_keitai = $gallerylink_document['suffix_keitai']; ?>
 					<select id="gallerylink_document_suffix_keitai" name="gallerylink_document_suffix_keitai">
@@ -1087,148 +1612,25 @@ class GalleryLinkAdmin {
 					</td>
 				</tr>
 				<tr>
-					<td align="center" valign="middle"><b>display_pc</b></td>
+					<td align="center" valign="middle">display</td>
 					<td align="center" valign="middle">
-						<input type="text" id="gallerylink_all_display_pc" name="gallerylink_all_display_pc" value="<?php echo intval($gallerylink_all['display_pc']) ?>" size="3" />
-					</td>
-					<td align="center" valign="middle">
-						<input type="text" id="gallerylink_album_display_pc" name="gallerylink_album_display_pc" value="<?php echo intval($gallerylink_album['display_pc']) ?>" size="3" />
-					</td>
-					<td align="center" valign="middle">
-						<input type="text" id="gallerylink_movie_display_pc" name="gallerylink_movie_display_pc" value="<?php echo intval($gallerylink_movie['display_pc']) ?>" size="3" />
-					</td>
-					<td align="center" valign="middle">
-						<input type="text" id="gallerylink_music_display_pc" name="gallerylink_music_display_pc" value="<?php echo intval($gallerylink_music['display_pc']) ?>" size="3" />
-					</td>
-					<td align="center" valign="middle">
-						<input type="text" id="gallerylink_slideshow_display_pc" name="gallerylink_slideshow_display_pc" value="<?php echo intval($gallerylink_slideshow['display_pc']) ?>" size="3" />
-					</td>
-					<td align="center" valign="middle">
-						<input type="text" id="gallerylink_document_display_pc" name="gallerylink_document_display_pc" value="<?php echo intval($gallerylink_document['display_pc']) ?>" size="3" />
+						<input type="text" style="width: 100%;" id="gallerylink_document_display" name="gallerylink_document_display" value="<?php echo intval($gallerylink_document['display']) ?>" />
 					</td>
 					<td align="left" valign="middle">
-						<?php _e('File Display per page(PC)', 'gallerylink') ?>
+						<?php _e('File Display per page', 'gallerylink') ?>
 					</td>
 				</tr>
 				<tr>
-					<td align="center" valign="middle"><b>display_sp</b></td>
+					<td align="center" valign="middle">display_keitai</td>
 					<td align="center" valign="middle">
-						<input type="text" id="gallerylink_all_display_sp" name="gallerylink_all_display_sp" value="<?php echo intval($gallerylink_all['display_sp']) ?>" size="3" />
-					</td>
-					<td align="center" valign="middle">
-						<input type="text" id="gallerylink_album_display_sp" name="gallerylink_album_display_sp" value="<?php echo intval($gallerylink_album['display_sp']) ?>" size="3" />
-					</td>
-					<td align="center" valign="middle">
-						<input type="text" id="gallerylink_movie_display_sp" name="gallerylink_movie_display_sp" value="<?php echo intval($gallerylink_movie['display_sp']) ?>" size="3" />
-					</td>
-					<td align="center" valign="middle">
-						<input type="text" id="gallerylink_music_display_sp" name="gallerylink_music_display_sp" value="<?php echo intval($gallerylink_music['display_sp']) ?>" size="3" />
-					</td>
-					<td align="center" valign="middle">
-						<input type="text" id="gallerylink_slideshow_display_sp" name="gallerylink_slideshow_display_sp" value="<?php echo intval($gallerylink_slideshow['display_sp']) ?>" size="3" />
-					</td>
-					<td align="center" valign="middle">
-						<input type="text" id="gallerylink_document_display_sp" name="gallerylink_document_display_sp" value="<?php echo intval($gallerylink_document['display_sp']) ?>" size="3" />
-					</td>
-					<td align="left" valign="middle">
-						<?php _e('File Display per page(Smartphone)', 'gallerylink') ?>
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle"><b>display_keitai</b></td>
-					<td align="center" valign="middle">
-						<input type="text" id="gallerylink_all_display_keitai" name="gallerylink_all_display_keitai" value="<?php echo intval($gallerylink_all['display_keitai']) ?>" size="3" />
-					</td>
-					<td align="center" valign="middle">
-						<input type="text" id="gallerylink_album_display_keitai" name="gallerylink_album_display_keitai" value="<?php echo intval($gallerylink_album['display_keitai']) ?>" size="3" />
-					</td>
-					<?php if ( $gallerylink_movie['type'] === 'dir' ) { ?>
-					<td align="center" valign="middle">
-						<input type="text" id="gallerylink_movie_display_keitai" name="gallerylink_movie_display_keitai" value="<?php echo intval($gallerylink_movie['display_keitai']) ?>" size="3" />
-					</td>
-					<?php } else { ?>
-					<td>
-						<input type="hidden" id="gallerylink_movie_display_keitai" name="gallerylink_movie_display_keitai" value="<?php echo intval($gallerylink_movie['display_keitai']) ?>" />
-					</td>
-					<?php } ?>
-					<?php if ( $gallerylink_music['type'] === 'dir' ) { ?>
-					<td align="center" valign="middle">
-						<input type="text" id="gallerylink_music_display_keitai" name="gallerylink_music_display_keitai" value="<?php echo intval($gallerylink_music['display_keitai']) ?>" size="3" />
-					</td>
-					<?php } else { ?>
-					<td>
-						<input type="hidden" id="gallerylink_music_display_keitai" name="gallerylink_music_display_keitai" value="<?php echo intval($gallerylink_music['display_keitai']) ?>" />
-					</td>
-					<?php } ?>
-					<td></td>
-					<td align="center" valign="middle">
-						<input type="text" id="gallerylink_document_display_keitai" name="gallerylink_document_display_keitai" value="<?php echo intval($gallerylink_document['display_keitai']) ?>" size="3" />
+						<input type="text" id="gallerylink_document_display_keitai" name="gallerylink_document_display_keitai" value="<?php echo intval($gallerylink_document['display_keitai']) ?>" style="width: 100%;" />
 					</td>
 					<td align="left" valign="middle">
 						<?php _e('File Display per page(Japanese mobile phone)', 'gallerylink') ?>
 					</td>
 				</tr>
 				<tr>
-					<td align="center" valign="middle"><b>image_show_size</b></td>
-					<td align="center" valign="middle">
-					<?php $target_all_image_show_size = $gallerylink_all['image_show_size']; ?>
-					<select id="gallerylink_all_image_show_size" name="gallerylink_all_image_show_size">
-						<option <?php if ('Full' == $target_all_image_show_size)echo 'selected="selected"'; ?>>Full</option>
-						<option <?php if ('Medium' == $target_all_image_show_size)echo 'selected="selected"'; ?>>Medium</option>
-						<option <?php if ('Large' == $target_all_image_show_size)echo 'selected="selected"'; ?>>Large</option>
-					</select>
-					</td>
-					<td align="center" valign="middle">
-					<?php $target_album_image_show_size = $gallerylink_album['image_show_size']; ?>
-					<select id="gallerylink_album_image_show_size" name="gallerylink_album_image_show_size">
-						<option <?php if ('Full' == $target_album_image_show_size)echo 'selected="selected"'; ?>>Full</option>
-						<option <?php if ('Medium' == $target_album_image_show_size)echo 'selected="selected"'; ?>>Medium</option>
-						<option <?php if ('Large' == $target_album_image_show_size)echo 'selected="selected"'; ?>>Large</option>
-					</select>
-					</td>
-					<td colspan="2"></td>
-					<td align="center" valign="middle">
-					<?php $target_slideshow_image_show_size = $gallerylink_slideshow['image_show_size']; ?>
-					<select id="gallerylink_slideshow_image_show_size" name="gallerylink_slideshow_image_show_size">
-						<option <?php if ('Full' == $target_slideshow_image_show_size)echo 'selected="selected"'; ?>>Full</option>
-						<option <?php if ('Medium' == $target_slideshow_image_show_size)echo 'selected="selected"'; ?>>Medium</option>
-						<option <?php if ('Large' == $target_slideshow_image_show_size)echo 'selected="selected"'; ?>>Large</option>
-					</select>
-					</td>
-					<td></td>
-					<td align="left" valign="middle">
-						<div><b><font color="red"><?php _e('Use only', 'gallerylink'); ?> type=&#39;media&#39;</font></b></div>
-						<?php _e('Size of the image display. (Media Settings > Image Size)', 'gallerylink'); ?>
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle"><b>thumbnail</b></td>
-					<td align="center" valign="middle">
-						<div>dir:<input type="text" id="gallerylink_all_thumbnail" name="gallerylink_all_thumbnail" value="<?php echo $gallerylink_all['thumbnail'] ?>" size="10" /></div>
-						<div>media:-<?php echo get_option('thumbnail_size_w') ?>x<?php echo get_option('thumbnail_size_h') ?></div>
-					</td>
-					<td align="center" valign="middle">
-						<div>dir:<input type="text" id="gallerylink_album_thumbnail" name="gallerylink_album_thumbnail" value="<?php echo $gallerylink_album['thumbnail'] ?>" size="10" /></div>
-						<div>media:-<?php echo get_option('thumbnail_size_w') ?>x<?php echo get_option('thumbnail_size_h') ?></div>
-					</td>
-					<td align="center" valign="middle">
-					<?php $target_movie_thumbnail = $gallerylink_movie['thumbnail']; ?>
-					<select id="gallerylink_movie_thumbnail" name="gallerylink_movie_thumbnail">
-						<option <?php if ('' == $target_movie_thumbnail)echo 'selected="selected"'; ?>></option>
-						<option <?php if ('icon' == $target_movie_thumbnail)echo 'selected="selected"'; ?>>icon</option>
-					</select>
-					</td>
-					<td align="center" valign="middle">
-					<?php $target_music_thumbnail = $gallerylink_music['thumbnail']; ?>
-					<select id="gallerylink_music_thumbnail" name="gallerylink_music_thumbnail">
-						<option <?php if ('' == $target_music_thumbnail)echo 'selected="selected"'; ?>></option>
-						<option <?php if ('icon' == $target_music_thumbnail)echo 'selected="selected"'; ?>>icon</option>
-					</select>
-					</td>
-					<td align="center" valign="middle">
-						<div>dir:<input type="text" id="gallerylink_slideshow_thumbnail" name="gallerylink_slideshow_thumbnail" value="<?php echo $gallerylink_slideshow['thumbnail'] ?>" size="10" /></div>
-						<div>media:-<?php echo get_option('thumbnail_size_w') ?>x<?php echo get_option('thumbnail_size_h') ?></div>
-					</td>
+					<td align="center" valign="middle">thumbnail</td>
 					<td align="center" valign="middle">
 					<?php $target_document_thumbnail = $gallerylink_document['thumbnail']; ?>
 					<select id="gallerylink_document_thumbnail" name="gallerylink_document_thumbnail">
@@ -1241,97 +1643,7 @@ class GalleryLinkAdmin {
 					</td>
 				</tr>
 				<tr>
-					<td align="center" valign="middle"><b>include_cat</b></td>
-					<td align="center" valign="middle">
-						<input type="text" id="gallerylink_all_include_cat" name="gallerylink_all_include_cat" value="<?php echo $gallerylink_all['include_cat'] ?>" size="15" />
-					</td>
-					<td align="center" valign="middle">
-						<input type="text" id="gallerylink_album_include_cat" name="gallerylink_album_include_cat" value="<?php echo $gallerylink_album['include_cat'] ?>" size="15" />
-					</td>
-					<td align="center" valign="middle">
-						<input type="text" id="gallerylink_movie_include_cat" name="gallerylink_movie_include_cat" value="<?php echo $gallerylink_movie['include_cat'] ?>" size="15" />
-					</td>
-					<td align="center" valign="middle">
-						<input type="text" id="gallerylink_music_include_cat" name="gallerylink_music_include_cat" value="<?php echo $gallerylink_music['include_cat'] ?>" size="15" />
-					</td>
-					<td align="center" valign="middle">
-						<input type="text" id="gallerylink_slideshow_include_cat" name="gallerylink_slideshow_include_cat" value="<?php echo $gallerylink_slideshow['include_cat'] ?>" size="15" />
-					</td>
-					<td align="center" valign="middle">
-						<input type="text" id="gallerylink_document_include_cat" name="gallerylink_document_include_cat" value="<?php echo $gallerylink_document['include_cat'] ?>" size="15" />
-					</td>
-					<td align="left" valign="middle">
-						<div><b><font color="red"><?php _e('Use only', 'gallerylink'); ?> type=&#39;media&#39;</font></b></div>
-						<?php _e('Category you want to include. Only one.', 'gallerylink'); ?>
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle"><b>exclude_cat</b></td>
-					<td align="center" valign="middle" colspan="6">
-						<input type="text" id="gallerylink_exclude_cat" name="gallerylink_exclude_cat" value="<?php echo $gallerylink_exclude['cat'] ?>" size="90" />
-					</td>
-					<td align="left" valign="middle">
-						<div><b><font color="red"><?php _e('Use only', 'gallerylink'); ?> type=&#39;media&#39;</font></b></div>
-						<?php _e('Category you want to exclude. More than one, specified separated by |.', 'gallerylink'); ?>
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle"><b>exclude_file</b></td>
-					<td align="center" valign="middle" colspan="6">
-						<input type="text" id="gallerylink_exclude_file" name="gallerylink_exclude_file" value="<?php echo $gallerylink_exclude['file'] ?>" size="90" />
-					</td>
-					<td align="left" valign="middle">
-						<div><b><font color="red"><?php _e('Use only', 'gallerylink'); ?> type=&#39;dir&#39;</font></b></div>
-						<?php _e('File you want to exclude. More than one, specified separated by |.', 'gallerylink'); ?>
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle"><b>exclude_dir</b></td>
-					<td align="center" valign="middle" colspan="6">
-						<input type="text" id="gallerylink_exclude_dir" name="gallerylink_exclude_dir" value="<?php echo $gallerylink_exclude['dir'] ?>" size="90" />
-					</td>
-					<td align="left" valign="middle">
-						<div><b><font color="red"><?php _e('Use only', 'gallerylink'); ?> type=&#39;dir&#39;</font></b></div>
-						<?php _e('Directory you want to exclude. More than one, specified separated by |.', 'gallerylink'); ?>
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle"><b>generate_rssfeed</b></td>
-					<td align="center" valign="middle">
-					<?php $target_all_generate_rssfeed = $gallerylink_all['generate_rssfeed']; ?>
-					<select id="gallerylink_all_generate_rssfeed" name="gallerylink_all_generate_rssfeed">
-						<option <?php if ('on' == $target_all_generate_rssfeed)echo 'selected="selected"'; ?>>on</option>
-						<option <?php if ('off' == $target_all_generate_rssfeed)echo 'selected="selected"'; ?>>off</option>
-					</select>
-					</td>
-					<td align="center" valign="middle">
-					<?php $target_album_generate_rssfeed = $gallerylink_album['generate_rssfeed']; ?>
-					<select id="gallerylink_album_generate_rssfeed" name="gallerylink_album_generate_rssfeed">
-						<option <?php if ('on' == $target_album_generate_rssfeed)echo 'selected="selected"'; ?>>on</option>
-						<option <?php if ('off' == $target_album_generate_rssfeed)echo 'selected="selected"'; ?>>off</option>
-					</select>
-					</td>
-					<td align="center" valign="middle">
-					<?php $target_movie_generate_rssfeed = $gallerylink_movie['generate_rssfeed']; ?>
-					<select id="gallerylink_movie_generate_rssfeed" name="gallerylink_movie_generate_rssfeed">
-						<option <?php if ('on' == $target_movie_generate_rssfeed)echo 'selected="selected"'; ?>>on</option>
-						<option <?php if ('off' == $target_movie_generate_rssfeed)echo 'selected="selected"'; ?>>off</option>
-					</select>
-					</td>
-					<td align="center" valign="middle">
-					<?php $target_music_generate_rssfeed = $gallerylink_music['generate_rssfeed']; ?>
-					<select id="gallerylink_music_generate_rssfeed" name="gallerylink_music_generate_rssfeed">
-						<option <?php if ('on' == $target_music_generate_rssfeed)echo 'selected="selected"'; ?>>on</option>
-						<option <?php if ('off' == $target_music_generate_rssfeed)echo 'selected="selected"'; ?>>off</option>
-					</select>
-					</td>
-					<td align="center" valign="middle">
-					<?php $target_slideshow_generate_rssfeed = $gallerylink_slideshow['generate_rssfeed']; ?>
-					<select id="gallerylink_slideshow_generate_rssfeed" name="gallerylink_slideshow_generate_rssfeed">
-						<option <?php if ('on' == $target_slideshow_generate_rssfeed)echo 'selected="selected"'; ?>>on</option>
-						<option <?php if ('off' == $target_slideshow_generate_rssfeed)echo 'selected="selected"'; ?>>off</option>
-					</select>
-					</td>
+					<td align="center" valign="middle">generate_rssfeed</td>
 					<td align="center" valign="middle">
 					<?php $target_document_generate_rssfeed = $gallerylink_document['generate_rssfeed']; ?>
 					<select id="gallerylink_document_generate_rssfeed" name="gallerylink_document_generate_rssfeed">
@@ -1344,90 +1656,25 @@ class GalleryLinkAdmin {
 					</td>
 				</tr>
 				<tr>
-					<td align="center" valign="middle"><b>rssname</b></td>
+					<td align="center" valign="middle">rssname</td>
 					<td align="center" valign="middle">
-						<input type="text" id="gallerylink_all_rssname" name="gallerylink_all_rssname" value="<?php echo $gallerylink_all['rssname'] ?>" size="15" />
-					</td>
-					<td align="center" valign="middle">
-						<input type="text" id="gallerylink_album_rssname" name="gallerylink_album_rssname" value="<?php echo $gallerylink_album['rssname'] ?>" size="15" />
-					</td>
-					<td align="center" valign="middle">
-						<input type="text" id="gallerylink_movie_rssname" name="gallerylink_movie_rssname" value="<?php echo $gallerylink_movie['rssname'] ?>" size="15" />
-					</td>
-					<td align="center" valign="middle">
-						<input type="text" id="gallerylink_music_rssname" name="gallerylink_music_rssname" value="<?php echo $gallerylink_music['rssname'] ?>" size="15" />
-					</td>
-					<td align="center" valign="middle">
-						<input type="text" id="gallerylink_slideshow_rssname" name="gallerylink_slideshow_rssname" value="<?php echo $gallerylink_slideshow['rssname'] ?>" size="15" />
-					</td>
-					<td align="center" valign="middle">
-						<input type="text" id="gallerylink_document_rssname" name="gallerylink_document_rssname" value="<?php echo $gallerylink_document['rssname'] ?>" size="15" />
+						<input type="text" style="width: 100%;" id="gallerylink_document_rssname" name="gallerylink_document_rssname" value="<?php echo $gallerylink_document['rssname'] ?>" />
 					</td>
 					<td align="left" valign="middle">
 						<?php _e('The name of the RSS feed file (Use to widget)', 'gallerylink'); ?>
 					</td>
 				</tr>
 				<tr>
-					<td align="center" valign="middle"><b>rssmax</b></td>
+					<td align="center" valign="middle">rssmax</td>
 					<td align="center" valign="middle">
-						<input type="text" id="gallerylink_all_rssmax" name="gallerylink_all_rssmax" value="<?php echo intval($gallerylink_all['rssmax']) ?>" size="3" />
-					</td>
-					<td align="center" valign="middle">
-						<input type="text" id="gallerylink_album_rssmax" name="gallerylink_album_rssmax" value="<?php echo intval($gallerylink_album['rssmax']) ?>" size="3" />
-					</td>
-					<td align="center" valign="middle">
-						<input type="text" id="gallerylink_movie_rssmax" name="gallerylink_movie_rssmax" value="<?php echo intval($gallerylink_movie['rssmax']) ?>" size="3" />
-					</td>
-					<td align="center" valign="middle">
-						<input type="text" id="gallerylink_music_rssmax" name="gallerylink_music_rssmax" value="<?php echo intval($gallerylink_music['rssmax']) ?>" size="3" />
-					</td>
-					<td align="center" valign="middle">
-						<input type="text" id="gallerylink_slideshow_rssmax" name="gallerylink_slideshow_rssmax" value="<?php echo intval($gallerylink_slideshow['rssmax']) ?>" size="3" />
-					</td>
-					<td align="center" valign="middle">
-						<input type="text" id="gallerylink_document_rssmax" name="gallerylink_document_rssmax" value="<?php echo intval($gallerylink_document['rssmax']) ?>" size="3" />
+						<input type="text" style="width: 100%;" id="gallerylink_document_rssmax" name="gallerylink_document_rssmax" value="<?php echo intval($gallerylink_document['rssmax']) ?>" />
 					</td>
 					<td align="left" valign="middle">
 						<?php _e('Syndication feeds show the most recent (Use to widget)', 'gallerylink') ?>
 					</td>
 				</tr>
 				<tr>
-					<td align="center" valign="middle"><b>filesize_show</b></td>
-					<td align="center" valign="middle">
-					<?php $target_all_filesize_show = $gallerylink_all['filesize_show']; ?>
-					<select id="gallerylink_all_filesize_show" name="gallerylink_all_filesize_show">
-						<option <?php if ('Show' == $target_all_filesize_show)echo 'selected="selected"'; ?>>Show</option>
-						<option <?php if ('Hide' == $target_all_filesize_show)echo 'selected="selected"'; ?>>Hide</option>
-					</select>
-					</td>
-					<td align="center" valign="middle">
-					<?php $target_album_filesize_show = $gallerylink_album['filesize_show']; ?>
-					<select id="gallerylink_album_filesize_show" name="gallerylink_album_filesize_show">
-						<option <?php if ('Show' == $target_album_filesize_show)echo 'selected="selected"'; ?>>Show</option>
-						<option <?php if ('Hide' == $target_album_filesize_show)echo 'selected="selected"'; ?>>Hide</option>
-					</select>
-					</td>
-					<td align="center" valign="middle">
-					<?php $target_movie_filesize_show = $gallerylink_movie['filesize_show']; ?>
-					<select id="gallerylink_movie_filesize_show" name="gallerylink_movie_filesize_show">
-						<option <?php if ('Show' == $target_movie_filesize_show)echo 'selected="selected"'; ?>>Show</option>
-						<option <?php if ('Hide' == $target_movie_filesize_show)echo 'selected="selected"'; ?>>Hide</option>
-					</select>
-					</td>
-					<td align="center" valign="middle">
-					<?php $target_music_filesize_show = $gallerylink_music['filesize_show']; ?>
-					<select id="gallerylink_music_filesize_show" name="gallerylink_music_filesize_show">
-						<option <?php if ('Show' == $target_music_filesize_show)echo 'selected="selected"'; ?>>Show</option>
-						<option <?php if ('Hide' == $target_music_filesize_show)echo 'selected="selected"'; ?>>Hide</option>
-					</select>
-					</td>
-					<td align="center" valign="middle">
-					<?php $target_slideshow_filesize_show = $gallerylink_slideshow['filesize_show']; ?>
-					<select id="gallerylink_slideshow_filesize_show" name="gallerylink_slideshow_filesize_show">
-						<option <?php if ('Show' == $target_slideshow_filesize_show)echo 'selected="selected"'; ?>>Show</option>
-						<option <?php if ('Hide' == $target_slideshow_filesize_show)echo 'selected="selected"'; ?>>Hide</option>
-					</select>
-					</td>
+					<td align="center" valign="middle">filesize_show</td>
 					<td align="center" valign="middle">
 					<?php $target_document_filesize_show = $gallerylink_document['filesize_show']; ?>
 					<select id="gallerylink_document_filesize_show" name="gallerylink_document_filesize_show">
@@ -1440,42 +1687,7 @@ class GalleryLinkAdmin {
 					</td>
 				</tr>
 				<tr>
-					<td align="center" valign="middle"><b>stamptime_show</b></td>
-					<td align="center" valign="middle">
-					<?php $target_all_stamptime_show = $gallerylink_all['stamptime_show']; ?>
-					<select id="gallerylink_all_stamptime_show" name="gallerylink_all_stamptime_show">
-						<option <?php if ('Show' == $target_all_stamptime_show)echo 'selected="selected"'; ?>>Show</option>
-						<option <?php if ('Hide' == $target_all_stamptime_show)echo 'selected="selected"'; ?>>Hide</option>
-					</select>
-					</td>
-					<td align="center" valign="middle">
-					<?php $target_album_stamptime_show = $gallerylink_album['stamptime_show']; ?>
-					<select id="gallerylink_album_stamptime_show" name="gallerylink_album_stamptime_show">
-						<option <?php if ('Show' == $target_album_stamptime_show)echo 'selected="selected"'; ?>>Show</option>
-						<option <?php if ('Hide' == $target_album_stamptime_show)echo 'selected="selected"'; ?>>Hide</option>
-					</select>
-					</td>
-					<td align="center" valign="middle">
-					<?php $target_movie_stamptime_show = $gallerylink_movie['stamptime_show']; ?>
-					<select id="gallerylink_movie_stamptime_show" name="gallerylink_movie_stamptime_show">
-						<option <?php if ('Show' == $target_movie_stamptime_show)echo 'selected="selected"'; ?>>Show</option>
-						<option <?php if ('Hide' == $target_movie_stamptime_show)echo 'selected="selected"'; ?>>Hide</option>
-					</select>
-					</td>
-					<td align="center" valign="middle">
-					<?php $target_music_stamptime_show = $gallerylink_music['stamptime_show']; ?>
-					<select id="gallerylink_music_stamptime_show" name="gallerylink_music_stamptime_show">
-						<option <?php if ('Show' == $target_music_stamptime_show)echo 'selected="selected"'; ?>>Show</option>
-						<option <?php if ('Hide' == $target_music_stamptime_show)echo 'selected="selected"'; ?>>Hide</option>
-					</select>
-					</td>
-					<td align="center" valign="middle">
-					<?php $target_slideshow_stamptime_show = $gallerylink_slideshow['stamptime_show']; ?>
-					<select id="gallerylink_slideshow_stamptime_show" name="gallerylink_slideshow_stamptime_show">
-						<option <?php if ('Show' == $target_slideshow_stamptime_show)echo 'selected="selected"'; ?>>Show</option>
-						<option <?php if ('Hide' == $target_slideshow_stamptime_show)echo 'selected="selected"'; ?>>Hide</option>
-					</select>
-					</td>
+					<td align="center" valign="middle">stamptime_show</td>
 					<td align="center" valign="middle">
 					<?php $target_document_stamptime_show = $gallerylink_document['stamptime_show']; ?>
 					<select id="gallerylink_document_stamptime_show" name="gallerylink_document_stamptime_show">
@@ -1488,42 +1700,7 @@ class GalleryLinkAdmin {
 					</td>
 				</tr>
 				<tr>
-					<td align="center" valign="middle"><b>selectbox_show</b></td>
-					<td align="center" valign="middle">
-					<?php $target_all_selectbox_show = $gallerylink_all['selectbox_show']; ?>
-					<select id="gallerylink_all_selectbox_show" name="gallerylink_all_selectbox_show">
-						<option <?php if ('Show' == $target_all_selectbox_show)echo 'selected="selected"'; ?>>Show</option>
-						<option <?php if ('Hide' == $target_all_selectbox_show)echo 'selected="selected"'; ?>>Hide</option>
-					</select>
-					</td>
-					<td align="center" valign="middle">
-					<?php $target_album_selectbox_show = $gallerylink_album['selectbox_show']; ?>
-					<select id="gallerylink_album_selectbox_show" name="gallerylink_album_selectbox_show">
-						<option <?php if ('Show' == $target_album_selectbox_show)echo 'selected="selected"'; ?>>Show</option>
-						<option <?php if ('Hide' == $target_album_selectbox_show)echo 'selected="selected"'; ?>>Hide</option>
-					</select>
-					</td>
-					<td align="center" valign="middle">
-					<?php $target_movie_selectbox_show = $gallerylink_movie['selectbox_show']; ?>
-					<select id="gallerylink_movie_selectbox_show" name="gallerylink_movie_selectbox_show">
-						<option <?php if ('Show' == $target_movie_selectbox_show)echo 'selected="selected"'; ?>>Show</option>
-						<option <?php if ('Hide' == $target_movie_selectbox_show)echo 'selected="selected"'; ?>>Hide</option>
-					</select>
-					</td>
-					<td align="center" valign="middle">
-					<?php $target_music_selectbox_show = $gallerylink_music['selectbox_show']; ?>
-					<select id="gallerylink_music_selectbox_show" name="gallerylink_music_selectbox_show">
-						<option <?php if ('Show' == $target_music_selectbox_show)echo 'selected="selected"'; ?>>Show</option>
-						<option <?php if ('Hide' == $target_music_selectbox_show)echo 'selected="selected"'; ?>>Hide</option>
-					</select>
-					</td>
-					<td align="center" valign="middle">
-					<?php $target_slideshow_selectbox_show = $gallerylink_slideshow['selectbox_show']; ?>
-					<select id="gallerylink_slideshow_selectbox_show" name="gallerylink_slideshow_selectbox_show">
-						<option <?php if ('Show' == $target_slideshow_selectbox_show)echo 'selected="selected"'; ?>>Show</option>
-						<option <?php if ('Hide' == $target_slideshow_selectbox_show)echo 'selected="selected"'; ?>>Hide</option>
-					</select>
-					</td>
+					<td align="center" valign="middle">selectbox_show</td>
 					<td align="center" valign="middle">
 					<?php $target_document_selectbox_show = $gallerylink_document['selectbox_show']; ?>
 					<select id="gallerylink_document_selectbox_show" name="gallerylink_document_selectbox_show">
@@ -1532,46 +1709,11 @@ class GalleryLinkAdmin {
 					</select>
 					</td>
 					<td align="left" valign="middle">
-					<?php _e('Selectbox of directories or categories.', 'gallerylink') ?>
+					<?php _e('Selectbox of directories.', 'gallerylink') ?>
 					</td>
 				</tr>
 				<tr>
-					<td align="center" valign="middle"><b>pagelinks_show</b></td>
-					<td align="center" valign="middle">
-					<?php $target_all_pagelinks_show = $gallerylink_all['pagelinks_show']; ?>
-					<select id="gallerylink_all_pagelinks_show" name="gallerylink_all_pagelinks_show">
-						<option <?php if ('Show' == $target_all_pagelinks_show)echo 'selected="selected"'; ?>>Show</option>
-						<option <?php if ('Hide' == $target_all_pagelinks_show)echo 'selected="selected"'; ?>>Hide</option>
-					</select>
-					</td>
-					<td align="center" valign="middle">
-					<?php $target_album_pagelinks_show = $gallerylink_album['pagelinks_show']; ?>
-					<select id="gallerylink_album_pagelinks_show" name="gallerylink_album_pagelinks_show">
-						<option <?php if ('Show' == $target_album_pagelinks_show)echo 'selected="selected"'; ?>>Show</option>
-						<option <?php if ('Hide' == $target_album_pagelinks_show)echo 'selected="selected"'; ?>>Hide</option>
-					</select>
-					</td>
-					<td align="center" valign="middle">
-					<?php $target_movie_pagelinks_show = $gallerylink_movie['pagelinks_show']; ?>
-					<select id="gallerylink_movie_pagelinks_show" name="gallerylink_movie_pagelinks_show">
-						<option <?php if ('Show' == $target_movie_pagelinks_show)echo 'selected="selected"'; ?>>Show</option>
-						<option <?php if ('Hide' == $target_movie_pagelinks_show)echo 'selected="selected"'; ?>>Hide</option>
-					</select>
-					</td>
-					<td align="center" valign="middle">
-					<?php $target_music_pagelinks_show = $gallerylink_music['pagelinks_show']; ?>
-					<select id="gallerylink_music_pagelinks_show" name="gallerylink_music_pagelinks_show">
-						<option <?php if ('Show' == $target_music_pagelinks_show)echo 'selected="selected"'; ?>>Show</option>
-						<option <?php if ('Hide' == $target_music_pagelinks_show)echo 'selected="selected"'; ?>>Hide</option>
-					</select>
-					</td>
-					<td align="center" valign="middle">
-					<?php $target_slideshow_pagelinks_show = $gallerylink_slideshow['pagelinks_show']; ?>
-					<select id="gallerylink_slideshow_pagelinks_show" name="gallerylink_slideshow_pagelinks_show">
-						<option <?php if ('Show' == $target_slideshow_pagelinks_show)echo 'selected="selected"'; ?>>Show</option>
-						<option <?php if ('Hide' == $target_slideshow_pagelinks_show)echo 'selected="selected"'; ?>>Hide</option>
-					</select>
-					</td>
+					<td align="center" valign="middle">pagelinks_show</td>
 					<td align="center" valign="middle">
 					<?php $target_document_pagelinks_show = $gallerylink_document['pagelinks_show']; ?>
 					<select id="gallerylink_document_pagelinks_show" name="gallerylink_document_pagelinks_show">
@@ -1584,42 +1726,7 @@ class GalleryLinkAdmin {
 					</td>
 				</tr>
 				<tr>
-					<td align="center" valign="middle"><b>sortlinks_show</b></td>
-					<td align="center" valign="middle">
-					<?php $target_all_sortlinks_show = $gallerylink_all['sortlinks_show']; ?>
-					<select id="gallerylink_all_sortlinks_show" name="gallerylink_all_sortlinks_show">
-						<option <?php if ('Show' == $target_all_sortlinks_show)echo 'selected="selected"'; ?>>Show</option>
-						<option <?php if ('Hide' == $target_all_sortlinks_show)echo 'selected="selected"'; ?>>Hide</option>
-					</select>
-					</td>
-					<td align="center" valign="middle">
-					<?php $target_album_sortlinks_show = $gallerylink_album['sortlinks_show']; ?>
-					<select id="gallerylink_album_sortlinks_show" name="gallerylink_album_sortlinks_show">
-						<option <?php if ('Show' == $target_album_sortlinks_show)echo 'selected="selected"'; ?>>Show</option>
-						<option <?php if ('Hide' == $target_album_sortlinks_show)echo 'selected="selected"'; ?>>Hide</option>
-					</select>
-					</td>
-					<td align="center" valign="middle">
-					<?php $target_movie_sortlinks_show = $gallerylink_movie['sortlinks_show']; ?>
-					<select id="gallerylink_movie_sortlinks_show" name="gallerylink_movie_sortlinks_show">
-						<option <?php if ('Show' == $target_movie_sortlinks_show)echo 'selected="selected"'; ?>>Show</option>
-						<option <?php if ('Hide' == $target_movie_sortlinks_show)echo 'selected="selected"'; ?>>Hide</option>
-					</select>
-					</td>
-					<td align="center" valign="middle">
-					<?php $target_music_sortlinks_show = $gallerylink_music['sortlinks_show']; ?>
-					<select id="gallerylink_music_sortlinks_show" name="gallerylink_music_sortlinks_show">
-						<option <?php if ('Show' == $target_music_sortlinks_show)echo 'selected="selected"'; ?>>Show</option>
-						<option <?php if ('Hide' == $target_music_sortlinks_show)echo 'selected="selected"'; ?>>Hide</option>
-					</select>
-					</td>
-					<td align="center" valign="middle">
-					<?php $target_slideshow_sortlinks_show = $gallerylink_slideshow['sortlinks_show']; ?>
-					<select id="gallerylink_slideshow_sortlinks_show" name="gallerylink_slideshow_sortlinks_show">
-						<option <?php if ('Show' == $target_slideshow_sortlinks_show)echo 'selected="selected"'; ?>>Show</option>
-						<option <?php if ('Hide' == $target_slideshow_sortlinks_show)echo 'selected="selected"'; ?>>Hide</option>
-					</select>
-					</td>
+					<td align="center" valign="middle">sortlinks_show</td>
 					<td align="center" valign="middle">
 					<?php $target_document_sortlinks_show = $gallerylink_document['sortlinks_show']; ?>
 					<select id="gallerylink_document_sortlinks_show" name="gallerylink_document_sortlinks_show">
@@ -1632,42 +1739,7 @@ class GalleryLinkAdmin {
 					</td>
 				</tr>
 				<tr>
-					<td align="center" valign="middle"><b>searchbox_show</b></td>
-					<td align="center" valign="middle">
-					<?php $target_all_searchbox_show = $gallerylink_all['searchbox_show']; ?>
-					<select id="gallerylink_all_searchbox_show" name="gallerylink_all_searchbox_show">
-						<option <?php if ('Show' == $target_all_searchbox_show)echo 'selected="selected"'; ?>>Show</option>
-						<option <?php if ('Hide' == $target_all_searchbox_show)echo 'selected="selected"'; ?>>Hide</option>
-					</select>
-					</td>
-					<td align="center" valign="middle">
-					<?php $target_album_searchbox_show = $gallerylink_album['searchbox_show']; ?>
-					<select id="gallerylink_album_searchbox_show" name="gallerylink_album_searchbox_show">
-						<option <?php if ('Show' == $target_album_searchbox_show)echo 'selected="selected"'; ?>>Show</option>
-						<option <?php if ('Hide' == $target_album_searchbox_show)echo 'selected="selected"'; ?>>Hide</option>
-					</select>
-					</td>
-					<td align="center" valign="middle">
-					<?php $target_movie_searchbox_show = $gallerylink_movie['searchbox_show']; ?>
-					<select id="gallerylink_movie_searchbox_show" name="gallerylink_movie_searchbox_show">
-						<option <?php if ('Show' == $target_movie_searchbox_show)echo 'selected="selected"'; ?>>Show</option>
-						<option <?php if ('Hide' == $target_movie_searchbox_show)echo 'selected="selected"'; ?>>Hide</option>
-					</select>
-					</td>
-					<td align="center" valign="middle">
-					<?php $target_music_searchbox_show = $gallerylink_music['searchbox_show']; ?>
-					<select id="gallerylink_music_searchbox_show" name="gallerylink_music_searchbox_show">
-						<option <?php if ('Show' == $target_music_searchbox_show)echo 'selected="selected"'; ?>>Show</option>
-						<option <?php if ('Hide' == $target_music_searchbox_show)echo 'selected="selected"'; ?>>Hide</option>
-					</select>
-					</td>
-					<td align="center" valign="middle">
-					<?php $target_slideshow_searchbox_show = $gallerylink_slideshow['searchbox_show']; ?>
-					<select id="gallerylink_slideshow_searchbox_show" name="gallerylink_slideshow_searchbox_show">
-						<option <?php if ('Show' == $target_slideshow_searchbox_show)echo 'selected="selected"'; ?>>Show</option>
-						<option <?php if ('Hide' == $target_slideshow_searchbox_show)echo 'selected="selected"'; ?>>Hide</option>
-					</select>
-					</td>
+					<td align="center" valign="middle">searchbox_show</td>
 					<td align="center" valign="middle">
 					<?php $target_document_searchbox_show = $gallerylink_document['searchbox_show']; ?>
 					<select id="gallerylink_document_searchbox_show" name="gallerylink_document_searchbox_show">
@@ -1680,42 +1752,7 @@ class GalleryLinkAdmin {
 					</td>
 				</tr>
 				<tr>
-					<td align="center" valign="middle"><b>rssicon_show</b></td>
-					<td align="center" valign="middle">
-					<?php $target_all_rssicon_show = $gallerylink_all['rssicon_show']; ?>
-					<select id="gallerylink_all_rssicon_show" name="gallerylink_all_rssicon_show">
-						<option <?php if ('Show' == $target_all_rssicon_show)echo 'selected="selected"'; ?>>Show</option>
-						<option <?php if ('Hide' == $target_all_rssicon_show)echo 'selected="selected"'; ?>>Hide</option>
-					</select>
-					</td>
-					<td align="center" valign="middle">
-					<?php $target_album_rssicon_show = $gallerylink_album['rssicon_show']; ?>
-					<select id="gallerylink_album_rssicon_show" name="gallerylink_album_rssicon_show">
-						<option <?php if ('Show' == $target_album_rssicon_show)echo 'selected="selected"'; ?>>Show</option>
-						<option <?php if ('Hide' == $target_album_rssicon_show)echo 'selected="selected"'; ?>>Hide</option>
-					</select>
-					</td>
-					<td align="center" valign="middle">
-					<?php $target_movie_rssicon_show = $gallerylink_movie['rssicon_show']; ?>
-					<select id="gallerylink_movie_rssicon_show" name="gallerylink_movie_rssicon_show">
-						<option <?php if ('Show' == $target_movie_rssicon_show)echo 'selected="selected"'; ?>>Show</option>
-						<option <?php if ('Hide' == $target_movie_rssicon_show)echo 'selected="selected"'; ?>>Hide</option>
-					</select>
-					</td>
-					<td align="center" valign="middle">
-					<?php $target_music_rssicon_show = $gallerylink_music['rssicon_show']; ?>
-					<select id="gallerylink_music_rssicon_show" name="gallerylink_music_rssicon_show">
-						<option <?php if ('Show' == $target_music_rssicon_show)echo 'selected="selected"'; ?>>Show</option>
-						<option <?php if ('Hide' == $target_music_rssicon_show)echo 'selected="selected"'; ?>>Hide</option>
-					</select>
-					</td>
-					<td align="center" valign="middle">
-					<?php $target_slideshow_rssicon_show = $gallerylink_slideshow['rssicon_show']; ?>
-					<select id="gallerylink_slideshow_rssicon_show" name="gallerylink_slideshow_rssicon_show">
-						<option <?php if ('Show' == $target_slideshow_rssicon_show)echo 'selected="selected"'; ?>>Show</option>
-						<option <?php if ('Hide' == $target_slideshow_rssicon_show)echo 'selected="selected"'; ?>>Hide</option>
-					</select>
-					</td>
+					<td align="center" valign="middle">rssicon_show</td>
 					<td align="center" valign="middle">
 					<?php $target_document_rssicon_show = $gallerylink_document['rssicon_show']; ?>
 					<select id="gallerylink_document_rssicon_show" name="gallerylink_document_rssicon_show">
@@ -1728,42 +1765,7 @@ class GalleryLinkAdmin {
 					</td>
 				</tr>
 				<tr>
-					<td align="center" valign="middle"><b>credit_show</b></td>
-					<td align="center" valign="middle">
-					<?php $target_all_credit_show = $gallerylink_all['credit_show']; ?>
-					<select id="gallerylink_all_credit_show" name="gallerylink_all_credit_show">
-						<option <?php if ('Show' == $target_all_credit_show)echo 'selected="selected"'; ?>>Show</option>
-						<option <?php if ('Hide' == $target_all_credit_show)echo 'selected="selected"'; ?>>Hide</option>
-					</select>
-					</td>
-					<td align="center" valign="middle">
-					<?php $target_album_credit_show = $gallerylink_album['credit_show']; ?>
-					<select id="gallerylink_album_credit_show" name="gallerylink_album_credit_show">
-						<option <?php if ('Show' == $target_album_credit_show)echo 'selected="selected"'; ?>>Show</option>
-						<option <?php if ('Hide' == $target_album_credit_show)echo 'selected="selected"'; ?>>Hide</option>
-					</select>
-					</td>
-					<td align="center" valign="middle">
-					<?php $target_movie_credit_show = $gallerylink_movie['credit_show']; ?>
-					<select id="gallerylink_movie_credit_show" name="gallerylink_movie_credit_show">
-						<option <?php if ('Show' == $target_movie_credit_show)echo 'selected="selected"'; ?>>Show</option>
-						<option <?php if ('Hide' == $target_movie_credit_show)echo 'selected="selected"'; ?>>Hide</option>
-					</select>
-					</td>
-					<td align="center" valign="middle">
-					<?php $target_music_credit_show = $gallerylink_music['credit_show']; ?>
-					<select id="gallerylink_music_credit_show" name="gallerylink_music_credit_show">
-						<option <?php if ('Show' == $target_music_credit_show)echo 'selected="selected"'; ?>>Show</option>
-						<option <?php if ('Hide' == $target_music_credit_show)echo 'selected="selected"'; ?>>Hide</option>
-					</select>
-					</td>
-					<td align="center" valign="middle">
-					<?php $target_slideshow_credit_show = $gallerylink_slideshow['credit_show']; ?>
-					<select id="gallerylink_slideshow_credit_show" name="gallerylink_slideshow_credit_show">
-						<option <?php if ('Show' == $target_slideshow_credit_show)echo 'selected="selected"'; ?>>Show</option>
-						<option <?php if ('Hide' == $target_slideshow_credit_show)echo 'selected="selected"'; ?>>Hide</option>
-					</select>
-					</td>
+					<td align="center" valign="middle">credit_show</td>
 					<td align="center" valign="middle">
 					<?php $target_document_credit_show = $gallerylink_document['credit_show']; ?>
 					<select id="gallerylink_document_credit_show" name="gallerylink_document_credit_show">
@@ -1775,199 +1777,135 @@ class GalleryLinkAdmin {
 					<?php _e('Credit', 'gallerylink') ?>
 					</td>
 				</tr>
-				<tr>
-				<td align="center" valign="middle" colspan="8">
-				<b><?php _e('Alias read extension : ', 'gallerylink'); ?></b>
-				jpg=(jpg|jpeg|jpe) mp4=(mp4|m4v) mp3=(mp3|m4a|m4b) ogg=(ogg|oga) xls=(xla|xlt|xlw) ppt=(pot|pps)
-				<div><b><font color="red"><?php _e('Use only', 'gallerylink'); ?> type=&#39;media&#39;</font></b></div>
-				</td>
-				</tr>
 			</tbody>
 			</table>
+
+			<input type="hidden" name="gallerylink_admin_tabs" value="7" />
 			<p class="submit">
 			  <input type="submit" name="Submit" value="<?php _e('Save Changes') ?>" />
 			</p>
+
+			</form>
+
 		</div>
 	  </div>
 
-	  <div id="tabs-3">
+	  <div id="gallerylink-admin-tabs-8">
 		<div class="wrap">
+
+			<h2><?php _e('Settings'); ?> <?php _e('Other', 'gallerylink'); ?></h2>	
+
+			<form method="post" action="<?php echo $scriptname.'#gallerylink-admin-tabs-8'; ?>">
 
 			<p class="submit">
 			  <input type="submit" name="Submit" value="<?php _e('Save Changes') ?>" />
+			  <input type="submit" name="Default" value="<?php _e('Default') ?>" />
 			</p>
 
-			<h2><?php _e('The default value for the display size and display color.', 'gallerylink') ?></h2>	
-			<table border="1" class="wp-list-table widefat fixed">
-			<tbody>
-				<tr>
-					<td align="center" valign="middle" colspan="4"><b>PC</b></td>
-					<td align="center" valign="middle" colspan="4"><b>Smartphone</b></td>
-					<td></td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle"><b>all</b></td>
-					<td align="center" valign="middle"><b>movie</b></td>
-					<td align="center" valign="middle"><b>music</b></td>
-					<td align="center" valign="middle"><b>document</b></td>
-					<td align="center" valign="middle"><b>all</b></td>
-					<td align="center" valign="middle"><b>movie</b></td>
-					<td align="center" valign="middle"><b>music</b></td>
-					<td align="center" valign="middle"><b>document</b></td>
-					<td align="center" valign="middle"><b><?php _e('Description'); ?></b></td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle" colspan="2">
-					<?php $target_movie_container = $gallerylink_movie['container']; ?>
-					<select id="gallerylink_movie_container" name="gallerylink_movie_container">
-						<option <?php if ('256x144' == $target_movie_container)echo 'selected="selected"'; ?>>256x144</option>
-						<option <?php if ('320x240' == $target_movie_container)echo 'selected="selected"'; ?>>320x240</option>
-						<option <?php if ('384x288' == $target_movie_container)echo 'selected="selected"'; ?>>384x288</option>
-						<option <?php if ('448x336' == $target_movie_container)echo 'selected="selected"'; ?>>448x336</option>
-						<option <?php if ('512x288' == $target_movie_container)echo 'selected="selected"'; ?>>512x288</option>
-						<option <?php if ('512x384' == $target_movie_container)echo 'selected="selected"'; ?>>512x384</option>
-						<option <?php if ('576x432' == $target_movie_container)echo 'selected="selected"'; ?>>576x432</option>
-						<option <?php if ('640x480' == $target_movie_container)echo 'selected="selected"'; ?>>640x480</option>
-						<option <?php if ('704x528' == $target_movie_container)echo 'selected="selected"'; ?>>704x528</option>
-						<option <?php if ('768x432' == $target_movie_container)echo 'selected="selected"'; ?>>768x432</option>
-						<option <?php if ('768x576' == $target_movie_container)echo 'selected="selected"'; ?>>768x576</option>
-						<option <?php if ('832x624' == $target_movie_container)echo 'selected="selected"'; ?>>832x624</option>
-						<option <?php if ('896x672' == $target_movie_container)echo 'selected="selected"'; ?>>896x672</option>
-						<option <?php if ('960x720' == $target_movie_container)echo 'selected="selected"'; ?>>960x720</option>
-						<option <?php if ('1024x576' == $target_movie_container)echo 'selected="selected"'; ?>>1024x576</option>
-						<option <?php if ('1280x720' == $target_movie_container)echo 'selected="selected"'; ?>>1280x720</option>
+			<h2><?php _e('Size and color', 'gallerylink') ?></h2>	
+			<div style="padding:10px;border:#CCC 2px solid; margin:0 0 20px 0">
+				<div style="display:block">
+					<?php _e('Size of the thumbnail size for Video and Music', 'gallerylink') ?>
+				</div>
+				<div style="display:block;padding:20px 0">
+					<?php $target_css_listthumbsize = $gallerylink_css['listthumbsize']; ?>
+					<select id="gallerylink_css_listthumbsize" name="gallerylink_css_listthumbsize">
+						<option <?php if ('40x40' == $target_css_listthumbsize)echo 'selected="selected"'; ?>>40x40</option>
+						<option <?php if ('60x60' == $target_css_listthumbsize)echo 'selected="selected"'; ?>>60x60</option>
+						<option <?php if ('80x80' == $target_css_listthumbsize)echo 'selected="selected"'; ?>>80x80</option>
 					</select>
-					</td>
-					<td colspan="6"></td>
-					<td align="left" valign="middle">
-					<?php _e('Size of the movie container.', 'gallerylink') ?>
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle" colspan="8">
-					<?php $target_css_pc_listthumbsize = $gallerylink_css['pc_listthumbsize']; ?>
-					<select id="gallerylink_css_pc_listthumbsize" name="gallerylink_css_pc_listthumbsize">
-						<option <?php if ('40x40' == $target_css_pc_listthumbsize)echo 'selected="selected"'; ?>>40x40</option>
-						<option <?php if ('60x60' == $target_css_pc_listthumbsize)echo 'selected="selected"'; ?>>60x60</option>
-						<option <?php if ('80x80' == $target_css_pc_listthumbsize)echo 'selected="selected"'; ?>>80x80</option>
-					</select>
-					</td>
-					<td align="left" valign="middle">
-					<?php _e('Size of the thumbnail and icon.', 'gallerylink') ?>
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle" colspan="4">
-						<input type="text" id="gallerylink_css_pc_linkbackcolor" name="gallerylink_css_pc_linkbackcolor" value="<?php echo $gallerylink_css['pc_linkbackcolor'] ?>" size="10" />
-					</td>
-					<td colspan="4"></td>
-					<td align="left" valign="middle">
-					<?php _e('Background color', 'gallerylink') ?>
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle" colspan="4">
-						<input type="text" id="gallerylink_css_pc_linkstrcolor" name="gallerylink_css_pc_linkstrcolor" value="<?php echo $gallerylink_css['pc_linkstrcolor'] ?>" size="10" />
-					</td>
-					<td colspan="4"></td>
-					<td align="left" valign="middle">
-					<?php _e('Text color', 'gallerylink') ?>
-					</td>
-				</tr>
-				<tr>
-					<td colspan="4"></td>
-					<td align="center" valign="middle" colspan="4">
-						<input type="text" id="gallerylink_css_sp_listarrowcolor" name="gallerylink_css_sp_listarrowcolor" value="<?php echo $gallerylink_css['sp_listarrowcolor'] ?>" size="10" />
-					</td>
-					<td align="left" valign="middle">
-					<?php _e('Color of the arrow', 'gallerylink') ?>
-					</td>
-				</tr>
-				<tr>
-					<td colspan="4"></td>
-					<td align="center" valign="middle" colspan="4">
-						<input type="text" id="gallerylink_css_sp_listbackcolor" name="gallerylink_css_sp_listbackcolor" value="<?php echo $gallerylink_css['sp_listbackcolor'] ?>" size="10" />
-					</td>
-					<td align="left" valign="middle">
-					<?php _e('Background color of the list', 'gallerylink') ?>
-					</td>
-				</tr>
-				<tr>
-					<td colspan="4"></td>
-					<td align="center" valign="middle" colspan="4">
-						<input type="text" id="gallerylink_css_sp_listpartitionlinecolor" name="gallerylink_css_sp_listpartitionlinecolor" value="<?php echo $gallerylink_css['sp_listpartitionlinecolor'] ?>" size="10" />
-					</td>
-					<td align="left" valign="middle">
-					<?php _e('Background color of the partition line in the list', 'gallerylink') ?>
-					</td>
-				</tr>
-				<tr>
-					<td colspan="4"></td>
-					<td align="center" valign="middle" colspan="4">
-						<input type="text" id="gallerylink_css_sp_navbackcolor" name="gallerylink_css_sp_navbackcolor" value="<?php echo $gallerylink_css['sp_navbackcolor'] ?>" size="10" />
-					</td>
-					<td align="left" valign="middle">
-					<?php _e('Background color of the navigation', 'gallerylink') ?>
-					</td>
-				</tr>
-				<tr>
-					<td colspan="4"></td>
-					<td align="center" valign="middle" colspan="4">
-						<input type="text" id="gallerylink_css_sp_navpartitionlinecolor" name="gallerylink_css_sp_navpartitionlinecolor" value="<?php echo $gallerylink_css['sp_navpartitionlinecolor'] ?>" size="10" />
-					</td>
-					<td align="left" valign="middle">
-					<?php _e('Background color of the partition line in the navigation', 'gallerylink') ?>
-					</td>
-				</tr>
-				<tr>
-					<td colspan="4"></td>
-					<td align="center" valign="middle" colspan="4">
-						<input type="text" id="gallerylink_css_sp_navstrcolor" name="gallerylink_css_sp_navstrcolor" value="<?php echo $gallerylink_css['sp_navstrcolor'] ?>" size="10" />
-					</td>
-					<td align="left" valign="middle">
-					<?php _e('Text color navigation', 'gallerylink') ?>
-					</td>
-				</tr>
-			</tbody>
-			</table>
+				</div>
+			</div>
 
-			<h2><?php _e('The default value for User Agent.', 'gallerylink') ?></h2>	
+			<div style="margin:20px 0; padding:10px; border:#CCC 2px solid">
+				<div style="display:block">
+					<?php _e('Background color', 'gallerylink') ?>
+				</div>
+				<div style="display:block;padding:20px 0">
+					<input type="text" style="width: 100%;" id="gallerylink_css_linkbackcolor" name="gallerylink_css_linkbackcolor" value="<?php echo $gallerylink_css['linkbackcolor'] ?>" />
+				</div>
+			</div>
+
+			<div style="margin:20px 0; padding:10px; border:#CCC 2px solid">
+				<div style="display:block">
+					<?php _e('Text color', 'gallerylink') ?>
+				</div>
+				<div style="display:block;padding:20px 0">
+					<input type="text" style="width: 100%;" id="gallerylink_css_linkstrcolor" name="gallerylink_css_linkstrcolor" value="<?php echo $gallerylink_css['linkstrcolor'] ?>" />
+				</div>
+			</div>
+
+			<div style="clear:both"></div>
+
+			<h2><?php _e('The default value for current language', 'gallerylink') ?></h2>	
+			<div style="padding:10px;border:#CCC 2px solid; margin:0 0 20px 0">
+				<div style="display:block">
+					<?php $target_mb_language = get_option('gallerylink_mb_language'); ?>
+					<select id="gallerylink_mb_language" name="gallerylink_mb_language">
+						<option <?php if ('Japanese' == $target_mb_language)echo 'selected="selected"'; ?>>Japanese</option>
+						<option <?php if ('English' == $target_mb_language)echo 'selected="selected"'; ?>>English</option>
+						<option <?php if ('uni' == $target_mb_language)echo 'selected="selected"'; ?>>uni</option>
+					</select>
+				</div>
+				<div style="display:block;padding:20px 0">
+					<?php _e('Configuration language of directory and file names.', 'gallerylink'); ?>
+				</div>
+			</div>
+
+			<div style="clear:both"></div>
+
+			<h2><?php _e('Exclude', 'gallerylink') ?></h2>	
 			<table border="1" class="wp-list-table widefat fixed">
-			<tbody>
+				<tbody>
 				<tr>
-					<td align="center" valign="middle"><?php _e('Generate html', 'gallerylink'); ?></td>
-					<td align="center" valign="middle"><?php _e('Default'); ?></td>
+					<td align="center" valign="middle"><?php _e('Attribute', 'gallerylink'); ?></td>
+					<td align="center" valign="middle"><?php _e('Value'); ?></td>
 					<td align="center" valign="middle"><?php _e('Description'); ?></td>
 				</tr>
 				<tr>
-					<td align="center" valign="middle"><?php _e('for Pc or Tablet', 'gallerylink'); ?></td>
+					<td align="center" valign="middle">exclude_file</td>
 					<td align="center" valign="middle">
-						<textarea id="gallerylink_useragent_tb" name="gallerylink_useragent_tb" rows="4" cols="120"><?php echo $gallerylink_useragent['tb'] ?></textarea>
+						<input type="text" id="gallerylink_exclude_file" name="gallerylink_exclude_file" value="<?php echo $gallerylink_exclude['file'] ?>" style="width: 100%;" />
 					</td>
-					<td align="left" valign="middle" rowspan="3"><?php _e('| Specify separated by. Regular expression is possible.', 'gallerylink'); ?></td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle"><?php _e('for Smartphone', 'gallerylink'); ?></td>
-					<td align="center" valign="middle">
-						<textarea id="gallerylink_useragent_sp" name="gallerylink_useragent_sp" rows="4" cols="120"><?php echo $gallerylink_useragent['sp'] ?></textarea>
+					<td align="left" valign="middle">
+						<?php _e('File you want to exclude.', 'gallerylink'); ?> <?php _e('Regular expression is possible.', 'gallerylink'); ?>
 					</td>
 				</tr>
 				<tr>
-					<td align="center" valign="middle"><?php _e('for Japanese mobile phone', 'gallerylink'); ?></td>
+					<td align="center" valign="middle">exclude_dir</td>
 					<td align="center" valign="middle">
-						<textarea id="gallerylink_useragent_mb" name="gallerylink_useragent_mb" rows="4" cols="120"><?php echo $gallerylink_useragent['mb'] ?></textarea>
+						<input type="text" id="gallerylink_exclude_dir" name="gallerylink_exclude_dir" value="<?php echo $gallerylink_exclude['dir'] ?>" style="width: 100%;" />
+					</td>
+					<td align="left" valign="middle">
+						<?php _e('Directory you want to exclude.', 'gallerylink'); ?> <?php _e('Regular expression is possible.', 'gallerylink'); ?>
 					</td>
 				</tr>
-			</tbody>
+				</tbody>
 			</table>
 
+			<div style="padding:10px"></div>
+			<h2><?php _e('User Agent', 'gallerylink') ?></h2>	
+			<div style="padding:10px;border:#CCC 2px solid; margin:0 0 20px 0">
+				<div style="display:block">
+					<textarea id="gallerylink_useragent_mb" name="gallerylink_useragent_mb" rows="4" style="width: 100%;"><?php echo $gallerylink_useragent['mb'] ?></textarea>
+				</div>
+				<div style="display:block;padding:20px 0">
+					 <?php _e('Regular expression is possible.', 'gallerylink'); ?>
+				</div>
+			</div>
+
+			<div style="clear:both"></div>
+
+			<input type="hidden" name="gallerylink_admin_tabs" value="8" />
 			<p class="submit">
 			  <input type="submit" name="Submit" value="<?php _e('Save Changes') ?>" />
 			</p>
+			</form>
+
 		</div>
 	  </div>
 
-	  <div id="tabs-4">
+	  <div id="gallerylink-admin-tabs-9">
 		<div class="wrap">
 		<h2><?php _e('Effect of Images', 'gallerylink'); ?></h2>
 			<h3><?php _e('It is possible to work with the following plugins. Please install.', 'gallerylink'); ?></h3>
@@ -1978,10 +1916,10 @@ class GalleryLinkAdmin {
 		</div>
 	  </div>
 
-	  <div id="tabs-5">
+	  <div id="gallerylink-admin-tabs-10">
 		<div class="wrap">
 	<h3><?php _e('The to playback of video and music, that such as the next, .htaccess may be required to the directory containing the data file by the environment.', 'gallerylink') ?></h3>
-	<textarea rows="25" cols="100">
+	<textarea rows="25" style="width: 100%;" readonly>
 AddType video/mp4 mp4 m4v
 AddType video/webm webm
 AddType video/ogg ogv
@@ -2012,7 +1950,7 @@ AddType application/vnd.ms-powerpoint.slide.macroEnabled.12 sldm
 	  </div>
 
 	<!--
-	  <div id="tabs-6">
+	  <div id="gallerylink-admin-tabs-10">
 		<div class="wrap">
 		<h2>FAQ</h2>
 
@@ -2020,7 +1958,6 @@ AddType application/vnd.ms-powerpoint.slide.macroEnabled.12 sldm
 	  </div>
 	-->
 
-	</form>
 	</div>
 
 		</div>
@@ -2060,195 +1997,379 @@ AddType application/vnd.ms-powerpoint.slide.macroEnabled.12 sldm
 	 * Update wp_options table.
 	 * @since	6.3
 	 */
-	function options_updated(){
+	function options_updated($tabs){
 
-		update_option( 'gallerylink_mb_language', $_POST['gallerylink_mb_language'] );
-
-		$all_tbl = array(
-						'type' => $_POST['gallerylink_all_type'],
-						'sort' => $_POST['gallerylink_all_sort'],
-						'topurl' => $_POST['gallerylink_all_topurl'],
-						'display_pc' => $_POST['gallerylink_all_display_pc'],
-						'display_sp' => $_POST['gallerylink_all_display_sp'],
-						'display_keitai' => $_POST['gallerylink_all_display_keitai'],
-						'image_show_size' => $_POST['gallerylink_all_image_show_size'],
-						'thumbnail' => $_POST['gallerylink_all_thumbnail'],
-						'include_cat' => $_POST['gallerylink_all_include_cat'],
-						'generate_rssfeed' => $_POST['gallerylink_all_generate_rssfeed'],
-						'rssname' => $_POST['gallerylink_all_rssname'],
-						'rssmax' => $_POST['gallerylink_all_rssmax'],
-						'filesize_show' => $_POST['gallerylink_all_filesize_show'],
-						'stamptime_show' => $_POST['gallerylink_all_stamptime_show'],
-						'selectbox_show' => $_POST['gallerylink_all_selectbox_show'],
-						'pagelinks_show' => $_POST['gallerylink_all_pagelinks_show'],
-						'sortlinks_show' => $_POST['gallerylink_all_sortlinks_show'],
-						'searchbox_show' => $_POST['gallerylink_all_searchbox_show'],
-						'rssicon_show' => $_POST['gallerylink_all_rssicon_show'],
-						'credit_show' => $_POST['gallerylink_all_credit_show']
+		$all_reset_tbl = array(
+							'sort' => 'new',
+							'topurl' => '',
+							'display' => 8, 	
+							'display_keitai' => 6,
+							'thumbnail' => '-'.get_option('thumbnail_size_w').'x'.get_option('thumbnail_size_h'),
+							'generate_rssfeed' => 'on',
+							'rssname' => 'gallerylink_all_feed',
+							'rssmax' => 10,
+							'filesize_show' => 'Show',
+							'stamptime_show' => 'Show',
+							'selectbox_show' => 'Show',
+							'pagelinks_show' => 'Show',
+							'sortlinks_show' => 'Show',
+							'searchbox_show' => 'Show',
+							'rssicon_show' => 'Show',
+							'credit_show' => 'Show'
 					);
-		update_option( 'gallerylink_all', $all_tbl );
-
-		$album_tbl = array(
-						'type' => $_POST['gallerylink_album_type'],
-						'sort' => $_POST['gallerylink_album_sort'],
-						'topurl' => $_POST['gallerylink_album_topurl'],
-						'suffix_pc' => $_POST['gallerylink_album_suffix_pc'],
-						'suffix_sp' => $_POST['gallerylink_album_suffix_sp'],
-						'suffix_keitai' => $_POST['gallerylink_album_suffix_keitai'],
-						'display_pc' => $_POST['gallerylink_album_display_pc'],
-						'display_sp' => $_POST['gallerylink_album_display_sp'],
-						'display_keitai' => $_POST['gallerylink_album_display_keitai'],
-						'image_show_size' => $_POST['gallerylink_album_image_show_size'],
-						'thumbnail' => $_POST['gallerylink_album_thumbnail'],
-						'include_cat' => $_POST['gallerylink_album_include_cat'],
-						'generate_rssfeed' => $_POST['gallerylink_album_generate_rssfeed'],
-						'rssname' => $_POST['gallerylink_album_rssname'],
-						'rssmax' => $_POST['gallerylink_album_rssmax'],
-						'filesize_show' => $_POST['gallerylink_album_filesize_show'],
-						'stamptime_show' => $_POST['gallerylink_album_stamptime_show'],
-						'selectbox_show' => $_POST['gallerylink_album_selectbox_show'],
-						'pagelinks_show' => $_POST['gallerylink_album_pagelinks_show'],
-						'sortlinks_show' => $_POST['gallerylink_album_sortlinks_show'],
-						'searchbox_show' => $_POST['gallerylink_album_searchbox_show'],
-						'rssicon_show' => $_POST['gallerylink_album_rssicon_show'],
-						'credit_show' => $_POST['gallerylink_album_credit_show']
+		$album_reset_tbl = array(
+							'sort' => 'new',
+							'topurl' => '',
+							'suffix' => 'jpg',
+							'suffix_keitai' => 'jpg',
+							'display' => 20, 	
+							'display_keitai' => 6,
+							'thumbnail' => '-'.get_option('thumbnail_size_w').'x'.get_option('thumbnail_size_h'),
+							'generate_rssfeed' => 'on',
+							'rssname' => 'gallerylink_album_feed',
+							'rssmax' => 10,
+							'filesize_show' => 'Show',
+							'stamptime_show' => 'Show',
+							'selectbox_show' => 'Show',
+							'pagelinks_show' => 'Show',
+							'sortlinks_show' => 'Show',
+							'searchbox_show' => 'Show',
+							'rssicon_show' => 'Show',
+							'credit_show' => 'Show'
 					);
-		update_option( 'gallerylink_album', $album_tbl );
-
-		$movie_tbl = array(
-						'type' => $_POST['gallerylink_movie_type'],
-						'sort' => $_POST['gallerylink_movie_sort'],
-						'topurl' => $_POST['gallerylink_movie_topurl'],
-						'suffix_pc' => $_POST['gallerylink_movie_suffix_pc'],
-						'suffix_pc2' => $_POST['gallerylink_movie_suffix_pc2'],
-						'suffix_flash' => $_POST['gallerylink_movie_suffix_flash'],
-						'suffix_sp' => $_POST['gallerylink_movie_suffix_sp'],
-						'suffix_keitai' => $_POST['gallerylink_movie_suffix_keitai'],
-						'display_pc' => $_POST['gallerylink_movie_display_pc'],
-						'display_sp' => $_POST['gallerylink_movie_display_sp'],
-						'display_keitai' => $_POST['gallerylink_movie_display_keitai'],
-						'thumbnail' => $_POST['gallerylink_movie_thumbnail'],
-						'include_cat' => $_POST['gallerylink_movie_include_cat'],
-						'generate_rssfeed' => $_POST['gallerylink_movie_generate_rssfeed'],
-						'rssname' => $_POST['gallerylink_movie_rssname'],
-						'rssmax' => $_POST['gallerylink_movie_rssmax'],
-						'container' => $_POST['gallerylink_movie_container'],
-						'filesize_show' => $_POST['gallerylink_movie_filesize_show'],
-						'stamptime_show' => $_POST['gallerylink_movie_stamptime_show'],
-						'selectbox_show' => $_POST['gallerylink_movie_selectbox_show'],
-						'pagelinks_show' => $_POST['gallerylink_movie_pagelinks_show'],
-						'sortlinks_show' => $_POST['gallerylink_movie_sortlinks_show'],
-						'searchbox_show' => $_POST['gallerylink_movie_searchbox_show'],
-						'rssicon_show' => $_POST['gallerylink_movie_rssicon_show'],
-						'credit_show' => $_POST['gallerylink_movie_credit_show']
+		$movie_reset_tbl = array(
+							'sort' => 'new',
+							'topurl' => '',
+							'suffix' => 'mp4',
+							'suffix_2' => 'ogv',
+							'suffix_keitai' => '3gp',
+							'display' => 8,
+							'display_keitai' => 6,
+							'thumbnail' => '',
+							'generate_rssfeed' => 'on',
+							'rssname' => 'gallerylink_movie_feed',
+							'rssmax' => 10,
+							'filesize_show' => 'Show',
+							'stamptime_show' => 'Show',
+							'selectbox_show' => 'Show',
+							'pagelinks_show' => 'Show',
+							'sortlinks_show' => 'Show',
+							'searchbox_show' => 'Show',
+							'rssicon_show' => 'Show',
+							'credit_show' => 'Show'
+					);
+		$music_reset_tbl = array(
+							'sort' => 'new',
+							'topurl' => '',
+							'suffix' => 'mp3',
+							'suffix_2' => 'ogg',
+							'suffix_keitai' => '3gp',
+							'display' => 8,
+							'display_keitai' => 6,
+							'thumbnail' => '',
+							'generate_rssfeed' => 'on',
+							'rssname' => 'gallerylink_music_feed',
+							'rssmax' => 10,
+							'filesize_show' => 'Show',
+							'stamptime_show' => 'Show',
+							'selectbox_show' => 'Show',
+							'pagelinks_show' => 'Show',
+							'sortlinks_show' => 'Show',
+							'searchbox_show' => 'Show',
+							'rssicon_show' => 'Show',
+							'credit_show' => 'Show'
+					);
+		$slideshow_reset_tbl = array(
+								'sort' => 'new',
+								'topurl' => '',
+								'suffix' => 'jpg',
+								'display' => 10,
+								'thumbnail' => '-'.get_option('thumbnail_size_w').'x'.get_option('thumbnail_size_h'),
+								'generate_rssfeed' => 'on',
+								'rssname' => 'gallerylink_slideshow_feed',
+								'rssmax' => 10,
+								'filesize_show' => 'Show',
+								'stamptime_show' => 'Show',
+								'selectbox_show' => 'Hide',
+								'pagelinks_show' => 'Hide',
+								'sortlinks_show' => 'Hide',
+								'searchbox_show' => 'Hide',
+								'rssicon_show' => 'Hide',
+								'credit_show' => 'Show'
+					);
+		$document_reset_tbl = array(
+								'sort' => 'new',
+								'topurl' => '',
+								'suffix' => 'all',
+								'suffix_keitai' => 'all',
+								'display' => 20,
+								'display_keitai' => 6,
+								'thumbnail' => 'icon',
+								'generate_rssfeed' => 'on',
+								'rssname' => 'gallerylink_document_feed',
+								'rssmax' => 10,
+								'filesize_show' => 'Show',
+								'stamptime_show' => 'Show',
+								'selectbox_show' => 'Show',
+								'pagelinks_show' => 'Show',
+								'sortlinks_show' => 'Show',
+								'searchbox_show' => 'Show',
+								'rssicon_show' => 'Show',
+								'credit_show' => 'Show'
+					);
+		$exclude_reset_tbl = array(
+							'file' => '',
+							'dir' => ''
 						);
-		update_option( 'gallerylink_movie', $movie_tbl );
+		$css_reset_tbl = array(
+						'listthumbsize' => '40x40',
+						'linkstrcolor' => '#000000',
+						'linkbackcolor' => '#f6efe2'
+					);
+		$useragent_reset_tbl = array(
+							'mb' => 'DoCoMo\/|KDDI-|UP\.Browser|SoftBank|Vodafone|J-PHONE|MOT-|WILLCOM|DDIPOCKET|PDXGW|emobile|ASTEL|L-mode'
+					);
 
-		$music_tbl = array(
-						'type' => $_POST['gallerylink_music_type'],
-						'sort' => $_POST['gallerylink_music_sort'],
-						'topurl' => $_POST['gallerylink_music_topurl'],
-						'suffix_pc' => $_POST['gallerylink_music_suffix_pc'],
-						'suffix_pc2' => $_POST['gallerylink_music_suffix_pc2'],
-						'suffix_flash' => $_POST['gallerylink_music_suffix_flash'],
-						'suffix_sp' => $_POST['gallerylink_music_suffix_sp'],
-						'suffix_keitai' => $_POST['gallerylink_music_suffix_keitai'],
-						'display_pc' => $_POST['gallerylink_music_display_pc'],
-						'display_sp' => $_POST['gallerylink_music_display_sp'],
-						'display_keitai' => $_POST['gallerylink_music_display_keitai'],
-						'thumbnail' => $_POST['gallerylink_music_thumbnail'],
-						'include_cat' => $_POST['gallerylink_music_include_cat'],
-						'generate_rssfeed' => $_POST['gallerylink_music_generate_rssfeed'],
-						'rssname' => $_POST['gallerylink_music_rssname'],
-						'rssmax' => $_POST['gallerylink_music_rssmax'],
-						'filesize_show' => $_POST['gallerylink_music_filesize_show'],
-						'stamptime_show' => $_POST['gallerylink_music_stamptime_show'],
-						'selectbox_show' => $_POST['gallerylink_music_selectbox_show'],
-						'pagelinks_show' => $_POST['gallerylink_music_pagelinks_show'],
-						'sortlinks_show' => $_POST['gallerylink_music_sortlinks_show'],
-						'searchbox_show' => $_POST['gallerylink_music_searchbox_show'],
-						'rssicon_show' => $_POST['gallerylink_music_rssicon_show'],
-						'credit_show' => $_POST['gallerylink_music_credit_show']
-						);
-		update_option( 'gallerylink_music', $music_tbl );
+		switch ($tabs) {
+			case 1:
+				if ( !empty($_POST['Default']) ) {
+					update_option( 'gallerylink_all', $all_reset_tbl );
+					update_option( 'gallerylink_album', $album_reset_tbl );
+					update_option( 'gallerylink_movie', $movie_reset_tbl );
+					update_option( 'gallerylink_music', $music_reset_tbl );
+					update_option( 'gallerylink_slideshow', $slideshow_reset_tbl );
+					update_option( 'gallerylink_document', $document_reset_tbl );
+					$languages = explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
+					if( substr($languages[0],0,2) === 'ja' ) {
+						update_option('gallerylink_mb_language', 'Japanese');
+					} else if( substr($languages[0],0,2) === 'en' ) {
+						update_option('gallerylink_mb_language', 'English');
+					} else {
+						update_option( 'gallerylink_mb_language', 'uni');
+					}
+					update_option( 'gallerylink_css', $css_reset_tbl );
+					update_option( 'gallerylink_useragent', $useragent_reset_tbl );
+					update_option( 'gallerylink_exclude', $exclude_reset_tbl );
+				}
+				break;
+			case 2:
+				if ( !empty($_POST['Default']) ) {
+					update_option( 'gallerylink_all', $all_reset_tbl );
+				} else {
+					$all_tbl = array(
+									'sort' => $_POST['gallerylink_all_sort'],
+									'topurl' => $_POST['gallerylink_all_topurl'],
+									'display' => $_POST['gallerylink_all_display'],
+									'display_keitai' => $_POST['gallerylink_all_display_keitai'],
+									'thumbnail' => $_POST['gallerylink_all_thumbnail'],
+									'generate_rssfeed' => $_POST['gallerylink_all_generate_rssfeed'],
+									'rssname' => $_POST['gallerylink_all_rssname'],
+									'rssmax' => $_POST['gallerylink_all_rssmax'],
+									'filesize_show' => $_POST['gallerylink_all_filesize_show'],
+									'stamptime_show' => $_POST['gallerylink_all_stamptime_show'],
+									'selectbox_show' => $_POST['gallerylink_all_selectbox_show'],
+									'pagelinks_show' => $_POST['gallerylink_all_pagelinks_show'],
+									'sortlinks_show' => $_POST['gallerylink_all_sortlinks_show'],
+									'searchbox_show' => $_POST['gallerylink_all_searchbox_show'],
+									'rssicon_show' => $_POST['gallerylink_all_rssicon_show'],
+									'credit_show' => $_POST['gallerylink_all_credit_show']
+								);
+					update_option( 'gallerylink_all', $all_tbl );
+				}
+				break;
+			case 3:
+				if ( !empty($_POST['Default']) ) {
+					update_option( 'gallerylink_album', $album_reset_tbl );
+				} else {
+					$album_tbl = array(
+									'sort' => $_POST['gallerylink_album_sort'],
+									'topurl' => $_POST['gallerylink_album_topurl'],
+									'suffix' => $_POST['gallerylink_album_suffix'],
+									'suffix_keitai' => $_POST['gallerylink_album_suffix_keitai'],
+									'display' => $_POST['gallerylink_album_display'],
+									'display_keitai' => $_POST['gallerylink_album_display_keitai'],
+									'thumbnail' => $_POST['gallerylink_album_thumbnail'],
+									'generate_rssfeed' => $_POST['gallerylink_album_generate_rssfeed'],
+									'rssname' => $_POST['gallerylink_album_rssname'],
+									'rssmax' => $_POST['gallerylink_album_rssmax'],
+									'filesize_show' => $_POST['gallerylink_album_filesize_show'],
+									'stamptime_show' => $_POST['gallerylink_album_stamptime_show'],
+									'selectbox_show' => $_POST['gallerylink_album_selectbox_show'],
+									'pagelinks_show' => $_POST['gallerylink_album_pagelinks_show'],
+									'sortlinks_show' => $_POST['gallerylink_album_sortlinks_show'],
+									'searchbox_show' => $_POST['gallerylink_album_searchbox_show'],
+									'rssicon_show' => $_POST['gallerylink_album_rssicon_show'],
+									'credit_show' => $_POST['gallerylink_album_credit_show']
+								);
+					update_option( 'gallerylink_album', $album_tbl );
+				}
+				break;
+			case 4:
+				if ( !empty($_POST['Default']) ) {
+					update_option( 'gallerylink_movie', $movie_reset_tbl );
+				} else {
+					$movie_tbl = array(
+									'sort' => $_POST['gallerylink_movie_sort'],
+									'topurl' => $_POST['gallerylink_movie_topurl'],
+									'suffix' => $_POST['gallerylink_movie_suffix'],
+									'suffix_2' => $_POST['gallerylink_movie_suffix_2'],
+									'suffix_keitai' => $_POST['gallerylink_movie_suffix_keitai'],
+									'display' => $_POST['gallerylink_movie_display'],
+									'display_keitai' => $_POST['gallerylink_movie_display_keitai'],
+									'thumbnail' => $_POST['gallerylink_movie_thumbnail'],
+									'generate_rssfeed' => $_POST['gallerylink_movie_generate_rssfeed'],
+									'rssname' => $_POST['gallerylink_movie_rssname'],
+									'rssmax' => $_POST['gallerylink_movie_rssmax'],
+									'filesize_show' => $_POST['gallerylink_movie_filesize_show'],
+									'stamptime_show' => $_POST['gallerylink_movie_stamptime_show'],
+									'selectbox_show' => $_POST['gallerylink_movie_selectbox_show'],
+									'pagelinks_show' => $_POST['gallerylink_movie_pagelinks_show'],
+									'sortlinks_show' => $_POST['gallerylink_movie_sortlinks_show'],
+									'searchbox_show' => $_POST['gallerylink_movie_searchbox_show'],
+									'rssicon_show' => $_POST['gallerylink_movie_rssicon_show'],
+									'credit_show' => $_POST['gallerylink_movie_credit_show']
+									);
+					update_option( 'gallerylink_movie', $movie_tbl );
+				}
+				break;
+			case 5:
+				if ( !empty($_POST['Default']) ) {
+					update_option( 'gallerylink_music', $music_reset_tbl );
+				} else {
+					$music_tbl = array(
+									'sort' => $_POST['gallerylink_music_sort'],
+									'topurl' => $_POST['gallerylink_music_topurl'],
+									'suffix' => $_POST['gallerylink_music_suffix'],
+									'suffix_2' => $_POST['gallerylink_music_suffix_2'],
+									'suffix_keitai' => $_POST['gallerylink_music_suffix_keitai'],
+									'display' => $_POST['gallerylink_music_display'],
+									'display_keitai' => $_POST['gallerylink_music_display_keitai'],
+									'thumbnail' => $_POST['gallerylink_music_thumbnail'],
+									'generate_rssfeed' => $_POST['gallerylink_music_generate_rssfeed'],
+									'rssname' => $_POST['gallerylink_music_rssname'],
+									'rssmax' => $_POST['gallerylink_music_rssmax'],
+									'filesize_show' => $_POST['gallerylink_music_filesize_show'],
+									'stamptime_show' => $_POST['gallerylink_music_stamptime_show'],
+									'selectbox_show' => $_POST['gallerylink_music_selectbox_show'],
+									'pagelinks_show' => $_POST['gallerylink_music_pagelinks_show'],
+									'sortlinks_show' => $_POST['gallerylink_music_sortlinks_show'],
+									'searchbox_show' => $_POST['gallerylink_music_searchbox_show'],
+									'rssicon_show' => $_POST['gallerylink_music_rssicon_show'],
+									'credit_show' => $_POST['gallerylink_music_credit_show']
+									);
+					update_option( 'gallerylink_music', $music_tbl );
+				}
+				break;
+			case 6:
+				if ( !empty($_POST['Default']) ) {
+					update_option( 'gallerylink_slideshow', $slideshow_reset_tbl );
+				} else {
+					$slideshow_tbl = array(
+									'sort' => $_POST['gallerylink_slideshow_sort'],
+									'topurl' => $_POST['gallerylink_slideshow_topurl'],
+									'suffix' => $_POST['gallerylink_slideshow_suffix'],
+									'display' => $_POST['gallerylink_slideshow_display'],
+									'thumbnail' => $_POST['gallerylink_slideshow_thumbnail'],
+									'generate_rssfeed' => $_POST['gallerylink_slideshow_generate_rssfeed'],
+									'rssname' => $_POST['gallerylink_slideshow_rssname'],
+									'rssmax' => $_POST['gallerylink_slideshow_rssmax'],
+									'filesize_show' => $_POST['gallerylink_slideshow_filesize_show'],
+									'stamptime_show' => $_POST['gallerylink_slideshow_stamptime_show'],
+									'selectbox_show' => $_POST['gallerylink_slideshow_selectbox_show'],
+									'pagelinks_show' => $_POST['gallerylink_slideshow_pagelinks_show'],
+									'sortlinks_show' => $_POST['gallerylink_slideshow_sortlinks_show'],
+									'searchbox_show' => $_POST['gallerylink_slideshow_searchbox_show'],
+									'rssicon_show' => $_POST['gallerylink_slideshow_rssicon_show'],
+									'credit_show' => $_POST['gallerylink_slideshow_credit_show']
+									);
+					update_option( 'gallerylink_slideshow', $slideshow_tbl );
+				}
+				break;
+			case 7:
+				if ( !empty($_POST['Default']) ) {
+					update_option( 'gallerylink_document', $document_reset_tbl );
+				} else {
+					$document_tbl = array(
+									'sort' => $_POST['gallerylink_document_sort'],
+									'topurl' => $_POST['gallerylink_document_topurl'],
+									'suffix' => $_POST['gallerylink_document_suffix'],
+									'suffix_keitai' => $_POST['gallerylink_document_suffix_keitai'],
+									'display' => $_POST['gallerylink_document_display'],
+									'display_keitai' => $_POST['gallerylink_document_display_keitai'],
+									'thumbnail' => $_POST['gallerylink_document_thumbnail'],
+									'generate_rssfeed' => $_POST['gallerylink_document_generate_rssfeed'],
+									'rssname' => $_POST['gallerylink_document_rssname'],
+									'rssmax' => $_POST['gallerylink_document_rssmax'],
+									'filesize_show' => $_POST['gallerylink_document_filesize_show'],
+									'stamptime_show' => $_POST['gallerylink_document_stamptime_show'],
+									'selectbox_show' => $_POST['gallerylink_document_selectbox_show'],
+									'pagelinks_show' => $_POST['gallerylink_document_pagelinks_show'],
+									'sortlinks_show' => $_POST['gallerylink_document_sortlinks_show'],
+									'searchbox_show' => $_POST['gallerylink_document_searchbox_show'],
+									'rssicon_show' => $_POST['gallerylink_document_rssicon_show'],
+									'credit_show' => $_POST['gallerylink_document_credit_show']
+									);
+					update_option( 'gallerylink_document', $document_tbl );
+				}
+				break;
+			case 8:
+				if ( !empty($_POST['Default']) ) {
+					$languages = explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
+					if( substr($languages[0],0,2) === 'ja' ) {
+						update_option('gallerylink_mb_language', 'Japanese');
+					} else if( substr($languages[0],0,2) === 'en' ) {
+						update_option('gallerylink_mb_language', 'English');
+					} else {
+						update_option( 'gallerylink_mb_language', 'uni');
+					}
+					update_option( 'gallerylink_css', $css_reset_tbl );
+					update_option( 'gallerylink_useragent', $useragent_reset_tbl );
+					update_option( 'gallerylink_exclude', $exclude_reset_tbl );
+				} else {
+					update_option( 'gallerylink_mb_language', $_POST['gallerylink_mb_language'] );
+					$css_tbl = array(
+									'listthumbsize' => $_POST['gallerylink_css_listthumbsize'],
+									'linkstrcolor' => $_POST['gallerylink_css_linkstrcolor'],
+									'linkbackcolor' => $_POST['gallerylink_css_linkbackcolor']
+									);
+					update_option( 'gallerylink_css', $css_tbl );
+					$useragent_tbl = array(
+									'mb' => stripslashes($_POST['gallerylink_useragent_mb'])
+									);
+					update_option( 'gallerylink_useragent', $useragent_tbl );
+					$exclude_tbl = array(
+									'file' => stripslashes($_POST['gallerylink_exclude_file']),
+									'dir' => stripslashes($_POST['gallerylink_exclude_dir'])
+									);
+					update_option( 'gallerylink_exclude', $exclude_tbl );
+				}
+				break;
+		}
 
-		$slideshow_tbl = array(
-						'type' => $_POST['gallerylink_slideshow_type'],
-						'sort' => $_POST['gallerylink_slideshow_sort'],
-						'topurl' => $_POST['gallerylink_slideshow_topurl'],
-						'suffix_pc' => $_POST['gallerylink_slideshow_suffix_pc'],
-						'suffix_sp' => $_POST['gallerylink_slideshow_suffix_sp'],
-						'display_pc' => $_POST['gallerylink_slideshow_display_pc'],
-						'display_sp' => $_POST['gallerylink_slideshow_display_sp'],
-						'image_show_size' => $_POST['gallerylink_slideshow_image_show_size'],
-						'thumbnail' => $_POST['gallerylink_slideshow_thumbnail'],
-						'include_cat' => $_POST['gallerylink_slideshow_include_cat'],
-						'generate_rssfeed' => $_POST['gallerylink_slideshow_generate_rssfeed'],
-						'rssname' => $_POST['gallerylink_slideshow_rssname'],
-						'rssmax' => $_POST['gallerylink_slideshow_rssmax'],
-						'filesize_show' => $_POST['gallerylink_slideshow_filesize_show'],
-						'stamptime_show' => $_POST['gallerylink_slideshow_stamptime_show'],
-						'selectbox_show' => $_POST['gallerylink_slideshow_selectbox_show'],
-						'pagelinks_show' => $_POST['gallerylink_slideshow_pagelinks_show'],
-						'sortlinks_show' => $_POST['gallerylink_slideshow_sortlinks_show'],
-						'searchbox_show' => $_POST['gallerylink_slideshow_searchbox_show'],
-						'rssicon_show' => $_POST['gallerylink_slideshow_rssicon_show'],
-						'credit_show' => $_POST['gallerylink_slideshow_credit_show']
-						);
-		update_option( 'gallerylink_slideshow', $slideshow_tbl );
+	}
 
-		$document_tbl = array(
-						'type' => $_POST['gallerylink_document_type'],
-						'sort' => $_POST['gallerylink_document_sort'],
-						'topurl' => $_POST['gallerylink_document_topurl'],
-						'suffix_pc' => $_POST['gallerylink_document_suffix_pc'],
-						'suffix_sp' => $_POST['gallerylink_document_suffix_sp'],
-						'suffix_keitai' => $_POST['gallerylink_document_suffix_keitai'],
-						'display_pc' => $_POST['gallerylink_document_display_pc'],
-						'display_sp' => $_POST['gallerylink_document_display_sp'],
-						'display_keitai' => $_POST['gallerylink_document_display_keitai'],
-						'thumbnail' => $_POST['gallerylink_document_thumbnail'],
-						'include_cat' => $_POST['gallerylink_document_include_cat'],
-						'generate_rssfeed' => $_POST['gallerylink_document_generate_rssfeed'],
-						'rssname' => $_POST['gallerylink_document_rssname'],
-						'rssmax' => $_POST['gallerylink_document_rssmax'],
-						'filesize_show' => $_POST['gallerylink_document_filesize_show'],
-						'stamptime_show' => $_POST['gallerylink_document_stamptime_show'],
-						'selectbox_show' => $_POST['gallerylink_document_selectbox_show'],
-						'pagelinks_show' => $_POST['gallerylink_document_pagelinks_show'],
-						'sortlinks_show' => $_POST['gallerylink_document_sortlinks_show'],
-						'searchbox_show' => $_POST['gallerylink_document_searchbox_show'],
-						'rssicon_show' => $_POST['gallerylink_document_rssicon_show'],
-						'credit_show' => $_POST['gallerylink_document_credit_show']
-						);
-		update_option( 'gallerylink_document', $document_tbl );
+	/* ==================================================
+	 * Add js css
+	 * @since	8.0
+	 */
+	function add_jscss(){
 
-		$exclude_tbl = array(
-						'file' => stripslashes($_POST['gallerylink_exclude_file']),
-						'dir' => stripslashes($_POST['gallerylink_exclude_dir']),
-						'cat' => stripslashes($_POST['gallerylink_exclude_cat'])
-						);
-		update_option( 'gallerylink_exclude', $exclude_tbl );
+// JS
+$gallerylink_add_jscss = <<<GALLERYLINK
 
-		$css_tbl = array(
-						'pc_listthumbsize' => $_POST['gallerylink_css_pc_listthumbsize'],
-						'pc_linkstrcolor' => $_POST['gallerylink_css_pc_linkstrcolor'],
-						'pc_linkbackcolor' => $_POST['gallerylink_css_pc_linkbackcolor'],
-						'sp_navstrcolor' => $_POST['gallerylink_css_sp_navstrcolor'],
-						'sp_navbackcolor' => $_POST['gallerylink_css_sp_navbackcolor'],
-						'sp_navpartitionlinecolor' => $_POST['gallerylink_css_sp_navpartitionlinecolor'],
-						'sp_listbackcolor' => $_POST['gallerylink_css_sp_listbackcolor'],
-						'sp_listarrowcolor' => $_POST['gallerylink_css_sp_listarrowcolor'],
-						'sp_listpartitionlinecolor' => $_POST['gallerylink_css_sp_listpartitionlinecolor']
-						);
-		update_option( 'gallerylink_css', $css_tbl );
+<!-- BEGIN: GalleryLink -->
+<script type="text/javascript">
+	jQuery(document).ready(function () {
+		jQuery('#gallerylink-admin-tabs').responsiveTabs({
+			startCollapsed: 'accordion'
+		});
+	});
+</script>
+<!-- END: GalleryLink -->
 
-		$useragent_tbl = array(
-						'tb' => stripslashes($_POST['gallerylink_useragent_tb']),
-						'sp' => stripslashes($_POST['gallerylink_useragent_sp']),
-						'mb' => stripslashes($_POST['gallerylink_useragent_mb'])
-						);
-		update_option( 'gallerylink_useragent', $useragent_tbl );
+GALLERYLINK;
+
+		return $gallerylink_add_jscss;
 
 	}
 

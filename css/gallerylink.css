@@ -1,48 +1,81 @@
-.gallerylink ul{
-	text-align: left;
-	margin-left: 1em;
-	padding-left: 0.5em;
-}
-
-.gallerylink p{
-	text-align: left;
-	margin: 10px;	
-}
-
 .gallerylink img{
 	float:left;
 	margin: 5px 5px 5px 5px;
 }
 
-#PlayerContainer-gallerylink{
-	float:left;
-}
-
-#playlists-gallerylink {
+.gallerylink-pages {
 	width: 100%;
-	float:left;
-	overflow: hidden;
+	text-align: center;
+	margin: 0 0 25px;
 }
 
-#playlists-gallerylink li {
-	float: left;
-	display: block;
-	width: 100%;
-	border-width: 1px 0;
-	margin: 5px 5px 5px 5px;
+.gallerylink.bottom .gallerylink-pages {
+	margin-top: 25px;
 }
 
-#playlists-gallerylink li a {
-	display: block;
-	font: bold 120% Arial, Helvetica, sans-serif;
-	padding: 5px;
+.gallerylink.top .gallerylink-pages.one-page {
+	display: none;
+}
+
+.gallerylink.bottom .gallerylink-pages.one-page {
+	margin: 15px 0 0 0;
+	height: 0;
+}
+
+.gallerylink-pages .gallerylink-links .paging-input {
+	font-size: 18px;
+}
+
+.gallerylink-pages .gallerylink-links a {
+	padding: 8px 20px 11px;
+	font-size: 18px;
 	text-decoration: none;
 }
 
-* html #playlists-gallerylink li a { width: 100%; }
+.gallerylink-pages .gallerylink-links .current-page {
+	padding: 10px;
+	font-size: 14px;
+}
 
-#playlists-gallerylink img{
+.gallerylink-list{
+	font-size: 1.3em;
+	margin:20px 0;
+	border-radius: 10px;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	-o-border-radius: 10px;
+	-ms-border-radius: 10px;
+}
+
+.gallerylink-list ul li{
+	display:table;
+	width:100%;
+}
+.gallerylink-list ul li a{
+	display:block;
+	padding:7px 25px 7px 7px;
+	position:relative;
+	text-decoration:none;
+	font-weight: bolder;
+}
+
+.gallerylink-list ul li a:after{
+	content: "";
+    display: block;
+	height: 0px;
+	width: 0px;
+	position:absolute;
+	top:50%;
+	right:10px;
+}
+
+.gallerylink-list ul li img{
 	float:left;
-	margin: 5px 5px 5px 5px;
 	overflow: hidden;
 }
+
+.gallerylink-list ul li div{
+	display:table-cell;
+	vertical-align:middle;
+}
+

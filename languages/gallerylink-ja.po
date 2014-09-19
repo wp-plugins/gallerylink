@@ -2,16 +2,22 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Gallerylink\n"
 "POT-Creation-Date: 2013-05-27 21:10+0900\n"
-"PO-Revision-Date: 2014-06-03 00:03+0900\n"
+"PO-Revision-Date: 2014-09-20 00:49+0900\n"
 "Last-Translator: Katsushi Kawamori <dodesyoswift312@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.6.4\n"
+"X-Generator: Poedit 1.6.7\n"
 "X-Poedit-KeywordsList: __;_e;gettext;gettext_noop\n"
 "X-Poedit-Basepath: .\n"
 "Language: ja\n"
+
+msgid "first page"
+msgstr "最初のページ"
+
+msgid "previous page"
+msgstr "前のページ"
 
 msgid "prev"
 msgstr "前のページ"
@@ -26,10 +32,10 @@ msgid "Old"
 msgstr "古い順"
 
 msgid "Des"
-msgstr "文字降順"
+msgstr "降順"
 
 msgid "Asc"
-msgstr "文字昇順"
+msgstr "昇順"
 
 msgid "Search"
 msgstr "検索"
@@ -43,14 +49,8 @@ msgstr "選択"
 msgid "How to use"
 msgstr "使い方"
 
-msgid "Default settings"
-msgstr "デフォルト設定"
-
-msgid "The default value for the short code attribute"
-msgstr "ショートコード属性のデフォルト値"
-
-msgid "Please set the default value in the setting page."
-msgstr "設定ページでデフォルト値を設定してください。"
+msgid "Default all settings"
+msgstr "すべての設定をデフォルト"
 
 msgid ""
 "Please add new Page. Please write a short code in the text field of the "
@@ -88,12 +88,12 @@ msgid "Customization"
 msgstr "カスタマイズ"
 
 msgid ""
-"If you want to use MULTI-BYTE CHARACTER SETS to the display of the directory "
-"name and the file name. In this case, please upload the file after UTF-8 "
-"character code setting of the FTP software."
+"* If you want to use MULTI-BYTE CHARACTER SETS to the display of the "
+"directory name and the file name. In this case, please upload the file after "
+"UTF-8 character code setting of the FTP software."
 msgstr ""
-"ファイル名やディレクトリ名の表示を日本語のまま使いたい場合は、FTPソフトの文字"
-"コードの設定をUTF8でアップロードしてください。"
+"※ファイル名やディレクトリ名の表示を日本語のまま使いたい場合は、FTPソフトの文"
+"字コードの設定をUTF8でアップロードしてください。"
 
 msgid ""
 "GalleryLink can be used to specify the attributes of the table below to "
@@ -149,23 +149,17 @@ msgstr ""
 "データのあるトップディレクトリのフルパス。　例：http://www.mysite.xxx/"
 "wordpress/wp-content/uploads の場合は、 /wordpress/wp-content/uploads です。"
 
-msgid "extension of PC"
-msgstr "PCの拡張子"
+msgid "extension"
+msgstr "拡張子"
 
-msgid "second extension on the PC. Second candidate when working with html5"
+msgid "second extension. Second candidate when working with html5"
 msgstr "PCの第２拡張子。動画や音楽をhtml5で扱う場合の第２候補。"
-
-msgid "extension of Smartphone"
-msgstr "スマートフォンの拡張子"
 
 msgid "extension of Japanese mobile phone"
 msgstr "携帯の拡張子"
 
-msgid "File Display per page(PC)"
-msgstr "１ページの表示数PC"
-
-msgid "File Display per page(Smartphone)"
-msgstr "１ページの表示数スマートフォン"
+msgid "File Display per page"
+msgstr "１ページの表示数"
 
 msgid "File Display per page(Japanese mobile phone)"
 msgstr "１ページの表示数携帯"
@@ -178,11 +172,14 @@ msgstr ""
 "album,slideshowはサムネイル接尾名。movie,music,documentは、iconと指定した場合"
 "にアイコンを表示し、何も指定しなければサムネイル表示をしません。"
 
-msgid "File you want to exclude. More than one, specified separated by |."
-msgstr "除外するファイル。複数の場合は、|で区切って指定します。"
+msgid "File you want to exclude."
+msgstr "除外するファイル。正規表現が可能です。"
 
-msgid "Directory you want to exclude. More than one, specified separated by |."
-msgstr "除外するディレクトリ。複数の場合は、|で区切って指定します。"
+msgid "Directory you want to exclude."
+msgstr "除外するディレクトリ。正規表現が可能です。"
+
+msgid "Regular expression is possible."
+msgstr "正規表現が可能です。"
 
 msgid "The name of the RSS feed file (Use to widget)"
 msgstr "RSSフィードファイルの名前(ウィジェットに使用します)"
@@ -190,41 +187,17 @@ msgstr "RSSフィードファイルの名前(ウィジェットに使用しま�
 msgid "Syndication feeds show the most recent (Use to widget)"
 msgstr "RSSフィードの表示数(ウィジェットに使用します)"
 
-msgid "The default value for the display size and display color."
-msgstr "表示色や表示サイズのデフォルト値"
+msgid "Size and color"
+msgstr "サイズや色"
 
-msgid "Size of the movie container."
-msgstr "動画コンテナサイズ"
-
-msgid "Size of the thumbnail and icon."
-msgstr "サムネイルとアイコンのサイズ"
+msgid "Size of the thumbnail size for Video and Music"
+msgstr "動画と音楽のサムネイルサイズ"
 
 msgid "Background color"
 msgstr "背景色"
 
 msgid "Text color"
 msgstr "文字色"
-
-msgid "Width of the list"
-msgstr "リストの幅"
-
-msgid "Color of the arrow"
-msgstr "矢印色"
-
-msgid "Background color of the list"
-msgstr "リストの背景色"
-
-msgid "Background color of the partition line in the list"
-msgstr "リストの仕切線の背景色"
-
-msgid "Background color of the navigation"
-msgstr "ナビゲーションの背景色"
-
-msgid "Background color of the partition line in the navigation"
-msgstr "ナビゲーションの仕切線の背景色"
-
-msgid "Text color navigation"
-msgstr "ナビゲーションの文字色"
 
 msgid ""
 "The to playback of video and music, that such as the next, .htaccess may be "
@@ -260,14 +233,8 @@ msgstr ""
 "GalleryLinkRssFeedがあります。これを設定して配置すると、RSSフィードのリンクを"
 "サイドバーに表示します。"
 
-msgid ""
-"Flash extension on the PC. Flash Player to be used when a HTML5 player does "
-"not work."
-msgstr ""
-"PCのFlashの拡張子。HTML5プレーヤーが動作しない場合Flash Playerが使用される。"
-
-msgid "Selectbox of directories or categories."
-msgstr "ディレクトリーあるいはカテゴリーのセレクトボックス"
+msgid "Selectbox of directories."
+msgstr "ディレクトリーのセレクトボックス"
 
 msgid "Navigation of page."
 msgstr "ページネーション"
@@ -294,70 +261,29 @@ msgstr ""
 msgid "Generation of RSS feed."
 msgstr "RSSフィードの生成"
 
-msgid "Read from the directory data.(dir)"
-msgstr "ディレクトリからデータを読みます。(dir)"
-
-msgid "Read from the media library data.(media)"
-msgstr "メディアライブラリからデータを読みます。(media)"
-
-msgid "Size of the image display. (Media Settings > Image Size)"
-msgstr "画像表示のサイズ。（メディア設定 > 画像サイズ）"
-
-msgid "Category you want to include. Only one."
-msgstr "指定カテゴリ。１つだけ指定します。"
-
-msgid "Category you want to exclude. More than one, specified separated by |."
-msgstr "除外するカテゴリ。複数の場合は、|で区切って指定します。"
-
-msgid "Use only"
-msgstr "専用"
-
-msgid "In the case of read data from the directory."
-msgstr "ディレクトリからデータを読み出す場合"
-
-msgid "In the case of read data from the Media Library."
-msgstr "メディアライブラリからデータを読み出す場合"
-
-msgid ""
-"Please upload the data to the Media Library. Support the classification of "
-"the category. Use the caption of the media library, and are classified."
-msgstr ""
-"メディアライブラリにデータをアップロードしてください。カテゴリの分類をサポー"
-"トしています。メディアライブラリのキャプションを使用して分類します。"
-
-msgid "Alias read extension : "
-msgstr "読み込み拡張子のエイリアス : "
-
 msgid "Type of Sort"
 msgstr "ソートの種類"
 
-msgid "The default value for current language."
-msgstr "言語のデフォルト値。"
+msgid "The default value for current language"
+msgstr "言語のデフォルト値"
 
-msgid ""
-"Configuration language of directory and file names, case of reading data "
-"from the directory."
-msgstr ""
-"ディレクトリからデータを読み出す場合の、ディレクトリ名とファイル名の設定言"
-"語。"
+msgid "Configuration language of directory and file names."
+msgstr "ディレクトリ名とファイル名の設定言語。"
 
-msgid "The default value for User Agent."
-msgstr "ユーザーエージェントのデフォルト値"
+msgid "User Agent"
+msgstr "ユーザーエージェント"
+
+msgid "Exclude"
+msgstr "除外"
+
+msgid "Other"
+msgstr "その他"
 
 msgid "Generate html"
 msgstr "htmlの生成"
 
-msgid "for Pc or Tablet"
-msgstr "Pcあるいはタブレット用"
-
-msgid "for Smartphone"
-msgstr "スマートフォン用"
-
 msgid "for Japanese mobile phone"
 msgstr "携帯電話用"
-
-msgid "| Specify separated by. Regular expression is possible."
-msgstr "| で区切って指定します。正規表現が可能です。"
 
 msgid "File size"
 msgstr "ファイルサイズ"

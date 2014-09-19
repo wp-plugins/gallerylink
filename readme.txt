@@ -1,10 +1,10 @@
 === GalleryLink ===
 Contributors: Katsushi Kawamori
 Donate link: http://gallerylink.nyanko.org/
-Tags: audio,feed,feeds,flash,gallery,html5,image,images,list,music,photo,photos,picture,pictures,rss,shortcode,video,xml
+Tags: audio,feed,feeds,gallery,html5,image,images,list,music,photo,photos,picture,pictures,rss,shortcode,video,xml
 Requires at least: 3.0.1
 Tested up to: 3.4
-Stable tag: 7.4
+Stable tag: 8.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -16,10 +16,6 @@ GalleryLink outputs as a gallery from the directory.
 
 * Directory name and file name support for multi-byte character.
 
-GalleryLink outputs as a gallery from the media library.
-
-* Support the classification of the category. Use the caption of the media library, and are classified.
-
 (Photos, music, videos, documents) data that is supported.
 
 If you want to use only the data of the media library, please use the [MediaLink](http://wordpress.org/plugins/medialink/).
@@ -29,11 +25,9 @@ You write and use short codes to page.
 Bundled software and function
 
 *   HTML5 player (video, music)
-*   FlashPlugin: jQuery SWFObject
-*   Flash player (video, music): Flowplayer Flash, MP3Player (for previous versions of IE8)
 *   Create RSS feeds of data (XML). It support to the podcast.
-*   Can be cooperation with [Boxers and Swipers](http://wordpress.org/plugins/boxers-and-swipers/).
-*   Can be cooperation with [Simple NivoSlider](http://wordpress.org/plugins/simple-nivoslider/).
+*   Work with [Boxers and Swipers](http://wordpress.org/plugins/boxers-and-swipers/).
+*   Work with [Simple NivoSlider](http://wordpress.org/plugins/simple-nivoslider/).
 
     It support to the japanese mobile phone. Plug-in Ktai Style is required.
 
@@ -66,6 +60,13 @@ none
 2. Settings 2
 
 == Changelog ==
+
+= 8.0 =
+Adopt Responsive design. 
+Stopped using media library.
+Stopped using category.
+Stopped the support of Flash.
+Change /languages.
 
 = 7.4 =
 Fixed of problem of file search and directory search.
@@ -418,6 +419,7 @@ Delete screenshot
 
 == Upgrade Notice ==
 
+= 8.0 =
 = 7.4 =
 = 7.3 =
 = 7.2 =
@@ -521,13 +523,7 @@ Delete screenshot
 How to use
 Please set the default value in the setting page.
 
-In the case of read data from the directory.
-
 * Please upload the data to the data directory (topurl) by the FTP software. At the same time upload thumbnail.
-
-In the case of read data from the Media Library.
-
-* Please upload the data to the Media Library. Support the classification of the category. Use the caption of the media library, and are classified.
 
 Please add new Page. Please write a short code in the text field of the Page. Please go in Text mode this task.
 
@@ -555,10 +551,6 @@ In the case of document
 
 * [gallerylink set='document']
 
-In the case of read data from the directory.
-
-* If you want to use MULTI-BYTE CHARACTER SETS to the display of the directory name and the file name. In this case, please upload the file after UTF-8 character code setting of the FTP software.
-
 Customization
 
 GalleryLink can be used to specify various attributes to the short code. It will override the default settings.
@@ -569,172 +561,26 @@ All data Example
 
 Image Example
 
-* [gallerylink set='album' type='dir' topurl='/wordpress/wp-content/uploads' thumbnail='-80x80' exclude_file='(.ktai.)|(-[0-9]*x[0-9]*.)' exclude_dir='ps_auto_sitemap|backwpup.*|wpcf7_captcha' rssname='album']
-* [gallerylink set='album' type='media' image_show_size='Medium' exclude_cat='test|test2' rssname='album2']
+* [gallerylink set='album' topurl='/wordpress/wp-content/uploads' thumbnail='-80x80' exclude_file='(.ktai.)|(-[0-9]*x[0-9]*.)' exclude_dir='ps_auto_sitemap|backwpup.*|wpcf7_captcha' rssname='album']
 
 Video Example
 
-* [gallerylink set='movie' type='dir' topurl='/gallery/video' rssmax=5]
-* [gallerylink set='movie' type='media' include_cat='test3']
+* [gallerylink set='movie' topurl='/gallery/video' rssmax=5]
 
 Music Example
 
-* [gallerylink set='music' type='dir' topurl='/gallery/music' thumbnail='gif']
-* [gallerylink set='music' type='media' credit_show='Hide']
+* [gallerylink set='music' topurl='/gallery/music' thumbnail='gif']
 
 Document Example
 
-* [gallerylink set='document' type='dir' topurl='/gallery/document' suffix_pc='doc']
-* [gallerylink set='document' type='media' suffix_pc='pdf']
+* [gallerylink set='document' topurl='/gallery/document' suffix='doc']
 
 Caution
+
+* If you want to use MULTI-BYTE CHARACTER SETS to the display of the directory name and the file name. In this case, please upload the file after UTF-8 character code setting of the FTP software.
 
 * Please set to 777 or 757 the attributes of topurl directory. Because GalleryLink create an RSS feed in the directory.*In the case of read data from the directory.
 
 * (WordPress > Settings > General Timezone) Please specify your area other than UTC. For accurate time display of RSS feed.
 
 * When you move to (WordPress > Appearance > Widgets), there is a widget GalleryLinkRssFeed. If you place you can set this to display the sidebar link the RSS feed.
-
-The default value for the short code attribute
-
-set
-
-* Value -> album	movie music slideshow document
-
-* Description -> Next only six. all(all data), album(image), movie(video), music(music), slideshow(image), document(document)
-
-type
-
-* Value -> dir media
-
-* Description -> Read from the directory data.(dir) Read from the media library data.(media)
-
-sort
-
-* Value -> new old des asc
-
-* Description -> Type of Sort.
-
-topurl
-
-* Description -> Use only type='dir'. Full path to the top directory containing the data.
-
-suffix_pc
-
-* Value -> jpg png gif mp4 m4v ogv webm mp3 m4a m4b ogg oga jpg png gif pdf doc docx xls xlsx xlsa xlst xlsw pot pps ppt pptx pptm ppsx ppsm potx potm ppam sldx sldm
-
-* Description -> extension of PC
-
-suffix_pc2
-
-* Value -> mp4 m4v ogv webm mp3 m4a m4b ogg oga
-
-* Description -> second extension on the PC. Second candidate when working with html5
-
-suffix_flash
-
-* Value -> mp4 flv mp3
-
-* Description -> Flash extension on the PC. Flash Player to be used when a HTML5 player does not work.
-
-suffix_sp
-
-* Value -> jpg png gif mp4 ogv mp3 ogg jpg png gif pdf doc docx xls xlsx xlsa xlst xlsw pot pps ppt pptx pptm ppsx ppsm potx potm ppam sldx sldm
-
-* Description -> extension of Smartphone
-
-suffix_keitai
-
-* Value -> jpg png gif 3gp 3g2 3gp 3g2 jpg png gif pdf doc docx xls xlsx xlsa xlst xlsw pot pps ppt pptx pptm ppsx ppsm potx potm ppam sldx sldm
-
-* Description -> extension of Japanese mobile phone
-
-display_pc
-
-* Description -> File Display per page(PC)
-
-display_sp
-
-* Description -> File Display per page(Smartphone)
-
-display_keitai
-
-* Description -> File Display per page(Japanese mobile phone)
-
-image_show_size
-
-* Value -> Full Medium Large
-
-* Description -> Use only type='media'. Size of the image display. (Media Settings > Image Size)
-
-thumbnail
-
-* Value -> gif jpg png icon
-
-* Description -> (album, slideshow) thumbnail suffix name. (movie, music, document) The icon is displayed if you specify icon. The thumbnail no display if you do not specify anything.
-
-include_cat
-
-* Description -> Use only type='media'. Category you want to include. Only one.
-
-exclude_cat
-
-* Description -> Use only type='media'. Category you want to exclude. More than one, specified separated by |.
-
-exclude_file
-
-* Description -> Use only type='dir'. File you want to exclude. More than one, specified separated by |.
-
-exclude_dir
-
-* Description -> Use only type='dir'. Directory you want to exclude. More than one, specified separated by |.
-
-generate_rssfeed
-
-* Value -> on off
-
-* Description -> Generation of RSS feed.
-
-rssname
-
-* Description -> The name of the RSS feed file (Use to widget)
-
-rssmax
-
-* Description -> Syndication feeds show the most recent (Use to widget)
-
-selectbox_show
-
-* Value -> Show Hide
-
-* Description -> Selectbox of directories or categories.
-
-pagelinks_show
-
-* Value -> Show Hide
-
-* Description -> Navigation of page.
-
-sortlinks_show
-
-* Value -> Show Hide
-
-* Description -> Navigation of sort.
-
-searchbox_show
-
-* Value -> Show Hide
-
-* Description -> Search box
-
-rssicon_show
-
-* Value -> Show Hide
-
-* Description -> RSS Icon
-
-credit_show
-
-* Value -> Show Hide
-
-* Description -> Credit
