@@ -74,8 +74,6 @@ class GalleryLinkAdmin {
 			wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
 		}
 
-		$pluginurl = plugins_url($path='',$scheme=null);
-
 		if( !empty($_POST) ) {
 			$this->options_updated(intval($_POST['gallerylink_admin_tabs']));
 		}

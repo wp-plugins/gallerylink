@@ -2,7 +2,7 @@
 /*
 Plugin Name: GalleryLink
 Plugin URI: http://wordpress.org/plugins/gallerylink/
-Version: 8.0
+Version: 8.1
 Description: Output as a gallery by find the file extension and directory specified.
 Author: Katsushi Kawamori
 Author URI: http://gallerylink.nyanko.org/
@@ -653,9 +653,17 @@ MUSICPLAYERCONTAINER;
 		}
 	}
 
-	$html .= $linkfiles_begin;
-	$html .= $linkfiles;
-	$html .= $linkfiles_end;
+	$simplemasonry_apply = get_post_meta( get_the_ID(), 'simplemasonry_apply' );
+	if ($set === 'album' && class_exists('SimpleMasonry') && !empty($simplemasonry_apply) && $simplemasonry_apply[0] === 'true'){
+		// for Simple Masonry Gallery http://wordpress.org/plugins/simple-masonry-gallery/
+		$html = apply_filters( 'album_gallerylink', $linkfiles );
+	} else if ($set === 'slideshow'){
+		$html = apply_filters( 'slideshow_gallerylink', $linkfiles );
+	} else {
+		$html .= $linkfiles_begin;
+		$html .= $linkfiles;
+		$html .= $linkfiles_end;
+	}
 
 	if ( $selectbox_show === 'Show' ) {
 		$html .= $selectbox_begin;

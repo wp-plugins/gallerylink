@@ -4,7 +4,7 @@ Donate link: http://gallerylink.nyanko.org/
 Tags: audio,feed,feeds,gallery,html5,image,images,list,music,photo,photos,picture,pictures,rss,shortcode,video,xml
 Requires at least: 3.0.1
 Tested up to: 3.4
-Stable tag: 8.0
+Stable tag: 8.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -26,12 +26,13 @@ Bundled software and function
 
 *   HTML5 player (video, music)
 *   Create RSS feeds of data (XML). It support to the podcast.
-*   Work with [Boxers and Swipers](http://wordpress.org/plugins/boxers-and-swipers/).
-*   Work with [Simple NivoSlider](http://wordpress.org/plugins/simple-nivoslider/).
+*   Works with [Boxers and Swipers](http://wordpress.org/plugins/boxers-and-swipers/).
+*   Works with [Simple NivoSlider](http://wordpress.org/plugins/simple-nivoslider/).
+*   Works with [Simple Masonry Gallery](http://wordpress.org/plugins/simple-masonry-gallery/).
 
     It support to the japanese mobile phone. Plug-in Ktai Style is required.
 
-    [Demo1(All data)](http://gallerylink.nyanko.org/all-data/):::[Demo2(Music)](http://gallerylink.nyanko.org/music/):::[Demo3(Images)](http://gallerylink.nyanko.org/album/):::[Demo4(Video)](http://gallerylink.nyanko.org/movie/):::[Demo5(Slideshow)](http://gallerylink.nyanko.org/slideshow/):::[Demo6(Documents)](http://gallerylink.nyanko.org/documents/)
+    [Demo1(All data)](http://gallerylink.nyanko.org/all-data/):::[Demo2(Music)](http://gallerylink.nyanko.org/music/):::[Demo3(Images)](http://gallerylink.nyanko.org/album/):::[Demo4(Images with Simple Masonry Gallery)](http://gallerylink.nyanko.org/masonry/):::[Demo5(Video)](http://gallerylink.nyanko.org/movie/):::[Demo6(Slideshow with Simple NivoSlider)](http://gallerylink.nyanko.org/slideshow/):::[Demo7(Documents)](http://gallerylink.nyanko.org/documents/)
 
 Translators
 
@@ -60,6 +61,10 @@ none
 2. Settings 2
 
 == Changelog ==
+
+= 8.1 =
+Fixed the problem of with Simple NivoSlider.
+Works with Simple Masonry Gallery.
 
 = 8.0 =
 Adopt Responsive design. 
@@ -419,6 +424,7 @@ Delete screenshot
 
 == Upgrade Notice ==
 
+= 8.1 =
 = 8.0 =
 = 7.4 =
 = 7.3 =
