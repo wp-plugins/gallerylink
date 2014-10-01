@@ -91,6 +91,73 @@ class GalleryLinkAdmin {
 		$gallerylink_slideshow = get_option('gallerylink_slideshow');
 		$gallerylink_useragent = get_option('gallerylink_useragent');
 
+		include_once GALLERYLINK_PLUGIN_BASE_DIR . '/inc/GalleryLink.php';
+		$gallerylink = new GalleryLink();
+
+		$server_root = $_SERVER['DOCUMENT_ROOT'];
+		$dirs = $gallerylink->scan_dir($server_root);
+		$linkdirs_all = NULL;
+		$linkdirs_album = NULL;
+		$linkdirs_movie = NULL;
+		$linkdirs_music = NULL;
+		$linkdirs_slideshow = NULL;
+		$linkdirs_document = NULL;
+		$linkselectbox_all = NULL;
+		$linkselectbox_album = NULL;
+		$linkselectbox_movie = NULL;
+		$linkselectbox_music = NULL;
+		$linkselectbox_slideshow = NULL;
+		$linkselectbox_document = NULL;
+		mb_language(get_option('gallerylink_mb_language'));
+		foreach ($dirs as $linkdir) {
+			$linkdirenc = mb_convert_encoding(str_replace($server_root, "", $linkdir), "UTF-8", "auto");
+			if( $gallerylink_all['topurl'] === $linkdirenc ){
+				$linkdirs_all = '<option value="'.$linkdirenc.'" selected>'.$linkdirenc.'</option>';
+			} else if( $gallerylink_album['topurl'] === $linkdirenc ){
+				$linkdirs_album = '<option value="'.$linkdirenc.'" selected>'.$linkdirenc.'</option>';
+			} else if( $gallerylink_movie['topurl'] === $linkdirenc ){
+				$linkdirs_movie = '<option value="'.$linkdirenc.'" selected>'.$linkdirenc.'</option>';
+			} else if( $gallerylink_music['topurl'] === $linkdirenc ){
+				$linkdirs_music = '<option value="'.$linkdirenc.'" selected>'.$linkdirenc.'</option>';
+			} else if( $gallerylink_slideshow['topurl'] === $linkdirenc ){
+				$linkdirs_slideshow = '<option value="'.$linkdirenc.'" selected>'.$linkdirenc.'</option>';
+			} else if( $gallerylink_document['topurl'] === $linkdirenc ){
+				$linkdirs_document = '<option value="'.$linkdirenc.'" selected>'.$linkdirenc.'</option>';
+			}else{
+				$linkdirs_all = '<option value="'.$linkdirenc.'">'.$linkdirenc.'</option>';
+				$linkdirs_album = '<option value="'.$linkdirenc.'">'.$linkdirenc.'</option>';
+				$linkdirs_movie = '<option value="'.$linkdirenc.'">'.$linkdirenc.'</option>';
+				$linkdirs_music = '<option value="'.$linkdirenc.'">'.$linkdirenc.'</option>';
+				$linkdirs_slideshow = '<option value="'.$linkdirenc.'">'.$linkdirenc.'</option>';
+				$linkdirs_document = '<option value="'.$linkdirenc.'">'.$linkdirenc.'</option>';
+			}
+			$linkselectbox_all .= $linkdirs_all;
+			$linkselectbox_album .= $linkdirs_album;
+			$linkselectbox_movie .= $linkdirs_movie;
+			$linkselectbox_music .= $linkdirs_music;
+			$linkselectbox_slideshow .= $linkdirs_slideshow;
+			$linkselectbox_document .= $linkdirs_document;
+		}
+		if( empty($gallerylink_all['topurl']) ){
+			$linkdirs_all = '<option value="" selected>'.__('Select').'</option>';
+			$linkselectbox_all .= $linkdirs_all;
+		} else if( empty($gallerylink_album['topurl']) ){
+			$linkdirs_album = '<option value="" selected>'.__('Select').'</option>';
+			$linkselectbox_album .= $linkdirs_album;
+		} else if( empty($gallerylink_movie['topurl']) ){
+			$linkdirs_movie = '<option value="" selected>'.__('Select').'</option>';
+			$linkselectbox_movie .= $linkdirs_movie;
+		} else if( empty($gallerylink_music['topurl']) ){
+			$linkdirs_music = '<option value="" selected>'.__('Select').'</option>';
+			$linkselectbox_music .= $linkdirs_music;
+		} else if( empty($gallerylink_slideshow['topurl']) ){
+			$linkdirs_slideshow = '<option value="" selected>'.__('Select').'</option>';
+			$linkselectbox_slideshow .= $linkdirs_slideshow;
+		} else if( empty($gallerylink_document['topurl']) ){
+			$linkdirs_document = '<option value="" selected>'.__('Select').'</option>';
+			$linkselectbox_document .= $linkdirs_document;
+		}
+
 		?>
 
 		<div class="wrap">
@@ -208,7 +275,9 @@ class GalleryLinkAdmin {
 				<tr>
 					<td align="center" valign="middle">topurl</td>
 					<td align="center" valign="middle">
-						<input type="text" id="gallerylink_all_topurl" name="gallerylink_all_topurl" value="<?php echo $gallerylink_all['topurl'] ?>" style="width: 100%;" />
+						<select id="gallerylink_all_topurl" name="gallerylink_all_topurl" style="width: 100%;" />
+							<?php echo $linkselectbox_all; ?>
+						</select>
 					</td>
 					<td align="left" valign="middle">
 						<?php _e('Full path to the top directory containing the data. Example:In the case of http://www.mysite.xxx/wordpress/wp-content/uploads is /wordpress/wp-content/uploads.', 'gallerylink'); ?>
@@ -445,7 +514,9 @@ class GalleryLinkAdmin {
 				<tr>
 					<td align="center" valign="middle">topurl</td>
 					<td align="center" valign="middle">
-						<input type="text" id="gallerylink_album_topurl" name="gallerylink_album_topurl" value="<?php echo $gallerylink_album['topurl'] ?>" style="width: 100%;" />
+						<select id="gallerylink_album_topurl" name="gallerylink_album_topurl" style="width: 100%;" />
+							<?php echo $linkselectbox_album; ?>
+						</select>
 					</td>
 					<td align="left" valign="middle">
 						<?php _e('Full path to the top directory containing the data. Example:In the case of http://www.mysite.xxx/wordpress/wp-content/uploads is /wordpress/wp-content/uploads.', 'gallerylink'); ?>
@@ -709,7 +780,9 @@ class GalleryLinkAdmin {
 				<tr>
 					<td align="center" valign="middle">topurl</td>
 					<td align="center" valign="middle">
-						<input type="text" id="gallerylink_movie_topurl" name="gallerylink_movie_topurl" value="<?php echo $gallerylink_movie['topurl'] ?>" style="width: 100%;" />
+						<select id="gallerylink_movie_topurl" name="gallerylink_movie_topurl" style="width: 100%;" />
+							<?php echo $linkselectbox_movie; ?>
+						</select>
 					</td>
 					<td align="left" valign="middle">
 						<?php _e('Full path to the top directory containing the data. Example:In the case of http://www.mysite.xxx/wordpress/wp-content/uploads is /wordpress/wp-content/uploads.', 'gallerylink'); ?>
@@ -989,7 +1062,9 @@ class GalleryLinkAdmin {
 				<tr>
 					<td align="center" valign="middle">topurl</td>
 					<td align="center" valign="middle">
-						<input type="text" id="gallerylink_music_topurl" name="gallerylink_music_topurl" value="<?php echo $gallerylink_music['topurl'] ?>" style="width: 100%;" />
+						<select id="gallerylink_music_topurl" name="gallerylink_music_topurl" style="width: 100%;" />
+							<?php echo $linkselectbox_music; ?>
+						</select>
 					</td>
 					<td align="left" valign="middle">
 						<?php _e('Full path to the top directory containing the data. Example:In the case of http://www.mysite.xxx/wordpress/wp-content/uploads is /wordpress/wp-content/uploads.', 'gallerylink'); ?>
@@ -1268,7 +1343,9 @@ class GalleryLinkAdmin {
 				<tr>
 					<td align="center" valign="middle">topurl</td>
 					<td align="center" valign="middle">
-						<input type="text" id="gallerylink_slideshow_topurl" name="gallerylink_slideshow_topurl" value="<?php echo $gallerylink_slideshow['topurl'] ?>" style="width: 100%;" />
+						<select id="gallerylink_slideshow_topurl" name="gallerylink_slideshow_topurl" style="width: 100%;" />
+							<?php echo $linkselectbox_slideshow; ?>
+						</select>
 					</td>
 					<td align="left" valign="middle">
 						<?php _e('Full path to the top directory containing the data. Example:In the case of http://www.mysite.xxx/wordpress/wp-content/uploads is /wordpress/wp-content/uploads.', 'gallerylink'); ?>
@@ -1503,7 +1580,9 @@ class GalleryLinkAdmin {
 				<tr>
 					<td align="center" valign="middle">topurl</td>
 					<td align="center" valign="middle">
-						<input type="text" id="gallerylink_document_topurl" name="gallerylink_document_topurl" value="<?php echo $gallerylink_document['topurl'] ?>" style="width: 100%;" />
+						<select id="gallerylink_document_topurl" name="gallerylink_document_topurl" style="width: 100%;" />
+							<?php echo $linkselectbox_document; ?>
+						</select>
 					</td>
 					<td align="left" valign="middle">
 						<?php _e('Full path to the top directory containing the data. Example:In the case of http://www.mysite.xxx/wordpress/wp-content/uploads is /wordpress/wp-content/uploads.', 'gallerylink'); ?>
@@ -1909,6 +1988,7 @@ class GalleryLinkAdmin {
 			<h3><?php _e('It is possible to work with the following plugins. Please install.', 'gallerylink'); ?></h3>
 			<li><a href="<?php echo get_admin_url().'plugin-install.php?tab=search&s=Boxers+and+Swipers'; ?>">Boxers and Swipers</a></li>
 			<li><a href="<?php echo get_admin_url().'plugin-install.php?tab=search&s=Simple+NivoSlider'; ?>">Simple NivoSlider</a></li>
+			<li><a href="<?php echo get_admin_url().'plugin-install.php?tab=search&s=Simple+Masonry+Gallery'; ?>">Simple Masonry Gallery</a></li>
 			<h3><?php _e('In addition, offer the following filters. This filter passes the html that is generated.', 'gallerylink'); ?></h3>
 			<li><code>post_gallerylink</code></li>
 		</div>

@@ -4,7 +4,7 @@ Donate link: http://gallerylink.nyanko.org/
 Tags: audio,feed,feeds,gallery,html5,image,images,list,music,photo,photos,picture,pictures,rss,shortcode,video,xml
 Requires at least: 3.0.1
 Tested up to: 3.4
-Stable tag: 8.1
+Stable tag: 8.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -61,6 +61,11 @@ none
 2. Settings 2
 
 == Changelog ==
+
+= 8.2 =
+Changed to <select> from <input>, [topurl] of the management screen.
+Fixed the problem of the management screen.
+Change /languages.
 
 = 8.1 =
 Fixed the problem of with Simple NivoSlider.
@@ -424,6 +429,7 @@ Delete screenshot
 
 == Upgrade Notice ==
 
+= 8.2 =
 = 8.1 =
 = 8.0 =
 = 7.4 =
