@@ -63,7 +63,7 @@ none
 == Changelog ==
 
 = 8.2 =
-Changed to <select> from <input>, [topurl] of the management screen.
+Changed to select tag from input tag, [topurl] of the management screen.
 Fixed the problem of the management screen.
 Change /languages.
 
