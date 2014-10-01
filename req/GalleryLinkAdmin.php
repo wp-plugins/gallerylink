@@ -141,19 +141,24 @@ class GalleryLinkAdmin {
 		if( empty($gallerylink_all['topurl']) ){
 			$linkdirs_all = '<option value="" selected>'.__('Select').'</option>';
 			$linkselectbox_all .= $linkdirs_all;
-		} else if( empty($gallerylink_album['topurl']) ){
+		}
+		if( empty($gallerylink_album['topurl']) ){
 			$linkdirs_album = '<option value="" selected>'.__('Select').'</option>';
 			$linkselectbox_album .= $linkdirs_album;
-		} else if( empty($gallerylink_movie['topurl']) ){
+		}
+		if( empty($gallerylink_movie['topurl']) ){
 			$linkdirs_movie = '<option value="" selected>'.__('Select').'</option>';
 			$linkselectbox_movie .= $linkdirs_movie;
-		} else if( empty($gallerylink_music['topurl']) ){
+		}
+		if( empty($gallerylink_music['topurl']) ){
 			$linkdirs_music = '<option value="" selected>'.__('Select').'</option>';
 			$linkselectbox_music .= $linkdirs_music;
-		} else if( empty($gallerylink_slideshow['topurl']) ){
+		}
+		if( empty($gallerylink_slideshow['topurl']) ){
 			$linkdirs_slideshow = '<option value="" selected>'.__('Select').'</option>';
 			$linkselectbox_slideshow .= $linkdirs_slideshow;
-		} else if( empty($gallerylink_document['topurl']) ){
+		}
+		if( empty($gallerylink_document['topurl']) ){
 			$linkdirs_document = '<option value="" selected>'.__('Select').'</option>';
 			$linkselectbox_document .= $linkdirs_document;
 		}

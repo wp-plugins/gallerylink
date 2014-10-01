@@ -4,7 +4,7 @@ Donate link: http://gallerylink.nyanko.org/
 Tags: audio,feed,feeds,gallery,html5,image,images,list,music,photo,photos,picture,pictures,rss,shortcode,video,xml
 Requires at least: 3.0.1
 Tested up to: 3.4
-Stable tag: 8.2
+Stable tag: 8.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -61,6 +61,9 @@ none
 2. Settings 2
 
 == Changelog ==
+
+= 8.3 =
+Fixed the problem of the management screen.
 
 = 8.2 =
 Changed to select tag from input tag, [topurl] of the management screen.
@@ -429,6 +432,7 @@ Delete screenshot
 
 == Upgrade Notice ==
 
+= 8.3 =
 = 8.2 =
 = 8.1 =
 = 8.0 =
