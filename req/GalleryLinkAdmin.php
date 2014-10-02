@@ -186,7 +186,7 @@ class GalleryLinkAdmin {
 	  </ul>
 	  <div id="gallerylink-admin-tabs-1">
 		<h2><?php _e('How to use', 'gallerylink'); ?></h2>
-		<div style="padding:10px;"><?php _e('Please upload the data to the data directory (topurl) by the FTP software. At the same time upload thumbnail.', 'gallerylink'); ?></div>
+		<div style="padding:10px;"><?php _e('Please upload the data to the data directory (topurl) by the FTP software.', 'gallerylink'); ?></div>
 
 		<div style="padding:10px;"><?php _e('Please add new Page. Please write a short code in the text field of the Page. Please go in Text mode this task.', 'gallerylink'); ?></div>
 		<div style="padding:10px;">
@@ -213,7 +213,7 @@ class GalleryLinkAdmin {
 		<div><?php _e('All data Example', 'gallerylink'); ?>
 		<code>&#91;gallerylink set='all'&#93;</code></div>
 		<div><?php _e('Image Example', 'gallerylink'); ?>
-		<code>&#91;gallerylink set='album' topurl='/wordpress/wp-content/uploads' thumbnail='-80x80' exclude_file='(.ktai.)|(-[0-9]*x[0-9]*.)' exclude_dir='ps_auto_sitemap|backwpup.*|wpcf7_captcha' rssname='album'&#93;</code></div>
+		<code>&#91;gallerylink set='album' topurl='/wordpress/wp-content/uploads' exclude_file='(.ktai.)|(-[0-9]*x[0-9]*.)' exclude_dir='ps_auto_sitemap|backwpup.*|wpcf7_captcha' rssname='album'&#93;</code></div>
 		<div><?php _e('Video Example', 'gallerylink'); ?>
 		<code>&#91;gallerylink set='movie' topurl='/gallery/video' rssmax=5&#93;</code></div>
 		<div><?php _e('Music Example', 'gallerylink'); ?>
@@ -223,7 +223,7 @@ class GalleryLinkAdmin {
 		</div>
 		<div style="padding:10px;">
 		<div><?php _e('* If you want to use MULTI-BYTE CHARACTER SETS to the display of the directory name and the file name. In this case, please upload the file after UTF-8 character code setting of the FTP software.', 'gallerylink'); ?></div>
-		<div><?php _e('* Please set to 777 or 757 the attributes of topurl directory. Because GalleryLink create an RSS feed in the directory.', 'gallerylink'); ?></div>
+		<div><?php _e('* Please set to 777 or 757 the attributes of topurl directory. Because GalleryLink create thumbnail and RSS feed to the directory.', 'gallerylink'); ?></div>
 		<div><?php _e('* (WordPress > Settings > General Timezone) Please specify your area other than UTC. For accurate time display of RSS feed.', 'gallerylink'); ?></div>
 		<div><?php _e('* When you move to (WordPress > Appearance > Widgets), there is a widget GalleryLinkRssFeed. If you place you can set this to display the sidebar link the RSS feed.', 'gallerylink'); ?></div>
 		</div>
@@ -322,7 +322,7 @@ class GalleryLinkAdmin {
 				<tr>
 					<td align="center" valign="middle">thumbnail</td>
 					<td align="center" valign="middle">
-						<input type="text" id="gallerylink_all_thumbnail" name="gallerylink_all_thumbnail" value="<?php echo $gallerylink_all['thumbnail'] ?>" style="width: 100%;" />
+						-<?php echo get_option('thumbnail_size_w') ?>x<?php echo get_option('thumbnail_size_h') ?>
 					</td>
 					<td align="left" valign="middle">
 						<?php _e('(album, slideshow) thumbnail suffix name. (movie, music, document) The icon is displayed if you specify icon. The thumbnail no display if you do not specify anything.', 'gallerylink'); ?>
@@ -588,7 +588,7 @@ class GalleryLinkAdmin {
 				<tr>
 					<td align="center" valign="middle">thumbnail</td>
 					<td align="center" valign="middle">
-						<input type="text" id="gallerylink_album_thumbnail" name="gallerylink_album_thumbnail" value="<?php echo $gallerylink_album['thumbnail'] ?>" style="width: 100%;" />
+						-<?php echo get_option('thumbnail_size_w') ?>x<?php echo get_option('thumbnail_size_h') ?>
 					</td>
 					<td align="left" valign="middle">
 						<?php _e('(album, slideshow) thumbnail suffix name. (movie, music, document) The icon is displayed if you specify icon. The thumbnail no display if you do not specify anything.', 'gallerylink'); ?>
@@ -1388,7 +1388,7 @@ class GalleryLinkAdmin {
 				<tr>
 					<td align="center" valign="middle">thumbnail</td>
 					<td align="center" valign="middle">
-						<input type="text" id="gallerylink_slideshow_thumbnail" name="gallerylink_slideshow_thumbnail" value="<?php echo $gallerylink_slideshow['thumbnail'] ?>" style="width: 100%;" />
+						-<?php echo get_option('thumbnail_size_w') ?>x<?php echo get_option('thumbnail_size_h') ?>
 					</td>
 					<td align="left" valign="middle">
 						<?php _e('(album, slideshow) thumbnail suffix name. (movie, music, document) The icon is displayed if you specify icon. The thumbnail no display if you do not specify anything.', 'gallerylink'); ?>
@@ -2087,7 +2087,6 @@ AddType application/vnd.ms-powerpoint.slide.macroEnabled.12 sldm
 							'topurl' => '',
 							'display' => 8, 	
 							'display_keitai' => 6,
-							'thumbnail' => '-'.get_option('thumbnail_size_w').'x'.get_option('thumbnail_size_h'),
 							'generate_rssfeed' => 'on',
 							'rssname' => 'gallerylink_all_feed',
 							'rssmax' => 10,
@@ -2107,7 +2106,6 @@ AddType application/vnd.ms-powerpoint.slide.macroEnabled.12 sldm
 							'suffix_keitai' => 'jpg',
 							'display' => 20, 	
 							'display_keitai' => 6,
-							'thumbnail' => '-'.get_option('thumbnail_size_w').'x'.get_option('thumbnail_size_h'),
 							'generate_rssfeed' => 'on',
 							'rssname' => 'gallerylink_album_feed',
 							'rssmax' => 10,
@@ -2167,7 +2165,6 @@ AddType application/vnd.ms-powerpoint.slide.macroEnabled.12 sldm
 								'topurl' => '',
 								'suffix' => 'jpg',
 								'display' => 10,
-								'thumbnail' => '-'.get_option('thumbnail_size_w').'x'.get_option('thumbnail_size_h'),
 								'generate_rssfeed' => 'on',
 								'rssname' => 'gallerylink_slideshow_feed',
 								'rssmax' => 10,
@@ -2244,7 +2241,6 @@ AddType application/vnd.ms-powerpoint.slide.macroEnabled.12 sldm
 									'topurl' => $_POST['gallerylink_all_topurl'],
 									'display' => $_POST['gallerylink_all_display'],
 									'display_keitai' => $_POST['gallerylink_all_display_keitai'],
-									'thumbnail' => $_POST['gallerylink_all_thumbnail'],
 									'generate_rssfeed' => $_POST['gallerylink_all_generate_rssfeed'],
 									'rssname' => $_POST['gallerylink_all_rssname'],
 									'rssmax' => $_POST['gallerylink_all_rssmax'],
@@ -2271,7 +2267,6 @@ AddType application/vnd.ms-powerpoint.slide.macroEnabled.12 sldm
 									'suffix_keitai' => $_POST['gallerylink_album_suffix_keitai'],
 									'display' => $_POST['gallerylink_album_display'],
 									'display_keitai' => $_POST['gallerylink_album_display_keitai'],
-									'thumbnail' => $_POST['gallerylink_album_thumbnail'],
 									'generate_rssfeed' => $_POST['gallerylink_album_generate_rssfeed'],
 									'rssname' => $_POST['gallerylink_album_rssname'],
 									'rssmax' => $_POST['gallerylink_album_rssmax'],
@@ -2352,7 +2347,6 @@ AddType application/vnd.ms-powerpoint.slide.macroEnabled.12 sldm
 									'topurl' => $_POST['gallerylink_slideshow_topurl'],
 									'suffix' => $_POST['gallerylink_slideshow_suffix'],
 									'display' => $_POST['gallerylink_slideshow_display'],
-									'thumbnail' => $_POST['gallerylink_slideshow_thumbnail'],
 									'generate_rssfeed' => $_POST['gallerylink_slideshow_generate_rssfeed'],
 									'rssname' => $_POST['gallerylink_slideshow_rssname'],
 									'rssmax' => $_POST['gallerylink_slideshow_rssmax'],

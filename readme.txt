@@ -4,7 +4,7 @@ Donate link: http://gallerylink.nyanko.org/
 Tags: audio,feed,feeds,gallery,html5,image,images,list,music,photo,photos,picture,pictures,rss,shortcode,video,xml
 Requires at least: 3.0.1
 Tested up to: 3.4
-Stable tag: 8.3
+Stable tag: 9.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -18,7 +18,7 @@ GalleryLink outputs as a gallery from the directory.
 
 (Photos, music, videos, documents) data that is supported.
 
-If you want to use only the data of the media library, please use the [MediaLink](http://wordpress.org/plugins/medialink/).
+If you want to use the data of the media library, please use the [MediaLink](http://wordpress.org/plugins/medialink/).
 
 You write and use short codes to page.
 
@@ -61,6 +61,10 @@ none
 2. Settings 2
 
 == Changelog ==
+
+= 9.0 =
+Automatically generate thumbnail.
+Change /languages.
 
 = 8.3 =
 Fixed the problem of the management screen.
@@ -432,6 +436,7 @@ Delete screenshot
 
 == Upgrade Notice ==
 
+= 9.0 =
 = 8.3 =
 = 8.2 =
 = 8.1 =
@@ -539,7 +544,7 @@ Delete screenshot
 How to use
 Please set the default value in the setting page.
 
-* Please upload the data to the data directory (topurl) by the FTP software. At the same time upload thumbnail.
+* Please upload the data to the data directory (topurl) by the FTP software.
 
 Please add new Page. Please write a short code in the text field of the Page. Please go in Text mode this task.
 
@@ -577,7 +582,7 @@ All data Example
 
 Image Example
 
-* [gallerylink set='album' topurl='/wordpress/wp-content/uploads' thumbnail='-80x80' exclude_file='(.ktai.)|(-[0-9]*x[0-9]*.)' exclude_dir='ps_auto_sitemap|backwpup.*|wpcf7_captcha' rssname='album']
+* [gallerylink set='album' topurl='/wordpress/wp-content/uploads' exclude_file='(.ktai.)|(-[0-9]*x[0-9]*.)' exclude_dir='ps_auto_sitemap|backwpup.*|wpcf7_captcha' rssname='album']
 
 Video Example
 
@@ -585,7 +590,7 @@ Video Example
 
 Music Example
 
-* [gallerylink set='music' topurl='/gallery/music' thumbnail='gif']
+* [gallerylink set='music' topurl='/gallery/music']
 
 Document Example
 
@@ -595,7 +600,7 @@ Caution
 
 * If you want to use MULTI-BYTE CHARACTER SETS to the display of the directory name and the file name. In this case, please upload the file after UTF-8 character code setting of the FTP software.
 
-* Please set to 777 or 757 the attributes of topurl directory. Because GalleryLink create an RSS feed in the directory.*In the case of read data from the directory.
+* Please set to 777 or 757 the attributes of topurl directory. Because GalleryLink create thumbnail and RSS feed to the directory.
 
 * (WordPress > Settings > General Timezone) Please specify your area other than UTC. For accurate time display of RSS feed.
 

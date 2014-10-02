@@ -200,7 +200,20 @@ class GalleryLink {
 			}
 			$files[$filecount]['metadata'] = $metadata;
 
+			if ( $ext2type === 'image' ) {
+				$org_thumbfile = str_replace( $suffix, '', $org_file ).$this->thumbnail.$suffix;
+				if ( !file_exists($org_thumbfile) ) {
+					$image = wp_get_image_editor( $org_file );
+					if ( !is_wp_error( $image ) ) {
+						$image->resize( get_option('thumbnail_size_w'), get_option('thumbnail_size_h'), get_option('thumbnail_crop') );
+						$image->save( $org_thumbfile );
+					}
+				}
+			}
+
 			$file = str_replace($this->document_root, "", $org_file);
+			$thumbfile = str_replace($this->document_root, "", $org_thumbfile);
+			$thumbfile = mb_convert_encoding($thumbfile, "UTF-8", "auto");
 			$filename = $file;
 			$filename = str_replace($suffix, "", $filename);
 			$filename = mb_convert_encoding($filename, "UTF-8", "auto");
@@ -213,7 +226,7 @@ class GalleryLink {
 			$icon_url_path = includes_url( $path = "images/crystal" );
 			$thumblink = NULL;
 			if ( $ext2type === 'image' ) {
-				$thumblink = $serverurl.str_replace("%2F","/",urlencode($this->topurl)).str_replace("%2F","/",urlencode($filename)).$this->thumbnail.$suffix;
+				$thumblink = $serverurl.str_replace("%2F","/",urlencode($this->topurl)).str_replace("%2F","/",urlencode($thumbfile));
 			} else if ( $ext2type === 'audio' ) {
 				$thumblink = '<img src = "'.$icon_url_path.'/audio.png">';
 			} else if ( $ext2type === 'video' ) {

@@ -57,8 +57,7 @@ msgid ""
 msgstr ""
 
 msgid ""
-"Please upload the data to the data directory (topurl) by the FTP software. "
-"At the same time upload thumbnail."
+"Please upload the data to the data directory (topurl) by the FTP software."
 msgstr ""
 
 msgid "In the case of all data"

@@ -2,7 +2,7 @@
 /*
 Plugin Name: GalleryLink
 Plugin URI: http://wordpress.org/plugins/gallerylink/
-Version: 8.3
+Version: 9.0
 Description: Output as a gallery by find the file extension and directory specified.
 Author: Katsushi Kawamori
 Author URI: http://gallerylink.nyanko.org/
@@ -121,7 +121,9 @@ function gallerylink_func( $atts, $html = NULL ) {
 		$suffix_pattern_keitai .= $separator.strtoupper($gallerylink_music['suffix_keitai']).$separator.strtolower($gallerylink_music['suffix_keitai']);
 		if( empty($display) ) { $display = intval($gallerylink_all['display']); }
 		if( empty($display_keitai) ) { $display_keitai = intval($gallerylink_all['display_keitai']); }
-		if( empty($thumbnail) ) { $thumbnail = $gallerylink_all['thumbnail']; }
+		if( empty($thumbnail) ) {
+			$thumbnail = '-'.get_option('thumbnail_size_w').'x'.get_option('thumbnail_size_h');
+		}
 		if( empty($generate_rssfeed) ) { $generate_rssfeed = $gallerylink_all['generate_rssfeed']; }
 		if( empty($rssname) ) {
 			$rssname = $gallerylink_all['rssname'];
@@ -169,7 +171,9 @@ function gallerylink_func( $atts, $html = NULL ) {
 		}
 		if( empty($display) ) { $display = intval($gallerylink_album['display']); }
 		if( empty($display_keitai) ) { $display_keitai = intval($gallerylink_album['display_keitai']); }
-		if( empty($thumbnail) ) { $thumbnail = $gallerylink_album['thumbnail']; }
+		if( empty($thumbnail) ) {
+			$thumbnail = '-'.get_option('thumbnail_size_w').'x'.get_option('thumbnail_size_h');
+		}
 		if( empty($generate_rssfeed) ) { $generate_rssfeed = $gallerylink_album['generate_rssfeed']; }
 		if( empty($rssname) ) {
 			$rssname = $gallerylink_album['rssname'];
@@ -266,7 +270,9 @@ function gallerylink_func( $atts, $html = NULL ) {
 			}
 		}
 		if( empty($display) ) { $display = intval($gallerylink_slideshow['display']); }
-		if( empty($thumbnail) ) { $thumbnail = $gallerylink_slideshow['thumbnail']; }
+		if( empty($thumbnail) ) {
+			$thumbnail = '-'.get_option('thumbnail_size_w').'x'.get_option('thumbnail_size_h');
+		}
 		if( empty($generate_rssfeed) ) { $generate_rssfeed = $gallerylink_slideshow['generate_rssfeed']; }
 		if( empty($rssname) ) {
 			$rssname = $gallerylink_slideshow['rssname'];
