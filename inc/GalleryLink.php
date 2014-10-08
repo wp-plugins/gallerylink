@@ -731,14 +731,6 @@ XMLEND;
 
 	}
 
-	/* ==================================================
-	 * @param	none
-	 * @since	9.1
-	 */
-	function add_header_css(){
-		wp_enqueue_style( 'gallerylink',  GALLERYLINK_PLUGIN_URL.'/css/gallerylink.css' );
-	}
-
 }
 
 ?>

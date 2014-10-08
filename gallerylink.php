@@ -2,7 +2,7 @@
 /*
 Plugin Name: GalleryLink
 Plugin URI: http://wordpress.org/plugins/gallerylink/
-Version: 9.1
+Version: 9.2
 Description: Output as a gallery by find the file extension and directory specified.
 Author: Katsushi Kawamori
 Author URI: http://gallerylink.nyanko.org/
@@ -45,11 +45,6 @@ Domain Path: /languages
 	add_filter( 'plugin_action_links', array($gallerylinkadmin, 'settings_link'), 10, 2 );
 	add_action( 'admin_footer', array($gallerylinkadmin, 'load_custom_wp_admin_style2') );
 	unset($gallerylinkadmin);
-
-	include_once GALLERYLINK_PLUGIN_BASE_DIR . '/inc/GalleryLink.php';
-	$gallerylink = new GalleryLink();
-	add_action( 'wp_enqueue_scripts', array($gallerylink, 'add_header_css'));
-	unset($gallerylink);
 
 	add_shortcode( 'gallerylink', 'gallerylink_func' );
 
@@ -586,6 +581,8 @@ $musicplayercontainer = <<<MUSICPLAYERCONTAINER
 </audio>
 </div>
 MUSICPLAYERCONTAINER;
+
+	wp_enqueue_style( 'gallerylink',  GALLERYLINK_PLUGIN_URL.'/css/gallerylink.css' );
 
 	if ( $set === 'all' ){
 		if( !empty($selectedfilename) ) { $html .= '<h2>'.$selectedfilename.'</h2>'; }
