@@ -209,11 +209,11 @@ class GalleryLink {
 						$image->save( $org_thumbfile );
 					}
 				}
+				$thumbfile = str_replace($this->document_root, "", $org_thumbfile);
+				$thumbfile = mb_convert_encoding($thumbfile, "UTF-8", "auto");
 			}
 
 			$file = str_replace($this->document_root, "", $org_file);
-			$thumbfile = str_replace($this->document_root, "", $org_thumbfile);
-			$thumbfile = mb_convert_encoding($thumbfile, "UTF-8", "auto");
 			$filename = $file;
 			$filename = str_replace($suffix, "", $filename);
 			$filename = mb_convert_encoding($filename, "UTF-8", "auto");
