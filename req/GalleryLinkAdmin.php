@@ -2436,11 +2436,9 @@ $gallerylink_add_jscss = <<<GALLERYLINK
 
 <!-- BEGIN: GalleryLink -->
 <script type="text/javascript">
-	jQuery(document).ready(function () {
-		jQuery('#gallerylink-admin-tabs').responsiveTabs({
-			startCollapsed: 'accordion'
-		});
-	});
+jQuery('#gallerylink-admin-tabs').responsiveTabs({
+  startCollapsed: 'accordion'
+});
 </script>
 <!-- END: GalleryLink -->
 
