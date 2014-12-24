@@ -43,6 +43,7 @@ class GalleryLink {
 	public $sort;
 	public $filesize_show;
 	public $stamptime_show;
+	public $exif_show;
 
 	/* ==================================================
 	* @param	none
@@ -174,6 +175,9 @@ class GalleryLink {
 	 */
 	function files_args($org_files) {
 
+		// for wp_read_image_metadata
+		include_once( ABSPATH . 'wp-admin/includes/image.php' );
+
 		$filecount = 0;
 		$rsscount = 0;
 		$files = array();
@@ -187,16 +191,60 @@ class GalleryLink {
 			$suffix = '.'.$ext;
 
 			$metadata = NULL;
-			if ( $this->filesize_show === 'Show' || $this->stamptime_show === 'Show' ) {
+			$filesize = NULL;
+			$stamptime = NULL;
+			$exifdata = NULL;
+			if ( $this->filesize_show === 'Show' || $this->stamptime_show === 'Show' || $this->exif_show === 'Show' ) {
 				if ( $this->filesize_show === 'Show' ) {
-					$filesize = '&nbsp;&nbsp;'.round( @filesize($org_file) / 1024 ).'KB';
+					$filesize = ' '.round( @filesize($org_file) / 1024 ).'KB';
 				}
 				if ( $this->stamptime_show === 'Show' ) {
 					$filestat = @stat($org_file);
 					date_default_timezone_set(timezone_name_from_abbr(get_the_date('T')));
-					$stamptime = date("Y-m-d H:i:s",  $filestat['mtime']);
+					$stamptime = ' '.date("Y-m-d H:i:s",  $filestat['mtime']);
 				}
-				$metadata = $stamptime.$filesize;
+
+				if ( $this->exif_show === 'Show' ) {
+					if ( $ext2type === 'image' ) {
+						$exifdatas = wp_read_image_metadata( $org_file );
+						if ( $exifdatas ) {
+							if ( $exifdatas['title'] ) {
+								$exifdata .= ' '.$exifdatas['title'];
+							}
+							if ( $exifdatas['credit'] ) {
+								$exifdata .= ' '.$exifdatas['credit'];
+							}
+							if ( $exifdatas['camera'] ) {
+								$exifdata .= ' '.$exifdatas['camera'];
+							}
+							if ( $exifdatas['caption'] ) {
+								$exifdata .= ' '.$exifdatas['caption'];
+							}
+							$exif_ux_time = $exifdatas['created_timestamp'];
+							if ( !empty($exif_ux_time) ) {
+								$exifdata .= ' '.date_i18n( "Y-m-d H:i:s", $exif_ux_time, FALSE );
+							}
+							if ( $exifdatas['copyright'] ) {
+								$exifdata .= ' '.$exifdatas['copyright'];
+							}
+							if ( $exifdatas['aperture'] ) {
+								$exifdata .= ' f/'.$exifdatas['aperture'];
+							}
+							if ( $exifdatas['shutter_speed'] ) {
+								$shutter = 1 / $exifdatas['shutter_speed'];
+								$exifdata .= ' 1/'.$shutter.'s';
+							}
+							if ( $exifdatas['iso'] ) {
+								$exifdata .= ' ISO-'.$exifdatas['iso'];
+							}
+							if ( $exifdatas['focal_length'] ) {
+								$exifdata .= ' '.$exifdatas['focal_length'].'mm';
+							}
+						}
+					}
+				}
+
+				$metadata = $stamptime.$filesize.$exifdata;
 			}
 			$files[$filecount]['metadata'] = $metadata;
 

@@ -386,6 +386,23 @@ class GalleryLinkAdmin {
 					</td>
 				</tr>
 				<tr>
+					<td align="center" valign="middle">exif_show</td>
+					<td align="center" valign="middle">
+					<?php
+					if ( empty($gallerylink_all['exif_show']) ) {
+						$target_all_exif_show = 'Hide';
+					} else {
+						$target_all_exif_show = $gallerylink_all['exif_show'];
+					}
+					?>
+					<select id="gallerylink_all_exif_show" name="gallerylink_all_exif_show">
+						<option <?php if ('Show' == $target_all_exif_show)echo 'selected="selected"'; ?>>Show</option>
+						<option <?php if ('Hide' == $target_all_exif_show)echo 'selected="selected"'; ?>>Hide</option>
+					</select>
+					</td>
+					<td align="left" valign="middle">Exif</td>
+				</tr>
+				<tr>
 					<td align="center" valign="middle">selectbox_show</td>
 					<td align="center" valign="middle">
 					<?php $target_all_selectbox_show = $gallerylink_all['selectbox_show']; ?>
@@ -650,6 +667,23 @@ class GalleryLinkAdmin {
 					<td align="left" valign="middle">
 					<?php _e('Date Time', 'gallerylink') ?>
 					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle">exif_show</td>
+					<td align="center" valign="middle">
+					<?php
+					if ( empty($gallerylink_album['exif_show']) ) {
+						$target_album_exif_show = 'Hide';
+					} else {
+						$target_album_exif_show = $gallerylink_album['exif_show'];
+					}
+					?>
+					<select id="gallerylink_album_exif_show" name="gallerylink_album_exif_show">
+						<option <?php if ('Show' == $target_album_exif_show)echo 'selected="selected"'; ?>>Show</option>
+						<option <?php if ('Hide' == $target_album_exif_show)echo 'selected="selected"'; ?>>Hide</option>
+					</select>
+					</td>
+					<td align="left" valign="middle">Exif</td>
 				</tr>
 				<tr>
 					<td align="center" valign="middle">selectbox_show</td>
@@ -1452,6 +1486,23 @@ class GalleryLinkAdmin {
 					</td>
 				</tr>
 				<tr>
+					<td align="center" valign="middle">exif_show</td>
+					<td align="center" valign="middle">
+					<?php
+					if ( empty($gallerylink_slideshow['exif_show']) ) {
+						$target_slideshow_exif_show = 'Hide';
+					} else {
+						$target_slideshow_exif_show = $gallerylink_slideshow['exif_show'];
+					}
+					?>
+					<select id="gallerylink_slideshow_exif_show" name="gallerylink_slideshow_exif_show">
+						<option <?php if ('Show' == $target_slideshow_exif_show)echo 'selected="selected"'; ?>>Show</option>
+						<option <?php if ('Hide' == $target_slideshow_exif_show)echo 'selected="selected"'; ?>>Hide</option>
+					</select>
+					</td>
+					<td align="left" valign="middle">Exif</td>
+				</tr>
+				<tr>
 					<td align="center" valign="middle">selectbox_show</td>
 					<td align="center" valign="middle">
 					<?php $target_slideshow_selectbox_show = $gallerylink_slideshow['selectbox_show']; ?>
@@ -2092,6 +2143,7 @@ AddType application/vnd.ms-powerpoint.slide.macroEnabled.12 sldm
 							'rssmax' => 10,
 							'filesize_show' => 'Show',
 							'stamptime_show' => 'Show',
+							'exif_show' => 'Show',
 							'selectbox_show' => 'Show',
 							'pagelinks_show' => 'Show',
 							'sortlinks_show' => 'Show',
@@ -2111,6 +2163,7 @@ AddType application/vnd.ms-powerpoint.slide.macroEnabled.12 sldm
 							'rssmax' => 10,
 							'filesize_show' => 'Show',
 							'stamptime_show' => 'Show',
+							'exif_show' => 'Show',
 							'selectbox_show' => 'Show',
 							'pagelinks_show' => 'Show',
 							'sortlinks_show' => 'Show',
@@ -2170,6 +2223,7 @@ AddType application/vnd.ms-powerpoint.slide.macroEnabled.12 sldm
 								'rssmax' => 10,
 								'filesize_show' => 'Show',
 								'stamptime_show' => 'Show',
+								'exif_show' => 'Show',
 								'selectbox_show' => 'Hide',
 								'pagelinks_show' => 'Hide',
 								'sortlinks_show' => 'Hide',
@@ -2246,6 +2300,7 @@ AddType application/vnd.ms-powerpoint.slide.macroEnabled.12 sldm
 									'rssmax' => $_POST['gallerylink_all_rssmax'],
 									'filesize_show' => $_POST['gallerylink_all_filesize_show'],
 									'stamptime_show' => $_POST['gallerylink_all_stamptime_show'],
+									'exif_show' => $_POST['gallerylink_all_exif_show'],
 									'selectbox_show' => $_POST['gallerylink_all_selectbox_show'],
 									'pagelinks_show' => $_POST['gallerylink_all_pagelinks_show'],
 									'sortlinks_show' => $_POST['gallerylink_all_sortlinks_show'],
@@ -2272,6 +2327,7 @@ AddType application/vnd.ms-powerpoint.slide.macroEnabled.12 sldm
 									'rssmax' => $_POST['gallerylink_album_rssmax'],
 									'filesize_show' => $_POST['gallerylink_album_filesize_show'],
 									'stamptime_show' => $_POST['gallerylink_album_stamptime_show'],
+									'exif_show' => $_POST['gallerylink_album_exif_show'],
 									'selectbox_show' => $_POST['gallerylink_album_selectbox_show'],
 									'pagelinks_show' => $_POST['gallerylink_album_pagelinks_show'],
 									'sortlinks_show' => $_POST['gallerylink_album_sortlinks_show'],
@@ -2352,6 +2408,7 @@ AddType application/vnd.ms-powerpoint.slide.macroEnabled.12 sldm
 									'rssmax' => $_POST['gallerylink_slideshow_rssmax'],
 									'filesize_show' => $_POST['gallerylink_slideshow_filesize_show'],
 									'stamptime_show' => $_POST['gallerylink_slideshow_stamptime_show'],
+									'exif_show' => $_POST['gallerylink_slideshow_exif_show'],
 									'selectbox_show' => $_POST['gallerylink_slideshow_selectbox_show'],
 									'pagelinks_show' => $_POST['gallerylink_slideshow_pagelinks_show'],
 									'sortlinks_show' => $_POST['gallerylink_slideshow_sortlinks_show'],

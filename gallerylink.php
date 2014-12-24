@@ -2,7 +2,7 @@
 /*
 Plugin Name: GalleryLink
 Plugin URI: http://wordpress.org/plugins/gallerylink/
-Version: 9.4
+Version: 9.5
 Description: Output as a gallery by find the file extension and directory specified.
 Author: Katsushi Kawamori
 Author URI: http://gallerylink.nyanko.org/
@@ -84,6 +84,7 @@ function gallerylink_func( $atts, $html = NULL ) {
         'rssmax'  => '',
         'filesize_show'  => '',
         'stamptime_show'  => '',
+        'exif_show'  => '',
         'selectbox_show'  => '',
         'pagelinks_show'  => '',
         'sortlinks_show'  => '',
@@ -132,6 +133,7 @@ function gallerylink_func( $atts, $html = NULL ) {
 		if( empty($rssmax) ) { $rssmax = intval($gallerylink_all['rssmax']); }
 		if( empty($filesize_show) ) { $filesize_show = $gallerylink_all['filesize_show']; }
 		if( empty($stamptime_show) ) { $stamptime_show = $gallerylink_all['stamptime_show']; }
+		if( empty($exif_show) && !empty($gallerylink_all['exif_show']) ) { $exif_show = $gallerylink_all['exif_show']; }
 		if( empty($selectbox_show) ) { $selectbox_show = $gallerylink_all['selectbox_show']; }
 		if( empty($pagelinks_show) ) { $pagelinks_show = $gallerylink_all['pagelinks_show']; }
 		if( empty($sortlinks_show) ) { $sortlinks_show = $gallerylink_all['sortlinks_show']; }
@@ -182,6 +184,7 @@ function gallerylink_func( $atts, $html = NULL ) {
 		if( empty($rssmax) ) { $rssmax = intval($gallerylink_album['rssmax']); }
 		if( empty($filesize_show) ) { $filesize_show = $gallerylink_album['filesize_show']; }
 		if( empty($stamptime_show) ) { $stamptime_show = $gallerylink_album['stamptime_show']; }
+		if( empty($exif_show) && !empty($gallerylink_album['exif_show']) ) { $exif_show = $gallerylink_album['exif_show']; }
 		if( empty($selectbox_show) ) { $selectbox_show = $gallerylink_album['selectbox_show']; }
 		if( empty($pagelinks_show) ) { $pagelinks_show = $gallerylink_album['pagelinks_show']; }
 		if( empty($sortlinks_show) ) { $sortlinks_show = $gallerylink_album['sortlinks_show']; }
@@ -281,6 +284,7 @@ function gallerylink_func( $atts, $html = NULL ) {
 		if( empty($rssmax) ) { $rssmax = intval($gallerylink_slideshow['rssmax']); }
 		if( empty($filesize_show) ) { $filesize_show = $gallerylink_slideshow['filesize_show']; }
 		if( empty($stamptime_show) ) { $stamptime_show = $gallerylink_slideshow['stamptime_show']; }
+		if( empty($exif_show) && !empty($gallerylink_slideshow['exif_show']) ) { $exif_show = $gallerylink_slideshow['exif_show']; }
 		if( empty($selectbox_show) ) { $selectbox_show = $gallerylink_slideshow['selectbox_show']; }
 		if( empty($pagelinks_show) ) { $pagelinks_show = $gallerylink_slideshow['pagelinks_show']; }
 		if( empty($sortlinks_show) ) { $sortlinks_show = $gallerylink_slideshow['sortlinks_show']; }
@@ -426,6 +430,7 @@ function gallerylink_func( $atts, $html = NULL ) {
 	$gallerylink->sort = $sort;
 	$gallerylink->filesize_show = $filesize_show;
 	$gallerylink->stamptime_show = $stamptime_show;
+	$gallerylink->exif_show = $exif_show;
 
 	$org_files = array();
 	$files = array();
