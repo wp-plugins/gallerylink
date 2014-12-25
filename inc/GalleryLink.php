@@ -231,8 +231,12 @@ class GalleryLink {
 								$exifdata .= ' f/'.$exifdatas['aperture'];
 							}
 							if ( $exifdatas['shutter_speed'] ) {
-								$shutter = 1 / $exifdatas['shutter_speed'];
-								$exifdata .= ' 1/'.$shutter.'s';
+								if ( $exifdatas['shutter_speed'] < 1 ) {
+									$shutter = round( 1 / $exifdatas['shutter_speed'] );
+									$exifdata .= ' 1/'.$shutter.'sec';
+								} else {
+									$exifdata .= ' '.$exifdatas['shutter_speed'].'sec';
+								}
 							}
 							if ( $exifdatas['iso'] ) {
 								$exifdata .= ' ISO-'.$exifdatas['iso'];
