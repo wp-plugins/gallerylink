@@ -2,10 +2,11 @@
 /*
 Plugin Name: GalleryLink
 Plugin URI: http://wordpress.org/plugins/gallerylink/
-Version: 9.6
+Version: 9.7
 Description: Output as a gallery by find the file extension and directory specified.
 Author: Katsushi Kawamori
-Author URI: http://gallerylink.nyanko.org/
+Author URI: http://riverforest-wp.info/
+Text Domain: gallerylink
 Domain Path: /languages
 */
 

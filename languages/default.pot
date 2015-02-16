@@ -291,3 +291,6 @@ msgid ""
 "In addition, offer the following filters. This filter passes the html that "
 "is generated."
 msgstr ""
+
+msgid "I need a donation. This is because, I want to continue the development and support of plugins."
+msgstr ""

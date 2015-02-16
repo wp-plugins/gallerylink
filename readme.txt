@@ -1,14 +1,14 @@
 === GalleryLink ===
 Contributors: Katsushi Kawamori
-Donate link: http://gallerylink.nyanko.org/
+Donate link: http://pledgie.com/campaigns/28307
 Tags: audio,feed,feeds,gallery,html5,image,images,list,music,photo,photos,picture,pictures,rss,shortcode,video,xml
 Requires at least: 3.0.1
 Tested up to: 4.1
-Stable tag: 9.6
+Stable tag: 9.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Output as a gallery from the directory or the media library.
+Output as a gallery from the directory.
 
 == Description ==
 
@@ -32,11 +32,11 @@ Bundled software and function
 
     It support to the japanese mobile phone. Plug-in Ktai Style is required.
 
-    [Demo1(All data)](http://gallerylink.nyanko.org/all-data/):::[Demo2(Music)](http://gallerylink.nyanko.org/music/):::[Demo3(Images)](http://gallerylink.nyanko.org/album/):::[Demo4(Images with Simple Masonry Gallery)](http://gallerylink.nyanko.org/masonry/):::[Demo5(Video)](http://gallerylink.nyanko.org/movie/):::[Demo6(Slideshow with Simple NivoSlider)](http://gallerylink.nyanko.org/slideshow/):::[Demo7(Documents)](http://gallerylink.nyanko.org/documents/)
+    [Demo1(All data)](http://riverforest-wp.info/gallerylink-all-data/):::[Demo2(Music)](http://riverforest-wp.info/gallerylink-music/):::[Demo3(Images)](http://riverforest-wp.info/gallerylink-album/):::[Demo4(Images with Simple Masonry Gallery)](http://riverforest-wp.info/gallerylink-masonry/):::[Demo5(Video)](http://riverforest-wp.info/gallerylink-movie/):::[Demo6(Slideshow with Simple NivoSlider)](http://riverforest-wp.info/gallerylink-slideshow/):::[Demo7(Documents)](http://riverforest-wp.info/gallerylink-documents/)
 
 Translators
 
-*   Japanese (ja) - [Katsushi Kawamori](http://gallerylink.nyanko.org/)
+*   Japanese (ja) - [Katsushi Kawamori](http://riverforest-wp.info/)
 
 == Installation ==
 
@@ -61,6 +61,12 @@ none
 2. Settings 2
 
 == Changelog ==
+
+= 9.7 =
+Add screen of donate.
+Change the display of the message.
+Change readme.txt.
+Change /languages.
 
 = 9.6 =
 Fixed a problem of display of Exif.
@@ -454,6 +460,7 @@ Delete screenshot
 
 == Upgrade Notice ==
 
+= 9.7 =
 = 9.6 =
 = 9.5 =
 = 9.4 =

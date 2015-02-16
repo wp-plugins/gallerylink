@@ -2284,11 +2284,13 @@ AddType application/vnd.ms-powerpoint.slide.macroEnabled.12 sldm
 					update_option( 'gallerylink_css', $css_reset_tbl );
 					update_option( 'gallerylink_useragent', $useragent_reset_tbl );
 					update_option( 'gallerylink_exclude', $exclude_reset_tbl );
+					echo '<div class="updated"><ul><li>'.__('All Settings').' --> '.__('Default').' --> '.__('Changes saved.').'</li></ul></div>';
 				}
 				break;
 			case 2:
 				if ( !empty($_POST['Default']) ) {
 					update_option( 'gallerylink_all', $all_reset_tbl );
+					echo '<div class="updated"><ul><li>'.__('Settings').__('AllData', 'gallerylink').' --> '.__('Default').' --> '.__('Changes saved.').'</li></ul></div>';
 				} else {
 					$all_tbl = array(
 									'sort' => $_POST['gallerylink_all_sort'],
@@ -2309,11 +2311,13 @@ AddType application/vnd.ms-powerpoint.slide.macroEnabled.12 sldm
 									'credit_show' => $_POST['gallerylink_all_credit_show']
 								);
 					update_option( 'gallerylink_all', $all_tbl );
+					echo '<div class="updated"><ul><li>'.__('Settings').__('AllData', 'gallerylink').' --> '.__('Changes saved.').'</li></ul></div>';
 				}
 				break;
 			case 3:
 				if ( !empty($_POST['Default']) ) {
 					update_option( 'gallerylink_album', $album_reset_tbl );
+					echo '<div class="updated"><ul><li>'.__('Settings').__('Album', 'gallerylink').' --> '.__('Default').' --> '.__('Changes saved.').'</li></ul></div>';
 				} else {
 					$album_tbl = array(
 									'sort' => $_POST['gallerylink_album_sort'],
@@ -2336,11 +2340,13 @@ AddType application/vnd.ms-powerpoint.slide.macroEnabled.12 sldm
 									'credit_show' => $_POST['gallerylink_album_credit_show']
 								);
 					update_option( 'gallerylink_album', $album_tbl );
+					echo '<div class="updated"><ul><li>'.__('Settings').__('Album', 'gallerylink').' --> '.__('Changes saved.').'</li></ul></div>';
 				}
 				break;
 			case 4:
 				if ( !empty($_POST['Default']) ) {
 					update_option( 'gallerylink_movie', $movie_reset_tbl );
+					echo '<div class="updated"><ul><li>'.__('Settings').__('Video', 'gallerylink').' --> '.__('Default').' --> '.__('Changes saved.').'</li></ul></div>';
 				} else {
 					$movie_tbl = array(
 									'sort' => $_POST['gallerylink_movie_sort'],
@@ -2364,11 +2370,13 @@ AddType application/vnd.ms-powerpoint.slide.macroEnabled.12 sldm
 									'credit_show' => $_POST['gallerylink_movie_credit_show']
 									);
 					update_option( 'gallerylink_movie', $movie_tbl );
+					echo '<div class="updated"><ul><li>'.__('Settings').__('Video', 'gallerylink').' --> '.__('Changes saved.').'</li></ul></div>';
 				}
 				break;
 			case 5:
 				if ( !empty($_POST['Default']) ) {
 					update_option( 'gallerylink_music', $music_reset_tbl );
+					echo '<div class="updated"><ul><li>'.__('Settings').__('Music', 'gallerylink').' --> '.__('Default').' --> '.__('Changes saved.').'</li></ul></div>';
 				} else {
 					$music_tbl = array(
 									'sort' => $_POST['gallerylink_music_sort'],
@@ -2392,11 +2400,13 @@ AddType application/vnd.ms-powerpoint.slide.macroEnabled.12 sldm
 									'credit_show' => $_POST['gallerylink_music_credit_show']
 									);
 					update_option( 'gallerylink_music', $music_tbl );
+					echo '<div class="updated"><ul><li>'.__('Settings').__('Music', 'gallerylink').' --> '.__('Changes saved.').'</li></ul></div>';
 				}
 				break;
 			case 6:
 				if ( !empty($_POST['Default']) ) {
 					update_option( 'gallerylink_slideshow', $slideshow_reset_tbl );
+					echo '<div class="updated"><ul><li>'.__('Settings').__('Slideshow', 'gallerylink').' --> '.__('Default').' --> '.__('Changes saved.').'</li></ul></div>';
 				} else {
 					$slideshow_tbl = array(
 									'sort' => $_POST['gallerylink_slideshow_sort'],
@@ -2417,11 +2427,13 @@ AddType application/vnd.ms-powerpoint.slide.macroEnabled.12 sldm
 									'credit_show' => $_POST['gallerylink_slideshow_credit_show']
 									);
 					update_option( 'gallerylink_slideshow', $slideshow_tbl );
+					echo '<div class="updated"><ul><li>'.__('Settings').__('Slideshow', 'gallerylink').' --> '.__('Changes saved.').'</li></ul></div>';
 				}
 				break;
 			case 7:
 				if ( !empty($_POST['Default']) ) {
 					update_option( 'gallerylink_document', $document_reset_tbl );
+					echo '<div class="updated"><ul><li>'.__('Settings').__('Document', 'gallerylink').' --> '.__('Default').' --> '.__('Changes saved.').'</li></ul></div>';
 				} else {
 					$document_tbl = array(
 									'sort' => $_POST['gallerylink_document_sort'],
@@ -2444,6 +2456,7 @@ AddType application/vnd.ms-powerpoint.slide.macroEnabled.12 sldm
 									'credit_show' => $_POST['gallerylink_document_credit_show']
 									);
 					update_option( 'gallerylink_document', $document_tbl );
+					echo '<div class="updated"><ul><li>'.__('Settings').__('Document', 'gallerylink').' --> '.__('Changes saved.').'</li></ul></div>';
 				}
 				break;
 			case 8:
@@ -2459,6 +2472,7 @@ AddType application/vnd.ms-powerpoint.slide.macroEnabled.12 sldm
 					update_option( 'gallerylink_css', $css_reset_tbl );
 					update_option( 'gallerylink_useragent', $useragent_reset_tbl );
 					update_option( 'gallerylink_exclude', $exclude_reset_tbl );
+					echo '<div class="updated"><ul><li>'.__('Settings').__('Other', 'gallerylink').' --> '.__('Default').' --> '.__('Changes saved.').'</li></ul></div>';
 				} else {
 					update_option( 'gallerylink_mb_language', $_POST['gallerylink_mb_language'] );
 					$css_tbl = array(
@@ -2476,6 +2490,7 @@ AddType application/vnd.ms-powerpoint.slide.macroEnabled.12 sldm
 									'dir' => stripslashes($_POST['gallerylink_exclude_dir'])
 									);
 					update_option( 'gallerylink_exclude', $exclude_tbl );
+					echo '<div class="updated"><ul><li>'.__('Settings').__('Other', 'gallerylink').' --> '.__('Changes saved.').'</li></ul></div>';
 				}
 				break;
 		}
