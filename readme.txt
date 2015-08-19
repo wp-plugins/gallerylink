@@ -3,8 +3,8 @@ Contributors: Katsushi Kawamori
 Donate link: http://pledgie.com/campaigns/28307
 Tags: audio,feed,feeds,gallery,html5,image,images,list,music,photo,photos,picture,pictures,rss,shortcode,video,xml
 Requires at least: 3.0.1
-Tested up to: 4.1
-Stable tag: 9.8
+Tested up to: 4.3
+Stable tag: 9.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -61,6 +61,10 @@ none
 2. Settings 2
 
 == Changelog ==
+
+= 9.9 =
+Fixed problem of Widgets.
+Change /languages.
 
 = 9.8 =
 Add screen of donate.
@@ -464,6 +468,7 @@ Delete screenshot
 
 == Upgrade Notice ==
 
+= 9.9 =
 = 9.8 =
 = 9.7 =
 = 9.6 =

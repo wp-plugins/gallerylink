@@ -24,8 +24,13 @@
  * @since	2.5
  */
 class GalleryLinkWidgetItem extends WP_Widget {
-	function GalleryLinkWidgetItem() {
-		parent::WP_Widget(false, $name = 'GalleryLinkRssFeed');
+
+	function __construct() {
+		parent::__construct(
+			'GalleryLinkWidgetItem', // Base ID
+			__( 'GalleryLinkRssFeed' ), // Name
+			array( 'description' => __( 'Entries of RSS feed from GalleryLink.', 'gallerylink'), ) // Args
+		);
 	}
 
 	function widget($args, $instance) {
