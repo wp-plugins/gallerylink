@@ -69,16 +69,17 @@ class GalleryLinkWidgetItem extends WP_Widget {
 		$xml6 = mb_convert_encoding($gallerylink_music['topurl'], $chrcode, "auto").'/'.$gallerylink_music['rssname'].'.xml';
 		$xml7 = mb_convert_encoding($gallerylink_slideshow['topurl'], $chrcode, "auto").'/'.$gallerylink_slideshow['rssname'].'.xml';
 		$xml8 = mb_convert_encoding($gallerylink_document['topurl'], $chrcode, "auto").'/'.$gallerylink_document['rssname'].'.xml';
+		$iconclass =  'class="dashicons dashicons-rss" style="text-decoration: none;"';
 
 		if ($title) {
 			echo $before_widget;
 			echo $before_title . $title . $after_title;
 			if ($checkbox1) {
 				?>
-				<div>
-				<a href="<?php echo bloginfo('rss2_url'); ?>">
+				<div style="font-size:x-small;">
+				<a href="<?php echo bloginfo('rss2_url'); ?>" <?php echo $iconclass; ?>></a>
 				<img src="<?php echo $pluginurl ?>/gallerylink/icon/rssfeeds.png">
-				<?php echo bloginfo('name'); ?></a>
+				<?php echo bloginfo('name'); ?>
 				</div>
 				<?php
 			}
@@ -86,10 +87,9 @@ class GalleryLinkWidgetItem extends WP_Widget {
 				$xmldata2 = @simplexml_load_file($xmlurl2);
 				if ( !empty($xmldata2) ) {
 					?>
-					<div>
-					<a href="<?php echo bloginfo('comments_rss2_url'); ?>">
-					<img src="<?php echo $pluginurl ?>/gallerylink/icon/rssfeeds.png">
-					<?php echo $xmldata2->channel->title; ?></a>
+					<div style="font-size:x-small;">
+					<a href="<?php echo bloginfo('comments_rss2_url'); ?>" <?php echo $iconclass; ?>></a>
+					<?php echo $xmldata2->channel->title; ?>
 					</div>
 					<?php
 				}
@@ -97,60 +97,54 @@ class GalleryLinkWidgetItem extends WP_Widget {
 			if ($checkbox3 && file_exists($documentrootname.$xml3)) {
 				$xmldata3 = simplexml_load_file($servername.mb_convert_encoding($xml3, "UTF-8", "auto"));
 				?>
-				<div>
-				<a href="<?php echo $gallerylink_all['topurl'] ?>/<?php echo $gallerylink_all['rssname'] ?>.xml">
-				<img src="<?php echo $pluginurl ?>/gallerylink/icon/podcast.png">
-				<?php echo $xmldata3->channel->title; ?></a>
+				<div style="font-size:x-small;">
+				<a href="<?php echo $gallerylink_all['topurl'] ?>/<?php echo $gallerylink_all['rssname'] ?>.xml" <?php echo $iconclass; ?>></a>
+				<?php echo $xmldata3->channel->title; ?>
 				</div>
 				<?php
 			}
 			if ($checkbox4 && file_exists($documentrootname.$xml4)) {
 				$xmldata4 = simplexml_load_file($servername.mb_convert_encoding($xml4, "UTF-8", "auto"));
 				?>
-				<div>
-				<a href="<?php echo $gallerylink_album['topurl'] ?>/<?php echo $gallerylink_album['rssname'] ?>.xml">
-				<img src="<?php echo $pluginurl ?>/gallerylink/icon/rssfeeds.png">
-				<?php echo $xmldata4->channel->title; ?></a>
+				<div style="font-size:x-small;">
+				<a href="<?php echo $gallerylink_album['topurl'] ?>/<?php echo $gallerylink_album['rssname'] ?>.xml" <?php echo $iconclass; ?>></a>
+				<?php echo $xmldata4->channel->title; ?>
 				</div>
 				<?php
 			}
 			if ($checkbox5 && file_exists($documentrootname.$xml5)) {
 				$xmldata5 = simplexml_load_file($servername.mb_convert_encoding($xml5, "UTF-8", "auto"));
 				?>
-				<div>
-				<a href="<?php echo $gallerylink_movie['topurl'] ?>/<?php echo $gallerylink_movie['rssname'] ?>.xml">
-				<img src="<?php echo $pluginurl ?>/gallerylink/icon/podcast.png">
-				<?php echo $xmldata5->channel->title; ?></a>
+				<div style="font-size:x-small;">
+				<a href="<?php echo $gallerylink_movie['topurl'] ?>/<?php echo $gallerylink_movie['rssname'] ?>.xml" <?php echo $iconclass; ?>></a>
+				<?php echo $xmldata5->channel->title; ?>
 				</div>
 				<?php
 			}
 			if ($checkbox6 && file_exists($documentrootname.$xml6)) {
 				$xmldata6 = simplexml_load_file($servername.mb_convert_encoding($xml6, "UTF-8", "auto"));
 				?>
-				<div>
-				<a href="<?php echo $gallerylink_music['topurl'] ?>/<?php echo $gallerylink_music['rssname'] ?>.xml">
-				<img src="<?php echo $pluginurl ?>/gallerylink/icon/podcast.png">
-				<?php echo $xmldata6->channel->title; ?></a>
+				<div style="font-size:x-small;">
+				<a href="<?php echo $gallerylink_music['topurl'] ?>/<?php echo $gallerylink_music['rssname'] ?>.xml" <?php echo $iconclass; ?>></a>
+				<?php echo $xmldata6->channel->title; ?>
 				</div>
 				<?php
 			}
 			if ($checkbox7 && file_exists($documentrootname.$xml7)) {
 				$xmldata7 = simplexml_load_file($servername.mb_convert_encoding($xml7, "UTF-8", "auto"));
 				?>
-				<div>
-				<a href="<?php echo $gallerylink_slideshow['topurl'] ?>/<?php echo $gallerylink_slideshow['rssname'] ?>.xml">
-				<img src="<?php echo $pluginurl ?>/gallerylink/icon/rssfeeds.png">
-				<?php echo $xmldata7->channel->title; ?></a>
+				<div style="font-size:x-small;">
+				<a href="<?php echo $gallerylink_slideshow['topurl'] ?>/<?php echo $gallerylink_slideshow['rssname'] ?>.xml" <?php echo $iconclass; ?>></a>
+				<?php echo $xmldata7->channel->title; ?>
 				</div>
 				<?php
 			}
 			if ($checkbox8 && file_exists($documentrootname.$xml8)) {
 				$xmldata8 = simplexml_load_file($servername.mb_convert_encoding($xml8, "UTF-8", "auto"));
 				?>
-				<div>
-				<a href="<?php echo $gallerylink_document['topurl'] ?>/<?php echo $gallerylink_document['rssname'] ?>.xml">
-				<img src="<?php echo $pluginurl ?>/gallerylink/icon/rssfeeds.png">
-				<?php echo $xmldata8->channel->title; ?></a>
+				<div style="font-size:x-small;">
+				<a href="<?php echo $gallerylink_document['topurl'] ?>/<?php echo $gallerylink_document['rssname'] ?>.xml" <?php echo $iconclass; ?>></a>
+				<?php echo $xmldata8->channel->title; ?>
 				</div>
 				<?php
 			}

@@ -331,6 +331,14 @@ GALLERYLINKADDCSSPC;
 
 	}
 
+	/* ==================================================
+	 * Load Dashicons
+	 * @since	9.91
+	 */
+	function load_styles() {
+		wp_enqueue_style('dashicons');
+	}
+
 }
 
 ?>

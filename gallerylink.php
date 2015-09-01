@@ -2,7 +2,7 @@
 /*
 Plugin Name: GalleryLink
 Plugin URI: http://wordpress.org/plugins/gallerylink/
-Version: 9.9
+Version: 9.91
 Description: Output as a gallery by find the file extension and directory specified.
 Author: Katsushi Kawamori
 Author URI: http://riverforest-wp.info/
@@ -37,6 +37,7 @@ Domain Path: /languages
 	add_action('admin_init', array($gallerylinkregistandheader, 'register_settings'));
 	add_action('wp_head', array($gallerylinkregistandheader, 'add_feedlink'));
 	add_action('wp_head', array($gallerylinkregistandheader, 'add_css'));
+	add_action('wp_print_styles', array($gallerylinkregistandheader, 'load_styles'));
 	unset($gallerylinkregistandheader);
 
 	require_once( GALLERYLINK_PLUGIN_BASE_DIR . '/req/GalleryLinkAdmin.php' );
@@ -707,11 +708,7 @@ MUSICPLAYERCONTAINER;
 		$xml_title =  get_bloginfo('name').' | '.get_the_title();
 
 		$rssfeed_url = $topurl.'/'.$rssname.'.xml';
-		if ( $set === "album" || $set === "slideshow" || $set === "document" ) {
-			$rssfeeds_icon = '<div align="right"><a href="'.$rssfeed_url.'"><img src="'.GALLERYLINK_PLUGIN_URL.'/icon/rssfeeds.png"></a></div>';
-		} else {
-			$rssfeeds_icon = '<div align="right"><a href="'.$rssfeed_url.'"><img src="'.GALLERYLINK_PLUGIN_URL.'/icon/podcast.png"></a></div>';
-		}
+		$rssfeeds_icon = '<div align="right"><a href="'.$rssfeed_url.'" class="dashicons dashicons-rss" style="text-decoration: none;"></a></div>';
 		if ( $mode === "pc" ) {
 			if ( $rssicon_show === 'Show' ) { $html .= $rssfeeds_icon; }
 			if ( $rssdef === false ) {
