@@ -78,7 +78,6 @@ class GalleryLinkWidgetItem extends WP_Widget {
 				?>
 				<div style="font-size:x-small;">
 				<a href="<?php echo bloginfo('rss2_url'); ?>" <?php echo $iconclass; ?>></a>
-				<img src="<?php echo $pluginurl ?>/gallerylink/icon/rssfeeds.png">
 				<?php echo bloginfo('name'); ?>
 				</div>
 				<?php
